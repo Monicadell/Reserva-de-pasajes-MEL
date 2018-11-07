@@ -1,0 +1,152 @@
+<template>
+  <div>
+    <v-dialog v-model="selected" width="500" persistent>
+      <v-card max-width="500">
+
+        <template v-if="loadingBooking">
+          <v-card-text class="text-xs-center ">
+            <v-progress-circular :size="150" color="primary" indeterminate></v-progress-circular>
+            <h2 class="mt-5 font-weight-light">Reservando...</h2>
+          </v-card-text>
+
+        </template>
+        <template v-else>
+          <v-card dark flat>
+
+            <v-card-title :class="booking.color">
+              <h3 class="title font-weight-light text-xs-center grow">
+                {{booking.text}}
+              </h3>
+            </v-card-title>
+
+
+          </v-card>
+
+          <v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
+                 gradient="to right, rgba(0,0,0,.44), rgba(0,0,0,.0)">
+            <v-container fill-height>
+              <v-layout>
+                <v-layout column>
+                  <div class="white--text headline font-weight-light">{{service.name}}</div>
+                  <div class="white--text font-weight-light">Lunes 27 de octubre a las 18:00 hrs</div>
+                </v-layout>
+              </v-layout>
+            </v-container>
+          </v-img>
+
+          <v-card-text class="ml-3 mr-3">
+            <v-timeline align-top dense>
+
+              <v-timeline-item color="yellow darken-1" large icon="fal fa-map-marked">
+                <v-layout pt-3>
+                  <v-flex xs6>
+                    <div class="grey--text">Salida desde:</div>
+                    <b> {{current.from.place.name}} </b>
+                  </v-flex>
+                  <v-flex>
+                    <div class="grey--text">A las:</div>
+                    <b> {{current.from.date}} {{service.from}} </b>
+                  </v-flex>
+                </v-layout>
+              </v-timeline-item>
+
+              <v-timeline-item color="orange" large icon="fal fa-shuttle-van" class="mb-3">
+                <v-layout pt-3>
+                  <v-flex xs6>
+                    ...
+                  </v-flex>
+                </v-layout>
+              </v-timeline-item>
+
+              <v-timeline-item color="green" large icon="fal fa-map-marker-check">
+                <v-layout pt-3>
+                  <v-flex xs6>
+                    <div class="grey--text">Destino:</div>
+                    <b> {{current.to.place.name}} </b>
+                  </v-flex>
+                  <v-flex>
+                    <div class="grey--text">llegada aproximada:</div>
+                    <b> {{current.to.date}} {{service.to}} </b>
+                  </v-flex>
+                </v-layout>
+              </v-timeline-item>
+
+
+            </v-timeline>
+          </v-card-text>
+          <v-card-actions v-if="booking.state === 'booking'">
+            <v-btn
+              color="primary"
+              flat
+              @click="cancel"
+            >
+              Cancelar
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="doBooking"
+            >
+              Reservar
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions v-if="booking.state === 'success'">
+            <v-btn
+              color="primary"
+              @click="cancel"
+            >
+              Cerrar
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              @click="doBooking"
+            >
+              Ir a mis reservas
+            </v-btn>
+          </v-card-actions>
+        </template>
+
+      </v-card>
+    </v-dialog>
+  </div>
+</template>
+
+<script>
+  import {mapGetters} from 'vuex'
+
+  export default {
+    data: () => ({
+      loadingBooking: false,
+      booking: {
+        state: 'booking', // booking, error, success
+        color: 'orange',
+        text: 'Confirmar reserva'
+      }
+    }),
+    mounted () {
+      this.$store.dispatch('Booking/select', {selected: false})
+    },
+    methods: {
+      cancel () {
+        this.$store.dispatch('Booking/select', {selected: false})
+      },
+      doBooking () {
+        this.loadingBooking = true
+        setTimeout(() => {
+          this.booking.state = 'success'
+          this.booking.color = 'green'
+          this.booking.text = 'Reserva realizada con exito'
+          this.loadingBooking = false
+        }, 2000)
+      }
+    },
+    computed: {
+      ...mapGetters({
+        service: ['Booking/service'],
+        selected: ['Booking/selected'],
+        current: ['Booking/current']
+      })
+    }
+  }
+</script>

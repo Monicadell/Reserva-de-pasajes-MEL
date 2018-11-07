@@ -1,0 +1,24 @@
+[
+  {
+    "Title": "Superman Returns",
+    "Year": "2006",
+    "Rated": "PG-13",
+    "Released": "28 Jun 2006",
+    "Runtime": "154",
+    "Genre": [
+      "Action",
+      "Adventure",
+      "Fantasy"
+    ],
+    "Director": "Bryan Singer",
+    "Actors": "Brandon Routh, Kate Bosworth, Kevin Spacey, James Marsden",
+    "Plot": "Superman reappears after a long absence, but is challenged by an old foe who uses Kryptonian technology for world domination.",
+    "Country": "USA",
+    "images": {
+      "cover": "https://m.media-amazon.com/images/M/MV5BNzY2ZDQ2MTctYzlhOC00MWJhLTgxMmItMDgzNDQwMDdhOWI2XkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg",
+      "mini": "https://m.media-amazon.com/images/M/MV5BNzY2ZDQ2MTctYzlhOC00MWJhLTgxMmItMDgzNDQwMDdhOWI2XkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_SX300.jpg"
+    },
+    "Type": "movie",
+    "Production": "Warner Bros. Pictures"
+  }
+]
