@@ -165,27 +165,6 @@
             fechaCompra: '25/10/2018 11:48',
             fechaEmbarcacion: '25/10/2018 20:48',
             estado: 'confirmar'
-          },
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'MEL',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
-            estado: 'pendiente'
-          },
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'MEL',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
-            estado: 'pendiente'
-          },
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'MEL',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
-            estado: 'pendiente'
           }
         ]
       }
