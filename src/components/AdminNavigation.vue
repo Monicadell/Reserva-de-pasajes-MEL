@@ -48,6 +48,9 @@
           </v-list-tile-content>
         </v-list-tile>
       </template>
+            <v-list-tile @click="logout()">
+        <v-list-tile-title>salir</v-list-tile-title>
+      </v-list-tile>
     </v-list>
   </v-navigation-drawer
     :clipped="$vuetify.breakpoint.lgAndUp">
@@ -70,6 +73,12 @@
         {subheader: true, text: ''},
         {icon: 'phonelink', text: 'Cerrar sesión'}
       ]
-    })
+    }),
+    methods: {
+      logout () {
+        this.$store.dispatch('logout')
+        this.$router.push('/')
+      }
+    }
   }
 </script>

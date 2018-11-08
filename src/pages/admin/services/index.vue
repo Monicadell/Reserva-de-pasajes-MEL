@@ -44,6 +44,17 @@
       </v-container>
     </v-card-text>
 
+    <v-card-text>
+      <v-container fluid grid-list-lg class="pt-0">
+        <v-layout row wrap fill-height>
+          <v-flex xs12>
+            <my-booking />
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card-text>
+
+
   </div>
 </template>
 
@@ -52,13 +63,15 @@
   import ServiceDate from '@c/DatePicker'
   import ServiceList from './List'
   import ServiceSelected from './Selected'
+  import MyBooking from './MyBooking'
 
   export default {
     components: {
       PlaceSelector: PlaceSelector,
       ServiceDate: ServiceDate,
       ServiceList: ServiceList,
-      ServiceSelected: ServiceSelected
+      ServiceSelected: ServiceSelected,
+      MyBooking: MyBooking
     }
   }
 </script>

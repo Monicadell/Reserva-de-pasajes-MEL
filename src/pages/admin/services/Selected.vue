@@ -22,7 +22,7 @@
 
           </v-card>
 
-          <v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
+          <v-img v-if="booking.text == 'Confirmar reserva'" src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
                  gradient="to right, rgba(0,0,0,.44), rgba(0,0,0,.0)">
             <v-container fill-height>
               <v-layout>
@@ -34,7 +34,7 @@
             </v-container>
           </v-img>
 
-          <v-card-text class="ml-3 mr-3">
+          <v-card-text class="ml-3 mr-3"  v-if="booking.text == 'Confirmar reserva'">
             <v-timeline align-top dense>
 
               <v-timeline-item color="yellow darken-1" large icon="fal fa-map-marked">
@@ -90,20 +90,20 @@
               Reservar
             </v-btn>
           </v-card-actions>
-          <v-card-actions v-if="booking.state === 'success'">
+          <v-card-actions class="justify-center" v-if="booking.state === 'success'">
             <v-btn
               color="primary"
               @click="cancel"
             >
               Cerrar
             </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
+            <!-- <v-spacer></v-spacer> -->
+            <!-- <v-btn
               color="primary"
               @click="doBooking"
             >
               Ir a mis reservas
-            </v-btn>
+            </v-btn> -->
           </v-card-actions>
         </template>
 
@@ -135,7 +135,7 @@
         this.loadingBooking = true
         setTimeout(() => {
           this.booking.state = 'success'
-          this.booking.color = 'green'
+          this.booking.color = 'space'
           this.booking.text = 'Reserva realizada con exito'
           this.loadingBooking = false
         }, 2000)
@@ -150,3 +150,11 @@
     }
   }
 </script>
+
+<style>
+  .space{
+    padding: 50px 20px;
+    background-color: #fff;
+    color: #000;
+  }
+</style>

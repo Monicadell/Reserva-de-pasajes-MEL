@@ -2,8 +2,8 @@
   <div>
     <admin-toolbar/>
 
-    <admin-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
-    <admin-bottom-navigation v-else/>
+    <!-- <admin-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
+    <admin-bottom-navigation v-else/> -->
 
     <v-content>
       <v-container fluid fill-height class="pa-0">
@@ -12,6 +12,7 @@
         </v-layout>
       </v-container>
     </v-content>
+
 
   </div>
 </template>
