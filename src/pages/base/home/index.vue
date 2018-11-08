@@ -8,12 +8,14 @@
 
     <fligths/>
 
+    <img-home />
   </div>
 </template>
 
 <script>
   import BackgroundImage from '@c/BackgroundImage'
   import HomeToolBar from '@c/HomeToolBar'
+  import ImgHome from '@c/ImgHome'
   import MainMenu from './main'
   import Fligths from './flights'
 
@@ -29,7 +31,8 @@
       HomeToolBar: HomeToolBar,
       MainMenu: MainMenu,
       BackgroundImage: BackgroundImage,
-      Fligths: Fligths
+      Fligths: Fligths,
+      ImgHome: ImgHome
     }
   }
 </script>

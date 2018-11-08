@@ -7,9 +7,19 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn icon>
-      <v-icon>notifications</v-icon>
-    </v-btn>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn
+        flat
+        class="white--text primary"
+        @click="logout()"
+      >
+        <v-icon right dark>keyboard_backspace</v-icon>
+        Salir
+      </v-btn>
+      <v-btn icon>
+        <v-icon>notifications</v-icon>
+      </v-btn>
+    </v-toolbar-items>
   </v-toolbar>
 </template>
 
@@ -19,6 +29,10 @@
     methods: {
       changeDrawer () {
         this.$parent.drawer = !this.$parent.drawer
+      },
+      logout () {
+        this.$store.dispatch('Auth/logout')
+        this.$router.push('/')
       }
     }
   }
