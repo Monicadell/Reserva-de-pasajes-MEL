@@ -30,12 +30,12 @@
 
       <template slot="items" slot-scope="props">
         <tr @click="selectService(props.item, props.expanded = !props.expanded)"
-            :class="{'orange white--text': booking && booking.id === props.item.id}">
+            :class="{'primary white--text': booking && booking.id === props.item.id}">
           <td>{{ props.item.name }}</td>
           <td class="text-xs-center">{{ props.item.from }}</td>
           <td class="text-xs-center">{{ props.item.to }}</td>
           <td class="text-xs-center">
-            <v-btn block small dark color="orange darken-1"
+            <v-btn block small dark color="primary darken-1"
                    :disabled="booking && booking.id !== props.item.id"
                    @click="resume()">Seleccionar</v-btn>
           </td>

@@ -14,7 +14,7 @@
         <td class="">{{ props.item.fechaEmbarcacion }}</td>
         <td class="">
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
-          <v-btn slot="activator" color="info" dark>Ver Detalle</v-btn>
+          <v-btn slot="activator" color="primary" dark>Ver Detalle</v-btn>
             <v-card>
                 <v-card-title primary-title>
                     <div>
@@ -91,22 +91,22 @@
                     >Reenviar a email
                     </v-btn> -->
                     <v-spacer></v-spacer>
-                    <v-btn color="orange darken-1" flat @click.native="bookingDetails = false">Cerrar</v-btn>
+                    <v-btn color="primary darken-1" flat @click.native="bookingDetails = false">Cerrar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
         </td>
 
-        <td class=""><v-btn class="success" :disabled="props.item.estado == 'confirmar' ? disabled : ''" >Confirmar</v-btn></td>
+        <td class=""><v-btn outline color="success" :disabled="props.item.estado == 'confirmar' ? disabled : ''" >Confirmar</v-btn></td>
         <td class="">
         <v-dialog v-model="confirmaAnular" persistent max-width="290">
-          <v-btn slot="activator" color="error" dark>Anular</v-btn>
+          <v-btn slot="activator" outline color="error" dark>Anular</v-btn>
           <v-card>
             <v-card-title class="headline">¿Esta seguro de anular la reserva?</v-card-title>
             <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva.</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
+              <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
               <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Anular</v-btn>
             </v-card-actions>
           </v-card>

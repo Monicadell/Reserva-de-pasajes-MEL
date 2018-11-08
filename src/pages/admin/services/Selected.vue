@@ -120,7 +120,7 @@
       loadingBooking: false,
       booking: {
         state: 'booking', // booking, error, success
-        color: 'orange',
+        color: 'primary',
         text: 'Confirmar reserva'
       }
     }),
