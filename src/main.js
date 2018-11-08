@@ -13,8 +13,8 @@ import './assets/scss/fontAwesome/css/all.css'
 
 Vue.use(Vuetify, {
   theme: {
-    primary: '#ff9800',
-    secondary: '#1565c0',
+    primary: '#1565c0',
+    secondary: '#ff9800',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',
