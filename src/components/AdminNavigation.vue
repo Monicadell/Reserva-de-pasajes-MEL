@@ -9,7 +9,7 @@
   >
 
 
-    <v-list two-line class="primary lighten-1" dark>
+    <v-list two-line class="primary" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
