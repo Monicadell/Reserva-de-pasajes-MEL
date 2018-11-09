@@ -1,9 +1,10 @@
 <template>
   <div>
-    <admin-toolbar/>
-
-    <!-- <admin-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
-    <admin-bottom-navigation v-else/> -->
+    <admin-toolbar @showAdminBar="showAdminBar"/>
+    
+    <admin-navigation v-if="showAdmin" />
+    <!-- <admin-navigation v-if="$vuetify.breakpoint.mdAndUp"/> -->
+    <!-- <admin-bottom-navigation v-else/> -->
 
     <v-content>
       <v-container fluid fill-height class="pa-0">
@@ -24,12 +25,18 @@
 
   export default {
     data: () => ({
-      drawer: true
+      drawer: true,
+      showAdmin: false
     }),
     components: {
       AdminToolbar: AdminToolbar,
       AdminNavigation: AdminNavigation,
       AdminBottomNavigation: AdminBottomNavigation
+    },
+    methods: {
+      showAdminBar (val) {
+        this.showAdmin = val
+      }
     }
   }
 </script>

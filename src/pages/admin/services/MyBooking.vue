@@ -97,20 +97,24 @@
         </v-dialog>
         </td>
 
-        <td class=""><v-btn outline color="success" :disabled="props.item.estado == 'confirmar' ? disabled : ''" >Confirmar</v-btn></td>
         <td class="">
-        <v-dialog v-model="confirmaAnular" persistent max-width="290">
-          <v-btn slot="activator" outline color="error" dark>Anular</v-btn>
-          <v-card>
-            <v-card-title class="headline">¿Esta seguro de anular la reserva?</v-card-title>
-            <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva.</v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-              <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Anular</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+            <v-btn outline color="success"
+              :disabled="props.item.estado == 'confirmar' ? disabled : ''" >Confirmar</v-btn>
+            <countdown :deadline="props.item.fechaEmbarcacion"/>
+        </td>
+        <td class="">
+          <v-dialog v-model="confirmaAnular" persistent max-width="290">
+            <v-btn slot="activator" outline color="error" dark>Anular</v-btn>
+            <v-card>
+              <v-card-title class="headline">¿Esta seguro de anular la reserva?</v-card-title>
+              <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva.</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
+                <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Anular</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </td>
       </template>
     </v-data-table>
@@ -118,14 +122,17 @@
 </template>
 
 <script>
+  import Countdown from './Countdown'
+  
   export default {
     data () {
       return {
+        currentTime: '',
         confirmaAnular: false,
         bookingDetails: false,
         selectedBooking: {
           descripcionServicio: 'Frec1',
-          fechaEmbarcacion: '25/10/2018 20:48',
+          fechaEmbarcacion: '25/11/2018 20:48',
           fechaCompra: '20/10/2018 20:48',
           boleto: '23124fff',
           origen: 'MEL',
@@ -148,26 +155,29 @@
           {
             origen: 'COMPLEJO MEL',
             destino: 'Antofagasta',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
+            fechaCompra: '20/10/2018 11:48',
+            fechaEmbarcacion: '25/11/2018 20:48',
             estado: 'pendiente'
           },
           {
             origen: 'COMPLEJO MEL',
             destino: 'MEL',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
+            fechaCompra: '22/10/2018 11:48',
+            fechaEmbarcacion: '20/11/2018 20:48',
             estado: 'pendiente'
           },
           {
             origen: 'COMPLEJO MEL',
             destino: 'MEL',
-            fechaCompra: '25/10/2018 11:48',
-            fechaEmbarcacion: '25/10/2018 20:48',
+            fechaCompra: '22/10/2018 11:48',
+            fechaEmbarcacion: '10/11/2018 20:48',
             estado: 'confirmar'
           }
         ]
       }
+    },
+    components: {
+      Countdown: Countdown
     }
   }
 </script>

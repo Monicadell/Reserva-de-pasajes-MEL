@@ -9,25 +9,25 @@
   >
 
 
-    <v-list two-line class="orange lighten-1" dark>
+    <v-list two-line class="primary lighten-1" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>TEST</v-list-tile-title>
-          <v-list-tile-sub-title>TEST</v-list-tile-sub-title>
+          <v-list-tile-title>Administración</v-list-tile-title>
+          <v-list-tile-sub-title>Nombre Admin</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
 
-    <v-list class="orange">
+    <!-- <v-list class="primary">
       <v-list-tile>
         <v-list-tile-content>
-          <v-btn block dark color="orange darken-4">Realizar una reserva</v-btn>
+          <v-btn block dark color="primary darken-4">Realizar una reserva</v-btn>
         </v-list-tile-content>
       </v-list-tile>
-    </v-list>
+    </v-list> -->
 
 
     <v-list dense>
@@ -60,15 +60,18 @@
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
         {subheader: true, text: 'Mis reservas'},
-        {icon: 'history', text: 'Solicitadas'},
-        {icon: 'history', text: 'Aceptadas'},
-        {icon: 'content_copy', text: 'Anuladas'},
-        {icon: 'content_copy', text: 'Rechazadas'},
+        {icon: 'history', text: 'Reservas'},
+        {subheader: true, text: 'Admin'},
+        {icon: 'content_copy', text: 'Usuarios'},
+        {icon: 'content_copy', text: 'Buses'},
+        {icon: 'content_copy', text: 'Conductores'},
+        {icon: 'content_copy', text: 'Frecuencias'},
+        {icon: 'content_copy', text: 'Manifiestos'},
         {subheader: true, text: 'Perfil'},
         {icon: 'settings', text: 'Mi información'},
-        {icon: 'chat_bubble', text: 'Cambiar contraseña'},
-        {subheader: true, text: ''},
-        {icon: 'phonelink', text: 'Cerrar sesión'}
+        {icon: 'chat_bubble', text: 'Cambiar contraseña'}
+        // {subheader: true, text: ''},
+        // {icon: 'phonelink', text: 'Cerrar sesión'}
       ]
     })
   }

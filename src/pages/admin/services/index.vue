@@ -22,7 +22,7 @@
 
 
     <v-card-text>
-      <v-container fluid grid-list-lg class="pt-0">
+      <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12 md5>
             <place-selector :direction="'from'"/>
@@ -45,7 +45,7 @@
     </v-card-text>
 
     <v-card-text>
-      <v-container fluid grid-list-lg class="pt-0">
+      <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12>
             <my-booking />
