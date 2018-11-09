@@ -37,7 +37,7 @@
           {{item.text}}
         </v-subheader>
 
-        <v-list-tile v-else @click="">
+        <v-list-tile v-else :to="item.path">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -60,9 +60,9 @@
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
         {subheader: true, text: 'Mis reservas'},
-        {icon: 'history', text: 'Reservas'},
+        {icon: 'history', text: 'Reservas', path: { path: '/service_reserve' }},
         {subheader: true, text: 'Admin'},
-        {icon: 'content_copy', text: 'Usuarios'},
+        {icon: 'content_copy', text: 'Usuarios', path: { path: '/users' }},
         {icon: 'content_copy', text: 'Buses'},
         {icon: 'content_copy', text: 'Conductores'},
         {icon: 'content_copy', text: 'Frecuencias'},

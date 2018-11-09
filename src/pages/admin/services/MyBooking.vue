@@ -138,7 +138,6 @@
           origen: 'MEL',
           destino: 'Complejo MEL',
           numeroTelefono: '889968489'
-
         },
         headers: [
           // {text: 'Documento Pasajero', value: 'documentoPasajero'},
@@ -147,9 +146,9 @@
           {text: 'Destino', value: 'destino'},
           {text: 'Fecha Compra', value: 'fechaCompra'},
           {text: 'Fecha Embarcacion', value: 'fechaEmbarcacion'},
-          {text: '', value: 'details'},
-          {text: '', value: 'confirmar'},
-          {text: '', value: 'cancel'}
+          {text: '', value: 'details', sortable: false},
+          {text: '', value: 'confirmar', sortable: false},
+          {text: '', value: 'cancel', sortable: false}
         ],
         desserts: [
           {

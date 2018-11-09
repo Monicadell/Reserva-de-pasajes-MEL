@@ -9,6 +9,7 @@ import Home from '@pages/base/home'
 // admin
 import Admin from '@pages/admin/'
 import ServiceReserve from '@pages/admin/services'
+import Users from '@pages/admin/users'
 
 Vue.use(Router)
 const pageWhiteList = ['/login']
@@ -51,6 +52,11 @@ const router = new Router({
           meta: {
             requiresAuth: true
           }
+        },
+        {
+          path: '/users',
+          name: 'Users',
+          component: Users
         }
       ]
     }
