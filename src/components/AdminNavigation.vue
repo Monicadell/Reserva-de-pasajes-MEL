@@ -8,7 +8,6 @@
     :width="220"
   >
 
-
     <v-list two-line class="primary" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
@@ -62,14 +61,14 @@
         {subheader: true, text: 'Mis reservas'},
         {icon: 'history', text: 'Reservas', path: { path: '/service_reserve' }},
         {subheader: true, text: 'Admin'},
-        {icon: 'content_copy', text: 'Usuarios', path: { path: '/users' }},
-        {icon: 'content_copy', text: 'Buses'},
-        {icon: 'content_copy', text: 'Conductores'},
-        {icon: 'content_copy', text: 'Frecuencias'},
-        {icon: 'content_copy', text: 'Manifiestos'},
+        {icon: 'group', text: 'Usuarios', path: { path: '/users' }},
+        {icon: 'content_copy', text: 'Buses', path: { path: '/buses' }},
+        {icon: 'content_copy', text: 'Conductores', path: { path: '/conductores' }},
+        {icon: 'content_copy', text: 'Frecuencias', path: { path: '/frecuencias' }},
+        {icon: 'content_copy', text: 'Manifiestos', path: { path: '/manifiestos' }},
         {subheader: true, text: 'Perfil'},
-        {icon: 'settings', text: 'Mi información'},
-        {icon: 'chat_bubble', text: 'Cambiar contraseña'}
+        {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
+        // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
       ]

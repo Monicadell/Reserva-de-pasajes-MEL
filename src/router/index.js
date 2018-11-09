@@ -10,6 +10,11 @@ import Home from '@pages/base/home'
 import Admin from '@pages/admin/'
 import ServiceReserve from '@pages/admin/services'
 import Users from '@pages/admin/users'
+import Frecuencias from '@pages/admin/frecuencias'
+import Manifiestos from '@pages/admin/manifiestos'
+import Conductores from '@pages/admin/conductores'
+import Buses from '@pages/admin/buses'
+import MyInfo from '@pages/admin/myInfo'
 
 Vue.use(Router)
 const pageWhiteList = ['/login']
@@ -57,6 +62,31 @@ const router = new Router({
           path: '/users',
           name: 'Users',
           component: Users
+        },
+        {
+          path: '/frecuencias',
+          name: 'Frecuencias',
+          component: Frecuencias
+        },
+        {
+          path: '/manifiestos',
+          name: 'Manifiestos',
+          component: Manifiestos
+        },
+        {
+          path: '/conductores',
+          name: 'Conductores',
+          component: Conductores
+        },
+        {
+          path: '/buses',
+          name: 'Buses',
+          component: Buses
+        },
+        {
+          path: '/myInfo',
+          name: 'MyInfo',
+          component: MyInfo
         }
       ]
     }

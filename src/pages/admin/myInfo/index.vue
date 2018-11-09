@@ -4,7 +4,7 @@
       <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12>
-            <users />
+            <my-info />
           </v-flex>
         </v-layout>
       </v-container>
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-  import Users from './Users'
+  import MyInfo from './MyInfo'
 
   export default {
     components: {
-      Users: Users
+      MyInfo: MyInfo
     }
   }
 </script>

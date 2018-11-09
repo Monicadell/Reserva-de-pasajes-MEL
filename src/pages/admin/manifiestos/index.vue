@@ -4,7 +4,7 @@
       <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12>
-            <users />
+            <manifiestos />
           </v-flex>
         </v-layout>
       </v-container>
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-  import Users from './Users'
+  import Manifiestos from './Manifiestos'
 
   export default {
     components: {
-      Users: Users
+      Manifiestos: Manifiestos
     }
   }
 </script>
