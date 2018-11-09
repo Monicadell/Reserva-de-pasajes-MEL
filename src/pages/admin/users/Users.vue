@@ -2,7 +2,7 @@
   <div>
     <div> <h2>Usuarios</h2> </div>
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
+      <v-btn slot="activator" color="primary" dark>Agregar Usuario</v-btn>
       <v-card>
         <v-card-title>
           <span class="headline">Usuario</span>
