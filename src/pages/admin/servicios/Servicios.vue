@@ -5,7 +5,7 @@
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title>
-            <h3 class="headline">Usuario</h3>
+            <h3 class="headline">Servicio</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -92,7 +92,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Usuario</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar servicio</v-btn>
         </div>
       </v-toolbar>
 

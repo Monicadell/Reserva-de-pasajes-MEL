@@ -1,59 +1,42 @@
 <template>
   <div>
-    <div class="py-3"><h2>Manifiestos</h2> </div>
+    <div class="py-3"><h2>Estaciones</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title>
-            <h3 class="headline">Maniefiesto</h3>
+            <h3 class="headline">Estación</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 md4>
-                <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
-                          label="Tipo documento"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Nombre"
+                              v-model="editedItem.name"></v-text-field>
               </v-flex>
-
               <v-flex xs12 md4>
-                <v-text-field label="Documento"
-                              v-model="editedItem.rut"></v-text-field>
+                <v-text-field label="Dirección"
+                              v-model="editedItem.address"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout wrap>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
+                <v-text-field label="Latitud" v-model="editedItem.lat"></v-text-field>
+              </v-flex>
+
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Direccion"
-                              v-model="editedItem.address"></v-text-field>
+                <v-text-field label="city_id" v-model="editedItem.city_id"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
+                <v-text-field label="Descripción"
+                              v-model="editedItem.desc"></v-text-field>
               </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Password" v-model="editedItem.password"
-                              type="password"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-select :items="userType" v-model="editedItem.role_id"
-                          label="Tipo de Usuario"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-
             </v-layout>
           </v-container>
         </v-card-text>
@@ -76,26 +59,23 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Manifiesto</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar estacion</v-btn>
         </div>
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
-          :items="manifiestos"
+          :items="estaciones"
           :search="search"
           hide-actions
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.rut }}</td>
-          <td class="">{{ props.item.role_id }}</td>
-          <td class="">
-            <span v-if="props.item.active">Activo</span>
-            <span v-else>Inactivo</span>
-          </td>
-          <td class="">{{ props.item.email }}</td>
-          <td class="">{{ props.item.last_connection }}</td>
+          <td class="">{{ props.item.address }}</td>
+          <td class="">{{ props.item.lat }}</td>
+          <td class="">{{ props.item.lon }}</td>
+          <td class="">{{ props.item.city_id }}</td>
+          <td class="">{{ props.item.desc }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -140,6 +120,8 @@
 </template>
 
 <script>
+  import API from '@pi/app'
+
   export default {
     data () {
       return {
@@ -148,65 +130,58 @@
         search: '',
         editedItem: {
           name: '',
-          rut: '',
-          role_id: '',
-          active: '',
-          email: '',
           address: '',
-          last_connection: ''
+          lat: '',
+          lon: '',
+          city_id: '',
+          desc: ''
         },
         selectedUser: {
           name: 'Juan Perez',
-          rut: '113939483-5',
-          role_id: 'EST',
-          active: false,
-          email: 'juan@algo.com',
-          address: 'daushd dasu dau s23',
-          last_connection: '2018-10/2018 20:00'
+          address: '113939483-5',
+          lat: 'EST',
+          lon: '2222',
+          city_id: 'juan@algo.com',
+          desc: '2018-10/2018 20:00'
         },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero'},
-          // {text: 'Pasajero', value: 'pasajero'},
           {text: 'Nombre', value: 'name'},
-          {text: 'Documento', value: 'rut'},
-          {text: 'Tipo usuario', value: 'role_id'},
-          {text: 'Estado', value: 'active'},
-          {text: 'Correo', value: 'email'},
-          {text: 'Última conexión', value: 'last_connection'},
+          {text: 'Dirección', value: 'address'},
+          {text: 'Latitud', value: 'lat'},
+          {text: 'Longitud', value: 'lon'},
+          {text: 'City', value: 'city_id'},
+          {text: 'Descripción', value: 'desc'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        manifiestos: [
+        estaciones: [
           {
-            name: 'Juan Perez',
-            rut: '113939483-5',
-            role_id: 'EST',
-            active: false,
-            email: 'juan@algo.com',
-            address: 'daushd dasu dau s23',
-            last_connection: '2018-10/2018 20:00'
+            name: 'Santiago',
+            address: '113939483-5',
+            lat: '1313',
+            lon: '111',
+            city_id: 'san_id',
+            desc: 'Desciopcion'
           },
           {
-            name: 'Andres Martinez',
-            rut: '138388383-5',
-            role_id: 'EST',
-            active: true,
-            email: 'andres@gmail.com',
-            address: 'daushd dasu dau s23',
-            last_connection: 'Sin conexion'
+            name: 'Mel',
+            address: '138388383-5',
+            lat: '1212',
+            lon: '111',
+            city_id: 'sant_id',
+            desc: 'Descripcion'
           },
           {
-            name: 'José Gomez',
-            rut: '15588383-5',
-            role_id: 'ADMIN',
-            active: true,
-            email: 'pepe@gmail.com',
-            address: 'daushd dasu dau s23',
-            last_connection: '2018-10/2018 20:00'
+            name: 'mel 2',
+            address: '15588383-5',
+            lat: '1212',
+            lon: '1111',
+            city_id: 'sant_id',
+            desc: 'Desciopcion'
           }
         ],
         userDocumentType: [
-          {text: 'RUT', id: 'RUT'},
+          {text: 'address', id: 'address'},
           {text: 'PASAPORTE', id: 'PASAPORTE'}
         ],
         userState: [
@@ -227,40 +202,19 @@
         ]
       }
     },
+    mounted () {
+      this.getStations()
+    },
     methods: {
-      // loadUserData () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.userList,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber,
-      //       tipoContrato: this.usersType
-      //     }
-      //   }
-      //   this.loading = true
-      //   this.items = []
-      //   axios(config).then((response) => {
-      //     this.loading = false
-      //     if (response.status === 200 && response.data.success) {
-      //       this.items = response.data.response
-      //     } else {
-      //       alert('Error al cargar la información')
-      //       console.warn(response)
-      //     }
-      //   }, (err) => {
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // },
+      async getStations () {
+        let usuarios = await API.get('stations')
+        if (usuarios.status >= 200 && usuarios.status < 300) {
+          console.log(usuarios)
+          this.estaciones = usuarios.data.data
+        }
+      },
       editItem (item) {
         console.log('item edit', item)
-        // delete item.mensaje
-        // this.editedIndex = this.items.indexOf(item)
-        // let edit = Object.assign({}, item)
-        // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-        // this.editedItem = edit
         this.editedItem = item
         this.dialog = true
       },
@@ -275,14 +229,13 @@
         //   this.editedIndex = -1
         // }, 300)
       }
-
       // save () {
       //   let auth = this.$store.getters.getAuth
       //   let config = {
       //     method: 'POST',
       //     url: endPoints.createUser,
       //     params: {
-      //       rut: auth.user,
+      //       address: auth.user,
       //       ncontrato: auth.agreementNumber
       //     }
       //   }

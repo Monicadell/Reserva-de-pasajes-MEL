@@ -68,7 +68,7 @@
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Empresa Asociada"
-                              v-model="editedItem.company_id"></v-text-field>
+                              v-model="editedItem.company_name" disabled></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -112,7 +112,7 @@
           </td>
           <td class="">{{ props.item.email }}</td>
           <td class="">{{ props.item.phone_number }}</td>
-          <td class="">{{ props.item.company_id }}</td>
+          <td class="">{{ props.item.company_name }}</td>
           <td class="">{{ props.item.last_connection }}</td>
           <td class="justify-center">
             <v-tooltip top>
@@ -159,6 +159,7 @@
 
 <script>
   import API from '@pi/app'
+
   export default {
     data () {
       return {
@@ -173,7 +174,7 @@
           email: '',
           address: '',
           phone_number: '',
-          company_id: '',
+          company_name: '',
           last_connection: ''
         },
         selectedUser: {
@@ -184,7 +185,7 @@
           email: 'juan@algo.com',
           address: 'daushd dasu dau s23',
           phone_number: '8482737',
-          company_id: 'Empresa asociada ltda.',
+          company_name: 'Empresa asociada ltda.',
           last_connection: '2018-10/2018 20:00'
         },
         headers: [
@@ -196,7 +197,7 @@
           {text: 'Estado', value: 'active'},
           {text: 'Correo', value: 'email'},
           {text: 'Número de teléfono', value: 'phone_number'},
-          {text: 'Empresa asoc.', value: 'company_id'},
+          {text: 'Empresa asoc.', value: 'company_name'},
           {text: 'Última conexión', value: 'last_connection'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
@@ -210,7 +211,7 @@
             email: 'juan@algo.com',
             address: 'daushd dasu dau s23',
             phone_number: '8482737',
-            company_id: 'Empresa asociada ltda.',
+            company_name: 'Empresa asociada ltda.',
             last_connection: '2018-10/2018 20:00'
           },
           {
@@ -221,7 +222,7 @@
             email: 'andres@gmail.com',
             address: 'daushd dasu dau s23',
             phone_number: '9494878',
-            company_id: 'Empresa asociada ltda.',
+            company_name: 'Empresa asociada ltda.',
             last_connection: 'Sin conexion'
           },
           {
@@ -232,7 +233,7 @@
             email: 'pepe@gmail.com',
             address: 'daushd dasu dau s23',
             phone_number: '94837487',
-            company_id: 'Empresa asociada ltda.',
+            company_name: 'Empresa asociada ltda.',
             last_connection: '2018-10/2018 20:00'
           }
         ],

@@ -11,50 +11,64 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 md4>
-                <v-text-field label="Nombre"
-                              v-model="editedItem.name"></v-text-field>
+                <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
+                          label="Tipo documento"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
               </v-flex>
 
               <v-flex xs12 md4>
-                <v-text-field label="Origen"
-                              v-model="editedItem.source_id"></v-text-field>
+                <v-text-field label="Documento"
+                              v-model="editedItem.rut"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout wrap>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Destino" v-model="editedItem.dest_id"></v-text-field>
+                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Inicio"
-                              v-model="editedItem.start"></v-text-field>
+                <v-text-field label="Direccion"
+                              v-model="editedItem.address"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Fin"
-                              v-model="editedItem.end"></v-text-field>
+                <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Set" v-model="editedItem.set"></v-text-field>
+                <v-text-field label="Password" v-model="editedItem.password"
+                              type="password"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Salida" v-model="editedItem.departure"></v-text-field>
+                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Llegada" v-model="editedItem.arrival"></v-text-field>
+                <v-select :items="userType" v-model="editedItem.role_id"
+                          label="Tipo de Usuario"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
+              </v-flex>
+
+              <!-- <v-flex xs12 sm6 md4>
+                <v-select :items="userAgreement" v-model="editedItem.tipoContrato"
+                          label="Tipo de contrato"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
+              </v-flex> -->
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Numero Contacto"
+                              v-model="editedItem.phone_number"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Duración"
-                              v-model="editedItem.duration"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field>
+                <v-text-field label="Empresa Asociada"
+                              v-model="editedItem.company_id"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -78,30 +92,28 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Frecuencia</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar recorrido</v-btn>
         </div>
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
-          :items="frecuencias"
+          :items="recorridos"
           :search="search"
           hide-actions
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.source_id }}</td>
-          <td class="">{{ props.item.dest_id }}</td>
+          <td class="">{{ props.item.rut }}</td>
+          <td class="">{{ props.item.role_id }}</td>
           <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
           </td>
-          <td class="">{{ props.item.start }}</td>
-          <td class="">{{ props.item.end }}</td>
-          <td class="">{{ props.item.set }}</td>
-          <td class="">{{ props.item.departure }}</td>
-          <td class="">{{ props.item.arrival }}</td>
-          <td class="">{{ props.item.duration }}</td>
+          <td class="">{{ props.item.email }}</td>
+          <td class="">{{ props.item.phone_number }}</td>
+          <td class="">{{ props.item.company_id }}</td>
+          <td class="">{{ props.item.last_connection }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -129,8 +141,8 @@
             </v-tooltip>
             <v-dialog v-model="confirmaAnular" persistent max-width="290">
               <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar la Frecuencia?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperarla.</v-card-text>
+                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
+                <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
@@ -146,8 +158,6 @@
 </template>
 
 <script>
-  import API from '@pi/app'
-
   export default {
     data () {
       return {
@@ -156,93 +166,96 @@
         search: '',
         editedItem: {
           name: '',
-          source_id: '',
-          dest_id: '',
-          start: '',
-          end: '',
-          set: '',
-          departure: '',
-          arrival: '',
-          duration: '',
-          active: false
+          rut: '',
+          role_id: '',
+          active: '',
+          email: '',
+          address: '',
+          phone_number: '',
+          company_id: '',
+          last_connection: ''
         },
-        selectedFrecuencie: {
-          name: 'Frec1',
-          source_id: 'source',
-          dest_id: 'dest',
-          start: '2018-10/2018 20:00',
-          end: '2018-10/2018 20:00',
-          set: '2018-10/2018 20:00',
-          departure: '2018-10/2018 20:00',
-          arrival: '2018-10/2018 20:00',
-          duration: '5:00',
-          active: true
+        selectedUser: {
+          name: 'Juan Perez',
+          rut: '113939483-5',
+          role_id: 'EST',
+          active: false,
+          email: 'juan@algo.com',
+          address: 'daushd dasu dau s23',
+          phone_number: '8482737',
+          company_id: 'Empresa asociada ltda.',
+          last_connection: '2018-10/2018 20:00'
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Origen', value: 'source_id'},
-          {text: 'Destino', value: 'dest_id'},
+          {text: 'Documento', value: 'rut'},
+          {text: 'Tipo usuario', value: 'role_id'},
           {text: 'Estado', value: 'active'},
-          {text: 'Inicio', value: 'start'},
-          {text: 'Fin', value: 'end'},
-          {text: 'Set', value: 'set'},
-          {text: 'Salida', value: 'departure'},
-          {text: 'Llegada', value: 'arrival'},
-          {text: 'Duración', value: 'duration'},
+          {text: 'Correo', value: 'email'},
+          {text: 'Número de teléfono', value: 'phone_number'},
+          {text: 'Empresa asoc.', value: 'company_id'},
+          {text: 'Última conexión', value: 'last_connection'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        frecuencias: [
+        recorridos: [
           {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
+            name: 'Juan Perez',
+            rut: '113939483-5',
+            role_id: 'EST',
+            active: false,
+            email: 'juan@algo.com',
+            address: 'daushd dasu dau s23',
+            phone_number: '8482737',
+            company_id: 'Empresa asociada ltda.',
+            last_connection: '2018-10/2018 20:00'
           },
           {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
+            name: 'Andres Martinez',
+            rut: '138388383-5',
+            role_id: 'EST',
+            active: true,
+            email: 'andres@gmail.com',
+            address: 'daushd dasu dau s23',
+            phone_number: '9494878',
+            company_id: 'Empresa asociada ltda.',
+            last_connection: 'Sin conexion'
           },
           {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
+            name: 'José Gomez',
+            rut: '15588383-5',
+            role_id: 'ADMIN',
+            active: true,
+            email: 'pepe@gmail.com',
+            address: 'daushd dasu dau s23',
+            phone_number: '94837487',
+            company_id: 'Empresa asociada ltda.',
+            last_connection: '2018-10/2018 20:00'
           }
+        ],
+        userDocumentType: [
+          {text: 'RUT', id: 'RUT'},
+          {text: 'PASAPORTE', id: 'PASAPORTE'}
+        ],
+        userState: [
+          {text: 'ACTIVO', id: 'ACT'},
+          {text: 'INACTIVO', id: 'INA'}
+        ],
+        userType: [
+          {text: 'ESTANDAR', id: 'EST'},
+          {text: 'ADMINISTRADOR', id: 'ADM'},
+          {text: 'ASISTENTE', id: 'ASI'},
+          {text: 'CALL CENTER', id: 'CAL'},
+          {text: 'REDUCIDO', id: 'RED'},
+          {text: 'ADMINISTRATIVO', id: 'AD2'}
+        ],
+        userAgreement: [
+          {text: 'MEL', id: 'MEL'},
+          {text: 'CONTRATISTA', id: 'CONTRATISTA'}
         ]
       }
     },
-    mounted () {
-      this.getFrec()
-    },
     methods: {
-      async getFrec () {
-        let frec = await API.get('frequencies')
-        if (frec.status >= 200 && frec.status < 300) {
-          console.log(frec)
-          this.frecuencias = frec.data.data
-        }
-      },
       // loadUserData () {
       //   let auth = this.$store.getters.getAuth
       //   let config = {
@@ -251,7 +264,7 @@
       //     params: {
       //       rut: auth.user,
       //       ncontrato: auth.agreementNumber,
-      //       tipoContrato: this.frecuenciasType
+      //       tipoContrato: this.usersType
       //     }
       //   }
       //   this.loading = true

@@ -1,172 +1,212 @@
 <template>
   <div>
-    <div> <h2>Conductores</h2> </div>
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-btn slot="activator" color="primary" dark>Agregar Conductor</v-btn>
+    <div class="py-3"><h2>Conductores</h2> </div>
+    
+    <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
-        <v-card-title>
-          <span class="headline">Conductor</span>
+        <v-card-title primary-title>
+            <h3 class="headline">Conductor</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field label="Nombre *" required></v-text-field>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
               </v-flex>
-              <v-flex xs12>
-                <v-text-field label="Email *" required></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field label="Password*" type="password" required></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field label="Fecha nacimiento*"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field label="Teléfono *" required></v-text-field>
+              <v-flex xs12 md4>
+                <v-text-field label="Documento"
+                              v-model="editedItem.rut"></v-text-field>
               </v-flex>
             </v-layout>
+            <v-layout wrap>
+              <v-flex xs12 sm6 md4>
+                <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Password" v-model="editedItem.password"
+                              type="password"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
+              </v-flex>
+
+            </v-layout>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" flat @click.native="dialog = false">Cerrar</v-btn>
-          <v-btn color="primary darken-1" flat @click.native="dialog = false">Guardar</v-btn>
+          <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-data-table
-        :headers="headers"
-        :items="users"
-        hide-actions
-        class="elevation-1"
-      >
-      <template slot="items" slot-scope="props">
-        <td class="">{{ props.item.nombre }}</td>
-        <td class="">{{ props.item.rut }}</td>
-        <td class="">{{ props.item.correo }}</td>
-        <td class="">{{ props.item.numeroTelefono }}</td>
-        <td class="">
-        <v-dialog v-model="bookingDetails" persistent max-width="1000">
-          <v-btn slot="activator" color="primary" dark>Editar</v-btn>
-            <v-card>
-                <v-card-title primary-title>
-                    <div>
-                        <h3 class="headline mb-3">Detalles Usuario</h3>
-                    </div>
-                </v-card-title>
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                         <v-flex xs12 sm6>
-                                <v-list two-line subheader>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Nombre</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedUser.nombre}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Destino</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedUser.rut}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Telefono contacto</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedUser.numeroTelefono}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Correo</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedUser.correo}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-flex>
 
-                        </v-layout>
-                    </v-container>
-                </v-card-text>
+    <div class="elevation-1">
+      <v-toolbar flat color="white">
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
+        <v-spacer></v-spacer>
+        <div class="text-xs-right">
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Conductor</v-btn>
+        </div>
+      </v-toolbar>
+
+      <v-data-table
+          :headers="headers"
+          :items="users"
+          :search="search"
+          hide-actions
+        >
+        <template slot="items" slot-scope="props">
+          <td class="">{{ props.item.name }}</td>
+          <td class="">{{ props.item.rut }}</td>
+          <td class="">
+            <span v-if="props.item.active">Activo</span>
+            <span v-else>Inactivo</span>
+          </td>
+          <td class="">{{ props.item.email }}</td>
+          <td class="">{{ props.item.phone_number }}</td>
+          <td class="justify-center">
+            <v-tooltip top>
+              <v-icon
+                small
+                slot="activator"
+                color="primary"
+                @click="editItem(props.item)"
+              >
+                edit
+              </v-icon>
+              <span>Editar</span>
+            </v-tooltip>
+          </td>
+          <td class="">
+            <v-tooltip top>
+              <v-icon
+                small
+                slot="activator"
+                color="primary"
+                @click="deleteItem(props.item)"
+              >
+                delete
+              </v-icon>
+              <span>Eliminar</span>
+            </v-tooltip>
+            <v-dialog v-model="confirmaAnular" persistent max-width="290">
+              <v-card>
+                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
+                <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
                 <v-card-actions>
-                    <!-- <v-btn color="orange darken-1" flat
-                           @click.native="resendMail"
-                           :loading="this.loading"
-                           :disabled="this.loading"
-                    >Reenviar a email
-                    </v-btn> -->
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary darken-1" flat @click.native="bookingDetails = false">Cerrar</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
+                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
                 </v-card-actions>
-            </v-card>
-        </v-dialog>
-        </td>
-
-        <td class="">
-          <v-dialog v-model="confirmaAnular" persistent max-width="290">
-            <v-btn slot="activator" outline color="error" dark>Eliminar</v-btn>
-            <v-card>
-              <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
-              <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </td>
-      </template>
-    </v-data-table>
+              </v-card>
+            </v-dialog>
+          </td>
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 
 <script>
+  // import API from '@pi/app'
+
   export default {
     data () {
       return {
         confirmaAnular: false,
-        bookingDetails: false,
         dialog: false,
-        selectedUser: {
-          nombre: 'Juan Perez',
-          rut: '113939483-5',
-          correo: 'juan@algo.com',
-          numeroTelefono: '8482737'
+        search: '',
+        editedItem: {
+          name: '',
+          rut: '',
+          active: '',
+          email: '',
+          phone_number: ''
         },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero'},
-          // {text: 'Pasajero', value: 'pasajero'},
-          {text: 'Nombre', value: 'nombre'},
+          {text: 'Nombre', value: 'name'},
           {text: 'Rut', value: 'rut'},
-          {text: 'Correo', value: 'correo'},
-          {text: 'Número de teléfono', value: 'numeroTelefono'},
+          {text: 'Active', value: 'active'},
+          {text: 'Email', value: 'email'},
+          {text: 'Número de teléfono', value: 'phone_number'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
         users: [
           {
-            nombre: 'Juan Perez',
+            name: 'Juan Perez',
             rut: '113939483-5',
-            correo: 'juan@algo.com',
-            numeroTelefono: '8482737'
+            active: true,
+            email: 'juan@algo.com',
+            phone_number: '8482737'
           },
           {
-            nombre: 'Andres Martinez',
+            name: 'Andres Martinez',
             rut: '138388383-5',
-            correo: 'andres@gmail.com',
-            numeroTelefono: '9494878'
+            active: true,
+            email: 'andres@gmail.com',
+            phone_number: '9494878'
           },
           {
-            nombre: 'José Gomez',
+            name: 'José Gomez',
             rut: '15588383-5',
-            correo: 'pepe@gmail.com',
-            numeroTelefono: '94837487'
+            active: true,
+            email: 'pepe@gmail.com',
+            phone_number: '94837487'
           }
+        ],
+        userDocumentType: [
+          {text: 'RUT', id: 'RUT'},
+          {text: 'PASAPORTE', id: 'PASAPORTE'}
+        ],
+        userState: [
+          {text: 'ACTIVO', id: 'ACT'},
+          {text: 'INACTIVO', id: 'INA'}
+        ],
+        userType: [
+          {text: 'ESTANDAR', id: 'EST'},
+          {text: 'ADMINISTRADOR', id: 'ADM'},
+          {text: 'ASISTENTE', id: 'ASI'},
+          {text: 'CALL CENTER', id: 'CAL'},
+          {text: 'REDUCIDO', id: 'RED'},
+          {text: 'ADMINISTRATIVO', id: 'AD2'}
+        ],
+        userAgreement: [
+          {text: 'MEL', id: 'MEL'},
+          {text: 'CONTRATISTA', id: 'CONTRATISTA'}
         ]
+      }
+    },
+    methods: {
+      // async getStations () {
+      //   let usuarios = await API.get('users')
+      //   if (usuarios.status >= 200 && usuarios.status < 300) {
+      //     console.log(usuarios)
+      //     this.users = usuarios.data.data
+      //   }
+      // },
+      editItem (item) {
+        console.log('item edit', item)
+        this.editedItem = item
+        this.dialog = true
+      },
+      deleteItem () {
+        this.confirmaAnular = true
+      },
+      close () {
+        this.dialog = false
+        this.editedItem = {}
       }
     }
   }

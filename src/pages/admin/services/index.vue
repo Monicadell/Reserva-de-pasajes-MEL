@@ -54,7 +54,6 @@
       </v-container>
     </v-card-text>
 
-
   </div>
 </template>
 

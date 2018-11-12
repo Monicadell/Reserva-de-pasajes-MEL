@@ -67,6 +67,8 @@
         {icon: 'content_copy', text: 'Frecuencias', path: { path: '/frecuencias' }},
         {icon: 'content_copy', text: 'Manifiestos', path: { path: '/manifiestos' }},
         {icon: 'content_copy', text: 'Servicios', path: { path: '/servicios' }},
+        {icon: 'content_copy', text: 'Recorridos', path: { path: '/recorridos' }},
+        {icon: 'content_copy', text: 'Estaciones', path: { path: '/estaciones' }},
         {subheader: true, text: 'Perfil'},
         {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
