@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3"><h2>Usuarios</h2> </div>
+    <div class="py-3"><h2>Servicios</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
@@ -158,7 +158,6 @@
 </template>
 
 <script>
-  import API from '@pi/app'
   export default {
     data () {
       return {
@@ -258,17 +257,7 @@
         ]
       }
     },
-    mounted () {
-      this.getUsers()
-    },
     methods: {
-      async getUsers () {
-        let usuarios = await API.get('users')
-        if (usuarios.status >= 200 && usuarios.status < 300) {
-          console.log(usuarios)
-          this.users = usuarios.data.data
-        }
-      },
       // loadUserData () {
       //   let auth = this.$store.getters.getAuth
       //   let config = {
