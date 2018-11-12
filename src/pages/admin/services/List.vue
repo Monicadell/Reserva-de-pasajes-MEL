@@ -47,6 +47,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import axios from 'axios'
 
   export default {
     watch: {
@@ -73,12 +74,23 @@
           this.servicesList = []
           this.loading = true
           this.disableList = false
-          setTimeout(() => {
-            this.servicesList = Object.assign([], this.services)
-            this.loading = false
-          }, 500)
+
+          axios.get('http://192.168.11.146:4000/api/users')
+          .then((response)=>{
+               // handle success
+            console.log(response.data)
+            console.log(this.servicesList) 
+              setTimeout(() => {
+              this.servicesList = Object.assign([], this.services)
+            //  this.servicesList = Object.assign([], response.data)
+              this.loading = false
+            }, 500)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
         }
-      }
+      },
     },
     computed: {
       ...mapGetters({

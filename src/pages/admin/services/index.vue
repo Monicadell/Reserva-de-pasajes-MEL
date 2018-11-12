@@ -38,7 +38,7 @@
         </v-layout>
         <v-layout row wrap fill-height class="mt-2">
           <v-flex xs12 >
-            <service-selected/>
+            <service-selected/> 
           </v-flex>
         </v-layout>
       </v-container>

@@ -1,6 +1,9 @@
 /**
  * Declare
  */
+import axios from 'axios'
+
+
 const state = {
   change: false,
   search: {
@@ -14,7 +17,8 @@ const state = {
     }
   },
   selected: false,
-  service: {}
+  service: {},
+  servicesList: []
 }
 
 const getters = {
@@ -35,15 +39,19 @@ const actions = {
     commit('SET_PLACE', {search: payload.search, direction: payload.direction})
   },
   set_date ({commit}, payload) {
+    
     commit('SET_DATE', {search: payload.search, direction: payload.direction})
   }
 }
 
 const mutations = {
   SELECT_SERVICE: (state, {selected}) => {
+    console.log('segundo click')
+
     state.selected = selected
   },
   SET_SERVICE: (state, {service}) => {
+    console.log('primer click')
     state.service = service
   },
   SET_PLACE: (state, {search, direction}) => {

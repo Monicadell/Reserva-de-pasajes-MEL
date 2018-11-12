@@ -1,6 +1,6 @@
 <template>
   <v-flex class="justify-center" v-if="countdown > 12">
-      <p>{{countdown}} H. para tu viaje</p>
+      <p>{{countdown}} H. para chekin</p>
   </v-flex>
 </template>
 
