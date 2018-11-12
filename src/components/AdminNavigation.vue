@@ -66,6 +66,7 @@
         {icon: 'content_copy', text: 'Conductores', path: { path: '/conductores' }},
         {icon: 'content_copy', text: 'Frecuencias', path: { path: '/frecuencias' }},
         {icon: 'content_copy', text: 'Manifiestos', path: { path: '/manifiestos' }},
+        {icon: 'content_copy', text: 'Servicios', path: { path: '/servicios' }},
         {subheader: true, text: 'Perfil'},
         {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}

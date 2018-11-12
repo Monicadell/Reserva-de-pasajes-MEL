@@ -14,6 +14,7 @@ import Frecuencias from '@pages/admin/frecuencias'
 import Manifiestos from '@pages/admin/manifiestos'
 import Conductores from '@pages/admin/conductores'
 import Buses from '@pages/admin/buses'
+import Servicios from '@pages/admin/servicios'
 import MyInfo from '@pages/admin/myInfo'
 
 Vue.use(Router)
@@ -82,6 +83,11 @@ const router = new Router({
           path: '/buses',
           name: 'Buses',
           component: Buses
+        },
+        {
+          path: '/servicios',
+          name: 'Servicios',
+          component: Servicios
         },
         {
           path: '/myInfo',
