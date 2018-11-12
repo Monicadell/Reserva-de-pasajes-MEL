@@ -1,6 +1,9 @@
 /**
  * Declare
  */
+import axios from 'axios'
+
+
 const state = {
   change: false,
   search: {
@@ -14,7 +17,8 @@ const state = {
     }
   },
   selected: false,
-  service: {}
+  service: {},
+  servicesList: []
 }
 
 const getters = {
@@ -35,6 +39,16 @@ const actions = {
     commit('SET_PLACE', {search: payload.search, direction: payload.direction})
   },
   set_date ({commit}, payload) {
+    console.log('aqui hago request')
+    axios.get('http://192.168.11.146:4000/api/users')
+  .then(function (response) {
+    // handle success
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
     commit('SET_DATE', {search: payload.search, direction: payload.direction})
   }
 }
@@ -51,6 +65,7 @@ const mutations = {
     state.change = !state.change
   },
   SET_DATE: (state, {search, direction}) => {
+    console.log(state.service)
     state.search[direction].date = search
     state.change = !state.change
   }

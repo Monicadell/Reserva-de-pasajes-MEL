@@ -52,9 +52,12 @@
       }),
       date: {
         get () {
+          console.log('aqui')
           return this.search[this.direction].date
         },
         set (value) {
+           console.log(' o aqui')
+           console.log(value, this.direction)
           this.$store.dispatch('Booking/set_date', {
             search: value,
             direction: this.direction
