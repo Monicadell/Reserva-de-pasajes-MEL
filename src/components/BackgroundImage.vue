@@ -1,6 +1,6 @@
 <template>
  <div id="bg">
-    <img src="../../static/img/2.jpg"
+    <img :src="imagen"
          class="kenburns-bottom"
          alt="">
 
@@ -13,7 +13,26 @@
 
 <script>
   export default {
-    props: ['from']
+    props: ['from'],
+    data: () => ({
+      imagen: '',
+      imgnumber: 1
+    }),
+    methods: {
+      updateImg () {
+        if(this.imgnumber === 5){
+          this.imgnumber = 1
+        }
+        else{
+          this.imgnumber++
+        }
+        this.imagen = '../../static/img/' + this.imgnumber + '.jpg'
+      }
+    },
+    mounted () {
+      this.updateImg()
+      setInterval(() => this.updateImg(), 1000 * 10)
+    }
   }
 </script>
 
