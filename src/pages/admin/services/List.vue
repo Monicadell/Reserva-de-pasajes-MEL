@@ -6,7 +6,7 @@
   }"
 
   >
-
+  
     <v-card-title>
       Servicios disponibles
       <v-spacer></v-spacer>
@@ -22,10 +22,11 @@
       v-model="selected"
       :loading="loading"
       :headers="headers"
-      :items="servicesList"
+      :items="listaServicios"
       hide-actions
       class="elevation-1"
       item-key="id"
+    
     >
 
       <template slot="items" slot-scope="props">
@@ -69,6 +70,7 @@
         this.$store.dispatch('Booking/set_service', {service: {}})
         this.disableList = true
         if (this.search && this.search.from.date && this.search.from.place && this.search.to.place) {
+          console.log(this.search)
           this.selected = []
           console.log('search')
           this.servicesList = []
@@ -83,7 +85,7 @@
               setTimeout(() => {
               this.servicesList = Object.assign([], this.services)
             //  this.servicesList = Object.assign([], response.data)
-              console.log(response.data)
+           //   console.log(response.data)
               this.loading = false
             }, 500)
           })
@@ -97,8 +99,10 @@
       ...mapGetters({
         changed: ['Booking/changed'],
         search: ['Booking/current'],
-        booking: ['Booking/service']
-      })
+        booking: ['Booking/service'],
+        listaServicios: ['Booking/listaServicios']
+      }),
+    
     },
     data: () => ({
       disableList: true,

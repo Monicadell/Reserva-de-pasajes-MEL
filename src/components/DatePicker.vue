@@ -21,6 +21,7 @@
   // avatar: 'https://ui-avatars.com/api/?name=',
   import moment from 'moment'
   import {mapGetters} from 'vuex'
+   import axios from 'axios'
 
   export default {
     props: ['direction'],
@@ -49,20 +50,37 @@
     },
     computed: {
       ...mapGetters({
-        search: ['Booking/current']
+        search: ['Booking/current'],
+        ruta: ['Booking/ruta']
       }),
       date: {
         get () {
          // console.log('aqui')
-          return this.search[this.direction].date
+         // return this.search[this.direction].date
         },
         set (value) {
-         //  console.log(' o aqui')
+          console.log(' o aqui')
+          console.log(this.ruta)
+          const  idRuta = this.ruta.id
+          const fechaViaje = value
+          console.log(idRuta, fechaViaje)
+          axios.get(`http://192.168.11.146:4000/api/services?trip_id=${idRuta}&date=${fechaViaje}`)
+          .then((response)=>{
+           console.log(response.data.data)
+            this.$store.dispatch('Booking/set_listaServicios', {
+            listaServicios: response.data.data,
+
+          }) 
+            
+         })
+          .catch((err)=>{
+            console.log(err)
+          })
           // console.log(value, this.direction)
-          this.$store.dispatch('Booking/set_date', {
+        /*  this.$store.dispatch('Booking/set_date', {
             search: value,
             direction: this.direction
-          }) 
+          }) */
         }
       }
     }

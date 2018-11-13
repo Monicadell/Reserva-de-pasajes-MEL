@@ -26,7 +26,7 @@
         <v-layout row wrap fill-height>
           <v-flex xs12 md5>
             <place-selector :direction="'from'"/>
-            <place-selector :direction="'to'" class="mt-3"/>
+           <!--  <place-selector :direction="'to'" class="mt-3"/> -->
             <service-date :direction="'from'" class="mt-3"/>
           </v-flex>
           <v-flex xs12 md7>
