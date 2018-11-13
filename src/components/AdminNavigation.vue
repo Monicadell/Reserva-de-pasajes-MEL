@@ -62,13 +62,13 @@
         {icon: 'history', text: 'Reservas', path: { path: '/service_reserve' }},
         {subheader: true, text: 'Admin'},
         {icon: 'group', text: 'Usuarios', path: { path: '/users' }},
-        {icon: 'content_copy', text: 'Buses', path: { path: '/buses' }},
-        {icon: 'content_copy', text: 'Conductores', path: { path: '/conductores' }},
+        {icon: 'content_copy', text: 'Estaciones', path: { path: '/estaciones' }},
+        {icon: 'content_copy', text: 'Tramos', path: { path: '/tramos' }},
         {icon: 'content_copy', text: 'Frecuencias', path: { path: '/frecuencias' }},
         {icon: 'content_copy', text: 'Manifiestos', path: { path: '/manifiestos' }},
         {icon: 'content_copy', text: 'Servicios', path: { path: '/servicios' }},
-        {icon: 'content_copy', text: 'Recorridos', path: { path: '/recorridos' }},
-        {icon: 'content_copy', text: 'Estaciones', path: { path: '/estaciones' }},
+        {icon: 'content_copy', text: 'Buses', path: { path: '/buses' }},
+        {icon: 'content_copy', text: 'Conductores', path: { path: '/conductores' }},
         {subheader: true, text: 'Perfil'},
         {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
