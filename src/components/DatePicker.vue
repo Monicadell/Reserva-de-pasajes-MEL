@@ -59,18 +59,27 @@
          // return this.search[this.direction].date
         },
         set (value) {
-          console.log(' o aqui')
-          console.log(this.ruta)
+          //console.log(' o aqui')
+          //console.log(this.ruta)
           const  idRuta = this.ruta.id
           const fechaViaje = value
           console.log(idRuta, fechaViaje)
-          axios.get(`https://mel-2-backend.gestsol.cl/api/services?trip_id=${idRuta}&date=${fechaViaje}`)
+          axios.get(`https://mel-2-backend.gestsol.cl/api/services?trip=${idRuta}&date=${fechaViaje}`)
           .then((response)=>{
            console.log(response.data.data)
-            this.$store.dispatch('Booking/set_listaServicios', {
+           
+          this.$store.dispatch('Booking/set_cargandoPeticion', {
+            cargandoPeticion: true
+            
+          });  
+          setTimeout(()=>{
+            this.$store.dispatch('Booking/set_cargandoPeticion', {
+            cargandoPeticion: false
+          });
+          this.$store.dispatch('Booking/set_listaServicios', {
             listaServicios: response.data.data,
-
-          }) 
+          });  
+          },2000)
             
          })
           .catch((err)=>{

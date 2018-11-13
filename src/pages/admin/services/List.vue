@@ -17,24 +17,27 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-
     <v-data-table
       v-model="selected"
-      :loading="loading"
+      :loading="cargandoPeticion"
       :headers="headers"
       :items="listaServicios"
       hide-actions
       class="elevation-1"
       item-key="id"
+      no-data-text="No hay resultados para la ruta seleccionada"
     
     >
 
       <template slot="items" slot-scope="props">
         <tr @click="selectService(props.item, props.expanded = !props.expanded)"
             :class="{'primary white--text': booking && booking.id === props.item.id}">
-          <td>{{ props.item.name }}</td>
-          <td class="text-xs-center">{{ props.item.from }}</td>
-          <td class="text-xs-center">{{ props.item.to }}</td>
+          <td>{{ props.item.id }}</td>
+         
+        
+          
+          <td class="text-xs-center">{{ props.item.departure }}</td>
+          <td class="text-xs-center">{{ props.item.arrival }}</td>
           <td class="text-xs-center">
             <v-btn block small dark color="primary darken-1"
                    :disabled="booking && booking.id !== props.item.id"
@@ -49,25 +52,36 @@
 <script>
   import {mapGetters} from 'vuex'
   import axios from 'axios'
+  import moment from 'moment'
 
   export default {
-     data: () => ({
-      loading: false
-    }),
+     data () {
+       return {
+        loading: false,
+        moment: moment
+       }
+     }
+     
+    ,
     watch: {
       changed () {
         this.searchNewServices()
       }
     },
     mounted () {
-      this.searchNewServices()
+     this.searchNewServices()
+       this.$store.dispatch('Booking/set_listaServicios', {
+            listaServicios: [],
+
+          }) 
     },
     methods: {
       resume () {
-        this.$store.dispatch('Booking/select', {selected: true})
+       this.$store.dispatch('Booking/select', {selected: true})
       },
       selectService (service) {
-        this.$store.dispatch('Booking/set_service', {service: service})
+      
+      this.$store.dispatch('Booking/set_service', {service: service})
       },
       searchNewServices () {
         this.$store.dispatch('Booking/set_service', {service: {}})
@@ -103,8 +117,9 @@
         changed: ['Booking/changed'],
         search: ['Booking/current'],
         booking: ['Booking/service'],
-        listaServicios: ['Booking/listaServicios']
-      }),
+        listaServicios: ['Booking/listaServicios'],
+        cargandoPeticion: ['Booking/cargandoPeticion']
+      }) 
     
     },
     data: () => ({
