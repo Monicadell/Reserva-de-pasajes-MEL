@@ -3,14 +3,14 @@
     <v-container fluid class="pl-0 pr-0 pt-3 mt-5">
       <v-layout row fill-height>
         <v-flex xs12 class="text-xs-center">
-           <v-card-text>
-          <h2 class="mb-0 uppercase">
-            Itinerario de vuelos
-          </h2>
-          <h3 class="uppercase">
-            Aeropuerto antofagasta
-          </h3>
-           </v-card-text>
+          <v-card-text>
+            <h2 class="mb-0 uppercase">
+              Itinerario de vuelos
+            </h2>
+            <h3 class="uppercase">
+              Aeropuerto antofagasta
+            </h3>
+          </v-card-text>
         </v-flex>
       </v-layout>
       <v-layout row fill-height>

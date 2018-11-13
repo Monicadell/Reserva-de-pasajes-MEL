@@ -8,10 +8,7 @@
 </template>
 
 <script>
-  import BackgroundImage from '@c/BackgroundImage'
-  import HomeToolBar from '@c/HomeToolBar'
   import ImgHome from '@c/ImgHome'
-  import MainMenu from './main'
   import Fligths from './flights'
   import FirstSection from './firstsection'
   export default {
@@ -23,9 +20,6 @@
     },
     methods: {},
     components: {
-      HomeToolBar: HomeToolBar,
-      MainMenu: MainMenu,
-      BackgroundImage: BackgroundImage,
       Fligths: Fligths,
       ImgHome: ImgHome,
       FirstSection: FirstSection

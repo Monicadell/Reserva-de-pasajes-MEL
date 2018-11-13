@@ -5,6 +5,6 @@ const media = 'covers'
 export default {
   base: base,
   media: `${base}:${port}/${media}/`,
-  weather: 'http://api.openweathermap.org/data/2.5/weather',
-  app: 'http://192.168.11.146:4000/api/'
+  weather: 'https://api.openweathermap.org/data/2.5/weather',
+  app: 'https://mel-2-backend.gestsol.cl/api/'
 }

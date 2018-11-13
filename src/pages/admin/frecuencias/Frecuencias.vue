@@ -86,6 +86,7 @@
           :headers="headers"
           :items="frecuencias"
           :search="search"
+          :loading="loading"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -154,6 +155,7 @@
         confirmaAnular: false,
         dialog: false,
         search: '',
+        loading: true,
         editedItem: {
           name: '',
           source_id: '',
@@ -192,44 +194,45 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        frecuencias: [
-          {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
-          },
-          {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
-          },
-          {
-            name: 'Frec1',
-            source_id: 'source',
-            dest_id: 'dest',
-            start: '2018-10/2018 20:00',
-            end: '2018-10/2018 20:00',
-            set: '2018-10/2018 20:00',
-            departure: '2018-10/2018 20:00',
-            arrival: '2018-10/2018 20:00',
-            duration: '5:00',
-            active: true
-          }
-        ]
+        frecuencias: []
+        // frecuencias: [
+        //   {
+        //     name: 'Frec1',
+        //     source_id: 'source',
+        //     dest_id: 'dest',
+        //     start: '2018-10/2018 20:00',
+        //     end: '2018-10/2018 20:00',
+        //     set: '2018-10/2018 20:00',
+        //     departure: '2018-10/2018 20:00',
+        //     arrival: '2018-10/2018 20:00',
+        //     duration: '5:00',
+        //     active: true
+        //   },
+        //   {
+        //     name: 'Frec1',
+        //     source_id: 'source',
+        //     dest_id: 'dest',
+        //     start: '2018-10/2018 20:00',
+        //     end: '2018-10/2018 20:00',
+        //     set: '2018-10/2018 20:00',
+        //     departure: '2018-10/2018 20:00',
+        //     arrival: '2018-10/2018 20:00',
+        //     duration: '5:00',
+        //     active: true
+        //   },
+        //   {
+        //     name: 'Frec1',
+        //     source_id: 'source',
+        //     dest_id: 'dest',
+        //     start: '2018-10/2018 20:00',
+        //     end: '2018-10/2018 20:00',
+        //     set: '2018-10/2018 20:00',
+        //     departure: '2018-10/2018 20:00',
+        //     arrival: '2018-10/2018 20:00',
+        //     duration: '5:00',
+        //     active: true
+        //   }
+        // ]
       }
     },
     mounted () {
@@ -239,8 +242,12 @@
       async getFrec () {
         let frec = await API.get('frequencies')
         if (frec.status >= 200 && frec.status < 300) {
+          setTimeout(() => {
+            this.frecuencias = frec.data.data
+            this.loading = false
+            }, 500)
           console.log(frec)
-          this.frecuencias = frec.data.data
+         
         }
       },
       // loadUserData () {

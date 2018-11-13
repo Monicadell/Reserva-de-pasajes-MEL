@@ -12,7 +12,7 @@
         <td class="">{{ props.item.destino }}</td>
         <td class="">{{ props.item.fechaCompra }}</td>
         <td class="">{{ props.item.fechaEmbarcacion }}</td>
-        <td class="">
+        <td class="text-xs-center">
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
           <v-btn slot="activator" color="primary" dark>Ver Detalle</v-btn>
             <v-card>
@@ -97,12 +97,12 @@
         </v-dialog>
         </td>
 
-        <td class="">
+        <td class="text-xs-center">
             <v-btn outline color="success"
                v-show="props.item.estado=='confirmar'">Confirmar</v-btn>
             <countdown v-show="props.item.estado=='pendiente'" :deadline="props.item.fechaEmbarcacion"/>
         </td>
-        <td class="">
+        <td class="text-xs-center">
           <v-dialog v-model="confirmaAnular" persistent max-width="290">
             <v-btn slot="activator" outline color="error" dark>Anular</v-btn>
             <v-card>
@@ -145,7 +145,7 @@
           {text: 'Origen', value: 'origen'},
           {text: 'Destino', value: 'destino'},
           {text: 'Fecha Compra', value: 'fechaCompra'},
-          {text: 'Fecha Embarcacion', value: 'fechaEmbarcacion'},
+          {text: 'Fecha Embarcación', value: 'fechaEmbarcacion'},
           {text: '', value: 'details', sortable: false},
           {text: '', value: 'confirmar', sortable: false},
           {text: '', value: 'cancel', sortable: false}
