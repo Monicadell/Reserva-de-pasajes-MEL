@@ -1,19 +1,15 @@
 <template>
-  <div>
-    <first-section />
-    <fligths/>
-
-    <img-home />
+  <div class="cover-height">
+    <background-image/>
+    <home-tool-bar/>
+    <main-menu/>
   </div>
 </template>
 
 <script>
   import BackgroundImage from '@c/BackgroundImage'
   import HomeToolBar from '@c/HomeToolBar'
-  import ImgHome from '@c/ImgHome'
-  import MainMenu from './main'
-  import Fligths from './flights'
-  import FirstSection from './firstsection'
+  import MainMenu from '../main'
   export default {
     data: () => ({
       length: 3,
@@ -26,12 +22,11 @@
       HomeToolBar: HomeToolBar,
       MainMenu: MainMenu,
       BackgroundImage: BackgroundImage,
-      Fligths: Fligths,
-      ImgHome: ImgHome,
-      FirstSection: FirstSection
     }
   }
 </script>
-
-
-
+<style>
+  .cover-height{
+    height: calc(100vh - 40px);
+  }
+</style>

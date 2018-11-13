@@ -10,30 +10,28 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-               <v-flex xs12 md6>
+              <v-flex xs12 md6>
                 <v-text-field label="Nombre"
                               v-model="editedItem.name"></v-text-field>
               </v-flex>
+              <v-flex xs12 sm6>
+                <v-text-field label="Activo"
+                              v-model="editedItem.active"></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-layout wrap>
               <v-flex xs12 md6>
                 <v-select :items="stations" v-model="editedItem.source_id"
                           label="Estación de inicio"
                           single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
-            </v-layout>
-            <v-layout wrap>
-               <v-flex xs12 md6>
+              <v-flex xs12 md6>
                 <v-select :items="stations" v-model="editedItem.dest_id"
                           label="Estación de destino"
                           single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field>
-              </v-flex>
-
             </v-layout>
           </v-container>
         </v-card-text>
