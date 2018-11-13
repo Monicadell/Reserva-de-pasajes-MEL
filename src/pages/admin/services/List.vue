@@ -51,6 +51,9 @@
   import axios from 'axios'
 
   export default {
+     data: () => ({
+      loading: false
+    }),
     watch: {
       changed () {
         this.searchNewServices()
