@@ -136,14 +136,6 @@
           city_id: '',
           desc: ''
         },
-        selectedUser: {
-          name: 'Juan Perez',
-          address: '113939483-5',
-          lat: 'EST',
-          lon: '2222',
-          city_id: 'juan@algo.com',
-          desc: '2018-10/2018 20:00'
-        },
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Dirección', value: 'address'},
@@ -156,8 +148,8 @@
         ],
         estaciones: [
           {
-            name: 'Santiago',
-            address: '113939483-5',
+            name: 'Mel',
+            address: '...',
             lat: '1313',
             lon: '111',
             city_id: 'san_id',
@@ -165,7 +157,7 @@
           },
           {
             name: 'Mel',
-            address: '138388383-5',
+            address: '....',
             lat: '1212',
             lon: '111',
             city_id: 'sant_id',
@@ -173,32 +165,12 @@
           },
           {
             name: 'mel 2',
-            address: '15588383-5',
+            address: '...',
             lat: '1212',
             lon: '1111',
             city_id: 'sant_id',
             desc: 'Desciopcion'
           }
-        ],
-        userDocumentType: [
-          {text: 'address', id: 'address'},
-          {text: 'PASAPORTE', id: 'PASAPORTE'}
-        ],
-        userState: [
-          {text: 'ACTIVO', id: 'ACT'},
-          {text: 'INACTIVO', id: 'INA'}
-        ],
-        userType: [
-          {text: 'ESTANDAR', id: 'EST'},
-          {text: 'ADMINISTRADOR', id: 'ADM'},
-          {text: 'ASISTENTE', id: 'ASI'},
-          {text: 'CALL CENTER', id: 'CAL'},
-          {text: 'REDUCIDO', id: 'RED'},
-          {text: 'ADMINISTRATIVO', id: 'AD2'}
-        ],
-        userAgreement: [
-          {text: 'MEL', id: 'MEL'},
-          {text: 'CONTRATISTA', id: 'CONTRATISTA'}
         ]
       }
     },
