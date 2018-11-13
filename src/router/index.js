@@ -92,7 +92,7 @@ const router = new Router({
           component: Servicios
         },
         {
-          path: '/recorridos',
+          path: '/tramos',
           name: 'Recorridos',
           component: Recorridos
         },

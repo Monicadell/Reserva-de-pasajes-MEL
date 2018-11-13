@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="py-3"><h2>Recorridos</h2> </div>
+    <div class="py-3"><h2>Tramos</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title>
-            <h3 class="headline">Recorrido</h3>
+            <h3 class="headline">Tramo</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -92,7 +92,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar recorrido</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar tramo</v-btn>
         </div>
       </v-toolbar>
 
