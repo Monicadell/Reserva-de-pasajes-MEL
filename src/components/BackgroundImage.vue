@@ -16,14 +16,14 @@
     props: ['from'],
     data: () => ({
       imagen: '',
-      imgnumber: 1,
+      imgnumber: 2,
       refreshInterval: ''
     }),
     methods: {
       updateImg () {
         console.log('update')
         if(this.imgnumber === 5){
-          this.imgnumber = 1
+          this.imgnumber = 2
         }
         else{
           this.imgnumber++

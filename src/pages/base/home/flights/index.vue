@@ -1,5 +1,5 @@
 <template>
-  <v-card color="grey darken-3" dark>
+  <v-card color="" dark style="background-color: rgba(66, 66, 66, 0.8); heigth: 100vh">
     <v-container fluid class="pl-0 pr-0 pt-3 mt-5">
       <v-layout row fill-height>
         <v-flex xs12 class="text-xs-center">

@@ -9,7 +9,6 @@
         'elevation-10': users.length > 0,
         disableList: disableList && users.length === 0
         }"
-
         > -->
         <v-card-title primary-title>
             <h3 class="headline">Usuario</h3>
@@ -108,7 +107,8 @@
           :items="users"
           :loading="loading"
           :search="search"
-          hide-actions
+          :pagination.sync="pagination"
+          :rows-per-page-items="pagination.rowsPerPageItems"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -121,7 +121,7 @@
           <td class="">{{ props.item.email }}</td>
           <td class="">{{ props.item.phone_number }}</td>
           <td class="">{{ props.item.company_name }}</td>
-          <td class="">{{ props.item.last_connection }}</td>
+          <td class="">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -167,6 +167,7 @@
 
 <script>
   import API from '@pi/app'
+  import moment from 'moment'
 
   export default {
     data () {
@@ -175,6 +176,14 @@
         dialog: false,
         search: '',
         loading: true,
+        moment: moment,
+        pagination: {
+          descending: true,
+          page: 1,
+          rowsPerPage: 20,
+          totalItems: 0,
+          rowsPerPageItems: [20, 50, 100, 200]
+        },
         editedItem: {
           name: '',
           rut: '',
@@ -280,7 +289,6 @@
             this.users = usuarios.data.data
             this.loading = false
             }, 500)
-          
         }
       },
       // loadUserData () {

@@ -10,6 +10,7 @@ import i18n from './locales'
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
+import '../static/fonts/custom.css'
 
 Vue.use(Vuetify, {
   theme: {

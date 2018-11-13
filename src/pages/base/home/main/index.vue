@@ -1,8 +1,19 @@
 <template>
 
   <v-container fluid grid-list-lg class="mb-5">
-    <v-layout align-start row fill-height>
-      <v-flex xs12 md3 mt-2>
+
+    <v-layout row>
+    <v-flex xs12 md4 mt-2>
+        <v-card class="card--flex-toolbar elevation-10">
+          <template v-if="!isAuthorized">
+            <menu-selection/>
+          </template>
+        </v-card>
+      </v-flex>
+
+    </v-layout>
+    <v-layout align-start row>
+      <v-flex xs12 md4 mt-2>
 
         <v-card class="elevation-2 card--flex-toolbar img-gradient">
           <v-img class="white--text" height="80px" src="https://images.clarin.com/2017/03/02/r1hq6Rrce_1256x620.jpg">
@@ -19,15 +30,6 @@
         </v-card>
 
       </v-flex>
-
-      <v-flex xs12 md6 mt-2 mx-5>
-        <v-card class="card--flex-toolbar elevation-10">
-          <template v-if="!isAuthorized">
-            <menu-selection/>
-          </template>
-        </v-card>
-      </v-flex>
-
     </v-layout>
   </v-container>
 

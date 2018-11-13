@@ -2,7 +2,6 @@
   <div>
     <first-section />
     <fligths/>
-
     <img-home />
   </div>
 </template>

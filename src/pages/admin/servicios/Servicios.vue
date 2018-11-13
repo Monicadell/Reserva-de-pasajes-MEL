@@ -75,6 +75,12 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.date }}</td>
+          <td class="">{{  moment(props.item.arrival).format('HH:mm') }}</td>
+          <td class="">{{ props.item.departure }}</td>
+          <td class="">{{ props.item.set }}</td>
+          <td class="">{{ props.item.duration }}</td>
+          <td class="">{{ props.item.trip_id }}</td>
+
           <td class="">{{ props.item.freq_id }}</td>
           <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td>
@@ -124,6 +130,8 @@
 
 <script>
   import API from '@pi/app'
+  import moment from 'moment'
+  
   export default {
     data () {
       return {
@@ -131,6 +139,7 @@
         dialog: false,
         search: '',
         loading: true,
+        moment: moment,
         editedItem: {
           date: '',
           freq_id: '',
@@ -140,10 +149,16 @@
         },
         headers: [
           {text: 'Fecha', value: 'date'},
+          {text: 'Llegada', value: 'arrival'},
+          {text: 'Salida', value: 'departure'},
+          {text: 'Set', value: 'set'},
+          {text: 'Duración', value: 'duration'},
+          {text: 'Trip', value: 'trip_id'},
           {text: 'Frecuencia', value: 'freq_id'},
           {text: 'Bus', value: 'car_id'},
           {text: 'Conductor', value: 'driver_id'},
           {text: 'Asientos disponibles', value: 'avail_seats'},
+          {text: 'Conductor', value: 'driver_id'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
