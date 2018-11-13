@@ -16,10 +16,12 @@
     props: ['from'],
     data: () => ({
       imagen: '',
-      imgnumber: 1
+      imgnumber: 1,
+      refreshInterval: ''
     }),
     methods: {
       updateImg () {
+        console.log('update')
         if(this.imgnumber === 5){
           this.imgnumber = 1
         }
@@ -29,9 +31,12 @@
         this.imagen = '../../static/img/' + this.imgnumber + '.jpg'
       }
     },
+    beforeDestroy() {
+      clearInterval(this.refreshInterval);
+    },
     mounted () {
       this.updateImg()
-      setInterval(() => this.updateImg(), 1000 * 10)
+      this.refreshInterval = setInterval(() => this.updateImg(), 1000 * 10)
     }
   }
 </script>
