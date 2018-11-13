@@ -3,7 +3,7 @@
     <v-toolbar
       color="primary"
       dark
-      extended
+      height="40"
       
     >
 

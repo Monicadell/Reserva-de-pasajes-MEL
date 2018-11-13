@@ -1,10 +1,14 @@
 <template>
-  <div id="bg">
-    <img src="https://www.equipmentworld.com/wp-content/uploads/sites/2/2016/09/980E-Sunlight-side-shot.jpg"
+ <div id="bg">
+    <img src="../../static/img/2.jpg"
          class="kenburns-bottom"
          alt="">
 
-  </div>
+  </div> 
+
+
+
+
 </template>
 
 <script>

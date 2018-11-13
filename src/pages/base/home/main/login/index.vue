@@ -3,7 +3,7 @@
     <v-card-text>
       <v-container>
         <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 md6>
+          <v-flex xs12 md10>
             <v-text-field
               label="Usuario"
               persistent-hint
@@ -12,7 +12,7 @@
           </v-flex>
         </v-layout>
         <v-layout align-center justify-center row fill-height class="mt-3">
-          <v-flex xs12 md6>
+          <v-flex xs12 md10>
             <v-text-field
               label="Contraseña"
               type="password"
