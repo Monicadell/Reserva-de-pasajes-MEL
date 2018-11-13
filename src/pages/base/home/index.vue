@@ -3,7 +3,7 @@
     <background-image/>
     <home-tool-bar/>
 
-    <main-menu/>
+   <main-menu/>
 
 
     <fligths/>

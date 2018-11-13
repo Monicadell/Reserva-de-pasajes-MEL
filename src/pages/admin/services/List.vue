@@ -75,14 +75,15 @@
           this.loading = true
           this.disableList = false
 
-          axios.get('http://192.168.11.146:4000/api/users')
+          axios.get('http://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
           .then((response)=>{
                // handle success
-            console.log(response.data)
-            console.log(this.servicesList) 
+          //  console.log(response.data)
+          //  console.log(this.servicesList) 
               setTimeout(() => {
               this.servicesList = Object.assign([], this.services)
             //  this.servicesList = Object.assign([], response.data)
+              console.log(response.data)
               this.loading = false
             }, 500)
           })

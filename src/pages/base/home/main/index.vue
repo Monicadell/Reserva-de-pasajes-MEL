@@ -2,7 +2,7 @@
 
   <v-container fluid grid-list-lg class="mb-5">
     <v-layout align-start justify-space-around row fill-height>
-      <v-flex xs3 mt-5>
+      <v-flex xs3 >
 
         <v-card class="elevation-20 card--flex-toolbar img-gradient">
           <v-img class="white--text" height="100px" src="https://images.clarin.com/2017/03/02/r1hq6Rrce_1256x620.jpg">

@@ -99,8 +99,8 @@
 
         <td class="">
             <v-btn outline color="success"
-              :disabled="props.item.estado == 'confirmar' ? disabled : ''" >Confirmar</v-btn>
-            <countdown :deadline="props.item.fechaEmbarcacion"/>
+               v-show="props.item.estado=='confirmar'">Confirmar</v-btn>
+            <countdown v-show="props.item.estado=='pendiente'" :deadline="props.item.fechaEmbarcacion"/>
         </td>
         <td class="">
           <v-dialog v-model="confirmaAnular" persistent max-width="290">
