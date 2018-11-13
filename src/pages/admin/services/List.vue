@@ -77,7 +77,7 @@
           this.selected = []
           console.log('search')
           this.servicesList = []
-          this.loading = true
+        //  this.loading = true
           this.disableList = false
 
           axios.get('http://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
