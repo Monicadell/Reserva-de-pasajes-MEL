@@ -64,7 +64,7 @@
           const  idRuta = this.ruta.id
           const fechaViaje = value
           console.log(idRuta, fechaViaje)
-          axios.get(`http://192.168.11.146:4000/api/services?trip_id=${idRuta}&date=${fechaViaje}`)
+          axios.get(`https://mel-2-backend.gestsol.cl/api/services?trip_id=${idRuta}&date=${fechaViaje}`)
           .then((response)=>{
            console.log(response.data.data)
             this.$store.dispatch('Booking/set_listaServicios', {

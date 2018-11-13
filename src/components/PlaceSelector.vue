@@ -140,7 +140,7 @@
       }
     },
     mounted: function () {
-       axios.get('http://192.168.11.146:4000/api/stations')
+       axios.get('https://mel-2-backend.gestsol.cl/api/stations')
           .then((response)=>{
           // console.log(response.data.data)
   
@@ -154,7 +154,7 @@
       findDestinies (id) {
         console.log(`aqui busco a donde se puede ir con ${id} `)
           const _this = this
-        axios.get('http://192.168.11.146:4000/api/trips')
+        axios.get('https://mel-2-backend.gestsol.cl/api/trips')
       
           .then((response)=>{
   //         console.log(response.data.data)
