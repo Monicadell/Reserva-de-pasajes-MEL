@@ -62,6 +62,7 @@
           :headers="headers"
           :items="recorridos"
           :search="search"
+          :loading="loading"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -125,6 +126,7 @@
         dialog: false,
         search: '',
         trips: [],
+        loading: true,
         editedItem: {
           name: '',
           source_id: '',
@@ -139,28 +141,29 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        recorridos: [
-          {
-            name: 'MEL → Complejo MEL',
-            id: '1',
-            dest_id: '2',
-            source_id: '1',
-            active: true},
-          {
-            name: 'MEL → La Negra',
-            id: '2',
-            dest_id: '3',
-            source_id: '1',
-            active: false
-          },
-          {
-            name: 'Aeropuerto ANF → Complejo MEL',
-            id: '3',
-            dest_id: '2',
-            source_id: '4',
-            active: true
-          }
-        ],
+        recorridos: [],
+        // recorridos: [
+        //   {
+        //     name: 'MEL → Complejo MEL',
+        //     id: '1',
+        //     dest_id: '2',
+        //     source_id: '1',
+        //     active: true},
+        //   {
+        //     name: 'MEL → La Negra',
+        //     id: '2',
+        //     dest_id: '3',
+        //     source_id: '1',
+        //     active: false
+        //   },
+        //   {
+        //     name: 'Aeropuerto ANF → Complejo MEL',
+        //     id: '3',
+        //     dest_id: '2',
+        //     source_id: '4',
+        //     active: true
+        //   }
+        // ],
         stations: [
           { address: null,
             id: 1,
@@ -192,7 +195,11 @@
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
           console.log(trips)
-          this.recorridos = trips.data.data
+          setTimeout(() => {
+            this.recorridos = trips.data.data
+            this.loading = false
+            }, 500)
+          
         }
       },
       async getStations () {

@@ -4,6 +4,13 @@
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
+      <!-- <v-card :class="{
+        'elevation-1': !loading && users.length === 0,
+        'elevation-10': users.length > 0,
+        disableList: disableList && users.length === 0
+        }"
+
+        > -->
         <v-card-title primary-title>
             <h3 class="headline">Usuario</h3>
         </v-card-title>
@@ -99,6 +106,7 @@
       <v-data-table
           :headers="headers"
           :items="users"
+          :loading="loading"
           :search="search"
           hide-actions
         >
@@ -166,6 +174,7 @@
         confirmaAnular: false,
         dialog: false,
         search: '',
+        loading: true,
         editedItem: {
           name: '',
           rut: '',
@@ -202,41 +211,42 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        users: [
-          {
-            name: 'Juan Perez',
-            rut: '113939483-5',
-            role_id: 'EST',
-            active: false,
-            email: 'juan@algo.com',
-            address: 'daushd dasu dau s23',
-            phone_number: '8482737',
-            company_name: 'Empresa asociada ltda.',
-            last_connection: '2018-10/2018 20:00'
-          },
-          {
-            name: 'Andres Martinez',
-            rut: '138388383-5',
-            role_id: 'EST',
-            active: true,
-            email: 'andres@gmail.com',
-            address: 'daushd dasu dau s23',
-            phone_number: '9494878',
-            company_name: 'Empresa asociada ltda.',
-            last_connection: 'Sin conexion'
-          },
-          {
-            name: 'José Gomez',
-            rut: '15588383-5',
-            role_id: 'ADMIN',
-            active: true,
-            email: 'pepe@gmail.com',
-            address: 'daushd dasu dau s23',
-            phone_number: '94837487',
-            company_name: 'Empresa asociada ltda.',
-            last_connection: '2018-10/2018 20:00'
-          }
-        ],
+        users: [],
+        // users: [
+        //   {
+        //     name: 'Juan Perez',
+        //     rut: '113939483-5',
+        //     role_id: 'EST',
+        //     active: false,
+        //     email: 'juan@algo.com',
+        //     address: 'daushd dasu dau s23',
+        //     phone_number: '8482737',
+        //     company_name: 'Empresa asociada ltda.',
+        //     last_connection: '2018-10/2018 20:00'
+        //   },
+        //   {
+        //     name: 'Andres Martinez',
+        //     rut: '138388383-5',
+        //     role_id: 'EST',
+        //     active: true,
+        //     email: 'andres@gmail.com',
+        //     address: 'daushd dasu dau s23',
+        //     phone_number: '9494878',
+        //     company_name: 'Empresa asociada ltda.',
+        //     last_connection: 'Sin conexion'
+        //   },
+        //   {
+        //     name: 'José Gomez',
+        //     rut: '15588383-5',
+        //     role_id: 'ADMIN',
+        //     active: true,
+        //     email: 'pepe@gmail.com',
+        //     address: 'daushd dasu dau s23',
+        //     phone_number: '94837487',
+        //     company_name: 'Empresa asociada ltda.',
+        //     last_connection: '2018-10/2018 20:00'
+        //   }
+        // ],
         userDocumentType: [
           {text: 'RUT', id: 'RUT'},
           {text: 'PASAPORTE', id: 'PASAPORTE'}
@@ -266,8 +276,11 @@
       async getUsers () {
         let usuarios = await API.get('users')
         if (usuarios.status >= 200 && usuarios.status < 300) {
-          console.log(usuarios)
-          this.users = usuarios.data.data
+          setTimeout(() => {
+            this.users = usuarios.data.data
+            this.loading = false
+            }, 500)
+          
         }
       },
       // loadUserData () {

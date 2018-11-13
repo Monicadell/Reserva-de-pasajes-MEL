@@ -67,6 +67,7 @@
           :headers="headers"
           :items="estaciones"
           :search="search"
+          :loading="loading"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -128,6 +129,7 @@
         confirmaAnular: false,
         dialog: false,
         search: '',
+        loading: true,
         editedItem: {
           name: '',
           address: '',
@@ -146,32 +148,33 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        estaciones: [
-          {
-            name: 'Mel',
-            address: '...',
-            lat: '1313',
-            lon: '111',
-            city_id: 'san_id',
-            desc: 'Desciopcion'
-          },
-          {
-            name: 'Mel',
-            address: '....',
-            lat: '1212',
-            lon: '111',
-            city_id: 'sant_id',
-            desc: 'Descripcion'
-          },
-          {
-            name: 'mel 2',
-            address: '...',
-            lat: '1212',
-            lon: '1111',
-            city_id: 'sant_id',
-            desc: 'Desciopcion'
-          }
-        ]
+        estaciones: []
+        // estaciones: [
+        //   {
+        //     name: 'Mel',
+        //     address: '...',
+        //     lat: '1313',
+        //     lon: '111',
+        //     city_id: 'san_id',
+        //     desc: 'Desciopcion'
+        //   },
+        //   {
+        //     name: 'Mel',
+        //     address: '....',
+        //     lat: '1212',
+        //     lon: '111',
+        //     city_id: 'sant_id',
+        //     desc: 'Descripcion'
+        //   },
+        //   {
+        //     name: 'mel 2',
+        //     address: '...',
+        //     lat: '1212',
+        //     lon: '1111',
+        //     city_id: 'sant_id',
+        //     desc: 'Desciopcion'
+        //   }
+        // ]
       }
     },
     mounted () {
@@ -182,7 +185,10 @@
         let usuarios = await API.get('stations')
         if (usuarios.status >= 200 && usuarios.status < 300) {
           console.log(usuarios)
-          this.estaciones = usuarios.data.data
+          setTimeout(() => {
+            this.estaciones = usuarios.data.data
+            this.loading = false
+            }, 500)
         }
       },
       editItem (item) {

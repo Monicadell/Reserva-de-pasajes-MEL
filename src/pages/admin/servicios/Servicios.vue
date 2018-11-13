@@ -70,6 +70,7 @@
           :headers="headers"
           :items="services"
           :search="search"
+          :loading="loading"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -129,6 +130,7 @@
         confirmaAnular: false,
         dialog: false,
         search: '',
+        loading: true,
         editedItem: {
           date: '',
           freq_id: '',
@@ -145,29 +147,30 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        services: [
-          {
-            date: '2018-10-20 20:00',
-            freq_id: 'Frec 1',
-            car_id: 'Bus 1',
-            driver_id: 'Juan Perez',
-            avail_seats: 10
-          },
-          {
-            date: '2018-10-18 14:00',
-            freq_id: 'Frec 2',
-            car_id: 'Bus 3',
-            driver_id: 'Martin Rojas',
-            avail_seats: 5
-          },
-          {
-            date: '2018-12-18 04:00',
-            freq_id: 'Frec 4',
-            car_id: 'Auto1',
-            driver_id: 'Jorge Avila',
-            avail_seats: 0
-          }
-        ],
+        services: [],
+        // services: [
+        //   {
+        //     date: '2018-10-20 20:00',
+        //     freq_id: 'Frec 1',
+        //     car_id: 'Bus 1',
+        //     driver_id: 'Juan Perez',
+        //     avail_seats: 10
+        //   },
+        //   {
+        //     date: '2018-10-18 14:00',
+        //     freq_id: 'Frec 2',
+        //     car_id: 'Bus 3',
+        //     driver_id: 'Martin Rojas',
+        //     avail_seats: 5
+        //   },
+        //   {
+        //     date: '2018-12-18 04:00',
+        //     freq_id: 'Frec 4',
+        //     car_id: 'Auto1',
+        //     driver_id: 'Jorge Avila',
+        //     avail_seats: 0
+        //   }
+        // ],
         drivers: [
           {text: 'Martin Rihdas', id: '1'},
           {text: 'Pepe Rodriguez', id: '2'}
@@ -191,7 +194,10 @@
         let servicios = await API.get('services')
         if (servicios.status >= 200 && servicios.status < 300) {
           console.log(servicios)
-          this.services = servicios.data.data
+          setTimeout(() => {
+            this.services = servicios.data.data
+            this.loading = false
+            }, 500)
         }
       },
       editItem (item) {
