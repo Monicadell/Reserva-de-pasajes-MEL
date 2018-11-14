@@ -73,7 +73,7 @@
         {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
         {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
         {subheader: true, text: 'Perfil'},
-        {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
+        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
