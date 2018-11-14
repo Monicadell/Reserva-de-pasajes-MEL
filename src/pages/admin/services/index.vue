@@ -10,7 +10,7 @@
       <div class="grey--text">
         Frecuentes
       </div>
-      <v-btn small outline color="primary">MEL - Complejo MEL</v-btn>
+      <v-btn small outline color="primary" >MEL - Complejo MEL</v-btn>
       <v-btn small outline color="primary">Complejo MEL - MEL</v-btn>
       <v-btn small outline color="primary">Aeropuerto ANF - MEL</v-btn>
       <v-btn icon class="grey--text">

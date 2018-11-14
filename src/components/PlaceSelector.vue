@@ -68,7 +68,6 @@
         </v-avatar>
       </v-fade-transition>
 
-
       <template
         slot="selection"
         slot-scope="data"

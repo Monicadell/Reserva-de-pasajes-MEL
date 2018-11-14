@@ -2,7 +2,7 @@
 
   <v-container fluid grid-list-lg class="mb-5">
 
-    <v-layout row>
+    <v-layout row >
     <v-flex xs12 md4 mt-2>
         <v-card class="card--flex-toolbar elevation-10">
           <template v-if="!isAuthorized">
@@ -13,18 +13,19 @@
 
     </v-layout>
     <v-layout align-start row>
-      <v-flex xs12 md4 mt-2>
+      <v-flex xs12 md4 mt-2 >
 
-        <v-card class="elevation-2 card--flex-toolbar img-gradient">
+        <v-card class="elevation-2 card--flex-toolbar img-gradient ">
+          <v-img class="white--text" height="80px"
+                 src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg">
+            <weather lat="-23.70" lon="-70.41" name="Minera Escondida"  />
+            
+          </v-img>
           <v-img class="white--text" height="80px" src="https://images.clarin.com/2017/03/02/r1hq6Rrce_1256x620.jpg">
             <weather lat="-23.65" lon="-70.23" name="Antofagasta"/>
           </v-img>
           <v-img class="white--text" height="80px"
-                 src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg">
-            <weather lat="-23.70" lon="-70.41" name="Minera Escondida" />
-          </v-img>
-          <v-img class="white--text" height="80px"
-                 src="https://i3.visitchile.com/img/GalleryContent/1426/11122-city-tour-santiago-de-chile.jpg">
+                 src="https://www.24horas.cl/incoming/article129292.ece/ALTERNATES/w1024h768/Sanhattan%20de%20noche">
             <weather lat="-33.47" lon="-70.64" name="Santiago"/>
           </v-img>
         </v-card>
@@ -65,10 +66,13 @@
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" >
   /* 
   .card--flex-toolbar
     margin-top -90px
 */
+
+  p span
+    color: red
 
 </style>
