@@ -18,7 +18,7 @@
           <img width="30" height="30"
                :src="`https://ui-avatars.com/api/?name=${place.name}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
         </v-avatar>
-      </v-fade-transition>
+      </v-fade-transition> 
 
 
       <template
@@ -68,7 +68,6 @@
         </v-avatar>
       </v-fade-transition>
 
-
       <template
         slot="selection"
         slot-scope="data"
@@ -116,7 +115,8 @@
           return this.search[this.direction].place
         },
         set (value) {
-          console.log(value.id)
+          console.log(value)
+        //  console.log(value.id)
           this.findDestinies(value.id) 
         /*  this.$store.dispatch('Booking/set_place', {
             search: value,
@@ -154,7 +154,7 @@
     },
     methods: {
       findDestinies (id) {
-        console.log(`aqui busco a donde se puede ir con ${id} `)
+       // console.log(`aqui busco a donde se puede ir con ${id} `)
           const _this = this
         axios.get('https://mel-2-backend.gestsol.cl/api/trips')
       

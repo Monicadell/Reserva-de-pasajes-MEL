@@ -10,16 +10,37 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
+               <v-flex xs12 md6>
+                <v-text-field label="Nombre"
+                              v-model="editedItem.name"></v-text-field>
+              </v-flex>
               <v-flex xs12 md6>
-                <v-text-field label="Documento"
+                <v-text-field label="Fecha"
                               v-model="editedItem.date"></v-text-field>
               </v-flex>
-               <v-flex xs12 md6>
-                <v-text-field label="Asientos disponibles"
-                              v-model="editedItem.avail_seats"></v-text-field>
-              </v-flex>
             </v-layout>
+
             <v-layout wrap>
+              <v-flex xs12 md6>
+                <v-text-field label="Llegada"
+                              v-model="editedItem.arrival"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md6>
+                <v-text-field label="Salida"
+                              v-model="editedItem.departure"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md6>
+                <v-text-field label="Set"
+                              v-model="editedItem.set"></v-text-field>
+              </v-flex>
+                            
+              <v-flex xs12 md6>
+                <v-select :items="frequencies" v-model="editedItem.trip_id"
+                          label="Tramo"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
+              </v-flex>       
+
               <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
                           label="Frecuencia"
@@ -39,6 +60,10 @@
                           label="Conductor"
                           single-line item-text="text" item-value="id"
                 ></v-select>
+              </v-flex>
+              <v-flex xs12 md6>
+                <v-text-field label="Asientos disponibles"
+                              v-model="editedItem.avail_seats"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -74,6 +99,7 @@
           hide-actions
         >
         <template slot="items" slot-scope="props">
+          <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.date }}</td>
           <td class="">{{  moment(props.item.arrival).format('HH:mm') }}</td>
           <td class="">{{ props.item.departure }}</td>
@@ -82,8 +108,8 @@
           <td class="">{{ props.item.trip_id }}</td>
 
           <td class="">{{ props.item.freq_id }}</td>
-          <td class="">{{ props.item.car_id }}</td>
-          <td class="">{{ props.item.driver_id }}</td>
+          <!-- <td class="">{{ props.item.car_id }}</td>
+          <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }}</td>
           <td class="justify-center">
             <v-tooltip top>
@@ -104,7 +130,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="confirmaAnular = true"
               >
                 delete
               </v-icon>
@@ -117,7 +143,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
+                  <v-btn color="red darken-1" flat @click.native="deleteItem(props.item)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -149,6 +175,7 @@
           avail_seats: ''
         },
         headers: [
+          {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
           {text: 'Llegada', value: 'arrival'},
           {text: 'Salida', value: 'departure'},
@@ -156,10 +183,9 @@
           {text: 'Duración', value: 'duration'},
           {text: 'Trip', value: 'trip_id'},
           {text: 'Frecuencia', value: 'freq_id'},
-          {text: 'Bus', value: 'car_id'},
-          {text: 'Conductor', value: 'driver_id'},
+          // {text: 'Bus', value: 'car_id'},
+          // {text: 'Conductor', value: 'driver_id'},
           {text: 'Asientos disponibles', value: 'avail_seats'},
-          {text: 'Conductor', value: 'driver_id'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -221,15 +247,22 @@
         this.editedItem = item
         this.dialog = true
       },
-      deleteItem () {
-        this.confirmaAnular = true
+      async deleteItem (item) {
+        console.log('item delete', item.id)
+        // let elimina = {'id': item.id}
+        // this.confirmaAnular = true
+        // let servicios = await API.delete('services', elimina)
+        // if (servicios.status >= 200 && servicios.status < 300) {
+        //   console.log(servicios)
+           
+        // }
       },
       close () {
         this.dialog = false
         this.editedItem = {}
       },
       async save (guardar) {
-          let ser = {
+        let ser = {
              "service": 
                 {
                     "arrival": "18:30:00.000000",

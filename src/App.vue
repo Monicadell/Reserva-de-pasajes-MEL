@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class= "textHelveticaNeue">
     <router-view/>
   </v-app>
 </template>
@@ -9,3 +9,8 @@
     name: 'App'
   }
 </script>
+
+<style>
+ 
+
+</style>

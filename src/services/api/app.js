@@ -21,5 +21,8 @@ export default {
   },
   post (urlpost,  params) {
     return axios.post(base + urlpost, {...params})
+  },
+  delete (urlpost,  params) {
+    return axios.delete(base + urlpost, {...params})
   }
 }
