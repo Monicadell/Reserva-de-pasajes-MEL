@@ -78,7 +78,9 @@
           }) 
     },
     methods: {
-      resume () {
+      resume (xs) {
+        console.log('aqui')
+        console.log(xs)
        this.$store.dispatch('Booking/select', {selected: true})
       },
       selectService (service) {

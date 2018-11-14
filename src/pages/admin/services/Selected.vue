@@ -27,8 +27,8 @@
             <v-container fill-height>
               <v-layout>
                 <v-layout column>
-                  <div class="white--text headline font-weight-light">{{service.name}}</div>
-                  <div class="white--text font-weight-light">Lunes 27 de octubre a las 18:00 hrs</div>
+                  <div class="white--text headline font-weight-light"> {{service.name}}</div>
+                  <div class="white--text font-weight-light">{{service.date}}</div>
                 </v-layout>
               </v-layout>
             </v-container>
@@ -41,11 +41,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text">Salida desde:</div>
-                    <b> {{current.from.place.name}} </b>
+                    <b> {{ruta.name.split('→')[0]}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">A las:</div>
-                    <b> {{current.from.date}} {{service.from}} </b>
+                    <b>{{service.departure}}</b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -53,7 +53,7 @@
               <v-timeline-item color="orange" large icon="fal fa-shuttle-van" class="mb-3">
                 <v-layout pt-3>
                   <v-flex xs6>
-                    ...
+                    {{service.id}}
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -62,11 +62,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text">Destino:</div>
-                    <b> {{current.to.place.name}} </b>
+                    <b> {{ruta.name.split('→')[1]}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">llegada aproximada:</div>
-                    <b> {{current.to.date}} {{service.to}} </b>
+                    <b> {{service.arrival}} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -114,14 +114,16 @@
 
 <script>
   import {mapGetters} from 'vuex'
-
+  import moment from 'moment'
   export default {
     data: () => ({
       loadingBooking: false,
       booking: {
         state: 'booking', // booking, error, success
         color: 'primary',
-        text: 'Confirmar reserva'
+        text: 'Confirmar reserva',
+        name: '',
+         moment: moment,
       }
     }),
     mounted () {
@@ -145,7 +147,8 @@
       ...mapGetters({
         service: ['Booking/service'],
         selected: ['Booking/selected'],
-        current: ['Booking/current']
+        current: ['Booking/current'],
+        ruta: ['Booking/ruta']
       })
     }
   }

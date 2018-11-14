@@ -13,20 +13,18 @@
       item-text="name"
       item-value="name"
     >
-      <v-fade-transition slot="prepend-inner">
-        <v-avatar v-if="place && place.name">
-          <img width="30" height="30"
-               :src="`https://ui-avatars.com/api/?name=${place.name}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
-        </v-avatar>
-      </v-fade-transition> 
+     
 
 
       <template
         slot="selection"
         slot-scope="data"
       >
+          <v-avatar >
+          <img style="width: 30px; height: 30px;"
+               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
+        </v-avatar>
         {{ data.item.name }}
-
       </template>
       <template
         slot="item"
@@ -61,17 +59,22 @@
       item-text="name"
       item-value="name"
     >
-      <v-fade-transition slot="prepend-inner">
+     <!-- <v-fade-transition slot="prepend-inner">
         <v-avatar v-if="place && place.name">
           <img width="30" height="30"
                :src="`https://ui-avatars.com/api/?name=${place.name}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
         </v-avatar>
-      </v-fade-transition>
+      </v-fade-transition> -->
 
       <template
         slot="selection"
         slot-scope="data"
       >
+      <v-avatar>
+         <img style="width: 30px; height: 30px;"
+               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
+        </v-avatar>  
+
         {{ data.item.name.split('→')[1] }}
 
       </template>
@@ -82,7 +85,7 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=ff9800&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=ff9800&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title v-html="data.item.name.split('→')[1]"></v-list-tile-title>
