@@ -2,7 +2,7 @@
   <v-card :class="{
   'elevation-1': !loading && servicesList.length === 0,
   'elevation-10': servicesList.length > 0,
-  disableList: disableList && servicesList.length === 0
+  //disableList: disableList && servicesList.length === 0
   }"
 
   >

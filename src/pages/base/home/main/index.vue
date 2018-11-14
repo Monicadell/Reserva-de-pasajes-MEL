@@ -66,7 +66,6 @@
   }
 </script>
 
-
 <style>
   .transparent{
     background-color: transparent
