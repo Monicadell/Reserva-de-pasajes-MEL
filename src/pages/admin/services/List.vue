@@ -7,7 +7,7 @@
 
   >
   
-    <v-card-title>
+    <v-card-title style="height: 65px">
       Servicios disponibles
       <v-spacer></v-spacer>
       <v-text-field
@@ -22,10 +22,11 @@
       :loading="cargandoPeticion"
       :headers="headers"
       :items="listaServicios"
-      hide-actions
-      class="elevation-1"
+      
+      class="elevation-1 tablacustom"
       item-key="id"
       no-data-text="No hay resultados para la ruta seleccionada"
+      :rows-per-page-items="rowsNumber"
     
     >
 
@@ -57,8 +58,9 @@
   export default {
      data () {
        return {
+       
         loading: false,
-        moment: moment
+        moment: moment,
        }
      }
      
@@ -76,7 +78,9 @@
           }) 
     },
     methods: {
-      resume () {
+      resume (xs) {
+        console.log('aqui')
+        console.log(xs)
        this.$store.dispatch('Booking/select', {selected: true})
       },
       selectService (service) {
@@ -123,6 +127,7 @@
     
     },
     data: () => ({
+      rowsNumber: [6],
       disableList: true,
       selected: [],
       loading: false,
@@ -185,4 +190,6 @@
   .disableList
     pointer-events none
     opacity 0.1
+
+ 
 </style>

@@ -2,7 +2,7 @@
   <div>
     <v-toolbar card prominent>
       <v-spacer></v-spacer>
-      <v-toolbar-title class="body-3 grey--text">
+      <v-toolbar-title class="body-3 primary--text">
         <!--{{$t(`lang.home.auth.${menuSelection.text}`)}}-->
         Busqueda de servicios
       </v-toolbar-title>
@@ -38,7 +38,7 @@
         </v-layout>
         <v-layout row wrap fill-height class="mt-2">
           <v-flex xs12 >
-           <!-- <service-selected/>  -->
+            <service-selected/>  
           </v-flex>
         </v-layout>
       </v-container>
@@ -61,7 +61,7 @@
   import PlaceSelector from '@c/PlaceSelector'
   import ServiceDate from '@c/DatePicker'
   import ServiceList from './List'
-  //import ServiceSelected from './Selected'
+  import ServiceSelected from './Selected'
   import MyBooking from './MyBooking'
 
   export default {
@@ -69,7 +69,7 @@
       PlaceSelector: PlaceSelector,
       ServiceDate: ServiceDate,
       ServiceList: ServiceList,
-    //  ServiceSelected: ServiceSelected,
+      ServiceSelected: ServiceSelected,
       MyBooking: MyBooking
     }
   }
