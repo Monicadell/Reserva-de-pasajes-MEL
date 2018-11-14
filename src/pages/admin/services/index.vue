@@ -2,7 +2,7 @@
   <div>
     <v-toolbar card prominent>
       <v-spacer></v-spacer>
-      <v-toolbar-title class="body-3 grey--text">
+      <v-toolbar-title class="body-3 primary--text">
         <!--{{$t(`lang.home.auth.${menuSelection.text}`)}}-->
         Busqueda de servicios
       </v-toolbar-title>
@@ -69,7 +69,7 @@
       PlaceSelector: PlaceSelector,
       ServiceDate: ServiceDate,
       ServiceList: ServiceList,
-     ServiceSelected: ServiceSelected,
+      ServiceSelected: ServiceSelected,
       MyBooking: MyBooking
     }
   }
