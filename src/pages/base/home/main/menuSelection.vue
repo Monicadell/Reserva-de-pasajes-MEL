@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="div-contain-login">
     <v-toolbar card prominent>
       <v-spacer></v-spacer>
       <v-toolbar-title class="body-3 primary--text">
@@ -14,7 +14,7 @@
 
     <v-divider></v-divider>
 
-    <v-window v-model="menuSelection.menu">
+    <v-window v-model="menuSelection.menu" class="bottom-login">
       <v-window-item>
         <login/>
       </v-window-item>
@@ -48,3 +48,12 @@
     }
   }
 </script>
+
+<style>
+  .div-contain-login .bottom-login{
+    background-color: rgba(255, 255, 255, 0.9)
+  }
+  .div-contain-login .v-divider{
+    background-color: #fff;
+  }
+</style>
