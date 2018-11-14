@@ -19,8 +19,9 @@ const state = {
   selected: false,
   service: {},
   servicesList: [],
- ruta: '', // almacena la ruta a la cual se va a buscar el pasaje
-  listaServicios: [] // tiene los servicios disponibles en una ruta para una fecha especifica
+  ruta: [], // almacena la ruta a la cual se va a buscar el pasaje
+  listaServicios: [], // tiene los servicios disponibles en una ruta para una fecha especifica
+  cargandoPeticion: false
 }
 
 const getters = {
@@ -29,7 +30,8 @@ const getters = {
   service: state => state.service,
   selected: state => state.selected,
   ruta: state => state.ruta,
-  listaServicios: state => state.listaServicios
+  listaServicios: state => state.listaServicios,
+  cargandoPeticion: state => state.cargandoPeticion
   
 }
 
@@ -51,6 +53,9 @@ const actions = {
   },
   set_listaServicios ({commit}, payload) {
     commit('SET_LISTASERVICIOS', {listaServicios: payload.listaServicios})
+  },
+  set_cargandoPeticion({commit}, payload) {
+    commit('SET_CARGANDOPETICION', {cargandoPeticion: payload.cargandoPeticion})
   },
 
 
@@ -79,9 +84,12 @@ const mutations = {
     state.ruta = ruta
   },
   SET_LISTASERVICIOS: (state, {listaServicios }) => {
-  
     state.listaServicios = listaServicios
   },
+  SET_CARGANDOPETICION: (state, {cargandoPeticion }) => {
+    state.cargandoPeticion = cargandoPeticion
+  },
+ 
 }
 
 /**

@@ -50,6 +50,7 @@
     <v-autocomplete
       v-model="placeDestiny"
       :items="destinyLocations"
+      no-data-text="No hay destinos disponibles"
       chips
       clearable
       box
@@ -140,6 +141,7 @@
       }
     },
     mounted: function () {
+     
        axios.get('https://mel-2-backend.gestsol.cl/api/stations')
           .then((response)=>{
           // console.log(response.data.data)
