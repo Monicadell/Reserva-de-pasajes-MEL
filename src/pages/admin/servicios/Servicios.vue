@@ -46,7 +46,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -131,6 +131,7 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
+    import axios from 'axios'
   
   export default {
     data () {
@@ -226,9 +227,29 @@
       close () {
         this.dialog = false
         this.editedItem = {}
+      },
+      async save (guardar) {
+          let ser = {
+             "service": 
+                {
+                    "arrival": "18:30:00.000000",
+                    "avail_seats": 10,
+                    "date": "2018-11-14",
+                    "departure": "16:30:00.000000",
+                    "name": "especial 1",
+                    "set": "10:00:00.000000",
+                    "trip_id": 1
+                }
+        }
+        this.dialog = false
+        console.log('ser a post',ser)
+        let servicios = await API.post('services', ser)
+        if (servicios.status >= 200 && servicios.status < 300) {
+          console.log(servicios)
+            this.services = servicios.data.data
+          
+        }
       }
-
-      // save () {
       //   let auth = this.$store.getters.getAuth
       //   let config = {
       //     method: 'POST',
