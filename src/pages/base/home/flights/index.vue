@@ -97,5 +97,6 @@
     color: #ff9800;
   .card-flights.theme--dark.v-card
     background-color: rgba(66, 66, 66, 0.85)
-    height: 100vh
+    min-height: 100vh
+    height 100%
 </style>
