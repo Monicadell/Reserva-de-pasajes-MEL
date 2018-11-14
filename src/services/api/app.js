@@ -12,10 +12,17 @@ const base = `${url}/`
 /**
  * Export
  */
+
 export default {
-  get (url, params) {
-    return axios.get(base + '/' + url, {
+  get (urlget, params) {
+    return axios.get(base + urlget, {
       params: {...params}
     })
+  },
+  post (urlpost,  params) {
+    return axios.post(base + urlpost, {...params})
+  },
+  delete (urlpost,  params) {
+    return axios.delete(base + urlpost, {...params})
   }
 }

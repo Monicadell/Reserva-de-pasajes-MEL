@@ -6,8 +6,8 @@
 
 <style scoped>
   img{
-    height: 100vh;
-    width: auto!important;
+    /* height: 100vh; */
+    width: 100%;
     z-index: 1;
     /* object-fit: cover; */
   }
