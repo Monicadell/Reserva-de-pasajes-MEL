@@ -66,20 +66,9 @@
   }
 </script>
 
-<<<<<<< HEAD
-<style lang="stylus" >
-  /* 
-  .card--flex-toolbar
-    margin-top -90px
-*/
 
-  p span
-    color: red
-
-=======
 <style>
   .transparent{
     background-color: transparent
   }
->>>>>>> 4e4175ef37867b2dc8f322a1f2553805d69af683
 </style>
