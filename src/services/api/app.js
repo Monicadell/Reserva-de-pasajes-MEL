@@ -22,7 +22,11 @@ export default {
   post (urlpost,  params) {
     return axios.post(base + urlpost, {...params})
   },
-  delete (urlpost,  params) {
-    return axios.delete(base + urlpost, {...params})
+  put (urlput, id, params) {
+    return axios.put(base + urlput + '/' + id , {...params})
+  },
+  delete (urldel,  id) {
+    console.log('elimina', id)
+    return axios.delete(base + urldel + '/' + id)
   }
 }

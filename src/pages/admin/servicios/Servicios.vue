@@ -35,10 +35,12 @@
               </v-flex>
                             
               <v-flex xs12 md6>
-                <v-select :items="frequencies" v-model="editedItem.trip_id"
+                <!-- <v-select :items="frequencies" v-model="editedItem.trip_id"
                           label="Tramo"
                           single-line item-text="text" item-value="id"
-                ></v-select>
+                ></v-select> -->
+                 <v-text-field label="Tramo"
+                              v-model="editedItem.trip_id"></v-text-field>
               </v-flex>       
 
               <v-flex xs12 md6>
@@ -96,10 +98,11 @@
           :items="services"
           :search="search"
           :loading="loading"
+           item-key="id"
           hide-actions
         >
         <template slot="items" slot-scope="props">
-          <td class="">{{ props.item.name }}</td>
+          <td class="">{{ props.item.id }}</td>
           <td class="">{{ props.item.date }}</td>
           <td class="">{{  moment(props.item.arrival).format('HH:mm') }}</td>
           <td class="">{{ props.item.departure }}</td>
@@ -142,8 +145,8 @@
                 <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="deleteItem(props.item)">Eliminar</v-btn>
+                  <v-btn color="primary darken-1" flat @click="confirmaAnular = false">Volver</v-btn>
+                  <v-btn color="red darken-1" flat @click="deleteItem(props.item)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -168,11 +171,7 @@
         loading: true,
         moment: moment,
         editedItem: {
-          date: '',
-          freq_id: '',
-          car_id: '',
-          driver_id: '',
-          avail_seats: ''
+          
         },
         headers: [
           {text: 'Nombre', value: 'name'},
@@ -233,6 +232,7 @@
     },
     methods: {
       async getServices () {
+        console.log('get services')
         let servicios = await API.get('services')
         if (servicios.status >= 200 && servicios.status < 300) {
           console.log(servicios)
@@ -243,45 +243,77 @@
         }
       },
       editItem (item) {
-        console.log('item edit', item)
         this.editedItem = item
         this.dialog = true
       },
       async deleteItem (item) {
-        console.log('item delete', item.id)
-        // let elimina = {'id': item.id}
-        // this.confirmaAnular = true
-        // let servicios = await API.delete('services', elimina)
-        // if (servicios.status >= 200 && servicios.status < 300) {
-        //   console.log(servicios)
+        console.log('voy a eliminar', item)
+        let eliminando = await API.delete('services', item.id)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE',eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getServices()
            
-        // }
+        }
       },
       close () {
         this.dialog = false
         this.editedItem = {}
       },
       async save (guardar) {
+        console.log('a guardar', guardar)
+      
         let ser = {
              "service": 
                 {
-                    "arrival": "18:30:00.000000",
-                    "avail_seats": 10,
-                    "date": "2018-11-14",
-                    "departure": "16:30:00.000000",
-                    "name": "especial 1",
-                    "set": "10:00:00.000000",
-                    "trip_id": 1
+                    "arrival": guardar.arrival ? guardar.arrival : '',
+                    "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
+                    "date": guardar.date ? guardar.date : '',
+                    "departure": guardar.departure ? guardar.departure : '',
+                    "name": guardar.name ? guardar.name : '',
+                    "set": guardar.set ? guardar.set : '',
+                    "trip_id": guardar.trip_id ? guardar.trip_id : ''
                 }
         }
-        this.dialog = false
+        
         console.log('ser a post',ser)
-        let servicios = await API.post('services', ser)
-        if (servicios.status >= 200 && servicios.status < 300) {
-          console.log(servicios)
-            this.services = servicios.data.data
-          
+        if(guardar.id){
+          let id = guardar.id
+          // console.log('voy a PUT, ser', id)
+          let servicios = await API.put('services', id, ser )
+          if (servicios.status >= 200 && servicios.status < 300) {
+            // console.log('ya hizo PUT',servicios)
+              this.services = servicios.data.data
+              this.dialog = false
+            
+          }
         }
+        else{
+          console.log('voy a POST', ser)
+	        let ser = {
+	             "service": 
+	                {
+	                    "arrival": "18:30:00.000000",
+	                    "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
+	                    "date": guardar.date ? guardar.date : '2018-11-15',
+	                    "departure": "16:30:00.000000",
+	                    "name": guardar.name ? guardar.name : '',
+	                    "set": guardar.set ? guardar.set : '',
+	                    "trip_id":  guardar.trip_id ? guardar.trip_id : ''
+	                }
+	        }
+	        
+	        console.log('ser a post',ser)
+	        let servicios = await API.post('services', ser)
+	        if (servicios.status >= 200 && servicios.status < 300) {
+            console.log(servicios)
+             this.getServices()
+              this.services = servicios.data.data
+              this.dialog = false
+	        }
+        }
+       
       }
       //   let auth = this.$store.getters.getAuth
       //   let config = {
