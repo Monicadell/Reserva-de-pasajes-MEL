@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-toolbar card prominent>
-      <v-spacer></v-spacer>
-      <v-toolbar-title class="body-3 primary--text">
+      
+      <v-toolbar-title class="body-3 primary--text ml-4">
         <!--{{$t(`lang.home.auth.${menuSelection.text}`)}}-->
         Busqueda de servicios
       </v-toolbar-title>
@@ -10,9 +10,9 @@
       <div class="grey--text">
         Frecuentes
       </div>
-      <v-btn small outline color="primary" >MEL - Complejo MEL</v-btn>
-      <v-btn small outline color="primary">Complejo MEL - MEL</v-btn>
-      <v-btn small outline color="primary">Aeropuerto ANF - MEL</v-btn>
+      <v-btn small flat class="botonmenu" >MEL - Complejo MEL</v-btn>
+      <v-btn small flat  class="botonmenu">Complejo MEL - MEL</v-btn>
+      <v-btn small  flat  class="botonmenu">Aeropuerto ANF - MEL</v-btn>
       <v-btn icon class="grey--text">
         <v-icon>help</v-icon>
       </v-btn>
@@ -74,3 +74,16 @@
     }
   }
 </script>
+
+<style>
+.v-btn.botonmenu {
+    background: transparent ;
+   border: 1px solid #1565c0 ;
+   color: #1565c0;
+  }
+
+  .v-btn.botonmenu:hover {
+    background: #1565c0;
+    color: white;
+  }
+</style>
