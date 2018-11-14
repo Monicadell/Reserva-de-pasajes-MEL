@@ -4,7 +4,7 @@
 
     <v-layout row >
     <v-flex xs12 md4 mt-2>
-        <v-card class="card--flex-toolbar elevation-10">
+        <v-card class="card--flex-toolbar elevation-10 transparent">
           <template v-if="!isAuthorized">
             <menu-selection/>
           </template>
@@ -66,6 +66,7 @@
   }
 </script>
 
+<<<<<<< HEAD
 <style lang="stylus" >
   /* 
   .card--flex-toolbar
@@ -75,4 +76,10 @@
   p span
     color: red
 
+=======
+<style>
+  .transparent{
+    background-color: transparent
+  }
+>>>>>>> 4e4175ef37867b2dc8f322a1f2553805d69af683
 </style>

@@ -1,12 +1,14 @@
 <template>
-  <v-layout column>
+  <v-layout column class="img-fondo">
     <img src="/static/img/gplay.png"/>
   </v-layout>
 </template>
 
 <style scoped>
   img{
-    width: 100%;
+    height: 100vh;
+    width: auto!important;
     z-index: 1;
+    /* object-fit: cover; */
   }
 </style>
