@@ -37,13 +37,46 @@
             </v-layout>
 
             <v-layout wrap>
+              
+              <v-flex xs12 md6>
+                <!-- <v-text-field label="Salida"
+                              v-model="editedItem.departure"></v-text-field> -->
+
+                <v-menu
+                  ref="time2"
+                  :close-on-content-click="false"
+                  v-model="timepicker2"
+                  :nudge-right="40"
+                  :return-value.sync="editedItem.departure"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.departure"
+                    label="Salida"
+                    prepend-icon="access_time"
+                    readonly
+                  ></v-text-field>
+                  <v-time-picker
+                    v-if="timepicker2"
+                    v-model="editedItem.departure"
+                    full-width
+                    @change="$refs.time2.save(editedItem.departure)"
+                  ></v-time-picker>
+                </v-menu>
+              </v-flex>
               <v-flex xs12 md6>
                 <!-- <v-text-field label="Llegada"
                               v-model="editedItem.arrival"></v-text-field> -->
                 <v-menu
-                  ref="menu"
+                  ref="time1"
                   :close-on-content-click="false"
-                  v-model="timepicker"
+                  v-model="timepicker1"
                   :nudge-right="40"
                   :return-value.sync="editedItem.arrival"
                   lazy
@@ -61,16 +94,12 @@
                     readonly
                   ></v-text-field>
                   <v-time-picker
-                    v-if="timepicker"
+                    v-if="timepicker1"
                     v-model="editedItem.arrival"
                     full-width
-                    @change="$refs.menu.save(editedItem.arrival)"
+                    @change="$refs.time1.save(editedItem.arrival)"
                   ></v-time-picker>
                 </v-menu>
-              </v-flex>
-              <v-flex xs12 md6>
-                <v-text-field label="Salida"
-                              v-model="editedItem.departure"></v-text-field>
               </v-flex>
               <v-flex xs12 md6>
                 <v-text-field label="Set"
@@ -219,7 +248,8 @@
           date: new Date().toISOString().substr(0, 10),
         },
         datepicker: false,
-        timepicker: false,
+        timepicker1: false,
+        timepicker2: false,
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
@@ -352,7 +382,7 @@
 	                    "arrival": guardar.arrival ? guardar.arrival : '',
 	                    "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
 	                    "date": guardar.date ? guardar.date : '2018-11-15',
-	                    "departure": "16:30:00.000000",
+	                    "departure": guardar.departure ? guardar.departure : '',
 	                    "name": guardar.name ? guardar.name : '',
 	                    "set": guardar.set ? guardar.set : '',
 	                    "trip_id":  guardar.trip_id ? guardar.trip_id : ''
