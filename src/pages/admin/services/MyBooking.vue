@@ -26,37 +26,37 @@
                         <v-layout wrap justify-center>
                           <v-flex xs12 sm6>
                                 <v-list two-line style="padding-left: 53px;">
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content class="custom">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Origen</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom2">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Destino</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                     <v-list-tile>
+                                     <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Telefono contacto</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                      </v-list-tile>
-                                      <v-list-tile>    
+                                      <v-list-tile style="height: 40px;">    
                                         <v-list-tile-content  class="custom2">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Servicio</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                  </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Embarcación</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                          </v-list-tile>
-                                          <v-list-tile>
+                                          <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom2">
                                             <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Compra</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                          </v-list-tile>
-                                          <v-list-tile>
+                                          <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             <v-list-tile-sub-title class="white--text ml-4 text" >Boleto</v-list-tile-sub-title>
                                         </v-list-tile-content>
@@ -66,45 +66,45 @@
                             </v-flex>
                             <v-flex xs12 sm6>
                                 <v-list two-line style="padding-right: 53px;" >
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             <v-list-tile-title class="ml-4">{{selectedBooking.origen}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom2">
                                            
                                             <v-list-tile-title class="ml-4">{{selectedBooking.destino}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             
                                             <v-list-tile-title class="ml-4">{{selectedBooking.numeroTelefono}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom2">
                                             
                                             <v-list-tile-title class="ml-4">{{selectedBooking.descripcionServicio}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             
                                             <v-list-tile-title class="ml-4">{{selectedBooking.fechaEmbarcacion}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom2">
                                             
                                             <v-list-tile-title class="ml-4">{{selectedBooking.fechaCompra}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile>
+                                    <v-list-tile style="height: 40px;">
                                         <v-list-tile-content  class="custom">
                                             
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.boleto}}</v-list-tile-title>
+                                            <v-list-tile-title class="ml-4" >{{selectedBooking.boleto}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                 </v-list>
@@ -221,6 +221,7 @@
         width: 400px;
       font-size: 18px;
        height: 40px;
+        padding: 2px;
    }
 
    .v-list--two-line .v-list__tile .custom2 {
@@ -228,6 +229,7 @@
        color: white;
         height: 40px;
         font-size: 18px;
+         padding: 2px;
    } 
 
     .v-list__tile {
