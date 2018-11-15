@@ -13,6 +13,7 @@
       :first-day-of-week="1"
       enabled
       @input="actFecha"
+      class="fadeinfwdslow"
     ></v-date-picker>
   </div>
 </template>

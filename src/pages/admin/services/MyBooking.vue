@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div clas="fadeinfwdslow">
     <div> <h2>Mis reservas</h2> </div>
     <v-data-table
         :headers="headers"
         :items="desserts"
         hide-actions
-        class="elevation-1"
+        class="elevation-1 fadeinfwdslow"
       >
       <template slot="items" slot-scope="props">
         <td class="">{{ props.item.origen }}</td>

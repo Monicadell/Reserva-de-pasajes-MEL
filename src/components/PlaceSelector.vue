@@ -12,6 +12,7 @@
       label="Desde"
       item-text="name"
       item-value="name"
+      class="fadeinfwdfast" 
     >
      
 
@@ -58,6 +59,8 @@
       label="Hacia"
       item-text="name"
       item-value="name"
+      class="fadeinfwd" 
+
     >
      <!-- <v-fade-transition slot="prepend-inner">
         <v-avatar v-if="place && place.name">
