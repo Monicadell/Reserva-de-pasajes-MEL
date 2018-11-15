@@ -1,9 +1,9 @@
 <template>
 
-  <v-container fluid grid-list-lg class="mb-5">
+  <v-container fluid grid-list-lg class="mb-5 py-3">
 
     <v-layout row >
-    <v-flex xs12 md5 sm7 lg4 xl4 mt-2>
+    <v-flex xs12 md5 sm7 lg4 xl4 py-0>
         <v-card class="card--flex-toolbar elevation-10 transparent">
           <template v-if="!isAuthorized">
             <menu-selection/>
@@ -13,7 +13,7 @@
 
     </v-layout>
     <v-layout align-start row>
-      <v-flex xs12 md5 sm7 lg4 xl4 mt-2 >
+      <v-flex xs12 md5 sm7 lg4 xl4 py-3>
 
         <v-card class="elevation-2 card--flex-toolbar img-gradient ">
           <v-img class="white--text" height="80px"
