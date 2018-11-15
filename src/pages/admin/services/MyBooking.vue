@@ -1,6 +1,9 @@
 <template>
   <div clas="fadeinfwdslow">
-    <div> <h2>Mis reservas</h2> </div>
+      <v-card >
+           <v-card-title style="height: 45px" class="barra-reservas">
+  Mis reservas
+           </v-card-title>
     <v-data-table
         :headers="headers"
         :items="desserts"
@@ -94,6 +97,7 @@
                                         <v-list-tile-content  class="custom">
                                             
                                             <v-list-tile-title class="ml-4">{{selectedBooking.fechaEmbarcacion}}</v-list-tile-title>
+                                            
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile class="pad"  style="height: 40px;">
@@ -152,6 +156,7 @@
         </td>
       </template>
     </v-data-table>
+    </v-card>
   </div>
 </template>
 
@@ -249,6 +254,12 @@
         background: #1565c0;
         color: white;
         font-weight: lighter;
+    }
+
+    .v-card__title.barra-reservas {
+        background: #1565c0;
+        color: white;
+        font-size: 18px;
     }
 
 
