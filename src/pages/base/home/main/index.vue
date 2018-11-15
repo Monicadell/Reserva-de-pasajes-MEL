@@ -2,7 +2,7 @@
 
   <v-container fluid grid-list-lg class="mb-5 py-3">
 
-    <v-layout row style="height: 60vh">
+    <v-layout row>
     <v-flex xs12 md5 sm7 lg4 xl4 py-0>
         <v-card class="card--flex-toolbar elevation-10 transparent">
           <template v-if="!isAuthorized">
@@ -12,7 +12,7 @@
       </v-flex>
 
     </v-layout>
-    <v-layout align-start row style="height: 30vh">
+    <v-layout align-start row>
       <v-flex xs12 md5 sm7 lg4 xl4 py-3>
 
         <v-card class="elevation-2 card--flex-toolbar img-gradient ">
