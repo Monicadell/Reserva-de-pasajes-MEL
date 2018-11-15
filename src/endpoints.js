@@ -1,4 +1,4 @@
-const base = 'http://ec2-34-236-97-74.compute-1.amazonaws.com:4000'
+const base = 'https://mel-1-backend.gestsol.cl'
 const port = '88'
 const media = 'covers'
 

@@ -31,6 +31,7 @@
                     <v-date-picker
                       v-model="editedItem.date"
                       @change="datepicker = false"
+                      locale="es-419"
                     ></v-date-picker>
                   </v-menu>
               </v-flex>
