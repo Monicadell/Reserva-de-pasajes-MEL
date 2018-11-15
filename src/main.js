@@ -13,6 +13,10 @@ import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 
+import moment from 'moment'
+
+Vue.prototype.moment = moment
+
 Vue.use(Vuetify, {
   theme: {
     primary: '#1565c0',

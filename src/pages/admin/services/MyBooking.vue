@@ -16,62 +16,95 @@
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
           <v-btn slot="activator" color="primary" dark>Ver Detalle</v-btn>
             <v-card>
-                <v-card-title primary-title>
+                <v-card-title class="titulo-detalle  elevation-22">
                     <div>
-                        <h3 class="headline mb-3">Detalles reserva</h3>
+                        <h3 class="headline ml-3 " style="font-weight: lighter;" >Detalles reserva</h3>
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                         <v-flex xs12 sm6>
-                                <v-list two-line subheader>
+                    <v-container grid-list-sm>
+                        <v-layout wrap justify-center>
+                          <v-flex xs12 sm6>
+                                <v-list two-line style="padding-left: 53px;">
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Origen</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.origen}}</v-list-tile-title>
+                                        <v-list-tile-content class="custom">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Origen</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Destino</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.destino}}</v-list-tile-title>
+                                        <v-list-tile-content  class="custom2">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Destino</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                      <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Telefono contacto</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.numeroTelefono}}</v-list-tile-title>
+                                        <v-list-tile-content  class="custom">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Telefono contacto</v-list-tile-sub-title>
                                         </v-list-tile-content>
-                                    </v-list-tile>
+                                     </v-list-tile>
+                                      <v-list-tile>    
+                                        <v-list-tile-content  class="custom2">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Servicio</v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                 </v-list-tile>
+                                    <v-list-tile>
+                                        <v-list-tile-content  class="custom">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Embarcación</v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                         </v-list-tile>
+                                          <v-list-tile>
+                                        <v-list-tile-content  class="custom2">
+                                            <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Compra</v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                         </v-list-tile>
+                                          <v-list-tile>
+                                        <v-list-tile-content  class="custom">
+                                            <v-list-tile-sub-title class="white--text ml-4 text" >Boleto</v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                         </v-list-tile>
                                    
                                 </v-list>
                             </v-flex>
                             <v-flex xs12 sm6>
-                                <v-list two-line subheader>
+                                <v-list two-line style="padding-right: 53px;" >
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Servicio</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.descripcionServicio}}
-                                            </v-list-tile-title>
+                                        <v-list-tile-content  class="custom">
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.origen}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Fecha embarcación</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.fechaEmbarcacion}}</v-list-tile-title>
+                                        <v-list-tile-content  class="custom2">
+                                           
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.destino}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Fecha compra</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.fechaCompra}}</v-list-tile-title>
+                                        <v-list-tile-content  class="custom">
+                                            
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.numeroTelefono}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
-                                        <v-list-tile-content>
-                                            <v-list-tile-sub-title>Boleto</v-list-tile-sub-title>
-                                            <v-list-tile-title>{{selectedBooking.boleto}}</v-list-tile-title>
+                                        <v-list-tile-content  class="custom2">
+                                            
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.descripcionServicio}}</v-list-tile-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                    <v-list-tile>
+                                        <v-list-tile-content  class="custom">
+                                            
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.fechaEmbarcacion}}</v-list-tile-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                    <v-list-tile>
+                                        <v-list-tile-content  class="custom2">
+                                            
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.fechaCompra}}</v-list-tile-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                    <v-list-tile>
+                                        <v-list-tile-content  class="custom">
+                                            
+                                            <v-list-tile-title class="ml-4">{{selectedBooking.boleto}}</v-list-tile-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                 </v-list>
@@ -180,3 +213,40 @@
     }
   }
 </script>
+
+<style>
+   .v-list--two-line .v-list__tile .custom {
+       background: #1565c0;
+       color: white;
+        width: 400px;
+      font-size: 18px;
+   }
+
+   .v-list--two-line .v-list__tile .custom2 {
+       background: #4e96e9;
+       color: white;
+        height: 40px;
+        font-size: 18px;
+   } 
+
+    .v-list__tile {
+        padding: 2px;
+        
+    }
+
+    .v-list--two-line .v-list__tile {
+        height: 40px;
+        
+    }
+    .text {
+        font-size: 18px;
+    }
+
+    .v-card__title.titulo-detalle {
+        background: #1565c0;
+        color: white;
+        font-weight: lighter;
+    }
+
+
+</style>

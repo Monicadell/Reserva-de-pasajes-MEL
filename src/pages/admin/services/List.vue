@@ -36,8 +36,9 @@
           <td>{{ props.item.name }}</td>
          
         
+          <td class="text-xs-center">{{moment(props.item.arrival).format('YYYY-MM-DD[T]HH:mm:ss')}}</td>
           
-          <td class="text-xs-center">{{ props.item.departure }}</td>
+         <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
           <td class="text-xs-center">{{ props.item.arrival }}</td>
           <td class="text-xs-center">
             <v-btn block small dark color="primary darken-1"
