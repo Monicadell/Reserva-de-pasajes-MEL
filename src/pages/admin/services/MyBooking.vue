@@ -1,5 +1,5 @@
 <template>
-  <div clas="fadeinfwdslow">
+  <div >
       <v-card >
            <v-card-title style="height: 45px" class="barra-reservas">
   Mis reservas
@@ -7,14 +7,13 @@
     <v-data-table
         :headers="headers"
         :items="desserts"
-        hide-actions
-        class="elevation-1 fadeinfwdslow"
+        class="elevation-1 "
       >
-      <template slot="items" slot-scope="props">
-        <td class="">{{ props.item.origen }}</td>
-        <td class="">{{ props.item.destino }}</td>
-        <td class="">{{ props.item.fechaCompra }}</td>
-        <td class="">{{ props.item.fechaEmbarcacion }}</td>
+      <template slot="items" slot-scope="props" v-if ="consulta">
+        <td class="">{{ props.item.service.from }}</td>
+        <td class="">{{ props.item.service.to }}</td>
+        <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY') }}</td>
+        <td class="">{{ props.item.service.date }} {{ props.item.service.departure }}</td>
         <td class="text-xs-center">
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
           <v-btn slot="activator" color="primary" dark>Ver Detalle</v-btn>
@@ -162,7 +161,8 @@
 
 <script>
   import Countdown from './Countdown'
-  
+  import axios from 'axios'
+
   export default {
     data () {
       return {
@@ -178,6 +178,7 @@
           destino: 'Complejo MEL',
           numeroTelefono: '889968489'
         },
+        consulta: false,
         headers: [
           // {text: 'Documento Pasajero', value: 'documentoPasajero'},
           // {text: 'Pasajero', value: 'pasajero'},
@@ -216,6 +217,32 @@
     },
     components: {
       Countdown: Countdown
+    },
+     methods : {
+        getReservas() {
+              axios.get('https://mel-2-backend.gestsol.cl/api/tickets', {
+                  params: {
+                      user_id: 113162
+                  }
+              })
+          .then((response)=>{
+              console.log('entro al timeout')
+              setTimeout(()=>{
+                    this.desserts = Object.assign([], response.data.data)
+                  console.log(`los tickets reservados son `)
+                  console.log(this.desserts)
+                  this.consulta = true
+              }, 2000)
+            
+         })
+          .catch((err)=>{
+            console.log(err)
+          })
+        },
+    },
+    mounted() {
+       this.getReservas();
+       
     }
   }
 </script>

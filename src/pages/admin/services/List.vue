@@ -80,8 +80,8 @@
     },
     methods: {
       resume (xs) {
-        console.log('aqui')
-        console.log(xs)
+       // console.log('aqui')
+       // console.log(xs)
        this.$store.dispatch('Booking/select', {selected: true})
       },
       selectService (service) {
@@ -92,7 +92,7 @@
         this.$store.dispatch('Booking/set_service', {service: {}})
         this.disableList = true
         if (this.search && this.search.from.date && this.search.from.place && this.search.to.place) {
-          console.log(this.search)
+         // console.log(this.search)
           this.selected = []
           console.log('search')
           this.servicesList = []

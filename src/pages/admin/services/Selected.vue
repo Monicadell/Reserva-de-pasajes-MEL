@@ -139,21 +139,24 @@
         this.loadingBooking = true
         const hora = moment().toISOString();
         console.log(hora)
+        //console.log(this.service.id)
 
        axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {
             status: 1,
             booked_at: hora,
-            user_id: 1,
-            service_id: 49
+            user_id: 113162,
+            service_id: this.service.id
             }
           })
-          .then(function (response) {
+          .then(function(response) {
+            console.log('reserva realizada')
+          
             console.log(response);
           })
           .catch(function (error) {
             console.log(error);
-          });    
+          });     
 
         setTimeout(() => {
           this.booking.state = 'success'
