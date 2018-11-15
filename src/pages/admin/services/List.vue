@@ -40,7 +40,7 @@
          
         
           <td class="text-xs-center">{{(props.item.arrival)}}</td>
-          <v-icon medium class="mt-2" >directions_bus</v-icon>
+           <v-icon medium class="mt-2" >directions_bus</v-icon>
          <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
           <td class="text-xs-center">{{ props.item.arrival }}</td>
           <td class="text-xs-center">
@@ -138,8 +138,10 @@
       headers: [
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from'},
+        {text: '', value: 'action'},
         {text: 'Llegada', value: 'to'},
-        {text: '', value: 'action'}
+        {text: '', value: 'action'},
+        
       ],
       servicesList: [],
       services: [
