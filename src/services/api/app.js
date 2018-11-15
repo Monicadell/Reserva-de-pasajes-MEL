@@ -20,6 +20,7 @@ export default {
     })
   },
   post (urlpost,  params) {
+    console.log(base + urlpost, {...params})
     return axios.post(base + urlpost, {...params})
   },
   put (urlput, id, params) {

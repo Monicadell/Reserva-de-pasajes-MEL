@@ -234,7 +234,7 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-    import axios from 'axios'
+  import axios from 'axios'
   
   export default {
     data () {

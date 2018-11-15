@@ -21,8 +21,8 @@
                 Llegadas
               </h2>
               <v-data-table
-                :headers="headers"
-                :items="flights.salidas"
+                :headers="llegadasHeader"
+                :items="flights.llegadas"
                 hide-actions
                 class="elevation-1 flight-th"
               >
@@ -42,8 +42,8 @@
               Salidas
             </h2>
             <v-data-table
-                :headers="headers"
-                :items="flights.llegadas"
+                :headers="salidasHeader"
+                :items="flights.salidas"
                 hide-actions
                 class="elevation-1 flight-th"
               >
@@ -69,7 +69,13 @@
   export default {
     data: () => ({
       flights: [],
-      headers: [
+      llegadasHeader: [
+        {text: 'Nº vuelo', sortable: true, value: '0'},
+        {text: 'Origen', sortable: true, value: '1'},
+        {text: 'Hora', value: '2'},
+        {text: 'Estado', value: '3'}
+      ],
+      salidasHeader: [
         {text: 'Nº vuelo', sortable: true, value: '0'},
         {text: 'Destino', sortable: true, value: '1'},
         {text: 'Hora', value: '2'},
