@@ -77,7 +77,7 @@
       ]
     }),
     mounted () {
-      this.getFlights()
+    this.getFlights()
     },
     methods: {
       async getFlights () {

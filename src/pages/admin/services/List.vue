@@ -8,7 +8,7 @@
   class="fadeinfwdfast"
   >
   
-    <v-card-title style="height: 65px">
+    <v-card-title style="height: 65px" class="barra-servicios">
       Servicios disponibles
       <v-spacer></v-spacer>
       <v-text-field
@@ -16,6 +16,8 @@
         label="Filtrar"
         single-line
         hide-details
+        dark
+        class="mb-4"
       ></v-text-field>
     </v-card-title>
     <v-data-table
@@ -38,7 +40,7 @@
          
         
           <td class="text-xs-center">{{(props.item.arrival)}}</td>
-          
+          <v-icon medium class="mt-2" >directions_bus</v-icon>
          <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
           <td class="text-xs-center">{{ props.item.arrival }}</td>
           <td class="text-xs-center">
@@ -193,5 +195,14 @@
     pointer-events none
     opacity 0.1
 
- 
+
+</style>
+
+<style>
+  .v-card__title.barra-servicios {
+    background: #1565c0;
+    color: white;
+    font-size: 18px
+    
+  }
 </style>

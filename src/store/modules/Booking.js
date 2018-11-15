@@ -63,12 +63,9 @@ const actions = {
 
 const mutations = {
   SELECT_SERVICE: (state, {selected}) => {
-    console.log('segundo click')
-
     state.selected = selected
   },
   SET_SERVICE: (state, {service}) => {
-    console.log('primer click')
     state.service = service
   },
   SET_PLACE: (state, {search, direction}) => {

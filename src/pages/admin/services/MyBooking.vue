@@ -178,7 +178,7 @@
           // {text: 'Pasajero', value: 'pasajero'},
           {text: 'Origen', value: 'origen'},
           {text: 'Destino', value: 'destino'},
-          {text: 'Fecha Compra', value: 'fechaCompra'},
+          {text: 'Fecha Reserva', value: 'fechaCompra'},
           {text: 'Fecha Embarcación', value: 'fechaEmbarcacion'},
           {text: '', value: 'details', sortable: false},
           {text: '', value: 'confirmar', sortable: false},

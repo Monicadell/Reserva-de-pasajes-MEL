@@ -23,7 +23,7 @@
       >
           <v-avatar >
           <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
         </v-avatar>
         {{ data.item.name }}
       </template>
@@ -34,7 +34,7 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=ff9800&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
@@ -75,7 +75,7 @@
       >
       <v-avatar>
          <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=ff9800&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
         </v-avatar>  
 
         {{ data.item.name.split('→')[1] }}
@@ -88,7 +88,7 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=ff9800&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title v-html="data.item.name.split('→')[1]"></v-list-tile-title>
