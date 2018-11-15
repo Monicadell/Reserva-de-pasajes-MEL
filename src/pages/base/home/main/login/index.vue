@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-text>
+    <v-card-text class="px-0 py-0">
       <v-container>
         <v-layout align-center justify-center row fill-height>
           <v-flex xs12 md10>

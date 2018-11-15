@@ -3,7 +3,7 @@
     <v-card-text>
       <v-container>
         <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 md6>
+          <v-flex xs12 md8>
             <v-text-field
               label="Ingrese su nombre de usuario"
               persistent-hint
@@ -12,7 +12,7 @@
           </v-flex>
         </v-layout>
         <v-layout align-center justify-center row fill-height class="mt-5">
-          <v-flex xs12 md6>
+          <v-flex xs12 md8>
             <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
           </v-flex>
         </v-layout>

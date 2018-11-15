@@ -26,7 +26,7 @@ export default {
     return axios.put(base + urlput + '/' + id , {...params})
   },
   delete (urldel,  id) {
-    console.log('elimina', id)
+    console.log('elimina', id, base)
     return axios.delete(base + urldel + '/' + id)
   }
 }
