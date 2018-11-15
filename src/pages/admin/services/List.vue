@@ -33,7 +33,7 @@
       <template slot="items" slot-scope="props">
         <tr @click="selectService(props.item, props.expanded = !props.expanded)"
             :class="{'primary white--text': booking && booking.id === props.item.id}">
-          <td>{{ props.item.id }}</td>
+          <td>{{ props.item.name }}</td>
          
         
           

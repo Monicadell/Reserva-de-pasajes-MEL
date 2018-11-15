@@ -38,7 +38,9 @@
 
         <v-list-tile v-else :to="item.path">
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <img :src="item.icon">
+            
+          <!--  <v-icon>{{ item.icon }}</v-icon> -->
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
@@ -56,21 +58,22 @@
   export default {
     props: ['drawer'],
     data: () => ({
+      
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
         {subheader: true, text: 'Mis reservas'},
-        {icon: 'history', text: 'Reservas', path: { path: '/service_reserve' }},
+        {icon: '../../static/icons/01.png', text: 'Reservas', path: { path: '/service_reserve' }},
         {subheader: true, text: 'Admin'},
-        {icon: 'group', text: 'Usuarios', path: { path: '/users' }},
-        {icon: 'content_copy', text: 'Estaciones', path: { path: '/estaciones' }},
-        {icon: 'content_copy', text: 'Tramos', path: { path: '/tramos' }},
-        {icon: 'content_copy', text: 'Frecuencias', path: { path: '/frecuencias' }},
-        {icon: 'content_copy', text: 'Manifiestos', path: { path: '/manifiestos' }},
-        {icon: 'content_copy', text: 'Servicios', path: { path: '/servicios' }},
-        {icon: 'content_copy', text: 'Buses', path: { path: '/buses' }},
-        {icon: 'content_copy', text: 'Conductores', path: { path: '/conductores' }},
+        {icon: '../../static/icons/08.png', text: 'Usuarios', path: { path: '/users' }},
+        {icon: '../../static/icons/01.png', text: 'Estaciones', path: { path: '/estaciones' }},
+        {icon: '../../static/icons/02.png', text: 'Tramos', path: { path: '/tramos' }},
+        {icon: '../../static/icons/03.png', text: 'Frecuencias', path: { path: '/frecuencias' }},
+        {icon: '../../static/icons/04.png', text: 'Manifiestos', path: { path: '/manifiestos' }},
+        {icon: '../../static/icons/05.png', text: 'Servicios', path: { path: '/servicios' }},
+        {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
+        {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
         {subheader: true, text: 'Perfil'},
-        {icon: 'settings', text: 'Mi información', path: { path: '/myInfo' }}
+        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
