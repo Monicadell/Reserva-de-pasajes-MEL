@@ -240,7 +240,7 @@
     .v-list--two-line .v-list__tile {
         height: 40px;   
     }
-    .text {
+    .v-list__tile__sub-title.text {
         font-size: 18px;
     }
 
