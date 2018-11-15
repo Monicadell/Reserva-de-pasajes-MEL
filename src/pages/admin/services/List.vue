@@ -37,12 +37,9 @@
         <tr @click="selectService(props.item, props.expanded = !props.expanded)"
             :class="{'primary white--text': booking && booking.id === props.item.id}">
           <td>{{ props.item.name }}</td>
-         
-        
-          <td class="text-xs-center">{{(props.item.arrival)}}</td>
-           <v-icon medium class="mt-2" >directions_bus</v-icon>
+          <td >{{(props.item.arrival)}}</td>  
          <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
-          <td class="text-xs-center">{{ props.item.arrival }}</td>
+          <td >{{ props.item.arrival }}</td>
           <td class="text-xs-center">
             <v-btn block small dark color="primary darken-1"
                    :disabled="booking && booking.id !== props.item.id"
@@ -138,7 +135,6 @@
       headers: [
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from'},
-        {text: '', value: 'action'},
         {text: 'Llegada', value: 'to'},
         {text: '', value: 'action'},
         
