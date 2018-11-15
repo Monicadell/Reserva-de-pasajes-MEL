@@ -220,6 +220,7 @@
        color: white;
         width: 400px;
       font-size: 18px;
+       height: 40px;
    }
 
    .v-list--two-line .v-list__tile .custom2 {
@@ -235,8 +236,7 @@
     }
 
     .v-list--two-line .v-list__tile {
-        height: 40px;
-        
+        height: 40px;   
     }
     .text {
         font-size: 18px;
