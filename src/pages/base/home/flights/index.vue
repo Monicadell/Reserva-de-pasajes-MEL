@@ -1,9 +1,9 @@
 <template>
-  <v-card class="card-flights" dark>
+  <v-card class="card-flights" fill-height dark>
     <v-container fluid fill-height class="pl-0 pr-0 pt-3 mt-5">
       <v-layout row fill-height wrap justify-space-around>
 
-        <v-flex xs12 md12 class="text-xs-center pt-5">
+        <v-flex xs12 md12 class="pb-5 text-xs-center">
           <v-card-text class="pb-0">
             <h1 class="mb-0 uppercase">
               Itinerario de vuelos
@@ -14,7 +14,7 @@
           </v-card-text>
         </v-flex>
 
-        <v-flex xs6 md6>
+        <v-flex xs6 md6 pb-3>
           <v-card-text class="pt-0">
               <h2 class="uppercase pb-4">
                 <v-icon large color="white">flight_land</v-icon>
@@ -35,7 +35,7 @@
               </v-data-table>
           </v-card-text>
         </v-flex>
-        <v-flex xs6 md6>
+        <v-flex xs6 md6 pb-3>
           <v-card-text class="pt-0">
              <h2 class="uppercase pb-4">
               <v-icon large color="white" right>flight_takeoff</v-icon>
@@ -103,6 +103,9 @@
     color: #ff9800;
   .card-flights.theme--dark.v-card
     background-color: rgba(66, 66, 66, 0.85)
+    min-height: 100vh
+    height 100%
+  .card-flights.theme--dark.v-card .container.fill-height
     min-height: 100vh
     height 100%
 </style>
