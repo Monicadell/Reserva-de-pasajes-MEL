@@ -99,7 +99,7 @@
         //  this.loading = true
           this.disableList = false
 
-          axios.get('http://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
+          axios.get('https://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
           .then((response)=>{
                // handle success
           //  console.log(response.data)
