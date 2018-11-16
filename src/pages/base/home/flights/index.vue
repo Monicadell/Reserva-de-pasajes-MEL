@@ -118,11 +118,12 @@
   .titulo-flights h3{
     font-size: 1.2em;
   }
-  .contiene-icono{
+  .v-card__text.contiene-icono{
     border-radius: 50%;
     height: 70px;
     width: 70px;
     text-align: center;
+    padding-right: 10px;
   }
   .contiene-icono i{
     padding-top: 10px;
@@ -134,22 +135,22 @@
     font-size: 1.2em;
     background-color: #1565c0;
   }
-  .flight-th .v-table thead th.column.sortable.active{
+  .flight-th .v-table.theme--light thead th.column.sortable.active{
     color: #fff;
   }
-  .flight-th .v-table thead th.column.sortable.active i{
+  .flight-th .v-table.theme--light thead th.column.sortable.active i{
     color: #fff;
   }
-  .flight-th .v-table thead th.column.sortable:hover{
+  .flight-th .v-table.theme--light thead th.column.sortable:hover{
     color: #fff;
   }
-  .flight-th .v-table tbody{
+  .flight-th .v-table.theme--light tbody{
     color: #1565c0;
   }
-  .flight-th .v-table tbody td{
+  .flight-th .v-table.theme--light tbody td{
     font-size: 1.1em;
   }
-  .card-flights.v-card{
+  .card-flights.v-card.theme--light{
     background-color: rgba(66, 66, 66, 0.85);
     min-height: 100vh;
     /* height 100%; */
