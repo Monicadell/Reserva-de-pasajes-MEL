@@ -130,7 +130,7 @@
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
-       this.$store.dispatch('Booking/set_reservaRealizada', {
+      this.$store.dispatch('Booking/set_reservaRealizada', {
             reservaRealizada: false
             });  
     },
