@@ -113,8 +113,10 @@
 </template>
 
 <script>
+  import API from '@pi/app'
   import {mapGetters} from 'vuex'
   import moment from 'moment'
+  import axios from 'axios'
   export default {
     data: () => ({
       loadingBooking: false,
@@ -128,6 +130,9 @@
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
+       this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: false
+            });  
     },
     methods: {
       cancel () {
@@ -135,13 +140,37 @@
       },
       doBooking () {
         this.loadingBooking = true
+        const hora = moment().toISOString();
+        console.log(hora)
+        //console.log(this.service.id)
+
+       axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
+         ticket: {
+            status: 1,
+            booked_at: hora,
+            user_id: 113162,
+            service_id: this.service.id
+            }
+          })
+          .then((response)=>{
+            console.log('reserva realizada')
+
+            this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: true
+            });  
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });     
+
         setTimeout(() => {
           this.booking.state = 'success'
           this.booking.color = 'space'
           this.booking.text = 'Reserva realizada con exito'
           this.loadingBooking = false
         }, 2000)
-      }
+      },
     },
     computed: {
       ...mapGetters({

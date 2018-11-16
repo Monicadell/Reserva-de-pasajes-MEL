@@ -13,7 +13,7 @@
       :first-day-of-week="1"
       enabled
       @input="actFecha"
-      class="fadeinfwdslow"
+      class="fadeinfwd"
     ></v-date-picker>
   </div>
 </template>
@@ -23,7 +23,7 @@
   // avatar: 'https://ui-avatars.com/api/?name=',
   import moment from 'moment'
   import {mapGetters} from 'vuex'
-   import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     props: ['direction'],

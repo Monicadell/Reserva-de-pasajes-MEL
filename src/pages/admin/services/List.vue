@@ -8,7 +8,7 @@
   class="fadeinfwdfast"
   >
   
-    <v-card-title style="height: 65px">
+    <v-card-title style="height: 65px" class="barra-servicios">
       Servicios disponibles
       <v-spacer></v-spacer>
       <v-text-field
@@ -16,6 +16,8 @@
         label="Filtrar"
         single-line
         hide-details
+        dark
+        class="mb-4"
       ></v-text-field>
     </v-card-title>
     <v-data-table
@@ -35,12 +37,9 @@
         <tr @click="selectService(props.item, props.expanded = !props.expanded)"
             :class="{'primary white--text': booking && booking.id === props.item.id}">
           <td>{{ props.item.name }}</td>
-         
-        
-          <td class="text-xs-center">{{(props.item.arrival)}}</td>
-          
+          <td >{{(props.item.arrival)}}</td>  
          <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
-          <td class="text-xs-center">{{ props.item.arrival }}</td>
+          <td >{{ props.item.arrival }}</td>
           <td class="text-xs-center">
             <v-btn block small dark color="primary darken-1"
                    :disabled="booking && booking.id !== props.item.id"
@@ -81,8 +80,8 @@
     },
     methods: {
       resume (xs) {
-        console.log('aqui')
-        console.log(xs)
+       // console.log('aqui')
+       // console.log(xs)
        this.$store.dispatch('Booking/select', {selected: true})
       },
       selectService (service) {
@@ -93,14 +92,14 @@
         this.$store.dispatch('Booking/set_service', {service: {}})
         this.disableList = true
         if (this.search && this.search.from.date && this.search.from.place && this.search.to.place) {
-          console.log(this.search)
+         // console.log(this.search)
           this.selected = []
           console.log('search')
           this.servicesList = []
         //  this.loading = true
           this.disableList = false
 
-          axios.get('http://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
+          axios.get('https://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
           .then((response)=>{
                // handle success
           //  console.log(response.data)
@@ -137,7 +136,8 @@
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from'},
         {text: 'Llegada', value: 'to'},
-        {text: '', value: 'action'}
+        {text: '', value: 'action'},
+        
       ],
       servicesList: [],
       services: [
@@ -193,5 +193,14 @@
     pointer-events none
     opacity 0.1
 
- 
+
+</style>
+
+<style>
+  .v-card__title.barra-servicios {
+    background: #1565c0;
+    color: white;
+    font-size: 18px
+    
+  }
 </style>

@@ -3,7 +3,7 @@
      
       <vue-circle
         :progress="countdown"
-        :size="65"
+        :size="50"
         :reverse="true"
         line-cap="round"
         :fill="fill"
@@ -11,11 +11,11 @@
         :animation-start-value="0.0"
         :start-angle="0"
         insert-mode="append"
-        :thickness="4"
+        :thickness="3"
         :show-percent="false"
        >
-        <p class="text-circle-progress">{{countdown}}</p>
-         <p class="text-circle-progress">horas</p>
+        <p class="text-circle-progress">{{countdown}} hrs</p>
+         
       </vue-circle>
        <p class="text-circle-progress"> Para su check-in</p>
   </v-flex>
@@ -61,8 +61,9 @@
 
 <style lang="stylus">
 
-  .text-circle-progress
+   .text-circle-progress 
     margin-bottom: 0px
     margin-top: 0px
+    font-size: 11px
 
 </style>
