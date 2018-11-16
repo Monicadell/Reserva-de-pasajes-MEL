@@ -34,7 +34,7 @@
             </v-container>
           </v-img>
 
-          <v-card-text class="ml-3 mr-3"  v-if="booking.text == 'Confirmar reserva'">
+          <v-card-text class="ml-3 mr-3"  v-if="booking.text == 'Confirmar reserva' && ruta.name">
             <v-timeline align-top dense>
 
               <v-timeline-item color="yellow darken-1" large icon="fal fa-map-marked">
@@ -45,7 +45,7 @@
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">A las:</div>
-                    <b>{{service.departure}}</b>
+                    <b>{{servicioSeleccionado.departure}}</b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -53,7 +53,7 @@
               <v-timeline-item color="orange" large icon="fal fa-shuttle-van" class="mb-3">
                 <v-layout pt-3>
                   <v-flex xs6>
-                    {{service.id}}
+                    {{servicioSeleccionado.id}}
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -66,7 +66,7 @@
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">llegada aproximada:</div>
-                    <b> {{service.arrival}} </b>
+                    <b> {{servicioSeleccionado.arrival}} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -149,27 +149,31 @@
             status: 1,
             booked_at: hora,
             user_id: 113162,
-            service_id: this.service.id
+            service_id: this.servicioSeleccionado.id
             }
           })
           .then((response)=>{
             console.log('reserva realizada')
 
-            this.$store.dispatch('Booking/set_reservaRealizada', {
-            reservaRealizada: true
-            });  
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });     
 
         setTimeout(() => {
           this.booking.state = 'success'
           this.booking.color = 'space'
           this.booking.text = 'Reserva realizada con exito'
           this.loadingBooking = false
+            this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: true
+            });  
         }, 2000)
+
+          
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });     
+
+       
       },
     },
     computed: {
@@ -177,7 +181,8 @@
         service: ['Booking/service'],
         selected: ['Booking/selected'],
         current: ['Booking/current'],
-        ruta: ['Booking/ruta']
+        ruta: ['Booking/ruta'],
+        servicioSeleccionado: ['Booking/servicioSeleccionado']
       })
     }
   }

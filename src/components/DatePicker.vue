@@ -102,6 +102,7 @@
     },
     methods: {
       actFecha(value) {
+        console.log(`selecciono fecha ${value}`)
         const  idRuta = this.ruta.id
         const fechaViaje = value
         console.log(idRuta, fechaViaje)

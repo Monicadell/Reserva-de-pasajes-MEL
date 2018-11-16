@@ -25,7 +25,7 @@
       <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12 md5>
-            <place-selector :direction="'from'"/>
+            <place-selector :direction="'from'"/> 
            <!--  <place-selector :direction="'to'" class="mt-3"/> -->
             <service-date :direction="'from'" class="mt-3"/>
           </v-flex>
@@ -71,7 +71,14 @@
       ServiceList: ServiceList,
       ServiceSelected: ServiceSelected,
       MyBooking: MyBooking
-    }
+    },
+    mounted () {
+
+       this.$store.dispatch('Booking/set_ruta', {
+            ruta: {},
+
+          }) 
+    },
   }
 </script>
 

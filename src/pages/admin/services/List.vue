@@ -1,8 +1,7 @@
 <template>
   <v-card :class="{
-  'elevation-1': !loading && servicesList.length === 0,
-  'elevation-10': servicesList.length > 0,
-  
+  'elevation-1': !cargandoPeticion && listaServicios.length === 0,
+  'elevation-10': listaServicios.length > 0,
   //disableList: disableList && servicesList.length === 0
   }"
   class="fadeinfwdfast"
@@ -34,17 +33,12 @@
     >
 
       <template slot="items" slot-scope="props">
-        <tr @click="selectService(props.item, props.expanded = !props.expanded)"
-            :class="{'primary white--text': booking && booking.id === props.item.id}">
+        <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
           <td>{{ props.item.name }}</td>
+          <td >{{ props.item.departure }}</td> 
           <td >{{(props.item.arrival)}}</td>  
-         <!-- <td class="text-xs-center">{{ props.item.departure }}</td> -->
-          <td >{{ props.item.arrival }}</td>
-          <td class="text-xs-center">
-            <v-btn block small dark color="primary darken-1"
-                   :disabled="booking && booking.id !== props.item.id"
-                   @click="resume()">Seleccionar</v-btn>
-          </td>
+          <td class="text-xs-center"> {{ props.item.avail_seats }} </td> 
+          <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
         </tr>
       </template>
     </v-data-table>
@@ -68,27 +62,28 @@
     ,
     watch: {
       changed () {
-        this.searchNewServices()
+//this.searchNewServices()
       }
     },
     mounted () {
-     this.searchNewServices()
+   //  this.searchNewServices()
        this.$store.dispatch('Booking/set_listaServicios', {
             listaServicios: [],
 
           }) 
     },
     methods: {
-      resume (xs) {
+      resume (servicioSeleccionado) {
        // console.log('aqui')
-       // console.log(xs)
+      console.log(servicioSeleccionado)
        this.$store.dispatch('Booking/select', {selected: true})
+       this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
       selectService (service) {
       
       this.$store.dispatch('Booking/set_service', {service: service})
       },
-      searchNewServices () {
+     /* searchNewServices () {
         this.$store.dispatch('Booking/set_service', {service: {}})
         this.disableList = true
         if (this.search && this.search.from.date && this.search.from.place && this.search.to.place) {
@@ -99,7 +94,7 @@
         //  this.loading = true
           this.disableList = false
 
-          axios.get('https://192.168.11.146:4000/api/services?trip_id=1&date=2018-11-13')
+          axios.get('https://mel-2-backend.gestsol.cl/api/services?trip_id=1&date=2018-11-13')
           .then((response)=>{
                // handle success
           //  console.log(response.data)
@@ -115,7 +110,7 @@
             console.log(err)
           })
         }
-      },
+      }, */
     },
     computed: {
       ...mapGetters({
@@ -136,11 +131,12 @@
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from'},
         {text: 'Llegada', value: 'to'},
-        {text: '', value: 'action'},
-        
+        {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: '', value: 'action' , sortable: false},
+        {text: '', value: 'action' , sortable: false},
       ],
-      servicesList: [],
-      services: [
+      //servicesList: [],
+     /* services: [
         {
           value: false,
           id: 1,
@@ -183,7 +179,7 @@
           from: '09:00',
           to: '11:00'
         }
-      ]
+      ] */
     })
   }
 </script>
