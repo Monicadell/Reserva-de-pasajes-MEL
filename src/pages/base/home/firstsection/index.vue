@@ -27,6 +27,6 @@
 </script>
 <style>
   .cover-height{
-    min-height: calc(100vh - 40px);
+    min-height: 100vh;
   }
 </style>

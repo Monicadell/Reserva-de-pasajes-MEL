@@ -51,7 +51,8 @@
 
 <style>
   .div-contain-login .bottom-login{
-    background-color: rgba(255, 255, 255, 0.9)
+    /* background-color: rgba(255, 255, 255, 0.9) */
+    background-color: #fff;
   }
   .div-contain-login .v-divider{
     background-color: #fff;

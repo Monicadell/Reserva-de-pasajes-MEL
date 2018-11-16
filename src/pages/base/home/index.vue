@@ -1,6 +1,6 @@
 <template>
   <div>
-    <first-section />
+    <first-section/>
     <fligths/>
     <img-home />
   </div>

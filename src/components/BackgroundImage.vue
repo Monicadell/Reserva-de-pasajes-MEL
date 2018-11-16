@@ -3,7 +3,6 @@
     <img :src="imagen"
          class="kenburns-bottom"
          alt="">
-
   </div> 
 
 
