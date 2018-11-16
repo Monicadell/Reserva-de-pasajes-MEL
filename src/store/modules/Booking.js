@@ -22,7 +22,8 @@ const state = {
   ruta: [], // almacena la ruta a la cual se va a buscar el pasaje
   listaServicios: [], // tiene los servicios disponibles en una ruta para una fecha especifica
   cargandoPeticion: false,
-  reservaRealizada: false
+  reservaRealizada: false,
+  servicioSeleccionado: {} // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle. 
 }
 
 const getters = {
@@ -34,6 +35,7 @@ const getters = {
   listaServicios: state => state.listaServicios,
   cargandoPeticion: state => state.cargandoPeticion,
   reservaRealizada: state => state.reservaRealizada,
+  servicioSeleccionado: state => state.servicioSeleccionado
 }
 
 const actions = {
@@ -59,8 +61,12 @@ const actions = {
     commit('SET_CARGANDOPETICION', {cargandoPeticion: payload.cargandoPeticion})
   },
   set_reservaRealizada ({commit}, payload) {
-    console.log(`estoy en el store ${payload}`)
+ 
     commit ('SET_RESERVAREALIZADA', {reservaRealizada: payload.reservaRealizada})
+  }, 
+  set_servicioSeleccionado ({commit}, payload) {
+    console.log(`seleccionaron el servicio ${payload}`)
+    commit ('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
   }, 
 
 }
@@ -92,6 +98,9 @@ const mutations = {
   },
   SET_RESERVAREALIZADA: (state, {reservaRealizada}) => {
     state.reservaRealizada = reservaRealizada
+  },
+  SET_SERVICIOSELECCIONADO: (state, {servicioSeleccionado}) => {
+    state.servicioSeleccionado = servicioSeleccionado
   }
 }
 
