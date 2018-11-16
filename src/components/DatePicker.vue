@@ -23,7 +23,7 @@
   // avatar: 'https://ui-avatars.com/api/?name=',
   import moment from 'moment'
   import {mapGetters} from 'vuex'
-   import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     props: ['direction'],

@@ -130,6 +130,9 @@
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
+       this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: false
+            });  
     },
     methods: {
       cancel () {
@@ -149,9 +152,12 @@
             service_id: this.service.id
             }
           })
-          .then(function(response) {
+          .then((response)=>{
             console.log('reserva realizada')
-          
+
+            this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: true
+            });  
             console.log(response);
           })
           .catch(function (error) {

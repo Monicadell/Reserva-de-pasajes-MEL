@@ -160,6 +160,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import Countdown from './Countdown'
   import axios from 'axios'
 
@@ -243,7 +244,17 @@
     mounted() {
        this.getReservas();
        
-    }
+    },
+     watch: {
+      reservaRealizada () {
+        this.getReservas()
+      }
+    },
+    computed: {
+      ...mapGetters({
+        reservaRealizada: ['Booking/reservaRealizada']
+      }),
+    },
   }
 </script>
 
