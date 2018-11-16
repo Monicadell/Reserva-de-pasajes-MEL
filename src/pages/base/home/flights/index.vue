@@ -130,7 +130,7 @@
     text-align: center;
     padding-left: 3px;
   }
-  .flight-th .v-table thead th{
+  .flight-th .v-table.theme--light thead th{
     color: #fff;
     font-size: 1.2em;
     background-color: #1565c0;
