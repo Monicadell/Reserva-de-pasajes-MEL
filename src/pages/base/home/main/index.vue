@@ -68,7 +68,7 @@
   .transparent{
     background-color: transparent
   }
-  .container-fondoblanco{
+  .container.container-fondoblanco{
     padding:0;
     height: calc(100vh - 88px);
     padding-top:8px;

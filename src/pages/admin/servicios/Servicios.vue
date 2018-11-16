@@ -4,7 +4,7 @@
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
-        <v-card-title primary-title>
+        <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Servicio</h3>
         </v-card-title>
         <v-card-text>
