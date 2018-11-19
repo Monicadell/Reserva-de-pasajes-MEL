@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  style="overflow:scroll">
     <div class="py-3"><h2>Frecuencias</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
@@ -16,18 +16,46 @@
               </v-flex>
 
               <v-flex xs12 md4>
-                <v-text-field label="Origen"
-                              v-model="editedItem.source_id"></v-text-field>
+                <v-select :items="editedItem.trips" v-model="editedItem.trips"
+                        label="Tramo"
+                        single-line item-text="name" item-value="name"
+                ></v-select>
+                <!-- <v-text-field label="Origen"
+                              v-model="editedItem.source_id"></v-text-field> -->
+
+                 <!-- <v-flex xs12 sm6 md4>
+                <v-text-field label="Destino" v-model="editedItem.dest_id"></v-text-field>
+              </v-flex> -->
               </v-flex>
             </v-layout>
             <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Destino" v-model="editedItem.dest_id"></v-text-field>
-              </v-flex>
+             
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Inicio"
                               v-model="editedItem.start"></v-text-field>
+                <calendar :dato="'freqstart'"/>
+
+
+                <!-- <v-menu
+                    v-model="datepickerStart"
+                    :close-on-content-click="false"
+                    full-width
+                    max-width="290"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      :value="computedDateFormattedMomentjs(edited.start)"
+                      clearable
+                      label="Fecha inicio"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker
+                      v-model="editedItem.start"
+                      @change="datepickerStart = false"
+                      locale="es-419"
+                    ></v-date-picker>
+                  </v-menu> -->
               </v-flex>
 
               <v-flex xs12 sm6 md4>
@@ -148,6 +176,9 @@
 
 <script>
   import API from '@pi/app'
+  import moment from 'moment'
+  import Calendar from '@c/Calendar'
+  import {mapGetters} from 'vuex'
 
   export default {
     data () {
@@ -156,6 +187,11 @@
         dialog: false,
         search: '',
         loading: true,
+        datepickerStart: false,
+        datepickerEnd: false,
+        timepickerSalida: false,
+        timepickerLlegada: false,
+        timepickerSet: false,
         editedItem: {
           name: '',
           source_id: '',
@@ -166,7 +202,8 @@
           departure: '',
           arrival: '',
           duration: '',
-          active: false
+          active: false,
+          trips: []
         },
         selectedFrecuencie: {
           name: 'Frec1',
@@ -195,48 +232,24 @@
           {text: '', value: 'delete', sortable: false}
         ],
         frecuencias: []
-        // frecuencias: [
-        //   {
-        //     name: 'Frec1',
-        //     source_id: 'source',
-        //     dest_id: 'dest',
-        //     start: '2018-10/2018 20:00',
-        //     end: '2018-10/2018 20:00',
-        //     set: '2018-10/2018 20:00',
-        //     departure: '2018-10/2018 20:00',
-        //     arrival: '2018-10/2018 20:00',
-        //     duration: '5:00',
-        //     active: true
-        //   },
-        //   {
-        //     name: 'Frec1',
-        //     source_id: 'source',
-        //     dest_id: 'dest',
-        //     start: '2018-10/2018 20:00',
-        //     end: '2018-10/2018 20:00',
-        //     set: '2018-10/2018 20:00',
-        //     departure: '2018-10/2018 20:00',
-        //     arrival: '2018-10/2018 20:00',
-        //     duration: '5:00',
-        //     active: true
-        //   },
-        //   {
-        //     name: 'Frec1',
-        //     source_id: 'source',
-        //     dest_id: 'dest',
-        //     start: '2018-10/2018 20:00',
-        //     end: '2018-10/2018 20:00',
-        //     set: '2018-10/2018 20:00',
-        //     departure: '2018-10/2018 20:00',
-        //     arrival: '2018-10/2018 20:00',
-        //     duration: '5:00',
-        //     active: true
-        //   }
-        // ]
       }
     },
     mounted () {
       this.getFrec()
+      this.getTrips()
+      this.editedItem.start = this.start
+      console.log('start', this.start)
+    },
+    computed: {
+      // computedDateFormattedMomentjs (data) {
+      //   return this.editedItem.start ? moment(this.editedItem.start).format('DD/MM/YYYY') : ''
+      // }
+      ...mapGetters({
+        start: ['Calendar/freqStart']
+      })
+    },
+    components: {
+      Calendar: Calendar
     },
     methods: {
       async getFrec () {
@@ -247,6 +260,15 @@
             this.loading = false
             }, 500)
           console.log(frec)
+         
+        }
+      },
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          this.editedItem.trips = trips.data.data
+          this.loading = false
+          console.log(trips)
          
         }
       },
