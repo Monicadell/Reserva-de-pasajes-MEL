@@ -10,34 +10,27 @@
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Nombre"
                               v-model="editedItem.name"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 md4>
-                <v-select :items="editedItem.trips" v-model="editedItem.trips"
+              <v-flex xs12 sm6>
+                <v-select :items="editedItem.trips" v-model="editedItem.trip_id"
                         label="Tramo"
-                        single-line item-text="name" item-value="name"
+                        single-line item-text="name" item-value="id"
                 ></v-select>
-                <!-- <v-text-field label="Origen"
-                              v-model="editedItem.source_id"></v-text-field> -->
-
-                 <!-- <v-flex xs12 sm6 md4>
-                <v-text-field label="Destino" v-model="editedItem.dest_id"></v-text-field>
-              </v-flex> -->
               </v-flex>
+            
             </v-layout>
             <v-layout wrap>
              
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Inicio"
-                              v-model="editedItem.start"></v-text-field>
-                <calendar :dato="'freqstart'"/>
-
-
-                <!-- <v-menu
+              <v-flex xs12 sm6>
+                <!-- <v-text-field label="Inicio"
+                              v-model="editedItem.start"></v-text-field> -->
+                <!-- <calendar :dato="'freqstart'"/> -->
+                  <v-menu
                     v-model="datepickerStart"
                     :close-on-content-click="false"
                     full-width
@@ -45,9 +38,9 @@
                   >
                     <v-text-field
                       slot="activator"
-                      :value="computedDateFormattedMomentjs(edited.start)"
+                      :value="computedDateFormattedMomentjs(editedItem.start)"
                       clearable
-                      label="Fecha inicio"
+                      label="Fecha de inicio"
                       readonly
                     ></v-text-field>
                     <v-date-picker
@@ -55,34 +48,141 @@
                       @change="datepickerStart = false"
                       locale="es-419"
                     ></v-date-picker>
-                  </v-menu> -->
+                  </v-menu>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Fin"
-                              v-model="editedItem.end"></v-text-field>
+              <v-flex xs12 sm6>
+                  <v-menu
+                    v-model="datepickerEnd"
+                    :close-on-content-click="false"
+                    full-width
+                    max-width="290"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      :value="computedDateFormattedMomentjs(editedItem.end)"
+                      clearable
+                      label="Fecha de Término"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker
+                      v-model="editedItem.end"
+                      @change="datepickerEnd = false"
+                      locale="es-419"
+                    ></v-date-picker>
+                  </v-menu>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Set" v-model="editedItem.set"></v-text-field>
+              <v-flex xs12 sm6>
+                <!-- <v-text-field label="Set" v-model="editedItem.set"></v-text-field> -->
+                <v-menu
+                  ref="time3"
+                  :close-on-content-click="false"
+                  v-model="timepickerSet"
+                  :nudge-right="40"
+                  :return-value.sync="editedItem.set"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.set"
+                    label="Hora Postura"
+                    readonly
+                  ></v-text-field>
+                  <v-time-picker
+                    v-if="timepickerSet"
+                    v-model="editedItem.set"
+                    format="24hr"
+                    full-width
+                    @change="$refs.time3.save(editedItem.set)"
+                  ></v-time-picker>
+                </v-menu>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Salida" v-model="editedItem.departure"></v-text-field>
+              <v-flex xs12 sm6>
+                <!-- <v-text-field label="Salida" v-model="editedItem.departure"></v-text-field> -->
+                <v-menu
+                  ref="time1"
+                  :close-on-content-click="false"
+                  v-model="timepickerSalida"
+                  :nudge-right="40"
+                  :return-value.sync="editedItem.departure"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.departure"
+                    label="Hora Salida"
+                    readonly
+                  ></v-text-field>
+                  <v-time-picker
+                    v-if="timepickerSalida"
+                    v-model="editedItem.departure"
+                    format="24hr"
+                    full-width
+                    @change="$refs.time1.save(editedItem.departure)"
+                  ></v-time-picker>
+                </v-menu>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Llegada" v-model="editedItem.arrival"></v-text-field>
-              </v-flex>
+<!--              <v-flex xs12 sm6 md4>
+                
+                <v-menu
+                  ref="time2"
+                  :close-on-content-click="false"
+                  v-model="timepickerLlegada"
+                  :nudge-right="40"
+                  :return-value.sync="editedItem.arrival"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.arrival"
+                    label="Llegada -arr"
+                    readonly
+                  ></v-text-field>
+                  <v-time-picker
+                    v-if="timepickerLlegada"
+                    v-model="editedItem.arrival"
+                    full-width
+                    @change="$refs.time2.save(editedItem.arrival)"
+                  ></v-time-picker>
+                </v-menu>
+              </v-flex> -->
 
-              <v-flex xs12 sm6 md4>
+              <!-- <v-flex xs12 sm6 md4>
                 <v-text-field label="Duración"
                               v-model="editedItem.duration"></v-text-field>
+              </v-flex> -->
+              <v-flex xs12 sm6>
+                <v-select :items="freqtypes" v-model="editedItem.freq_type"
+                        label="Tipo"
+                        single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field>
+              <v-flex xs12 sm6>
+                <!-- <v-text-field label="Activo"
+                              v-model="editedItem.active"></v-text-field> -->
+                  <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
               </v-flex>
             </v-layout>
           </v-container>
@@ -90,7 +190,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -163,7 +263,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
+                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -203,7 +303,8 @@
           arrival: '',
           duration: '',
           active: false,
-          trips: []
+          trips: [],
+          trip_id: ''
         },
         selectedFrecuencie: {
           name: 'Frec1',
@@ -231,27 +332,33 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        frecuencias: []
+        frecuencias: [],
+        freqtypes: [
+          {id: 'daily', name: 'Diario', disabled: true},
+          {id: 'weekly', name: 'Semanal'},
+          {id: 'monthly', name: 'Mensual', disabled: true}
+        ]
       }
     },
     mounted () {
       this.getFrec()
       this.getTrips()
-      this.editedItem.start = this.start
-      console.log('start', this.start)
+      // this.editedItem.start = this.start
     },
     computed: {
-      // computedDateFormattedMomentjs (data) {
-      //   return this.editedItem.start ? moment(this.editedItem.start).format('DD/MM/YYYY') : ''
-      // }
-      ...mapGetters({
-        start: ['Calendar/freqStart']
-      })
+     
+      // ...mapGetters({
+      //   start: ['Calendar/freqStart']
+      // })
     },
     components: {
       Calendar: Calendar
     },
     methods: {
+      computedDateFormattedMomentjs (data) {
+        return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
+
+      },
       async getFrec () {
         let frec = await API.get('frequencies')
         if (frec.status >= 200 && frec.status < 300) {
@@ -259,7 +366,7 @@
             this.frecuencias = frec.data.data
             this.loading = false
             }, 500)
-          console.log(frec)
+          // console.log(frec)
          
         }
       },
@@ -268,36 +375,10 @@
         if (trips.status >= 200 && trips.status < 300) {
           this.editedItem.trips = trips.data.data
           this.loading = false
-          console.log(trips)
+          // console.log(trips)
          
         }
       },
-      // loadUserData () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.userList,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber,
-      //       tipoContrato: this.frecuenciasType
-      //     }
-      //   }
-      //   this.loading = true
-      //   this.items = []
-      //   axios(config).then((response) => {
-      //     this.loading = false
-      //     if (response.status === 200 && response.data.success) {
-      //       this.items = response.data.response
-      //     } else {
-      //       alert('Error al cargar la información')
-      //       console.warn(response)
-      //     }
-      //   }, (err) => {
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // },
       editItem (item) {
         console.log('item edit', item)
         // delete item.mensaje
@@ -308,8 +389,55 @@
         this.editedItem = item
         this.dialog = true
       },
-      deleteItem () {
-        this.confirmaAnular = true
+      async save (guardar) {
+        console.log('a guardar', guardar)
+        // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
+        // console.log('trip', obj)
+        let freq = {
+             "frequency": 
+                {
+                    "trip_id": guardar.trip_id ? guardar.trip_id : '',
+                    "start": guardar.start ? guardar.start : '',
+                    "end": guardar.end ? guardar.end : '',
+                    "set": guardar.set ? guardar.set : '',
+                    "departure": guardar.departure ? guardar.departure : '',
+                    "arrival": guardar.arrival ? guardar.arrival : '',
+                    "active": guardar.active ? guardar.active : '',
+                    "freq_type": guardar.freq_type ? guardar.freq_type : '',
+                    "name": guardar.name ? guardar.name : '',
+                }
+        }
+        
+        console.log('ser a post',freq)
+        if(guardar.id){
+          let id = guardar.id
+          let frec = await API.put('frequencies', id, freq )
+          if (frec.status >= 200 && frec.status < 300) {
+              this.services = frec.data.data
+              this.dialog = false
+          }
+        }
+        else{
+	        console.log('ser a post')
+	        let frec = await API.post('frequencies', freq)
+	        if (frec.status >= 200 && frec.status < 300) {
+            console.log('frecuencias', frec)
+             this.getFrec()
+              this.frecuencias = frec.data.data
+              this.dialog = false
+	        }
+        }
+       
+      },
+      async deleteItem (item) {
+        console.log('voy a eliminar frec', item)
+        let eliminando = await API.delete('frequencies', item)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE freq',eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getFrec()   
+        }
       },
       close () {
         this.dialog = false
@@ -319,33 +447,6 @@
         //   this.editedIndex = -1
         // }, 300)
       }
-
-      // save () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
     }
   }
 </script>

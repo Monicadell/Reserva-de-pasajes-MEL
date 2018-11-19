@@ -125,7 +125,7 @@
         color: 'primary',
         text: 'Confirmar reserva',
         name: '',
-         moment: moment,
+        moment: moment,
       }
     }),
     mounted () {

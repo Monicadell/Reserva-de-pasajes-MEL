@@ -6,7 +6,7 @@
 
       color="primary"
       locale="es-Es"
-      v-model="fecha"
+      v-model="start"
       full-width
       
       :height="100"
@@ -54,7 +54,7 @@
     computed: {
       ...mapGetters({
         freqStart: ['Calendar/freqStart'],
-        freqEnd: ['Calendar/freqEnd']
+        // freqEnd: ['Calendar/freqEnd']
       })
     },
     methods: {
@@ -63,9 +63,8 @@
         // console.log(idRuta, fechaViaje)
         console.log(value)
         if(this.dato === 'freqstart'){
-          console.log('soy start de frecuencia')
-          this.$store.dispatch('Calendar/set_start', {
-          });  
+          // console.log('soy start de frecuencia')
+          this.$store.dispatch('Calendar/set_start', {freqStart: value});  
         }
       }
     }
