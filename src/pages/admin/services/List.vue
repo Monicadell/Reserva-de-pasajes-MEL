@@ -75,8 +75,8 @@
     methods: {
       resume (servicioSeleccionado) {
        // console.log('aqui')
-      console.log(servicioSeleccionado)
-       this.$store.dispatch('Booking/select', {selected: true})
+    //  console.log(servicioSeleccionado)
+      this.$store.dispatch('Booking/select', {selected: true})
        this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
       selectService (service) {
@@ -132,6 +132,7 @@
         {text: 'Salida', value: 'from'},
         {text: 'Llegada', value: 'to'},
         {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
       ],
