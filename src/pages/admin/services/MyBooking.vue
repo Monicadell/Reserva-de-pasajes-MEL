@@ -135,9 +135,9 @@
         </td>
 
         <td class="text-xs-center">
-            <v-btn outline color="success"
-               v-show="props.item.estado=='confirmar'">Confirmar</v-btn>
-            <countdown v-show="props.item.estado=='pendiente'" :deadline="props.item.fechaEmbarcacion"/>
+            <!--v-btn outline color="success"
+               v-show="props.item.estado=='confirmar'">Confirmar</v-btn> -->
+            <countdown  :date="props.item.service.date" :time="props.item.service.departure"/>
         </td>
         <td class="text-xs-center">
           <v-dialog v-model="confirmaAnular" persistent max-width="290">
@@ -192,27 +192,7 @@
           {text: '', value: 'cancel', sortable: false}
         ],
         desserts: [
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'Antofagasta',
-            fechaCompra: '20/10/2018 11:48',
-            fechaEmbarcacion: '25/11/2018 20:48',
-            estado: 'pendiente'
-          },
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'MEL',
-            fechaCompra: '22/10/2018 11:48',
-            fechaEmbarcacion: '20/11/2018 20:48',
-            estado: 'pendiente'
-          },
-          {
-            origen: 'COMPLEJO MEL',
-            destino: 'MEL',
-            fechaCompra: '22/10/2018 11:48',
-            fechaEmbarcacion: '10/11/2018 20:48',
-            estado: 'confirmar'
-          }
+          
         ]
       }
     },
@@ -221,7 +201,7 @@
     },
      methods : {
         getReservas() {
-              axios.get('https://mel-2-backend.gestsol.cl/api/tickets', {
+              axios.get('https://mel-2-backend.gestsol.cl/api/tickets?page=2', {
                   params: {
                       user_id: 113162
                   }
@@ -230,8 +210,8 @@
               console.log('entro al timeout')
               setTimeout(()=>{
                     this.desserts = Object.assign([], response.data.data)
-                  console.log(`los tickets reservados son `)
-                  console.log(this.desserts)
+                 
+                 // console.log(this.desserts)
                   this.consulta = true
               }, 2000)
             
