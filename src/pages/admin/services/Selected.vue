@@ -1,40 +1,30 @@
 <template>
   <div>
     <v-dialog v-model="selected" width="500" persistent>
-      <v-card max-width="500">
+      <v-card max-width="500" v-if="ticket.status=='none' && ruta.name">
 
-        <template v-if="loadingBooking">
-          <v-card-text class="text-xs-center ">
-            <v-progress-circular :size="150" color="primary" indeterminate></v-progress-circular>
-            <h2 class="mt-5 font-weight-light">Reservando...</h2>
-          </v-card-text>
+            <v-card dark flat>
 
-        </template>
-        <template v-else>
-          <v-card dark flat>
-
-            <v-card-title :class="booking.color">
+            <v-card-title class="primary">
               <h3 class="title font-weight-light text-xs-center grow">
-                {{booking.text}}
+                Confirmar reserva
               </h3>
             </v-card-title>
+            </v-card>
 
-
-          </v-card>
-
-          <v-img v-if="booking.text == 'Confirmar reserva'" src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
+        <v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
                  gradient="to right, rgba(0,0,0,.44), rgba(0,0,0,.0)">
             <v-container fill-height>
               <v-layout>
                 <v-layout column>
-                  <div class="white--text headline font-weight-light"> {{service.name}}</div>
-                  <div class="white--text font-weight-light">{{service.date}}</div>
+                  <div class="white--text headline font-weight-light"> {{servicioSeleccionado.name}}</div>
+                  <div class="white--text font-weight-light">{{servicioSeleccionado.date}}</div>
                 </v-layout>
               </v-layout>
             </v-container>
           </v-img>
 
-          <v-card-text class="ml-3 mr-3"  v-if="booking.text == 'Confirmar reserva' && ruta.name">
+          <v-card-text class="ml-3 mr-3"  >
             <v-timeline align-top dense>
 
               <v-timeline-item color="yellow darken-1" large icon="fal fa-map-marked">
@@ -74,7 +64,8 @@
 
             </v-timeline>
           </v-card-text>
-          <v-card-actions v-if="booking.state === 'booking'">
+
+          <v-card-actions>
             <v-btn
               color="primary"
               flat
@@ -90,23 +81,30 @@
               Reservar
             </v-btn>
           </v-card-actions>
-          <v-card-actions class="justify-center" v-if="booking.state === 'success'">
-            <v-btn
+
+      </v-card>
+
+       <v-card max-width="500" v-if="ticket.status=='progress'">
+
+            <v-card-text class="text-xs-center ">
+            <v-progress-circular :size="150" color="primary" indeterminate></v-progress-circular>
+            <h2 class="mt-5 font-weight-light">Reservando...</h2>
+          </v-card-text>
+
+      </v-card>
+
+       <v-card max-width="500" v-if="ticket.status=='done'">
+        <v-card-title class="space">
+           <h3 class="title font-weight-light text-xs-center grow">
+           Reserva realizada con exito
+           </h3>
+        </v-card-title>
+        <v-btn
               color="primary"
               @click="cancel"
             >
-              Cerrar
+              Cancelar
             </v-btn>
-            <!-- <v-spacer></v-spacer> -->
-            <!-- <v-btn
-              color="primary"
-              @click="doBooking"
-            >
-              Ir a mis reservas
-            </v-btn> -->
-          </v-card-actions>
-        </template>
-
       </v-card>
     </v-dialog>
   </div>
@@ -125,8 +123,13 @@
         color: 'primary',
         text: 'Confirmar reserva',
         name: '',
-        moment: moment,
+         moment: moment,
+      },
+      
+      ticket : {
+        status: 'none'
       }
+
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
@@ -136,7 +139,12 @@
     },
     methods: {
       cancel () {
+        setTimeout(()=>{
+         this.ticket.status = 'none'
+
+        },2000)
         this.$store.dispatch('Booking/select', {selected: false})
+        
       },
       doBooking () {
         this.loadingBooking = true
@@ -153,13 +161,15 @@
             }
           })
           .then((response)=>{
-            console.log('reserva realizada')
-
+         //   console.log('reserva realizada')
+          this.ticket.status = 'progress'
 
         setTimeout(() => {
-          this.booking.state = 'success'
+          //this.booking.state = 'success'
           this.booking.color = 'space'
           this.booking.text = 'Reserva realizada con exito'
+
+          this.ticket.status = 'done'
           this.loadingBooking = false
             this.$store.dispatch('Booking/set_reservaRealizada', {
             reservaRealizada: true

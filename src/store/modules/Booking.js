@@ -65,7 +65,7 @@ const actions = {
     commit ('SET_RESERVAREALIZADA', {reservaRealizada: payload.reservaRealizada})
   }, 
   set_servicioSeleccionado ({commit}, payload) {
-    console.log(`seleccionaron el servicio ${payload}`)
+   // console.log(`seleccionaron el servicio ${payload}`)
     commit ('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
   }, 
 
