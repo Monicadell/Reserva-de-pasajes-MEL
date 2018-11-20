@@ -60,20 +60,18 @@
                     slot="activator"
                     v-model="editedItem.departure"
                     label="Salida"
-                    prepend-icon="access_time"
                     readonly
                   ></v-text-field>
                   <v-time-picker
                     v-if="timepicker2"
                     v-model="editedItem.departure"
+                    format="24hr"
                     full-width
                     @change="$refs.time2.save(editedItem.departure)"
                   ></v-time-picker>
                 </v-menu>
               </v-flex>
               <v-flex xs12 md6>
-                <!-- <v-text-field label="Llegada"
-                              v-model="editedItem.arrival"></v-text-field> -->
                 <v-menu
                   ref="time1"
                   :close-on-content-click="false"
@@ -91,35 +89,60 @@
                     slot="activator"
                     v-model="editedItem.arrival"
                     label="Llegada"
-                    prepend-icon="access_time"
                     readonly
                   ></v-text-field>
                   <v-time-picker
                     v-if="timepicker1"
                     v-model="editedItem.arrival"
+                    format="24hr"
                     full-width
                     @change="$refs.time1.save(editedItem.arrival)"
                   ></v-time-picker>
                 </v-menu>
               </v-flex>
               <v-flex xs12 md6>
-                <v-text-field label="Set"
-                              v-model="editedItem.set"></v-text-field>
+                <!-- <v-text-field label="Set"
+                              v-model="editedItem.set"></v-text-field> -->
+                <v-menu
+                  ref="time3"
+                  :close-on-content-click="false"
+                  v-model="timepicker3"
+                  :nudge-right="40"
+                  :return-value.sync="editedItem.set"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="editedItem.set"
+                    label="Hora de puesta"
+                    readonly
+                  ></v-text-field>
+                  <v-time-picker
+                    v-if="timepicker3"
+                    v-model="editedItem.set"
+                    format="24hr"
+                    full-width
+                    @change="$refs.time3.save(editedItem.set)"
+                  ></v-time-picker>
+                </v-menu>
               </v-flex>
                             
               <v-flex xs12 md6>
-                <!-- <v-select :items="frequencies" v-model="editedItem.trip_id"
-                          label="Tramo"
-                          single-line item-text="text" item-value="id"
-                ></v-select> -->
-                 <v-text-field label="Tramo"
-                              v-model="editedItem.trip_id"></v-text-field>
+                <v-select :items="editedItem.trips" v-model="editedItem.trip_id"
+                        label="Tramo"
+                        single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex>       
 
               <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
                           label="Frecuencia"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>            
 
@@ -247,10 +270,12 @@
         eliminaid: '',
         editedItem: {
           date: new Date().toISOString().substr(0, 10),
+          trips: []
         },
         datepicker: false,
         timepicker1: false,
         timepicker2: false,
+        timepicker3: false,
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
@@ -299,14 +324,13 @@
           {text: 'Sprinter 3', id: '2'}
         ],
         frequencies: [
-          {text: 'FREC 1', id: '1'},
-          {text: 'FREC 2', id: '2'},
-          {text: 'FREC 3', id: '3'}
         ]
       }
     },
     mounted () {
       this.getServices()
+      this.getTrips()
+      this.getFrequencies()
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -317,6 +341,23 @@
       irEliminar (datoid) {
         this.eliminaid = datoid
         this.confirmaAnular = true
+      },
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          this.editedItem.trips = trips.data.data
+          this.loading = false
+          // console.log(trips)
+         
+        }
+      },
+      async getFrequencies () {
+        let frecs = await API.get('frequencies')
+        if (frecs.status >= 200 && frecs.status < 300) {
+          this.frequencies = frecs.data.data
+          this.loading = false
+         
+        }
       },
       async getServices () {
         console.log('get services')
@@ -376,56 +417,17 @@
           }
         }
         else{
-          console.log('voy a POST', ser)
-	        let ser = {
-	             "service": 
-	                {
-	                    "arrival": guardar.arrival ? guardar.arrival : '',
-	                    "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
-	                    "date": guardar.date ? guardar.date : '2018-11-15',
-	                    "departure": guardar.departure ? guardar.departure : '',
-	                    "name": guardar.name ? guardar.name : '',
-	                    "set": guardar.set ? guardar.set : '',
-	                    "trip_id":  guardar.trip_id ? guardar.trip_id : ''
-	                }
-	        }
-	        
-	        console.log('ser a post',ser)
+          console.log('ser a post',ser)
 	        let servicios = await API.post('services', ser)
 	        if (servicios.status >= 200 && servicios.status < 300) {
             console.log(servicios)
-             this.getServices()
-              this.services = servicios.data.data
-              this.dialog = false
+            this.getServices()
+            this.services = servicios.data.data
+            this.dialog = false
 	        }
         }
        
       }
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
     }
   }
 </script>

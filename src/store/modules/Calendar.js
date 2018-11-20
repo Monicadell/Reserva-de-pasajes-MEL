@@ -20,19 +20,20 @@ const getters = {
 
 const actions = {
 
-
   set_start ({commit}, payload) {
-    commit('SET_START', {freqStart: payload.freqStart, direction: payload.direction})
+    // console.log('set∫ pay', payload)
+    commit('SET_START', {freqStart: payload.freqStart})
   },
   set_end ({commit}, payload) {
-    commit('SET_END', {freqEnd: payload.freqEnd, direction: payload.direction})
+    commit('SET_END', {freqEnd: payload.freqEnd})
   }
 }
 
 const mutations = {
  
   SET_START: (state, {freqStart}) => {
-    console.log(freqStart)
+    // console.log('set freq')
+    // console.log(freqStart)
     state.freqStart = freqStart
   },
   SET_END: (state, {freqEnd}) => {
