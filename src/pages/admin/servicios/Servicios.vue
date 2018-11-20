@@ -195,7 +195,7 @@
           :search="search"
           :loading="loading"
            item-key="id"
-          hide-actions
+        
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -346,9 +346,7 @@
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
           this.editedItem.trips = trips.data.data
-          this.loading = false
-          // console.log(trips)
-         
+          this.loading = false         
         }
       },
       async getFrequencies () {

@@ -1,5 +1,5 @@
 <template>
-  <div  style="overflow:scroll">
+  <div>
     <div class="py-3"><h2>Frecuencias</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
@@ -376,7 +376,6 @@
           this.editedItem.trips = trips.data.data
           this.loading = false
           // console.log(trips)
-         
         }
       },
       editItem (item) {

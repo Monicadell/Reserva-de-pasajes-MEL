@@ -108,6 +108,7 @@
           :loading="loading"
           :search="search"
           :pagination.sync="pagination"
+          :total-items="totalUsers"
           :rows-per-page-items="pagination.rowsPerPageItems"
         >
         <template slot="items" slot-scope="props">
@@ -160,6 +161,17 @@
             </v-dialog>
           </td>
         </template>
+        <template slot="footer">
+          <td :colspan="headers.length" class="text-xs-right">
+            <v-spacer></v-spacer>
+            <v-btn flat icon @click="changePage(false)">
+              <v-icon>keyboard_arrow_left</v-icon>
+            </v-btn>
+            <v-btn flat icon  @click="changePage(true)">
+               <v-icon>keyboard_arrow_right</v-icon>
+            </v-btn>
+          </td>
+        </template>
       </v-data-table>
     </div>
   </div>
@@ -177,12 +189,9 @@
         search: '',
         loading: true,
         moment: moment,
+        page: 1,
         pagination: {
-          descending: true,
-          page: 1,
-          rowsPerPage: 20,
-          totalItems: 0,
-          rowsPerPageItems: [20, 50, 100, 200]
+          
         },
         editedItem: {
           name: '',
@@ -221,41 +230,7 @@
           {text: '', value: 'delete', sortable: false}
         ],
         users: [],
-        // users: [
-        //   {
-        //     name: 'Juan Perez',
-        //     rut: '113939483-5',
-        //     role_id: 'EST',
-        //     active: false,
-        //     email: 'juan@algo.com',
-        //     address: 'daushd dasu dau s23',
-        //     phone_number: '8482737',
-        //     company_name: 'Empresa asociada ltda.',
-        //     last_connection: '2018-10/2018 20:00'
-        //   },
-        //   {
-        //     name: 'Andres Martinez',
-        //     rut: '138388383-5',
-        //     role_id: 'EST',
-        //     active: true,
-        //     email: 'andres@gmail.com',
-        //     address: 'daushd dasu dau s23',
-        //     phone_number: '9494878',
-        //     company_name: 'Empresa asociada ltda.',
-        //     last_connection: 'Sin conexion'
-        //   },
-        //   {
-        //     name: 'José Gomez',
-        //     rut: '15588383-5',
-        //     role_id: 'ADMIN',
-        //     active: true,
-        //     email: 'pepe@gmail.com',
-        //     address: 'daushd dasu dau s23',
-        //     phone_number: '94837487',
-        //     company_name: 'Empresa asociada ltda.',
-        //     last_connection: '2018-10/2018 20:00'
-        //   }
-        // ],
+        totalUsers: 0,
         userDocumentType: [
           {text: 'RUT', id: 'RUT'},
           {text: 'PASAPORTE', id: 'PASAPORTE'}
@@ -278,45 +253,88 @@
         ]
       }
     },
+    // watch: {
+    //   pagination: {
+    //     handler () {
+    //       this.getDataFromApi()
+    //         .then(data => {
+    //           console.log('data', data)
+    //           this.users = data.items
+    //           this.totalUsers = data.total
+    //         })
+    //     },
+    //     deep: true
+    //   }
+    // },
     mounted () {
       this.getUsers()
+      // setTimeout(() => {
+      //   this.getDataFromApi()
+      //     .then(data => {
+      //       this.users = data.items
+      //       this.totalUsers = data.total
+      //     })
+      // }, 500)
+     
+      
     },
     methods: {
+      getDataFromApi () {
+        this.loading = true
+        console.log('entro', this.users)
+        return new Promise((resolve, reject) => {
+          const { sortBy, descending, page, rowsPerPage } = this.pagination
+            
+          let items = this.users
+          console.log('items->>>', items)
+          const total = items.length
+          if (this.pagination.sortBy) {
+            // console.log('sortby', this.pagination.sortBy)
+            items = items.sort((a, b) => {
+              const sortA = a[sortBy]
+              const sortB = b[sortBy]
+
+              if (descending) {
+                if (sortA < sortB) return 1
+                if (sortA > sortB) return -1
+                return 0
+              } else {
+                if (sortA < sortB) return -1
+                if (sortA > sortB) return 1
+                return 0
+              }
+            })
+          }
+
+          if (rowsPerPage > 0) {
+            // console.log('rowperpage', items)
+            items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+            // console.log('items rows', items)
+          }
+
+          setTimeout(() => {
+            this.loading = false
+            console.log('items', items)
+            resolve({
+              items,
+              total
+            })
+          }, 1000)
+        })
+      },
       async getUsers () {
         let usuarios = await API.get('users')
+
         if (usuarios.status >= 200 && usuarios.status < 300) {
-          setTimeout(() => {
+          // console.log('usuarios', usuarios.data.data)
+          //         return usuarios.data.data
+          // setTimeout(() => {
             this.users = usuarios.data.data
+            this.totalUsers = usuarios.data.data.length
             this.loading = false
-            }, 500)
+        //     }, 500)
         }
       },
-      // loadUserData () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.userList,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber,
-      //       tipoContrato: this.usersType
-      //     }
-      //   }
-      //   this.loading = true
-      //   this.items = []
-      //   axios(config).then((response) => {
-      //     this.loading = false
-      //     if (response.status === 200 && response.data.success) {
-      //       this.items = response.data.response
-      //     } else {
-      //       alert('Error al cargar la información')
-      //       console.warn(response)
-      //     }
-      //   }, (err) => {
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // },
       editItem (item) {
         console.log('item edit', item)
         // delete item.mensaje
@@ -337,34 +355,18 @@
         //   this.editedItem = Object.assign({}, this.defaultItem)
         //   this.editedIndex = -1
         // }, 300)
+      },
+      changePage(isSiguiente){
+       console.log('pagina actual', this.page)
+       console.log('isSiguiente',isSiguiente)
+       if (isSiguiente){
+         //llamara  a user con page +1
+       }
+       else{
+         //llamar a anterior
+         //bliqear teclas
+       }
       }
-
-      // save () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
     }
   }
 </script>
