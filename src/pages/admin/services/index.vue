@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  style="width: 100%;">
     <v-toolbar card prominent>
       
       <v-toolbar-title class="body-3 primary--text ml-4">

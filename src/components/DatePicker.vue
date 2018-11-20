@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card max-width="500" id="calendario">
+    <v-card  id="calendario">
       <v-card dark flat>
         <v-card-title class="custom-header" >
           <h3 class="title font-weight-light text-xs-center grow">
