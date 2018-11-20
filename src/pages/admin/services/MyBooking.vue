@@ -8,6 +8,7 @@
         :headers="headers"
         :items="desserts"
         class="elevation-1 "
+        @update:pagination="updatePagination" 
       >
       <template slot="items" slot-scope="props" v-if ="consulta">
         <td class="">{{ props.item.service.from }}</td>
@@ -16,7 +17,7 @@
         <td class="">{{ props.item.service.date }} {{ props.item.service.departure }}</td>
         <td class="text-xs-center">
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
-          <v-btn slot="activator" color="primary" dark>Ver Detalle</v-btn>
+          <v-btn slot="activator" color="primary" dark @click="verDetalle(props.item)">Ver Detalle</v-btn>
             <v-card>
                 <v-card-title class="titulo-detalle  elevation-22">
                     <div>
@@ -24,93 +25,94 @@
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <v-container grid-list-sm>
+                    <v-container >
                         
-                        <v-layout wrap justify-center>
-                          <v-flex xs12 sm6>
-                                <v-list two-line style="padding-left: 53px;">
-                                    <v-list-tile style="height: 40px;">
-                                        <v-list-tile-content class="custom">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Origen</v-list-tile-sub-title>
+                        <v-layout wrap  >
+                          <v-flex xs4 >
+                                <v-list  three-line >
+                                    <v-list-tile >
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=50> directions_bus</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content >
+                                            <v-list-tile-sub-title class="black--text font-weight-bold">LINEA TANDEM</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text ">RUTA: {{selectedBooking.service.from}} - {{selectedBooking.service.to}}</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom2">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Destino</v-list-tile-sub-title>
+                                    <v-list-tile  >
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=50>airline_seat_recline_extra</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content  >
+                                            <v-list-tile-sub-title class="black--text font-weight-bold ">Nº DE ASIENTO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text  ">ASIENTO Nº {{selectedBooking.seat}}</v-list-tile-sub-title>
+                                            
                                         </v-list-tile-content>
                                     </v-list-tile>
-                                     <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Telefono contacto</v-list-tile-sub-title>
+                                     <v-list-tile  >
+                                         <v-list-tile-action>
+                                           <v-icon color="primary" size=50>access_time</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content  >
+                                            <v-list-tile-sub-title class="black--text font-weight-bold">DURACIÓN</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">23</v-list-tile-sub-title>
+
                                         </v-list-tile-content>
                                      </v-list-tile>
-                                      <v-list-tile class="pad" style="height: 40px;">    
-                                        <v-list-tile-content  class="custom2">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Servicio</v-list-tile-sub-title>
+                                </v-list>
+                            </v-flex>
+                            <v-flex xs4 >
+                                <v-list three-line  >
+                                    <v-list-tile  >
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=54>location_on</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content class="custom-text" >
+                                            <v-list-tile-sub-title class="black--text font-weight-bold">SALIDA</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.departure}} {{selectedBooking.service.date}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.from}}</v-list-tile-sub-title>
+                                            
                                         </v-list-tile-content>
-                                 </v-list-tile>
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Embarcación</v-list-tile-sub-title>
+                                    </v-list-tile>
+                                    <v-list-tile   >
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=54>location_on</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content class="custom-text"  >
+                                           
+                                            <v-list-tile-sub-title class="black--text font-weight-bold">LLEGADA</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.arrival}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.to}}</v-list-tile-sub-title>
+
+
                                         </v-list-tile-content>
-                                         </v-list-tile>
-                                          <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom2">
-                                            <v-list-tile-sub-title class="white--text ml-4 text">Fecha de Compra</v-list-tile-sub-title>
+                                    </v-list-tile>
+                                    <v-list-tile  >
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=50>stars</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content class="custom-text" >
+                                            <v-list-tile-sub-title class="black--text font-weight-bold">SERVICIO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.name}}</v-list-tile-sub-title>
+
                                         </v-list-tile-content>
-                                         </v-list-tile>
-                                          <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            <v-list-tile-sub-title class="white--text ml-4 text" >Boleto</v-list-tile-sub-title>
-                                        </v-list-tile-content>
-                                         </v-list-tile>
+                                    </v-list-tile>
                                    
                                 </v-list>
                             </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-list two-line style="padding-right: 53px;" >
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.origen}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile  class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom2">
-                                           
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.destino}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.numeroTelefono}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom2">
-                                            
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.descripcionServicio}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile class="pad" style="height: 40px;">
-                                        <v-list-tile-content  class="custom">
-                                            
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.fechaEmbarcacion}}</v-list-tile-title>
+
+                            <v-flex xs4 style="align-self: center;"> 
+                                <v-list   >
+                                    <v-list-tile  >
+                                        <v-list-tile-avatar tile>
+                                            <img src="../../../../static/img/logo-tandem.png">
+                                        </v-list-tile-avatar>
+                                        <v-list-tile-content  >
+                                            <v-list-tile-sub-title class="primary--text font-weight-bold">BOLETO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="">{{selectedBooking.id}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile class="pad"  style="height: 40px;">
-                                        <v-list-tile-content  class="custom2">
-                                            
-                                            <v-list-tile-title class="ml-4">{{selectedBooking.fechaCompra}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile  style="height: 40px; padding: 0px;">
-                                        <v-list-tile-content  class="custom pad">
-                                            
-                                            <v-list-tile-title class="ml-4" >{{selectedBooking.boleto}}</v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
+                                    </v-list-tile>    
                                 </v-list>
                             </v-flex>
                             <!-- <v-flex offset-xs3 offset-md4 md8 xs8>
@@ -171,6 +173,9 @@
         confirmaAnular: false,
         bookingDetails: false,
         selectedBooking: {
+            service: {
+
+            },
           descripcionServicio: 'Frec1',
           fechaEmbarcacion: '25/11/2018 20:48',
           fechaCompra: '20/10/2018 20:48',
@@ -211,7 +216,7 @@
               setTimeout(()=>{
                     this.desserts = Object.assign([], response.data.data)
                  
-                 // console.log(this.desserts)
+                 console.log(this.desserts)
                   this.consulta = true
               }, 2000)
             
@@ -220,6 +225,14 @@
             console.log(err)
           })
         },
+        verDetalle(item) {
+            console.log(item)
+                    this.selectedBooking = Object.assign([], item)
+
+        },
+        updatePagination (pagination) {
+    console.log('update:pagination', pagination)
+  }
     },
     mounted() {
        this.getReservas();
@@ -239,41 +252,19 @@
 </script>
 
 <style>
-   .v-list--two-line .v-list__tile .custom {
-       background: #1565c0;
-       color: white;
-        width: 400px;
-      font-size: 18px;
-       height: 40px;
-        padding: 2px;
-   }
-
-   .v-list--two-line .v-list__tile .custom2 {
-       background: #4e96e9;
-       color: white;
-        height: 40px;
-        font-size: 18px;
-         padding: 2px;
-   } 
-
-    .v-list__tile  {
-        padding: 2px;
-        
+ 
+    .v-list__tile__content.custom-text {
+        line-height: 1.2;
     }
+    
 
-    .v-list--two-line .v-list__tile {
-        height: 40px;   
-    }
-    .v-list__tile__sub-title.text {
-        font-size: 18px;
-    }
-
+  
     .v-card__title.titulo-detalle {
         background: #1565c0;
         color: white;
         font-weight: lighter;
     }
-
+ 
     .v-card__title.barra-reservas {
         background: #1565c0;
         color: white;

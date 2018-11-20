@@ -1,5 +1,19 @@
 <template>
   <div>
+    <v-card  id="calendario">
+      <v-card dark flat>
+        <v-card-title class="custom-header" >
+          <h3 class="title font-weight-light text-xs-center grow">
+            {{mesformateado}} 
+          </h3>
+          <v-spacer> </v-spacer>
+           <v-spacer> </v-spacer>
+            <h3 class="title font-weight-light text-xs-center grow">
+             {{year}}
+          </h3>
+      </v-card-title>
+    </v-card>
+
     <v-date-picker
       :min="moment().format('YYYY-MM-DD')"
       :max="moment().add(maxDays, 'days').format('YYYY-MM-DD')"
@@ -8,13 +22,15 @@
       locale="es-Es"
       v-model="fecha"
       full-width
-      landscape
+      no-title
       :height="100"
       :first-day-of-week="1"
       enabled
       @input="actFecha"
       class="fadeinfwd"
+
     ></v-date-picker>
+    </v-card>
   </div>
 </template>
 
@@ -35,10 +51,15 @@
       allowedFromDates: [],
       allowedToDates: [],
       maxDays: 45,
-     fecha: new Date().toISOString().substr(0, 10)
+     fecha: new Date().toISOString().substr(0, 10),
+     mes: '',
+     year: '',
+     mesformateado: ''
   
     }),
     mounted () {
+    
+       moment.locale('es-es')
       if (this.search[this.direction].date) {
         let lastDateSearch = moment(this.search[this.direction].date)
         let today = moment()
@@ -102,6 +123,10 @@
     },
     methods: {
       actFecha(value) {
+        // actualizo valor a mostrar en el header
+        this.mes = value.split('-')[1]
+        this.mesformateado = moment(this.mes, 'MM').format('MMMM')
+        this.year = value.split('-')[0]
         console.log(`selecciono fecha ${value}`)
         const  idRuta = this.ruta.id
         const fechaViaje = value
@@ -135,3 +160,10 @@
     }
   }
 </script>
+
+<style>
+  .v-card__title.custom-header {
+    background: #1565c0;
+    height: 30px
+  }
+</style>

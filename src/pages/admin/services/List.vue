@@ -37,7 +37,9 @@
           <td>{{ props.item.name }}</td>
           <td >{{ props.item.departure }}</td> 
           <td >{{(props.item.arrival)}}</td>  
-          <td class="text-xs-center"> {{ props.item.avail_seats }} </td> 
+          <td class="text-xs-center">
+              <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
+             {{ props.item.avail_seats }} </td> 
           <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
         </tr>
       </template>

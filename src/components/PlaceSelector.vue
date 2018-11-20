@@ -1,5 +1,7 @@
 <template>
-  <div>
+<v-layout row wrap >
+
+    <v-flex xs6  >
     <v-autocomplete
       v-model="place"
       :items="locations"
@@ -39,9 +41,10 @@
         </template>
       </template>
     </v-autocomplete>
+    </v-flex>
     <br>
     <!-- SEGUNDO SELECTOR --> 
-
+    <v-flex xs6  >
     <v-autocomplete
       v-model="placeDestiny"
       :items="destinyLocations"
@@ -85,7 +88,9 @@
         </template>
       </template>
     </v-autocomplete>
-  </div>
+    </v-flex>
+  
+  </v-layout>
 </template>
 
 <script>

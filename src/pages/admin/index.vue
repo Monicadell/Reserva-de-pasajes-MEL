@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%;">
     <admin-toolbar @showAdminBar="showAdminBar"/>
     
     <admin-navigation v-if="showAdmin" />
