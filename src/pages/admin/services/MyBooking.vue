@@ -8,6 +8,7 @@
         :headers="headers"
         :items="desserts"
         class="elevation-1 "
+        @update:pagination="updatePagination" 
       >
       <template slot="items" slot-scope="props" v-if ="consulta">
         <td class="">{{ props.item.service.from }}</td>
@@ -24,7 +25,7 @@
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <v-container grid-list-sm>
+                    <v-container >
                         
                         <v-layout wrap  >
                           <v-flex xs4 >
@@ -228,7 +229,10 @@
             console.log(item)
                     this.selectedBooking = Object.assign([], item)
 
-        }
+        },
+        updatePagination (pagination) {
+    console.log('update:pagination', pagination)
+  }
     },
     mounted() {
        this.getReservas();
