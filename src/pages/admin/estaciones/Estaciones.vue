@@ -4,36 +4,39 @@
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
-        <v-card-title primary-title>
+        <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Estación</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Nombre"
                               v-model="editedItem.name"></v-text-field>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Dirección"
                               v-model="editedItem.address"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout wrap>
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Latitud" v-model="editedItem.lat"></v-text-field>
               </v-flex>
 
 
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="city_id" v-model="editedItem.city_id"></v-text-field>
+              <v-flex xs12 sm6>
+                <v-select :items="cities" v-model="editedItem.city_id"
+                        label="Ciudad"
+                        single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 sm6>
                 <v-text-field label="Descripción"
                               v-model="editedItem.desc"></v-text-field>
               </v-flex>
@@ -148,37 +151,13 @@
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        estaciones: []
-        // estaciones: [
-        //   {
-        //     name: 'Mel',
-        //     address: '...',
-        //     lat: '1313',
-        //     lon: '111',
-        //     city_id: 'san_id',
-        //     desc: 'Desciopcion'
-        //   },
-        //   {
-        //     name: 'Mel',
-        //     address: '....',
-        //     lat: '1212',
-        //     lon: '111',
-        //     city_id: 'sant_id',
-        //     desc: 'Descripcion'
-        //   },
-        //   {
-        //     name: 'mel 2',
-        //     address: '...',
-        //     lat: '1212',
-        //     lon: '1111',
-        //     city_id: 'sant_id',
-        //     desc: 'Desciopcion'
-        //   }
-        // ]
+        estaciones: [],
+        cities: []
       }
     },
     mounted () {
       this.getStations()
+      this.getCities()
     },
     methods: {
       async getStations () {
@@ -206,33 +185,13 @@
         //   this.editedItem = Object.assign({}, this.defaultItem)
         //   this.editedIndex = -1
         // }, 300)
-      }
-      // save () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       address: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
+      },
+      async getCities () {
+        let cit = await API.get('cities')
+        if (cit.status >= 200 && cit.status < 300) {
+          this.cities = cit.data.data
+        }
+      },
     }
   }
 </script>

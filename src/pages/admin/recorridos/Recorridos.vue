@@ -4,7 +4,7 @@
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
-        <v-card-title primary-title>
+        <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Tramo</h3>
         </v-card-title>
         <v-card-text>
@@ -15,8 +15,13 @@
                               v-model="editedItem.name"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field>
+                <!-- <v-text-field label="Activo"
+                              v-model="editedItem.active"></v-text-field> -->
+                <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
               </v-flex>
             </v-layout>
             <v-layout wrap>
@@ -32,13 +37,18 @@
                           single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
+              
+              <v-flex xs12 md6>
+                <v-text-field type="number" v-model="editedItem.duration" label="Duración (minutos)"></v-text-field>
+              </v-flex>
+
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -67,6 +77,13 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
+          <td class="">
+            <!-- {{ props.item.duration }} -->
+            <input
+              :value="convertMinsToHrsMins(props.item.duration)"
+              readonly style="border-width: 0"
+            >
+          </td>
           <td class="">{{ props.item.source_id }}</td>
           <td class="">{{ props.item.dest_id }}</td>
           <td class="">
@@ -92,7 +109,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
@@ -105,7 +122,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
+                  <v-btn color="red darken-1" flat @click.native="deleteItem(eliminaid)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -118,6 +135,7 @@
 
 <script>
   import API from '@pi/app'
+  import moment from 'moment'
 
   export default {
     data () {
@@ -127,6 +145,7 @@
         search: '',
         trips: [],
         loading: true,
+        moment: moment,
         editedItem: {
           name: '',
           source_id: '',
@@ -135,6 +154,7 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
+          {text: 'Duración (minutos)', value: 'duration'},
           {text: 'Origen', value: 'source_id'},
           {text: 'Destino', value: 'dest_id'},
           {text: 'Estado', value: 'active'},
@@ -142,28 +162,6 @@
           {text: '', value: 'delete', sortable: false}
         ],
         recorridos: [],
-        // recorridos: [
-        //   {
-        //     name: 'MEL → Complejo MEL',
-        //     id: '1',
-        //     dest_id: '2',
-        //     source_id: '1',
-        //     active: true},
-        //   {
-        //     name: 'MEL → La Negra',
-        //     id: '2',
-        //     dest_id: '3',
-        //     source_id: '1',
-        //     active: false
-        //   },
-        //   {
-        //     name: 'Aeropuerto ANF → Complejo MEL',
-        //     id: '3',
-        //     dest_id: '2',
-        //     source_id: '4',
-        //     active: true
-        //   }
-        // ],
         stations: [
           { address: null,
             id: 1,
@@ -191,15 +189,32 @@
       this.getStations()
     },
     methods: {
+      convertMinsToHrsMins(mins) {
+        let h = Math.floor(mins / 60);
+        let m = mins % 60;
+        h = h < 10 ? '0' + h : h;
+        m = m < 10 ? '0' + m : m;
+        return `${h}:${m}`;
+      },
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
           console.log(trips)
+          // let a = trips.data.data.map(function(it){
+          //   console.log(it)
+          //   if(it.duration){
+          //     let h = Math.floor(it.duration / 60);
+          //     let m = it.duration % 60;
+          //     h = h < 10 ? '0' + h : h;
+          //     m = m < 10 ? '0' + m : m;
+          //     it.duration = `${h}:${m}`;
+          //   }
+          // })
+          // console.log(trips)
           setTimeout(() => {
             this.recorridos = trips.data.data
             this.loading = false
             }, 500)
-          
         }
       },
       async getStations () {
@@ -209,45 +224,65 @@
           this.stations = estaciones.data.data
         }
       },
-      editItem (item) {
-        console.log('item edit', item)
-        this.editedItem = item
-        this.dialog = true
-      },
-      deleteItem () {
+      irEliminar (datoid) {
+        this.eliminaid = datoid
         this.confirmaAnular = true
+      },
+      async deleteItem (item) {
+        let eliminando = await API.delete('trips', item)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE',eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getTrips()   
+        }
       },
       close () {
         this.dialog = false
         this.editedItem = {}
+      },
+      editItem (item) {
+        this.editedItem = item
+        this.dialog = true
+      },
+      async save (guardar) {
+        console.log('a guardar', guardar)
+      
+        let tramo = {
+             "trip": 
+                {
+                    "dest_id": guardar.dest_id ? guardar.dest_id : '',
+                    "source_id": guardar.source_id ? guardar.source_id : '',
+                    "name": guardar.name ? guardar.name : '',
+                    "active": guardar.active ? guardar.active : '',
+                    "duration": guardar.duration ? guardar.duration : ''
+                }
+        }
+        
+        if(guardar.id){
+           console.log('ser a put',tramo)
+          let id = guardar.id
+          // console.log('voy a PUT, ser', id)
+          let tramos = await API.put('trips', id, tramo )
+          if (tramos.status >= 200 && tramos.status < 300) {
+            // console.log('ya hizo PUT',tramos)
+              this.services = tramos.data.data
+              this.dialog = false
+            
+          }
+        }
+        else{
+          console.log('ser a post',tramo)
+	        let tramos = await API.post('trips', tramo)
+	        if (tramos.status >= 200 && tramos.status < 300) {
+            console.log('post ok', tramos)
+            this.getTrips()
+            this.recorridos = tramos.data.data
+            this.dialog = false
+	        }
+        }
+       
       }
-
-      // save () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
     }
   }
 </script>
