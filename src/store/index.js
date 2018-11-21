@@ -17,7 +17,6 @@ import Lang from './modules/Lang'
 import Media from './modules/Media'
 import Home from './modules/Home'
 import Booking from './modules/Booking'
-import Calendar from './modules/Calendar'
 
 /**
  * Config
@@ -34,7 +33,6 @@ export default new Vuex.Store({
     Auth: Auth,
     Media: Media,
     Home: Home,
-    Booking: Booking,
-    Calendar: Calendar
+    Booking: Booking
   }
 })

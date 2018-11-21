@@ -27,9 +27,6 @@
              
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Inicio"
-                              v-model="editedItem.start"></v-text-field> -->
-                <!-- <calendar :dato="'freqstart'"/> -->
                   <v-menu
                     v-model="datepickerStart"
                     :close-on-content-click="false"
@@ -250,7 +247,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
@@ -277,7 +274,6 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  import Calendar from '@c/Calendar'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -292,6 +288,7 @@
         timepickerSalida: false,
         timepickerLlegada: false,
         timepickerSet: false,
+        eliminaid: '',
         editedItem: {
           name: '',
           source_id: '',
@@ -343,21 +340,10 @@
     mounted () {
       this.getFrec()
       this.getTrips()
-      // this.editedItem.start = this.start
-    },
-    computed: {
-     
-      // ...mapGetters({
-      //   start: ['Calendar/freqStart']
-      // })
-    },
-    components: {
-      Calendar: Calendar
     },
     methods: {
       computedDateFormattedMomentjs (data) {
         return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
-
       },
       async getFrec () {
         let frec = await API.get('frequencies')
@@ -365,9 +351,11 @@
           setTimeout(() => {
             this.frecuencias = frec.data.data
             this.loading = false
-            }, 500)
+          }, 500)
           // console.log(frec)
-         
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       async getTrips () {
@@ -376,6 +364,9 @@
           this.editedItem.trips = trips.data.data
           this.loading = false
           // console.log(trips)
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       editItem (item) {
@@ -393,49 +384,60 @@
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
         let freq = {
-             "frequency": 
-                {
-                    "trip_id": guardar.trip_id ? guardar.trip_id : '',
-                    "start": guardar.start ? guardar.start : '',
-                    "end": guardar.end ? guardar.end : '',
-                    "set": guardar.set ? guardar.set : '',
-                    "departure": guardar.departure ? guardar.departure : '',
-                    "arrival": guardar.arrival ? guardar.arrival : '',
-                    "active": guardar.active ? guardar.active : '',
-                    "freq_type": guardar.freq_type ? guardar.freq_type : '',
-                    "name": guardar.name ? guardar.name : '',
-                }
-        }
-        
-        console.log('ser a post',freq)
-        if(guardar.id){
-          let id = guardar.id
-          let frec = await API.put('frequencies', id, freq )
-          if (frec.status >= 200 && frec.status < 300) {
-              this.services = frec.data.data
-              this.dialog = false
+          'frequency':
+          {
+            'trip_id': guardar.trip_id ? guardar.trip_id : '',
+            'start': guardar.start ? guardar.start : '',
+            'end': guardar.end ? guardar.end : '',
+            'set': guardar.set ? guardar.set : '',
+            'departure': guardar.departure ? guardar.departure : '',
+            'arrival': guardar.arrival ? guardar.arrival : '',
+            'active': guardar.active ? guardar.active : '',
+            'freq_type': guardar.freq_type ? guardar.freq_type : '',
+            'name': guardar.name ? guardar.name : ''
           }
         }
-        else{
-	        console.log('ser a post')
-	        let frec = await API.post('frequencies', freq)
-	        if (frec.status >= 200 && frec.status < 300) {
-            console.log('frecuencias', frec)
-             this.getFrec()
-              this.frecuencias = frec.data.data
-              this.dialog = false
-	        }
+        console.log('ser a post', freq)
+        if (guardar.id) {
+          let id = guardar.id
+          let frec = await API.put('frequencies', id, freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            this.services = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
         }
-       
+        else {
+          console.log('ser a post')
+          let frec = await API.post('frequencies', freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            console.log('frecuencias', frec)
+            this.getFrec()
+            this.frecuencias = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+      },
+      irEliminar (datoid) {
+        this.eliminaid = datoid
+        this.confirmaAnular = true
       },
       async deleteItem (item) {
         console.log('voy a eliminar frec', item)
         let eliminando = await API.delete('frequencies', item)
         if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE freq',eliminando)
+          console.log('ya hizo DELETE freq', eliminando)
           this.confirmaAnular = false
           console.log(eliminando)
-          this.getFrec()   
+          this.getFrec()
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       close () {

@@ -146,7 +146,7 @@
           {text: 'Dirección', value: 'address'},
           {text: 'Latitud', value: 'lat'},
           {text: 'Longitud', value: 'lon'},
-          {text: 'City', value: 'city_id'},
+          {text: 'Ciudad', value: 'city_id'},
           {text: 'Descripción', value: 'desc'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}

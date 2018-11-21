@@ -39,9 +39,14 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
                           single-line item-text="text" item-value="id"
-                ></v-select>
+                ></v-select> -->
+                <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
@@ -54,18 +59,18 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="userType" v-model="editedItem.role_id"
+                <v-select :items="editedItem.roles" v-model="editedItem.role_id"
                           label="Tipo de Usuario"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
 
-              <!-- <v-flex xs12 sm6 md4>
-                <v-select :items="userAgreement" v-model="editedItem.tipoContrato"
+              <v-flex xs12 sm6 md4>
+                <v-select :items="editedItem.contracts" v-model="editedItem.contract_type_id"
                           label="Tipo de contrato"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex> -->
+              </v-flex>
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Numero Contacto"
@@ -73,8 +78,10 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Empresa Asociada"
-                              v-model="editedItem.company_name" disabled></v-text-field>
+                <v-select :items="editedItem.companies" v-model="editedItem.company_id"
+                          label="Empresa asociada"
+                          single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -82,7 +89,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -141,7 +148,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
@@ -154,7 +161,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
+                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -201,6 +208,7 @@
         search: '',
         loading: true,
         moment: moment,
+        eliminaid: '',
         page: 1,
         pagination: {
           page: 1,
@@ -219,17 +227,20 @@
           address: '',
           phone_number: '',
           company_name: '',
-          last_connection: ''
+          last_connection: '',
+          roles: [],
+          contracts: [],
+          companies: []
         },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero'},
-          // {text: 'Pasajero', value: 'pasajero'},
-          {text: 'Nombre', value: 'name'},
-          {text: 'Documento', value: 'rut'},
-          {text: 'Tipo usuario', value: 'role_id'},
-          {text: 'Estado', value: 'active'},
-          {text: 'Correo', value: 'email'},
-          {text: 'Número de teléfono', value: 'phone_number'},
+          // {text: 'Documento Pasajero', value: 'documentoPasajero', sortable: false},
+          // {text: 'Pasajero', value: 'pasajero', sortable: false},
+          {text: 'Nombre', value: 'name', sortable: false},
+          {text: 'Documento', value: 'rut', sortable: false},
+          {text: 'Tipo usuario', value: 'role_id', sortable: false},
+          {text: 'Estado', value: 'active', sortable: false},
+          {text: 'Correo', value: 'email', sortable: false},
+          {text: 'Número de teléfono', value: 'phone_number', sortable: false},
           {text: 'Empresa asoc.', value: 'company_name', sortable: false},
           {text: 'Última conexión', value: 'last_connection', sortable: false},
           {text: '', value: 'edit', sortable: false},
@@ -261,11 +272,13 @@
     },
     mounted () {
       this.getUsers()
+      this.getRoles()
+      this.getCompanies()
+      this.getContracts()
     },
     methods: {
       async getUsers (params) {
         let usuarios = await API.get('users', params)
-
         if (usuarios.status >= 200 && usuarios.status < 300) {
           console.log('usuarios', usuarios.data)
           setTimeout(() => {
@@ -294,7 +307,68 @@
         this.editedItem = item
         this.dialog = true
       },
-      deleteItem () {
+      async save (guardar) {
+        console.log('a guardar', guardar)
+        // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
+        // console.log('trip', obj)
+        let freq = {
+          'user':
+          {
+            'active': guardar.active ? guardar.active : '',
+            'address': guardar.address ? guardar.address : '',
+            'company_id': guardar.company_id ? guardar.company_id : '',
+            'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
+            'email': guardar.email ? guardar.email : '',
+            'last_connection': guardar.last_connection ? guardar.last_connection : '',
+            'name': guardar.name ? guardar.name : '',
+            'passport': guardar.passport ? guardar.passport : '',
+            'rut': guardar.rut ? guardar.rut : '',
+            'phone_number': guardar.phone_number ? guardar.phone_number : '',
+            'role_id': guardar.role_id ? guardar.role_id : '',
+            'password': guardar.password ? guardar.password : ''
+          }
+        }
+        console.log('ser a post', freq)
+        if (guardar.id) {
+          let id = guardar.id
+          let frec = await API.put('users', id, freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            this.services = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+        else {
+          console.log('ser a post')
+          let frec = await API.post('users', freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            console.log('frecuencias', frec)
+            this.getFrec()
+            this.frecuencias = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+      },
+      async deleteItem (item) {
+        console.log('voy a eliminar frec', item)
+        let eliminando = await API.delete('users', item)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE user', eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getFrec()
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
+        }
+      },
+      irEliminar (datoid) {
+        this.eliminaid = datoid
         this.confirmaAnular = true
       },
       close () {
@@ -315,7 +389,28 @@
         // console.log(this.pagination.rowsPerPage)
         let pagesize = {'page_size': this.pagination.rowsPerPage}
         this.getUsers(pagesize)
-      }
+      },
+      async getRoles () {
+        let roles = await API.get('roles')
+        if (roles.status >= 200 && roles.status < 300) {
+          this.editedItem.roles = roles.data.data
+          this.loading = false         
+        }
+      },
+      async getCompanies () {
+        let companies = await API.get('companies')
+        if (companies.status >= 200 && companies.status < 300) {
+          this.editedItem.companies = companies.data.data
+          this.loading = false         
+        }
+      },
+      async getContracts () {
+        let contracts = await API.get('contracts')
+        if (contracts.status >= 200 && contracts.status < 300) {
+          this.editedItem.contracts = contracts.data.data
+          this.loading = false         
+        }
+      },
     }
   }
 </script>
