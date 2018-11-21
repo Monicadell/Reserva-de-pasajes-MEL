@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-card  id="calendario">
+  <div v-bind:class="[calendarIsVisible ? 'borde-calendario-out' : '', 'borde-calendario']">
+    <v-card   v-bind:class="[calendarIsVisible ? 'fadeinfwd' : '', 'calendario']">
       <v-card dark flat>
         <v-card-title class="custom-header" >
           <h3 class="title font-weight-light text-xs-center grow">
@@ -54,7 +54,8 @@
      fecha: new Date().toISOString().substr(0, 10),
      mes: '',
      year: '',
-     mesformateado: ''
+     mesformateado: '',
+     calendarIsVisible: false
   
     }),
     mounted () {
@@ -78,48 +79,7 @@
         search: ['Booking/current'],
         ruta: ['Booking/ruta']
       }),
-    /*  fecha: {
-        get () {
-          console.log('aqui')
-       //   return this.search[this.direction].date
-        },
-        set (value) {
-          //fecha=  new Date().toISOString().substr(0, 10)
-          console.log(' o aqui')
-          //console.log(this.ruta)
-          const  idRuta = this.ruta.id
-          const fechaViaje = value
-          console.log(idRuta, fechaViaje)
-          axios.get(`https://mel-2-backend.gestsol.cl/api/services?trip=${idRuta}&date=${fechaViaje}`)
-          .then((response)=>{
-           console.log(response.data.data)
-           
-          this.$store.dispatch('Booking/set_cargandoPeticion', {
-            cargandoPeticion: true
-            
-          });  
-          setTimeout(()=>{
-            this.$store.dispatch('Booking/set_cargandoPeticion', {
-            cargandoPeticion: false
-          });
-          this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: response.data.data,
-          }); 
-
-
-          },2000)
-            
-         })
-          .catch((err)=>{
-            console.log(err)
-          })
-          // console.log(value, this.direction)
-        /*  this.$store.dispatch('Booking/set_date', {
-            search: value,
-            direction: this.direction
-          })  
-        }
-      } */
+    
     },
     methods: {
       actFecha(value) {
@@ -157,11 +117,32 @@
           })
 
       }
+    },
+    watch: {
+      ruta() {
+        console.log('la ruta cambio')
+        console.log(this.ruta)
+        if(this.ruta.id ) {
+          this.calendarIsVisible = true
+        }
+      }
     }
   }
 </script>
 
 <style>
+  .borde-calendario {
+    border: solid rgb(228, 225, 225) 2px;
+  }
+
+  .borde-calendario-out {
+   border: none; 
+  }
+
+
+  .calendario {
+    opacity: 0;
+  }
   .v-card__title.custom-header {
     background: #1565c0;
     height: 30px

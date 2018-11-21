@@ -58,7 +58,8 @@
       label="Hacia"
       item-text="name"
       item-value="name"
-      class="fadeinfwd" 
+      class="fadeinfwd"
+      :disabled="seldestination.status" 
     >
       <template
         slot="selection"
@@ -103,7 +104,10 @@
       locations: [],
       destinyLocations: [],
       origen: '',
-      destino: ''
+      destino: '',
+      seldestination:{
+        status: true
+      } 
     }),
     computed: {
       ...mapGetters({
@@ -116,6 +120,7 @@
         set (value) {
           console.log('usuario eligio origen')
           this.findDestinies(value.id) 
+          this.seldestination.status = false
         }
       },
       placeDestiny: {
