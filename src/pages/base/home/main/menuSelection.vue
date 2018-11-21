@@ -19,7 +19,7 @@
         <login/>
       </v-window-item>
       <v-window-item>
-        <sign-up/>
+        <sign-up/> 
       </v-window-item>
       <v-window-item>
         <forgot-password/>

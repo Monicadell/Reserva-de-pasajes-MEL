@@ -1,50 +1,59 @@
 <template>
-  <v-card :class="{
-  'elevation-1': !cargandoPeticion && listaServicios.length === 0,
-  'elevation-10': listaServicios.length > 0,
-  //disableList: disableList && servicesList.length === 0
-  }"
-  class="fadeinfwdfast"
-  >
-  
-    <v-card-title style="height: 65px" class="barra-servicios">
-      Servicios disponibles
-      <v-spacer></v-spacer>
-      <v-text-field
-        append-icon="search"
-        label="Filtrar"
-        single-line
-        hide-details
-        dark
-        class="mb-4"
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      v-model="selected"
-      :loading="cargandoPeticion"
-      :headers="headers"
-      :items="listaServicios"
-      
-      class="elevation-1 tablacustom"
-      item-key="id"
-      no-data-text="No hay resultados para la ruta seleccionada"
-      :rows-per-page-items="rowsNumber"
+  <div  v-bind:class="[listIsVisible ? 'borde-list-out' : '', 'borde-list']"> 
+    <div v-bind:class="[listIsVisible ? 'fadeinfwd' : '', 'list']"> 
+    <v-card 
+    
+   :class="{
+    'elevation-1': !cargandoPeticion && listaServicios.length === 0,
+    'elevation-10': listaServicios.length > 0,
+    //disableList: disableList && servicesList.length === 0 
+    }"
+    
+    class="fadeinfwdfast"
+    
     
     >
+    
+      <v-card-title style="height: 65px" class="barra-servicios">
+        Servicios disponibles
+        <v-spacer></v-spacer>
+        <v-text-field
+          append-icon="search"
+          label="Filtrar"
+          single-line
+          hide-details
+          dark
+          class="mb-4"
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        v-model="selected"
+        :loading="cargandoPeticion"
+        :headers="headers"
+        :items="listaServicios"
+        
+        class="elevation-1 tablacustom"
+        item-key="id"
+        no-data-text="No hay resultados para la ruta seleccionada"
+        :rows-per-page-items="rowsNumber"
+      
+      >
 
-      <template slot="items" slot-scope="props">
-        <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
-          <td>{{ props.item.name }}</td>
-          <td >{{ props.item.departure }}</td> 
-          <td >{{(props.item.arrival)}}</td>  
-          <td class="text-xs-center">
-              <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
-             {{ props.item.avail_seats }} </td> 
-          <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
-        </tr>
-      </template>
-    </v-data-table>
-  </v-card>
+        <template slot="items" slot-scope="props">
+          <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
+            <td>{{ props.item.name }}</td>
+            <td >{{ props.item.departure }}</td> 
+            <td >{{(props.item.arrival)}}</td>  
+            <td class="text-xs-center">
+                <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
+              {{ props.item.avail_seats }} </td> 
+            <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -58,13 +67,16 @@
        
         loading: false,
         moment: moment,
+        listIsVisible: false
        }
      }
      
     ,
     watch: {
-      changed () {
-//this.searchNewServices()
+      cargandoPeticion () {
+       if(this.cargandoPeticion) {
+         this.listIsVisible = true
+       }
       }
     },
     mounted () {
@@ -85,34 +97,7 @@
       
       this.$store.dispatch('Booking/set_service', {service: service})
       },
-     /* searchNewServices () {
-        this.$store.dispatch('Booking/set_service', {service: {}})
-        this.disableList = true
-        if (this.search && this.search.from.date && this.search.from.place && this.search.to.place) {
-         // console.log(this.search)
-          this.selected = []
-          console.log('search')
-          this.servicesList = []
-        //  this.loading = true
-          this.disableList = false
-
-          axios.get('https://mel-2-backend.gestsol.cl/api/services?trip_id=1&date=2018-11-13')
-          .then((response)=>{
-               // handle success
-          //  console.log(response.data)
-          //  console.log(this.servicesList) 
-              setTimeout(() => {
-              this.servicesList = Object.assign([], this.services)
-            //  this.servicesList = Object.assign([], response.data)
-           //   console.log(response.data)
-              this.loading = false
-            }, 500)
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-        }
-      }, */
+  
     },
     computed: {
       ...mapGetters({
@@ -125,6 +110,7 @@
     
     },
     data: () => ({
+       listIsVisible: false,
       rowsNumber: [6],
       disableList: true,
       selected: [],
@@ -200,6 +186,17 @@
     background: #1565c0;
     color: white;
     font-size: 18px
-    
+  }
+
+  .borde-list {
+    border: solid rgb(228, 225, 225) 2px;
+  }
+
+  .borde-list-out {
+    border: none;
+  }
+
+  .list {
+    opacity: 0;
   }
 </style>

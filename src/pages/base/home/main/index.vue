@@ -6,7 +6,7 @@
           <v-flex xs12 py-0 my-3 mx-3 class="fadeinfwd" >
             <v-card class="card--flex-toolbar elevation-10 transparent">
               <template v-if="!isAuthorized">
-                <menu-selection/>
+                <menu-selection/> 
               </template>
             </v-card>
           </v-flex>

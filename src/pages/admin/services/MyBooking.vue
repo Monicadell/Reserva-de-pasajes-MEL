@@ -216,7 +216,7 @@
               setTimeout(()=>{
                     this.desserts = Object.assign([], response.data.data)
                  
-                 console.log(this.desserts)
+             //    console.log(this.desserts)
                   this.consulta = true
               }, 2000)
             
@@ -231,7 +231,7 @@
 
         },
         updatePagination (pagination) {
-    console.log('update:pagination', pagination)
+  //  console.log('update:pagination', pagination)
   }
     },
     mounted() {
