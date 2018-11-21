@@ -154,7 +154,7 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Duración (minutos)', value: 'duration'},
+          {text: 'Duración (horas)', value: 'duration'},
           {text: 'Origen', value: 'source_id'},
           {text: 'Destino', value: 'dest_id'},
           {text: 'Estado', value: 'active'},
@@ -199,18 +199,6 @@
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
-          console.log(trips)
-          // let a = trips.data.data.map(function(it){
-          //   console.log(it)
-          //   if(it.duration){
-          //     let h = Math.floor(it.duration / 60);
-          //     let m = it.duration % 60;
-          //     h = h < 10 ? '0' + h : h;
-          //     m = m < 10 ? '0' + m : m;
-          //     it.duration = `${h}:${m}`;
-          //   }
-          // })
-          // console.log(trips)
           setTimeout(() => {
             this.recorridos = trips.data.data
             this.loading = false

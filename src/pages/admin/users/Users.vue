@@ -92,6 +92,7 @@
         <v-text-field
           v-model="search"
           append-icon="search"
+          v-on:change="busca"
           label="Buscar"
           single-line
           hide-details
@@ -106,10 +107,8 @@
           :headers="headers"
           :items="users"
           :loading="loading"
-          :search="search"
-          :pagination.sync="pagination"
-          :total-items="totalUsers"
-          :rows-per-page-items="pagination.rowsPerPageItems"
+  
+          hide-actions
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -164,12 +163,22 @@
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
             <v-spacer></v-spacer>
-            <v-btn flat icon @click="changePage(false)">
-              <v-icon>keyboard_arrow_left</v-icon>
-            </v-btn>
-            <v-btn flat icon  @click="changePage(true)">
-               <v-icon>keyboard_arrow_right</v-icon>
-            </v-btn>
+              <v-flex xs12 sm2>
+                <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
+                          label="Items por página" v-on:change="changeRowsPage()"
+                         item-text="text" item-value="id"
+                ></v-select>
+              </v-flex>
+              <v-flex xs12 sm10 class="text-xs-center">
+                <!-- <div class="text-xs-center"> -->
+                  <v-pagination
+                    v-model="pagination.page"
+                    @input="changePageNumber"
+                    :length="pagination.total_pages"
+                    :total-visible="10"
+                  ></v-pagination>
+                <!-- </div> -->
+            </v-flex>
           </td>
         </template>
       </v-data-table>
@@ -191,7 +200,12 @@
         moment: moment,
         page: 1,
         pagination: {
-          
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
         },
         editedItem: {
           name: '',
@@ -204,17 +218,6 @@
           company_name: '',
           last_connection: ''
         },
-        selectedUser: {
-          name: 'Juan Perez',
-          rut: '113939483-5',
-          role_id: 'EST',
-          active: false,
-          email: 'juan@algo.com',
-          address: 'daushd dasu dau s23',
-          phone_number: '8482737',
-          company_name: 'Empresa asociada ltda.',
-          last_connection: '2018-10/2018 20:00'
-        },
         headers: [
           // {text: 'Documento Pasajero', value: 'documentoPasajero'},
           // {text: 'Pasajero', value: 'pasajero'},
@@ -224,8 +227,8 @@
           {text: 'Estado', value: 'active'},
           {text: 'Correo', value: 'email'},
           {text: 'Número de teléfono', value: 'phone_number'},
-          {text: 'Empresa asoc.', value: 'company_name'},
-          {text: 'Última conexión', value: 'last_connection'},
+          {text: 'Empresa asoc.', value: 'company_name', sortable: false},
+          {text: 'Última conexión', value: 'last_connection', sortable: false},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -253,87 +256,30 @@
         ]
       }
     },
-    // watch: {
-    //   pagination: {
-    //     handler () {
-    //       this.getDataFromApi()
-    //         .then(data => {
-    //           console.log('data', data)
-    //           this.users = data.items
-    //           this.totalUsers = data.total
-    //         })
-    //     },
-    //     deep: true
-    //   }
-    // },
     mounted () {
       this.getUsers()
-      // setTimeout(() => {
-      //   this.getDataFromApi()
-      //     .then(data => {
-      //       this.users = data.items
-      //       this.totalUsers = data.total
-      //     })
-      // }, 500)
-     
-      
     },
     methods: {
-      getDataFromApi () {
-        this.loading = true
-        console.log('entro', this.users)
-        return new Promise((resolve, reject) => {
-          const { sortBy, descending, page, rowsPerPage } = this.pagination
-            
-          let items = this.users
-          console.log('items->>>', items)
-          const total = items.length
-          if (this.pagination.sortBy) {
-            // console.log('sortby', this.pagination.sortBy)
-            items = items.sort((a, b) => {
-              const sortA = a[sortBy]
-              const sortB = b[sortBy]
-
-              if (descending) {
-                if (sortA < sortB) return 1
-                if (sortA > sortB) return -1
-                return 0
-              } else {
-                if (sortA < sortB) return -1
-                if (sortA > sortB) return 1
-                return 0
-              }
-            })
-          }
-
-          if (rowsPerPage > 0) {
-            // console.log('rowperpage', items)
-            items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-            // console.log('items rows', items)
-          }
-
-          setTimeout(() => {
-            this.loading = false
-            console.log('items', items)
-            resolve({
-              items,
-              total
-            })
-          }, 1000)
-        })
-      },
-      async getUsers () {
-        let usuarios = await API.get('users')
+      async getUsers (params) {
+        let usuarios = await API.get('users', params)
 
         if (usuarios.status >= 200 && usuarios.status < 300) {
-          // console.log('usuarios', usuarios.data.data)
-          //         return usuarios.data.data
-          // setTimeout(() => {
+          console.log('usuarios', usuarios.data)
+          setTimeout(() => {
             this.users = usuarios.data.data
-            this.totalUsers = usuarios.data.data.length
+            this.pagination.totalItems = usuarios.data.total_entries
+            this.pagination.page = usuarios.data.page_number
+            this.pagination.rowsPerPage = usuarios.data.page_size
+            this.pagination.total_pages = usuarios.data.total_pages
             this.loading = false
-        //     }, 500)
+            console.log('pagination', this.pagination)
+            }, 500)
         }
+      },
+      busca() {
+        console.log('busca', this.search)
+        let buscar = {'q': this.search}
+        this.getUsers(buscar)
       },
       editItem (item) {
         console.log('item edit', item)
@@ -356,16 +302,16 @@
         //   this.editedIndex = -1
         // }, 300)
       },
-      changePage(isSiguiente){
-       console.log('pagina actual', this.page)
-       console.log('isSiguiente',isSiguiente)
-       if (isSiguiente){
-         //llamara  a user con page +1
-       }
-       else{
-         //llamar a anterior
-         //bliqear teclas
-       }
+      changePageNumber(){
+        console.log(this.pagination.page)
+        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
+        console.log(newpage)
+        this.getUsers(newpage)
+      },
+      changeRowsPage(){
+        // console.log(this.pagination.rowsPerPage)
+        let pagesize = {'page_size': this.pagination.rowsPerPage}
+        this.getUsers(pagesize)
       }
     }
   }

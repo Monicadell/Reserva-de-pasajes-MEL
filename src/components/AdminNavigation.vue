@@ -70,8 +70,8 @@
         {icon: '../../static/icons/03.png', text: 'Frecuencias', path: { path: '/frecuencias' }},
         {icon: '../../static/icons/04.png', text: 'Manifiestos', path: { path: '/manifiestos' }},
         {icon: '../../static/icons/05.png', text: 'Servicios', path: { path: '/servicios' }},
-        {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
-        {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
+        // {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
+        // {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
         {subheader: true, text: 'Perfil'},
         {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
