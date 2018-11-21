@@ -162,23 +162,26 @@
         </template>
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
-            <v-spacer></v-spacer>
-              <v-flex xs12 sm2>
-                <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                          label="Items por página" v-on:change="changeRowsPage()"
-                         item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 sm10 class="text-xs-center">
-                <!-- <div class="text-xs-center"> -->
-                  <v-pagination
-                    v-model="pagination.page"
-                    @input="changePageNumber"
-                    :length="pagination.total_pages"
-                    :total-visible="10"
-                  ></v-pagination>
-                <!-- </div> -->
-            </v-flex>
+            <v-container grid-list-xl text-xs-center>
+              <v-layout align-center justify-space-around row fill-height>
+                <v-flex xs12 sm2>
+                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
+                            label="Items por página" v-on:change="changeRowsPage()"
+                          item-text="text" item-value="id"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm10 class="text-xs-center justify-center">
+                  <!-- <div class="text-xs-center"> -->
+                    <v-pagination
+                      v-model="pagination.page"
+                      @input="changePageNumber"
+                      :length="pagination.total_pages"
+                      :total-visible="10"
+                    ></v-pagination>
+                  <!-- </div> -->
+                </v-flex>
+              </v-layout>
+            </v-container>  
           </td>
         </template>
       </v-data-table>
