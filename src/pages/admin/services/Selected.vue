@@ -103,7 +103,7 @@
               color="primary"
               @click="cancel"
             >
-              Cancelar
+              Cerrar
             </v-btn>
       </v-card>
     </v-dialog>
@@ -192,6 +192,10 @@
                 reservaRealizada: true
                 });  
             }, 2000)
+
+          
+
+       
             console.log(response);
           })
           .catch(function (error) {

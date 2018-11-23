@@ -143,14 +143,14 @@
         </td>
         <td class="text-xs-center">
           <v-dialog v-model="confirmaAnular" persistent max-width="290">
-            <v-btn slot="activator" outline color="error" dark>Anular</v-btn>
+            <v-btn slot="activator" outline color="error" dark  >Anular</v-btn>
             <v-card>
               <v-card-title class="headline">¿Esta seguro de anular la reserva?</v-card-title>
               <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva.</v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Anular</v-btn>
+                <v-btn color="red darken-1" flat @click.native="confirmaAnular = false" @click="anular(props.item)">Anular</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -228,8 +228,21 @@
 
         },
         updatePagination (pagination) {
-  //  console.log('update:pagination', pagination)
-  }
+                //  console.log('update:pagination', pagination)
+                },
+        async anular (item) {
+            console.log('xxxxx')
+            console.log(item)
+
+               console.log('voy a eliminar', item)
+        let eliminando = await API.delete('tickets', item.id)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE',eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getReservas()   
+        }
+        }
     },
     mounted() {
        this.getReservas();
@@ -237,7 +250,11 @@
     },
      watch: {
       reservaRealizada () {
+        console.log(`se hizo una reserva ${this.reservaRealizada}`)
         this.getReservas()
+            this.$store.dispatch('Booking/set_reservaRealizada', {
+            reservaRealizada: false
+            });  
       }
     },
     computed: {
