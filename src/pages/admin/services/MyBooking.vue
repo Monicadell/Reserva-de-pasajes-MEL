@@ -233,7 +233,6 @@
     },
     mounted() {
        this.getReservas();
-       
     },
      watch: {
       reservaRealizada () {

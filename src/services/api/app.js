@@ -2,11 +2,11 @@
  * Import Dependency
  */
 import axios from '../../interceptor'
-import EndPoint from '../../endpoints'
+import endpoints from '../../endpoints'
 /**
  * Declare Variable
  */
-const url = EndPoint.app
+const url = endpoints.app
 const base = `${url}/`
 
 /**

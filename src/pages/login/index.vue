@@ -81,7 +81,6 @@
     }),
     mounted () {
       let isAutorized = this.$store.getters['Auth/isAuthorized']
-      let email = this.$store.getters['Auth/email']
       console.log(isAutorized, email)
       setTimeout(() => {
         this.loading = false

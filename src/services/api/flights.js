@@ -2,11 +2,11 @@
  * Import Dependency
  */
 import axios from '../../interceptor'
-import EndPoint from '../../endpoints'
+import endpoints from '../../endpoints'
 /**
  * Declare Variable
  */
-const url = EndPoint.base
+const url = endpoints.base
 const base = `${url}/vuelos_anf`
 
 /**

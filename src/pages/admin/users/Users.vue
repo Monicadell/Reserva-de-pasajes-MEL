@@ -39,9 +39,14 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
                           single-line item-text="text" item-value="id"
-                ></v-select>
+                ></v-select> -->
+                <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
@@ -54,18 +59,18 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="userType" v-model="editedItem.role_id"
+                <v-select :items="editedItem.roles" v-model="editedItem.role_id"
                           label="Tipo de Usuario"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
 
-              <!-- <v-flex xs12 sm6 md4>
-                <v-select :items="userAgreement" v-model="editedItem.tipoContrato"
+              <v-flex xs12 sm6 md4>
+                <v-select :items="editedItem.contracts" v-model="editedItem.contract_type_id"
                           label="Tipo de contrato"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex> -->
+              </v-flex>
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Numero Contacto"
@@ -73,8 +78,10 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Empresa Asociada"
-                              v-model="editedItem.company_name" disabled></v-text-field>
+                <v-select :items="editedItem.companies" v-model="editedItem.company_id"
+                          label="Empresa asociada"
+                          single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -82,7 +89,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -92,6 +99,7 @@
         <v-text-field
           v-model="search"
           append-icon="search"
+          v-on:change="busca"
           label="Buscar"
           single-line
           hide-details
@@ -106,10 +114,8 @@
           :headers="headers"
           :items="users"
           :loading="loading"
-          :search="search"
-          :pagination.sync="pagination"
-          :total-items="totalUsers"
-          :rows-per-page-items="pagination.rowsPerPageItems"
+  
+          hide-actions
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -142,7 +148,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
@@ -155,7 +161,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
+                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -163,13 +169,26 @@
         </template>
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
-            <v-spacer></v-spacer>
-            <v-btn flat icon @click="changePage(false)">
-              <v-icon>keyboard_arrow_left</v-icon>
-            </v-btn>
-            <v-btn flat icon  @click="changePage(true)">
-               <v-icon>keyboard_arrow_right</v-icon>
-            </v-btn>
+            <v-container grid-list-xl text-xs-center>
+              <v-layout align-center justify-space-around row fill-height>
+                <v-flex xs12 sm2>
+                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
+                            label="Items por página" v-on:change="changeRowsPage()"
+                          item-text="text" item-value="id"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm10 class="text-xs-center justify-center">
+                  <!-- <div class="text-xs-center"> -->
+                    <v-pagination
+                      v-model="pagination.page"
+                      @input="changePageNumber"
+                      :length="pagination.total_pages"
+                      :total-visible="10"
+                    ></v-pagination>
+                  <!-- </div> -->
+                </v-flex>
+              </v-layout>
+            </v-container>  
           </td>
         </template>
       </v-data-table>
@@ -189,9 +208,15 @@
         search: '',
         loading: true,
         moment: moment,
+        eliminaid: '',
         page: 1,
         pagination: {
-          
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
         },
         editedItem: {
           name: '',
@@ -202,30 +227,22 @@
           address: '',
           phone_number: '',
           company_name: '',
-          last_connection: ''
-        },
-        selectedUser: {
-          name: 'Juan Perez',
-          rut: '113939483-5',
-          role_id: 'EST',
-          active: false,
-          email: 'juan@algo.com',
-          address: 'daushd dasu dau s23',
-          phone_number: '8482737',
-          company_name: 'Empresa asociada ltda.',
-          last_connection: '2018-10/2018 20:00'
+          last_connection: '',
+          roles: [],
+          contracts: [],
+          companies: []
         },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero'},
-          // {text: 'Pasajero', value: 'pasajero'},
-          {text: 'Nombre', value: 'name'},
-          {text: 'Documento', value: 'rut'},
-          {text: 'Tipo usuario', value: 'role_id'},
-          {text: 'Estado', value: 'active'},
-          {text: 'Correo', value: 'email'},
-          {text: 'Número de teléfono', value: 'phone_number'},
-          {text: 'Empresa asoc.', value: 'company_name'},
-          {text: 'Última conexión', value: 'last_connection'},
+          // {text: 'Documento Pasajero', value: 'documentoPasajero', sortable: false},
+          // {text: 'Pasajero', value: 'pasajero', sortable: false},
+          {text: 'Nombre', value: 'name', sortable: false},
+          {text: 'Documento', value: 'rut', sortable: false},
+          {text: 'Tipo usuario', value: 'role_id', sortable: false},
+          {text: 'Estado', value: 'active', sortable: false},
+          {text: 'Correo', value: 'email', sortable: false},
+          {text: 'Número de teléfono', value: 'phone_number', sortable: false},
+          {text: 'Empresa asoc.', value: 'company_name', sortable: false},
+          {text: 'Última conexión', value: 'last_connection', sortable: false},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -253,87 +270,32 @@
         ]
       }
     },
-    // watch: {
-    //   pagination: {
-    //     handler () {
-    //       this.getDataFromApi()
-    //         .then(data => {
-    //           console.log('data', data)
-    //           this.users = data.items
-    //           this.totalUsers = data.total
-    //         })
-    //     },
-    //     deep: true
-    //   }
-    // },
     mounted () {
       this.getUsers()
-      // setTimeout(() => {
-      //   this.getDataFromApi()
-      //     .then(data => {
-      //       this.users = data.items
-      //       this.totalUsers = data.total
-      //     })
-      // }, 500)
-     
-      
+      this.getRoles()
+      this.getCompanies()
+      this.getContracts()
     },
     methods: {
-      getDataFromApi () {
-        this.loading = true
-        console.log('entro', this.users)
-        return new Promise((resolve, reject) => {
-          const { sortBy, descending, page, rowsPerPage } = this.pagination
-            
-          let items = this.users
-          console.log('items->>>', items)
-          const total = items.length
-          if (this.pagination.sortBy) {
-            // console.log('sortby', this.pagination.sortBy)
-            items = items.sort((a, b) => {
-              const sortA = a[sortBy]
-              const sortB = b[sortBy]
-
-              if (descending) {
-                if (sortA < sortB) return 1
-                if (sortA > sortB) return -1
-                return 0
-              } else {
-                if (sortA < sortB) return -1
-                if (sortA > sortB) return 1
-                return 0
-              }
-            })
-          }
-
-          if (rowsPerPage > 0) {
-            // console.log('rowperpage', items)
-            items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-            // console.log('items rows', items)
-          }
-
-          setTimeout(() => {
-            this.loading = false
-            console.log('items', items)
-            resolve({
-              items,
-              total
-            })
-          }, 1000)
-        })
-      },
-      async getUsers () {
-        let usuarios = await API.get('users')
-
+      async getUsers (params) {
+        let usuarios = await API.get('users', params)
         if (usuarios.status >= 200 && usuarios.status < 300) {
-          // console.log('usuarios', usuarios.data.data)
-          //         return usuarios.data.data
-          // setTimeout(() => {
+          console.log('usuarios', usuarios.data)
+          setTimeout(() => {
             this.users = usuarios.data.data
-            this.totalUsers = usuarios.data.data.length
+            this.pagination.totalItems = usuarios.data.total_entries
+            this.pagination.page = usuarios.data.page_number
+            this.pagination.rowsPerPage = usuarios.data.page_size
+            this.pagination.total_pages = usuarios.data.total_pages
             this.loading = false
-        //     }, 500)
+            console.log('pagination', this.pagination)
+            }, 500)
         }
+      },
+      busca() {
+        console.log('busca', this.search)
+        let buscar = {'q': this.search}
+        this.getUsers(buscar)
       },
       editItem (item) {
         console.log('item edit', item)
@@ -345,7 +307,68 @@
         this.editedItem = item
         this.dialog = true
       },
-      deleteItem () {
+      async save (guardar) {
+        console.log('a guardar', guardar)
+        // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
+        // console.log('trip', obj)
+        let freq = {
+          'user':
+          {
+            'active': guardar.active ? guardar.active : '',
+            'address': guardar.address ? guardar.address : '',
+            'company_id': guardar.company_id ? guardar.company_id : '',
+            'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
+            'email': guardar.email ? guardar.email : '',
+            'last_connection': guardar.last_connection ? guardar.last_connection : '',
+            'name': guardar.name ? guardar.name : '',
+            'passport': guardar.passport ? guardar.passport : '',
+            'rut': guardar.rut ? guardar.rut : '',
+            'phone_number': guardar.phone_number ? guardar.phone_number : '',
+            'role_id': guardar.role_id ? guardar.role_id : '',
+            'password': guardar.password ? guardar.password : ''
+          }
+        }
+        console.log('ser a post', freq)
+        if (guardar.id) {
+          let id = guardar.id
+          let frec = await API.put('users', id, freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            this.services = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+        else {
+          console.log('ser a post')
+          let frec = await API.post('users', freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            console.log('frecuencias', frec)
+            this.getFrec()
+            this.frecuencias = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+      },
+      async deleteItem (item) {
+        console.log('voy a eliminar frec', item)
+        let eliminando = await API.delete('users', item)
+        if (eliminando.status >= 200 && eliminando.status < 300) {
+          console.log('ya hizo DELETE user', eliminando)
+          this.confirmaAnular = false
+          console.log(eliminando)
+          this.getFrec()
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
+        }
+      },
+      irEliminar (datoid) {
+        this.eliminaid = datoid
         this.confirmaAnular = true
       },
       close () {
@@ -356,17 +379,38 @@
         //   this.editedIndex = -1
         // }, 300)
       },
-      changePage(isSiguiente){
-       console.log('pagina actual', this.page)
-       console.log('isSiguiente',isSiguiente)
-       if (isSiguiente){
-         //llamara  a user con page +1
-       }
-       else{
-         //llamar a anterior
-         //bliqear teclas
-       }
-      }
+      changePageNumber(){
+        console.log(this.pagination.page)
+        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
+        console.log(newpage)
+        this.getUsers(newpage)
+      },
+      changeRowsPage(){
+        // console.log(this.pagination.rowsPerPage)
+        let pagesize = {'page_size': this.pagination.rowsPerPage}
+        this.getUsers(pagesize)
+      },
+      async getRoles () {
+        let roles = await API.get('roles')
+        if (roles.status >= 200 && roles.status < 300) {
+          this.editedItem.roles = roles.data.data
+          this.loading = false         
+        }
+      },
+      async getCompanies () {
+        let companies = await API.get('companies')
+        if (companies.status >= 200 && companies.status < 300) {
+          this.editedItem.companies = companies.data.data
+          this.loading = false         
+        }
+      },
+      async getContracts () {
+        let contracts = await API.get('contracts')
+        if (contracts.status >= 200 && contracts.status < 300) {
+          this.editedItem.contracts = contracts.data.data
+          this.loading = false         
+        }
+      },
     }
   }
 </script>

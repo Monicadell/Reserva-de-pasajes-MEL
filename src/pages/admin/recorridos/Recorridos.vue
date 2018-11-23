@@ -154,7 +154,7 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Duración (minutos)', value: 'duration'},
+          {text: 'Duración (horas)', value: 'duration'},
           {text: 'Origen', value: 'source_id'},
           {text: 'Destino', value: 'dest_id'},
           {text: 'Estado', value: 'active'},
@@ -189,32 +189,22 @@
       this.getStations()
     },
     methods: {
-      convertMinsToHrsMins(mins) {
-        let h = Math.floor(mins / 60);
-        let m = mins % 60;
-        h = h < 10 ? '0' + h : h;
-        m = m < 10 ? '0' + m : m;
-        return `${h}:${m}`;
+      convertMinsToHrsMins (mins) {
+        let h = Math.floor(mins / 60)
+        let m = mins % 60
+        h = h < 10 ? '0' + h : h
+        m = m < 10 ? '0' + m : m
+        return `${h}:${m}`
       },
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
-          console.log(trips)
-          // let a = trips.data.data.map(function(it){
-          //   console.log(it)
-          //   if(it.duration){
-          //     let h = Math.floor(it.duration / 60);
-          //     let m = it.duration % 60;
-          //     h = h < 10 ? '0' + h : h;
-          //     m = m < 10 ? '0' + m : m;
-          //     it.duration = `${h}:${m}`;
-          //   }
-          // })
-          // console.log(trips)
           setTimeout(() => {
+            // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
+            // console.log(intersection)
             this.recorridos = trips.data.data
             this.loading = false
-            }, 500)
+          }, 500)
         }
       },
       async getStations () {
@@ -231,10 +221,13 @@
       async deleteItem (item) {
         let eliminando = await API.delete('trips', item)
         if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE',eliminando)
+          console.log('ya hizo DELETE', eliminando)
           this.confirmaAnular = false
           console.log(eliminando)
-          this.getTrips()   
+          this.getTrips()
+        }
+        else{
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       close () {
@@ -247,41 +240,43 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-      
         let tramo = {
-             "trip": 
-                {
-                    "dest_id": guardar.dest_id ? guardar.dest_id : '',
-                    "source_id": guardar.source_id ? guardar.source_id : '',
-                    "name": guardar.name ? guardar.name : '',
-                    "active": guardar.active ? guardar.active : '',
-                    "duration": guardar.duration ? guardar.duration : ''
-                }
-        }
-        
-        if(guardar.id){
-           console.log('ser a put',tramo)
-          let id = guardar.id
-          // console.log('voy a PUT, ser', id)
-          let tramos = await API.put('trips', id, tramo )
-          if (tramos.status >= 200 && tramos.status < 300) {
-            // console.log('ya hizo PUT',tramos)
-              this.services = tramos.data.data
-              this.dialog = false
-            
+          'trip':
+          {
+            'dest_id': guardar.dest_id ? guardar.dest_id : '',
+            'source_id': guardar.source_id ? guardar.source_id : '',
+            'name': guardar.name ? guardar.name : '',
+            'active': guardar.active ? guardar.active : '',
+            'duration': guardar.duration ? guardar.duration : ''
           }
         }
-        else{
-          console.log('ser a post',tramo)
-	        let tramos = await API.post('trips', tramo)
-	        if (tramos.status >= 200 && tramos.status < 300) {
+        if (guardar.id) {
+          console.log('ser a put', tramo)
+          let id = guardar.id
+          // console.log('voy a PUT, ser', id)
+          let tramos = await API.put('trips', id, tramo)
+          if (tramos.status >= 200 && tramos.status < 300) {
+            // console.log('ya hizo PUT',tramos)
+            this.services = tramos.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+        else {
+          console.log('ser a post', tramo)
+          let tramos = await API.post('trips', tramo)
+          if (tramos.status >= 200 && tramos.status < 300) {
             console.log('post ok', tramos)
             this.getTrips()
             this.recorridos = tramos.data.data
             this.dialog = false
-	        }
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
         }
-       
       }
     }
   }

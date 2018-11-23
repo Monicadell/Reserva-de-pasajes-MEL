@@ -27,9 +27,6 @@
              
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Inicio"
-                              v-model="editedItem.start"></v-text-field> -->
-                <!-- <calendar :dato="'freqstart'"/> -->
                   <v-menu
                     v-model="datepickerStart"
                     :close-on-content-click="false"
@@ -74,7 +71,6 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Set" v-model="editedItem.set"></v-text-field> -->
                 <v-menu
                   ref="time3"
                   :close-on-content-click="false"
@@ -105,7 +101,6 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Salida" v-model="editedItem.departure"></v-text-field> -->
                 <v-menu
                   ref="time1"
                   :close-on-content-click="false"
@@ -136,7 +131,6 @@
               </v-flex>
 
 <!--              <v-flex xs12 sm6 md4>
-                
                 <v-menu
                   ref="time2"
                   :close-on-content-click="false"
@@ -165,19 +159,19 @@
                 </v-menu>
               </v-flex> -->
 
-              <!-- <v-flex xs12 sm6 md4>
-                <v-text-field label="Duración"
-                              v-model="editedItem.duration"></v-text-field>
-              </v-flex> -->
               <v-flex xs12 sm6>
                 <v-select :items="freqtypes" v-model="editedItem.freq_type"
                         label="Tipo"
                         single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
+
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field> -->
+                <v-text-field label="Vehículos" type="number"
+                              v-model="editedItem.cars"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6>
                   <v-switch
                   class="justify-center"
                   label="Activo"
@@ -227,9 +221,9 @@
           </td>
           <td class="">{{ props.item.start }}</td>
           <td class="">{{ props.item.end }}</td>
-          <td class="">{{ props.item.set }}</td>
-          <td class="">{{ props.item.departure }}</td>
-          <td class="">{{ props.item.arrival }}</td>
+          <td class="">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="">{{ props.item.duration }}</td>
           <td class="justify-center">
             <v-tooltip top>
@@ -250,7 +244,7 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
@@ -277,7 +271,6 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  import Calendar from '@c/Calendar'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -292,6 +285,8 @@
         timepickerSalida: false,
         timepickerLlegada: false,
         timepickerSet: false,
+        eliminaid: '',
+        moment: moment,
         editedItem: {
           name: '',
           source_id: '',
@@ -304,7 +299,8 @@
           duration: '',
           active: false,
           trips: [],
-          trip_id: ''
+          trip_id: '',
+          cars: ''
         },
         selectedFrecuencie: {
           name: 'Frec1',
@@ -343,21 +339,10 @@
     mounted () {
       this.getFrec()
       this.getTrips()
-      // this.editedItem.start = this.start
-    },
-    computed: {
-     
-      // ...mapGetters({
-      //   start: ['Calendar/freqStart']
-      // })
-    },
-    components: {
-      Calendar: Calendar
     },
     methods: {
       computedDateFormattedMomentjs (data) {
         return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
-
       },
       async getFrec () {
         let frec = await API.get('frequencies')
@@ -365,9 +350,11 @@
           setTimeout(() => {
             this.frecuencias = frec.data.data
             this.loading = false
-            }, 500)
+          }, 500)
           // console.log(frec)
-         
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       async getTrips () {
@@ -376,6 +363,9 @@
           this.editedItem.trips = trips.data.data
           this.loading = false
           // console.log(trips)
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       editItem (item) {
@@ -393,49 +383,60 @@
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
         let freq = {
-             "frequency": 
-                {
-                    "trip_id": guardar.trip_id ? guardar.trip_id : '',
-                    "start": guardar.start ? guardar.start : '',
-                    "end": guardar.end ? guardar.end : '',
-                    "set": guardar.set ? guardar.set : '',
-                    "departure": guardar.departure ? guardar.departure : '',
-                    "arrival": guardar.arrival ? guardar.arrival : '',
-                    "active": guardar.active ? guardar.active : '',
-                    "freq_type": guardar.freq_type ? guardar.freq_type : '',
-                    "name": guardar.name ? guardar.name : '',
-                }
-        }
-        
-        console.log('ser a post',freq)
-        if(guardar.id){
-          let id = guardar.id
-          let frec = await API.put('frequencies', id, freq )
-          if (frec.status >= 200 && frec.status < 300) {
-              this.services = frec.data.data
-              this.dialog = false
+          'frequency':
+          {
+            'trip_id': guardar.trip_id ? guardar.trip_id : '',
+            'start': guardar.start ? guardar.start : '',
+            'end': guardar.end ? guardar.end : '',
+            'set': guardar.set ? guardar.set : '',
+            'departure': guardar.departure ? guardar.departure : '',
+            'arrival': guardar.arrival ? guardar.arrival : '',
+            'active': guardar.active ? guardar.active : '',
+            'freq_type': guardar.freq_type ? guardar.freq_type : '',
+            'name': guardar.name ? guardar.name : ''
           }
         }
-        else{
-	        console.log('ser a post')
-	        let frec = await API.post('frequencies', freq)
-	        if (frec.status >= 200 && frec.status < 300) {
-            console.log('frecuencias', frec)
-             this.getFrec()
-              this.frecuencias = frec.data.data
-              this.dialog = false
-	        }
+        console.log('ser a post', freq)
+        if (guardar.id) {
+          let id = guardar.id
+          let frec = await API.put('frequencies', id, freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            this.services = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
         }
-       
+        else {
+          console.log('ser a post')
+          let frec = await API.post('frequencies', freq)
+          if (frec.status >= 200 && frec.status < 300) {
+            console.log('frecuencias', frec)
+            this.getFrec()
+            this.frecuencias = frec.data.data
+            this.dialog = false
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        }
+      },
+      irEliminar (datoid) {
+        this.eliminaid = datoid
+        this.confirmaAnular = true
       },
       async deleteItem (item) {
         console.log('voy a eliminar frec', item)
         let eliminando = await API.delete('frequencies', item)
         if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE freq',eliminando)
+          console.log('ya hizo DELETE freq', eliminando)
           this.confirmaAnular = false
           console.log(eliminando)
-          this.getFrec()   
+          this.getFrec()
+        }
+        else {
+          alert('Ha ocurrido un error, intente nuevamente')
         }
       },
       close () {

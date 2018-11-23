@@ -14,8 +14,8 @@
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>Administración</v-list-tile-title>
-          <v-list-tile-sub-title>Nombre Admin</v-list-tile-sub-title>
+          <v-list-tile-title>{{name}}</v-list-tile-title>
+          <v-list-tile-sub-title class="uppercase">{{role}}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -55,10 +55,13 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     props: ['drawer'],
     data: () => ({
-      
+      name: '',
+      role: '',
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
         {subheader: true, text: 'Mis reservas'},
@@ -70,14 +73,27 @@
         {icon: '../../static/icons/03.png', text: 'Frecuencias', path: { path: '/frecuencias' }},
         {icon: '../../static/icons/04.png', text: 'Manifiestos', path: { path: '/manifiestos' }},
         {icon: '../../static/icons/05.png', text: 'Servicios', path: { path: '/servicios' }},
-        {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
-        {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
+        // {icon: '../../static/icons/06.png', text: 'Buses', path: { path: '/buses' }},
+        // {icon: '../../static/icons/07.png', text: 'Conductores', path: { path: '/conductores' }},
         {subheader: true, text: 'Perfil'},
         {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
       ]
-    })
+    }),
+    computed: mapGetters({
+      roleus: ['Auth/role'],
+      username: ['Auth/username']
+    }),
+    mounted () {
+      this.info()
+    },
+    methods: {
+      info () {
+        this.name = this.username
+        this.role = this.roleus
+      }
+    }
   }
 </script>
