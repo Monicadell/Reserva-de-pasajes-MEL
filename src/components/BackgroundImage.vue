@@ -20,7 +20,6 @@
     }),
     methods: {
       updateImg () {
-        console.log('update')
         if(this.imgnumber === 4){
           this.imgnumber = 1
         }

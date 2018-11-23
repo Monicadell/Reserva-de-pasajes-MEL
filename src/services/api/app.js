@@ -15,6 +15,7 @@ const base = `${url}/`
 
 export default {
   get (urlget, params) {
+    console.log(base + urlget, {params: {...params}})
     return axios.get(base + urlget, {
       params: {...params}
     })

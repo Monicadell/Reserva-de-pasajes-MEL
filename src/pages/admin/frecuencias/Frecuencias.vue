@@ -71,7 +71,6 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Set" v-model="editedItem.set"></v-text-field> -->
                 <v-menu
                   ref="time3"
                   :close-on-content-click="false"
@@ -102,7 +101,6 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Salida" v-model="editedItem.departure"></v-text-field> -->
                 <v-menu
                   ref="time1"
                   :close-on-content-click="false"
@@ -133,7 +131,6 @@
               </v-flex>
 
 <!--              <v-flex xs12 sm6 md4>
-                
                 <v-menu
                   ref="time2"
                   :close-on-content-click="false"
@@ -162,19 +159,19 @@
                 </v-menu>
               </v-flex> -->
 
-              <!-- <v-flex xs12 sm6 md4>
-                <v-text-field label="Duración"
-                              v-model="editedItem.duration"></v-text-field>
-              </v-flex> -->
               <v-flex xs12 sm6>
                 <v-select :items="freqtypes" v-model="editedItem.freq_type"
                         label="Tipo"
                         single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
+
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field> -->
+                <v-text-field label="Vehículos" type="number"
+                              v-model="editedItem.cars"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6>
                   <v-switch
                   class="justify-center"
                   label="Activo"
@@ -224,9 +221,9 @@
           </td>
           <td class="">{{ props.item.start }}</td>
           <td class="">{{ props.item.end }}</td>
-          <td class="">{{ props.item.set }}</td>
-          <td class="">{{ props.item.departure }}</td>
-          <td class="">{{ props.item.arrival }}</td>
+          <td class="">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="">{{ props.item.duration }}</td>
           <td class="justify-center">
             <v-tooltip top>
@@ -289,6 +286,7 @@
         timepickerLlegada: false,
         timepickerSet: false,
         eliminaid: '',
+        moment: moment,
         editedItem: {
           name: '',
           source_id: '',
@@ -301,7 +299,8 @@
           duration: '',
           active: false,
           trips: [],
-          trip_id: ''
+          trip_id: '',
+          cars: ''
         },
         selectedFrecuencie: {
           name: 'Frec1',

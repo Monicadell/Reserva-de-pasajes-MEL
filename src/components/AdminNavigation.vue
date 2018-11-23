@@ -14,8 +14,8 @@
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>Administración</v-list-tile-title>
-          <v-list-tile-sub-title>Nombre Admin</v-list-tile-sub-title>
+          <v-list-tile-title>{{name}}</v-list-tile-title>
+          <v-list-tile-sub-title class="uppercase">{{role}}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -55,10 +55,13 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     props: ['drawer'],
     data: () => ({
-      
+      name: '',
+      role: '',
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
         {subheader: true, text: 'Mis reservas'},
@@ -78,6 +81,20 @@
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
       ]
-    })
+    }),
+    computed: mapGetters({
+      roleus: ['Auth/role'],
+      username: ['Auth/username']
+    }),
+
+    mounted () {
+      this.info()
+    },
+    methods: {
+      info () {
+        this.name = this.username
+        this.role = this.roleus
+      }
+    }
   }
 </script>

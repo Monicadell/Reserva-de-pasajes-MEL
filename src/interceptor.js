@@ -2,7 +2,8 @@
  * Import Dependency
  */
 import axios from 'axios'
-import store from './store'
+import storeauth from './store/modules/Auth'
+import { mapGetters } from 'vuex'
 
 /**
  * Config
@@ -10,9 +11,14 @@ import store from './store'
 axios.defaults.timeout = 5000
 
 axios.interceptors.request.use(config => {
-  let credential = store.state.credential
-  let isAuthorize = store.state.isAuthorize
+  let sp =  {...mapGetters({auth: ['Auth/credential']})}
+  // console.log('sp', sp.auth)
+  let credential = storeauth.getters.credential
+  console.log('credencia interceptor', credential)
+  // let isAuthorize = store.state.isAuthorize
+  let isAuthorize = storeauth.isAuthorize
   if (credential && isAuthorize) {
+    console.log('tiene credencia y es autorizado')
     config.headers.common['Authorization'] = 'Bearer ' + credential
   }
   return config

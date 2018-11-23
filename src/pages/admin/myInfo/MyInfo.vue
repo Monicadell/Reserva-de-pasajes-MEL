@@ -162,8 +162,9 @@
 </template>
 
 <script>
-  // import axios from 'axios'
-  // import endPoints from '@/endPoints'
+  import axios from 'axios'
+  import { mapGetters } from 'vuex'
+  import endPoints from '@/endPoints'
 
   export default {
     data: () => ({
@@ -203,7 +204,10 @@
         direccion: ''
       }
     }),
-
+    computed: mapGetters({
+      authentication: ['Auth/isAuthorized'],
+      credential: ['Auth/credential']
+    }),
     mounted () {
       this.loadMyInfo()
     },
@@ -238,22 +242,36 @@
       //   })
       },
       loadMyInfo () {
-        this.user = {
-          tipoUsuario: 'Admin',
-          tipoDocumento: 'Rut',
-          tipoContrato: 'tipo contrato',
-          password: '123',
-          numeroContacto: '98939399',
-          nombre: 'Admin user name',
-          nContrato: 'ncontraro: 1',
-          mensaje: 'mensaje',
-          estado: 'active',
-          empresaAsociada: 'Gestsol',
-          email: 'admin@gestsol.cl',
-          documento: '28929292',
-          direccion: 'los conquistadores 2020'
+        
+        // let auth = this.$store('Auth/isAuthorized')
+
+        let config =  {
+              headers: {'Authorization': "bearer " + this.credential}
         }
-        // let auth = this.$store.getters.getAuth
+
+         axios.get('http://192.168.11.146:4000/api/profile', config)
+            .then((response) => {
+              console.log('profile',response)
+              this.user = {
+                  tipoUsuario: response.data.role_id ? response.data.role_id : '',
+                  tipoDocumento: response.data.rut ? 'RUT' : 'Pasaporte' ,
+                  tipoContrato: response.data.contract_type ? response.data.contract_type : '',
+                  password: '***',
+                  numeroContacto: response.data.phone_number ? response.data.phone_number : '',
+                  nombre: response.data.name ? response.data.name : '',
+                  nContrato: '---',
+                  mensaje: 'mensaje',
+                  estado: response.data.active ? 'Activo' : 'Inactivo',
+                  empresaAsociada: response.data.company_name ? response.data.company_name : '',
+                  email: response.data.email ? response.data.email : '',
+                  documento: response.data.rut ? response.data.rut : response.data.passport,
+                  direccion: response.data.address ? response.data.address : ''
+                }
+                this.userEdited = this.user
+            })
+            .catch(function (error) {
+              console.log('error profile', error)
+            })
         // let config = {
         //   method: 'POST',
         //   url: endPoints.searchUser,

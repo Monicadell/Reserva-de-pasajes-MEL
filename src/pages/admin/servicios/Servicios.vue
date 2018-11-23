@@ -200,10 +200,10 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.date }}</td>
-          <td class="">{{ props.item.arrival }}</td>
-          <!-- <td class="">{{  moment(props.item.arrival).format('HH:mm') }}</td> -->
-          <td class="">{{ props.item.departure }}</td>
-          <td class="">{{ props.item.set }}</td>
+          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="" v-if="props.item.set">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm')}}</td>
+          <td class="" v-else></td>
           <td class="">{{ props.item.duration }}</td>
           <td class="">{{ props.item.trip_id }}</td>
 
