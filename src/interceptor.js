@@ -11,7 +11,7 @@ import { mapGetters } from 'vuex'
 axios.defaults.timeout = 5000
 
 axios.interceptors.request.use(config => {
-  let sp =  {...mapGetters({auth: ['Auth/credential']})}
+  // let sp =  {...mapGetters({auth: ['Auth/credential']})}
   // console.log('sp', sp.auth)
   let credential = storeauth.getters.credential
   console.log('credencia interceptor', credential)

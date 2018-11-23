@@ -86,7 +86,7 @@
       },
       login () {
         let config = {method: 'POST',
-            url: 'http://192.168.11.146:4000/api/sign_in',
+            url: 'https://mel-2-backend.gestsol.cl/api/sign_in',
             params: {}}
             console.log(this.documentType)
         if(this.documentType === '1'){
