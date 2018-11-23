@@ -34,7 +34,7 @@
 <script>
   import axios from 'axios'
   import { mapGetters } from 'vuex'
-  import endPoints from '@/endPoints'
+  // import endPoints from '@/endPoints'
 
   export default {
     data: () => ({
