@@ -7,7 +7,7 @@
         Busqueda de servicios
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <div class="grey--text">
+      <!--<div class="grey--text">
         Frecuentes
       </div>
       <v-btn small flat class="botonmenu" >MEL - Complejo MEL</v-btn>
@@ -15,7 +15,7 @@
       <v-btn small  flat  class="botonmenu">Aeropuerto ANF - MEL</v-btn>
       <v-btn icon class="grey--text">
         <v-icon>help</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
 
     <v-divider></v-divider>

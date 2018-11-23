@@ -6,7 +6,7 @@
            </v-card-title>
     <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="ticketsList"
         class="elevation-1 "
         @update:pagination="updatePagination" 
       >
@@ -55,7 +55,7 @@
                                         </v-list-tile-action>
                                         <v-list-tile-content  >
                                             <v-list-tile-sub-title class="black--text font-weight-bold">DURACIÓN</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="grey--text">23</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="grey--text">{{selectedBooking.service.duration}}</v-list-tile-sub-title>
 
                                         </v-list-tile-content>
                                      </v-list-tile>
@@ -139,7 +139,7 @@
         <td class="text-xs-center">
             <!--v-btn outline color="success"
                v-show="props.item.estado=='confirmar'">Confirmar</v-btn> -->
-            <countdown  :date="props.item.service.date" :time="props.item.service.departure"/>
+            <countdown  :date="props.item.service.date" :time="props.item.service.departure" :id="props.item.id"/>
         </td>
         <td class="text-xs-center">
           <v-dialog v-model="confirmaAnular" persistent max-width="290">
@@ -165,6 +165,8 @@
   import {mapGetters} from 'vuex'
   import Countdown from './Countdown'
   import axios from 'axios'
+  import API from '@pi/app'
+
 
   export default {
     data () {
@@ -196,6 +198,7 @@
           {text: '', value: 'confirmar', sortable: false},
           {text: '', value: 'cancel', sortable: false}
         ],
+        ticketsList : [],
         desserts: [
           
         ]
@@ -205,25 +208,19 @@
       Countdown: Countdown
     },
      methods : {
-        getReservas() {
-              axios.get('https://mel-2-backend.gestsol.cl/api/tickets?page=2', {
-                  params: {
-                      user_id: 113162
-                  }
-              })
-          .then((response)=>{
-              console.log('entro al timeout')
-              setTimeout(()=>{
-                    this.desserts = Object.assign([], response.data.data)
-                 
-             //    console.log(this.desserts)
+        async getReservas() {
+            const userId = {
+                'user_id': 113162
+            }
+            const tickets = await API.get('tickets', userId)
+            console.log(tickets)
+
+            if (tickets.status >= 200 && tickets.status < 300){
+                setTimeout(()=>{
+                    this.ticketsList = Object.assign([], tickets.data.data)
                   this.consulta = true
               }, 2000)
-            
-         })
-          .catch((err)=>{
-            console.log(err)
-          })
+            } 
         },
         verDetalle(item) {
             console.log(item)

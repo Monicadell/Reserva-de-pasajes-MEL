@@ -40,6 +40,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   import axios from 'axios'
+  import API from '@pi/app'
 
   export default {
     props: ['direction'],
@@ -82,7 +83,7 @@
     
     },
     methods: {
-      actFecha(value) {
+      async actFecha(value) {
         // actualizo valor a mostrar en el header
         this.mes = value.split('-')[1]
         this.mesformateado = moment(this.mes, 'MM').format('MMMM')
@@ -92,29 +93,28 @@
         const fechaViaje = value
         console.log(idRuta, fechaViaje)
 
-        axios.get(`https://mel-2-backend.gestsol.cl/api/services?trip=${idRuta}&date=${fechaViaje}`)
-          .then((response)=>{
-           console.log(response.data.data)
-           
-          this.$store.dispatch('Booking/set_cargandoPeticion', {
+        const configService = {
+          'trip':idRuta,
+          'date':fechaViaje
+        }
+        console.log(configService)
+       
+       const services = await API.get('services', configService)
+       
+        if (services.status >= 200 && services.status < 300){
+            this.$store.dispatch('Booking/set_cargandoPeticion', {
             cargandoPeticion: true
             
           });  
-          setTimeout(()=>{
-            this.$store.dispatch('Booking/set_cargandoPeticion', {
-            cargandoPeticion: false
-          });
-          this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: response.data.data,
-          }); 
-
-
+           setTimeout(()=>{
+              this.$store.dispatch('Booking/set_cargandoPeticion', {
+              cargandoPeticion: false
+            });
+              this.$store.dispatch('Booking/set_listaServicios', {
+              listaServicios: services.data.data,
+            }); 
           },2000)
-            
-         })
-          .catch((err)=>{
-            console.log(err)
-          })
+      } 
 
       }
     },

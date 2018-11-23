@@ -35,7 +35,7 @@
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">A las:</div>
-                    <b>{{servicioSeleccionado.departure}}</b>
+                    <b>{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -56,7 +56,7 @@
                   </v-flex>
                   <v-flex>
                     <div class="grey--text">llegada aproximada:</div>
-                    <b> {{servicioSeleccionado.arrival}} </b>
+                    <b> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -146,11 +146,30 @@
         this.$store.dispatch('Booking/select', {selected: false})
         
       },
-      doBooking () {
+      async doBooking () {
         this.loadingBooking = true
         const hora = moment().toISOString();
-        console.log(hora)
-        //console.log(this.service.id)
+        /* const ticket = {
+          status: 1,
+          booked_at: hora,
+          user_id: 113162,
+          service_id: this.servicioSeleccionado.id
+        }
+
+       const booking = await API.post('tickets', ticket)
+          if (booking.status >= 200 && booking.status < 300){
+            this.ticket.status = 'progress'
+            setTimeout(() => {
+            this.booking.color = 'space'
+            this.booking.text = 'Reserva realizada con exito'
+            this.ticket.status = 'done'
+            this.loadingBooking = false
+              this.$store.dispatch('Booking/set_reservaRealizada', {
+              reservaRealizada: true
+              });  
+            }, 2000)
+          }
+       */
 
        axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {
@@ -161,29 +180,26 @@
             }
           })
           .then((response)=>{
-         //   console.log('reserva realizada')
           this.ticket.status = 'progress'
+            setTimeout(() => {
+              
+              this.booking.color = 'space'
+              this.booking.text = 'Reserva realizada con exito'
 
-        setTimeout(() => {
-          //this.booking.state = 'success'
-          this.booking.color = 'space'
-          this.booking.text = 'Reserva realizada con exito'
-
-          this.ticket.status = 'done'
-          this.loadingBooking = false
-            this.$store.dispatch('Booking/set_reservaRealizada', {
-            reservaRealizada: true
-            });  
-        }, 2000)
-
-          
+              this.ticket.status = 'done'
+              this.loadingBooking = false
+                this.$store.dispatch('Booking/set_reservaRealizada', {
+                reservaRealizada: true
+                });  
+            }, 2000)
             console.log(response);
           })
           .catch(function (error) {
+            console.log('****')
             console.log(error);
           });     
-
-       
+ 
+        
       },
     },
     computed: {

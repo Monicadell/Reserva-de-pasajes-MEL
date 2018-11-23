@@ -2,7 +2,7 @@
   <v-layout  >
 
      <v-flex  v-if="countdown => 48 && countdown <= 72"> 
-      <v-btn outline color="success">Confirmar</v-btn> 
+      <v-btn outline color="success" @click="confirmar(id)">Confirmar</v-btn> 
     </v-flex>
     <v-flex v-else> 
       <p> {{countdown}} </p>
@@ -17,7 +17,7 @@
   import VueCircle from 'vue2-circle-progress'
 
   export default {
-    props: ['deadline','date', 'time'],
+    props: ['deadline','date', 'time', 'id'],
     components: {
       VueCircle
     },
@@ -40,6 +40,10 @@
       
         this.countdown = a.diff(b, 'hours')
       },
+      confirmar(item) {
+        const ticketId = item
+        console.log(`hago la confimacion del ticket ${ticketId}`)
+      }
     },
     mounted () {
       this.currentTime = moment()

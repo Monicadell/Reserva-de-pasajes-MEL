@@ -47,7 +47,7 @@
     <v-flex xs6  >
     <v-autocomplete
       v-model="placeDestiny"
-      :items="destinyLocations"
+      :items="destLocations"
       no-data-text="No hay destinos disponibles"
       chips
       clearable
@@ -97,12 +97,13 @@
 <script>
   import {mapGetters} from 'vuex'
   import axios from 'axios'
+  import API from '@pi/app'
 
   export default {
     props: ['direction'],
     data: () => ({
       locations: [],
-      destinyLocations: [],
+      destLocations: [],
       origen: '',
       destino: '',
       seldestination:{
@@ -118,8 +119,8 @@
         //  return this.search[this.direction].place
         },
         set (value) {
-          console.log('usuario eligio origen')
-          this.findDestinies(value.id) 
+         // console.log('usuario eligio origen')
+          this.findDestinations(value.id) 
           this.seldestination.status = false
         }
       },
@@ -136,30 +137,22 @@
         }
       }
     },
-    mounted: function () {
-      axios.get('https://mel-2-backend.gestsol.cl/api/stations')
-        .then((response)=>{
-          this.locations = Object.assign([], response.data.data)
-         })
-          .catch((err)=>{
-            console.log(err)
-          })
-    },
-    methods: {
-      findDestinies (id) {
-       // console.log(`aqui busco a donde se puede ir con ${id} `)
-        axios.get('https://mel-2-backend.gestsol.cl/api/trips')
-      
-          .then((response)=>{
-            this.destinyLocations = response.data.data.filter((item)=>{
-              return item.source_id == id
-            })
-         //  console.log(_this.destinyLocations)
-         })
-          .catch((err)=>{
-            console.log(err)
-          })
+    mounted: async function () {
+      let stations = await API.get('stations')
+      console.log(stations.status)
+      if (stations.status >= 200 && stations.status < 300){
+        this.locations = Object.assign([], stations.data.data)
       }
+   
+    },
+    
+    methods: {
+      async findDestinations (id) {
+        const destinations = await API.get('trips')
+        if (destinations.status >= 200 && destinations.status < 300){
+          this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
+        }
+      },
     }
   }
 </script>

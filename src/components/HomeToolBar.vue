@@ -9,7 +9,7 @@
 
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>ITINERARIO DE VUELOS</v-btn>
+       <h3 class="mt-2">Reserva pasajes TANDEM </h3>
         <template v-if="isAuthorized">
           <v-btn flat>Reservar pasaje</v-btn>
           <v-btn flat>Mis Reservas</v-btn>
@@ -19,7 +19,7 @@
 
 
       <v-spacer></v-spacer>
-      <v-menu bottom offset-y>
+     <!-- <v-menu bottom offset-y>
         <v-btn flat dark slot="activator">
           <v-icon>translate</v-icon>
         </v-btn>
@@ -32,7 +32,7 @@
             <v-list-tile-title>English</v-list-tile-title>
           </v-list-tile>
         </v-list>
-      </v-menu>
+      </v-menu> -->
 
       <template v-if="isAuthorized">
         <v-btn flat dark @click="logout">

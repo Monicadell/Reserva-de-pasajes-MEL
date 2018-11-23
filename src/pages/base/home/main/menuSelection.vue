@@ -6,10 +6,10 @@
         {{$t(`lang.home.auth.${menuSelection.text}`)}}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn icon class="grey--text">
+ <!--
+     <v-btn icon class="grey--text">
         <v-icon>help</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
 
     <v-divider></v-divider>

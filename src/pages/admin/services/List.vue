@@ -42,8 +42,8 @@
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
             <td>{{ props.item.name }}</td>
-            <td >{{ props.item.departure }}</td> 
-            <td >{{(props.item.arrival)}}</td>  
+            <td >{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td> 
+            <td >{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>  
             <td class="text-xs-center">
                 <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }} </td> 
@@ -62,16 +62,9 @@
   import moment from 'moment'
 
   export default {
-     data () {
-       return {
-       
-        loading: false,
-        moment: moment,
-        listIsVisible: false
-       }
-     }
+   
      
-    ,
+ 
     watch: {
       cargandoPeticion () {
        if(this.cargandoPeticion) {
@@ -114,6 +107,7 @@
       rowsNumber: [6],
       disableList: true,
       selected: [],
+       moment: moment,
       loading: false,
       headers: [
         {text: 'Servicio', sortable: false},
@@ -124,51 +118,7 @@
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
       ],
-      //servicesList: [],
-     /* services: [
-        {
-          value: false,
-          id: 1,
-          name: 'Frecuencia 1',
-          from: '09:00',
-          to: '11:00'
-        },
-        {
-          value: false,
-          id: 2,
-          name: 'Frecuencia 2',
-          from: '09:00',
-          to: '11:00'
-        },
-        {
-          value: false,
-          id: 3,
-          name: 'Frecuencia 3',
-          from: '09:00',
-          to: '11:00'
-        },
-        {
-          value: false,
-          id: 4,
-          name: 'Frecuencia 4',
-          from: '09:00',
-          to: '11:00'
-        },
-        {
-          value: false,
-          id: 5,
-          name: 'Frecuencia 5',
-          from: '09:00',
-          to: '11:00'
-        },
-        {
-          value: false,
-          id: 6,
-          name: 'Frecuencia 6',
-          from: '09:00',
-          to: '11:00'
-        }
-      ] */
+ 
     })
   }
 </script>
