@@ -249,7 +249,7 @@
               headers: {'Authorization': "bearer " + this.credential}
         }
 
-         axios.get('http://192.168.11.146:4000/api/profile', config)
+         axios.get('https://mel-2-backend.gestsol.cl/api/profile', config)
             .then((response) => {
               console.log('profile',response)
               this.user = {
