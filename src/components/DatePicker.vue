@@ -100,7 +100,7 @@
         console.log(configService)
        
        const services = await API.get('services', configService)
-       
+       console.log(services)
         if (services.status >= 200 && services.status < 300){
             this.$store.dispatch('Booking/set_cargandoPeticion', {
             cargandoPeticion: true
