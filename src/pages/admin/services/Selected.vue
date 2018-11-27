@@ -7,12 +7,12 @@
 
             <v-card-title class="primary">
               <h3 class="title font-weight-light text-xs-center grow">
-                Confirmar reserva
+                Detalles de reserva
               </h3>
             </v-card-title>
             </v-card>
 
-        <v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
+        <!--<v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
                  gradient="to right, rgba(0,0,0,.44), rgba(0,0,0,.0)">
             <v-container fill-height>
               <v-layout>
@@ -22,41 +22,49 @@
                 </v-layout>
               </v-layout>
             </v-container>
-          </v-img>
+          </v-img> -->
 
           <v-card-text class="ml-3 mr-3"  >
             <v-timeline align-top dense>
 
-              <v-timeline-item color="yellow darken-1" large icon="fal fa-map-marked">
+              <v-timeline-item color="light-blue lighten-1" large icon="fal fa-map-marked">
                 <v-layout pt-3>
                   <v-flex xs6>
-                    <div class="grey--text">Salida desde:</div>
-                    <b> {{ruta.name.split('→')[0]}} </b>
+                    <div class="grey--text"><b>Salida desde:</b></div>
+                    <b class="secondary--text"> {{ruta.name.split('→')[0]}} </b>
                   </v-flex>
                   <v-flex>
-                    <div class="grey--text">A las:</div>
-                    <b>{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
+                    <div class="grey--text"> <b> Horario salida</b></div>
+                    <b class="secondary--text">{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
                   </v-flex>
                 </v-layout>
+                <v-divider class=" divider-custom mt-3"></v-divider>
+
               </v-timeline-item>
 
-              <v-timeline-item color="orange" large icon="fal fa-shuttle-van" class="mb-3">
+
+
+              <v-timeline-item color="cyan accent-3" large icon="airline_seat_recline_extra" class="mb-3">
                 <v-layout pt-3>
                   <v-flex xs6>
-                    {{servicioSeleccionado.id}}
+                     <div class="grey--text"> <b>Día del trayecto</b></div>
+                    <b class="secondary--text"> {{moment(servicioSeleccionado.date).format('dddd D  MMMM YYYY')}}</b>
                   </v-flex>
                 </v-layout>
+                <v-divider class="divider-custom mt-3"></v-divider>
+                  
               </v-timeline-item>
+   
 
-              <v-timeline-item color="green" large icon="fal fa-map-marker-check">
+              <v-timeline-item color="light-blue darken-3" large icon="fal fa-map-marker-check">
                 <v-layout pt-3>
                   <v-flex xs6>
-                    <div class="grey--text">Destino:</div>
-                    <b> {{ruta.name.split('→')[1]}} </b>
+                    <div class="grey--text"> <b>Destino: </b></div>
+                    <b class="secondary--text"> {{ruta.name.split('→')[1]}} </b>
                   </v-flex>
                   <v-flex>
-                    <div class="grey--text">llegada aproximada:</div>
-                    <b> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
+                    <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
+                    <b class="secondary--text"> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -84,7 +92,7 @@
 
       </v-card>
 
-       <v-card max-width="500" v-if="ticket.status=='progress'">
+     <!--<v-card max-width="500" v-if="ticket.status=='progress'">
 
             <v-card-text class="text-xs-center ">
             <v-progress-circular :size="150" color="primary" indeterminate></v-progress-circular>
@@ -105,7 +113,7 @@
             >
               Cerrar
             </v-btn>
-      </v-card>
+      </v-card> -->
     </v-dialog>
   </div>
 </template>
@@ -223,5 +231,9 @@
     padding: 50px 20px;
     background-color: #fff;
     color: #000;
+  }
+
+  .v-divider.divider-custom {
+    max-width: 350px;
   }
 </style>

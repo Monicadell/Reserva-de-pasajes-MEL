@@ -1,6 +1,6 @@
 <template>
-  <div  v-bind:class="[listIsVisible ? 'borde-list-out' : '', 'borde-list']"> 
-    <div v-bind:class="[listIsVisible ? 'fadeinfwd' : '', 'list']"> 
+  <div  > 
+    <div > 
     <v-card 
     
    :class="{
@@ -10,8 +10,6 @@
     }"
     
     class="fadeinfwdfast"
-    
-    
     >
     
       <v-card-title style="height: 65px" class="barra-servicios">
@@ -30,7 +28,7 @@
         v-model="selected"
         :loading="cargandoPeticion"
         :headers="headers"
-        :items="listaServicios"
+        :items="mientras"
         
         class="elevation-1 tablacustom"
         item-key="id"
@@ -74,15 +72,15 @@
     },
     mounted () {
    //  this.searchNewServices()
-       this.$store.dispatch('Booking/set_listaServicios', {
+    /*   this.$store.dispatch('Booking/set_listaServicios', {
             listaServicios: [],
 
-          }) 
+          }) */
     },
     methods: {
       resume (servicioSeleccionado) {
-       // console.log('aqui')
-    //  console.log(servicioSeleccionado)
+        console.log(servicioSeleccionado)
+
       this.$store.dispatch('Booking/select', {selected: true})
        this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
@@ -118,6 +116,23 @@
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
       ],
+      mientras : [
+        {
+            "arrival": "18:34:00",
+            "avail_seats": 10,
+            "car_id": null,
+            "date": "2018-11-24",
+            "departure": "15:20:00",
+            "driver_id": null,
+            "duration": null,
+            "freq_id": null,
+            "id": 61,
+            "name": "21",
+            "set": "15:00:00",
+            "trip_id": 1
+        }
+    
+      ]
  
     })
   }

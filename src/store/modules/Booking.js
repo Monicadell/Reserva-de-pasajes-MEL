@@ -23,7 +23,8 @@ const state = {
   listaServicios: [], // tiene los servicios disponibles en una ruta para una fecha especifica
   cargandoPeticion: false,
   reservaRealizada: false,
-  servicioSeleccionado: {} // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle. 
+  servicioSeleccionado: {}, // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle. 
+  fechaSeleccionada: ''
 }
 
 const getters = {
@@ -35,7 +36,8 @@ const getters = {
   listaServicios: state => state.listaServicios,
   cargandoPeticion: state => state.cargandoPeticion,
   reservaRealizada: state => state.reservaRealizada,
-  servicioSeleccionado: state => state.servicioSeleccionado
+  servicioSeleccionado: state => state.servicioSeleccionado,
+  fechaSeleccionada: state => state.fechaSeleccionada
 }
 
 const actions = {
@@ -61,13 +63,15 @@ const actions = {
     commit('SET_CARGANDOPETICION', {cargandoPeticion: payload.cargandoPeticion})
   },
   set_reservaRealizada ({commit}, payload) {
- 
     commit ('SET_RESERVAREALIZADA', {reservaRealizada: payload.reservaRealizada})
   }, 
   set_servicioSeleccionado ({commit}, payload) {
    // console.log(`seleccionaron el servicio ${payload}`)
     commit ('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
   }, 
+  set_fechaSeleccionada({commit}, payload) {
+    commit ('SET_FECHASELECCIONADA', {fechaSeleccionada: payload.fechaSeleccionada})
+  }
 
 }
 
@@ -101,6 +105,9 @@ const mutations = {
   },
   SET_SERVICIOSELECCIONADO: (state, {servicioSeleccionado}) => {
     state.servicioSeleccionado = servicioSeleccionado
+  },
+  SET_FECHASELECCIONADA: (state, {fechaSeleccionada}) => {
+    state.fechaSeleccionada = fechaSeleccionada
   }
 }
 

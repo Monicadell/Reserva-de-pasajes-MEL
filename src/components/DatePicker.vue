@@ -1,6 +1,6 @@
 <template>
-  <div v-bind:class="[calendarIsVisible ? 'borde-calendario-out' : '', 'borde-calendario']">
-    <v-card   v-bind:class="[calendarIsVisible ? 'fadeinfwd' : '', 'calendario']">
+  <div >
+    <v-card >
       <v-card dark flat>
         <v-card-title class="custom-header" >
           <h3 class="title font-weight-light text-xs-center grow">
@@ -17,7 +17,6 @@
     <v-date-picker
       :min="moment().format('YYYY-MM-DD')"
       :max="moment().add(maxDays, 'days').format('YYYY-MM-DD')"
-
       color="primary"
       locale="es-Es"
       v-model="fecha"
@@ -25,10 +24,8 @@
       no-title
       :height="100"
       :first-day-of-week="1"
-      enabled
+      :readonly="disableCalendar"
       @input="actFecha"
-      class="fadeinfwd"
-
     ></v-date-picker>
     </v-card>
   </div>
@@ -56,7 +53,8 @@
      mes: '',
      year: '',
      mesformateado: '',
-     calendarIsVisible: false
+     calendarIsVisible: false,
+     disableCalendar: true
   
     }),
     mounted () {
@@ -88,11 +86,17 @@
         this.mes = value.split('-')[1]
         this.mesformateado = moment(this.mes, 'MM').format('MMMM')
         this.year = value.split('-')[0]
-        console.log(`selecciono fecha ${value}`)
-        const  idRuta = this.ruta.id
+     //   console.log(`selecciono fecha ${value}`)
+      //  const  idRuta = this.ruta.id
         const fechaViaje = value
-        console.log(idRuta, fechaViaje)
+      //  console.log(idRuta, fechaViaje)
 
+
+           this.$store.dispatch('Booking/set_fechaSeleccionada', {
+            fechaSeleccionada: value,
+          })
+
+/*
         const configService = {
           'trip':idRuta,
           'date':fechaViaje
@@ -114,7 +118,7 @@
               listaServicios: services.data.data,
             }); 
           },2000)
-      } 
+        } */
 
       }
     },
@@ -123,7 +127,7 @@
         console.log('la ruta cambio')
         console.log(this.ruta)
         if(this.ruta.id ) {
-          this.calendarIsVisible = true
+          this.disableCalendar = false
         }
       }
     }

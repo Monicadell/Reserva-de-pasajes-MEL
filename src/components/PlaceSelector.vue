@@ -137,14 +137,14 @@
         }
       }
     },
-    mounted: async function () {
+   /* mounted: async function () {
       let stations = await API.get('stations')
       console.log(stations.status)
       if (stations.status >= 200 && stations.status < 300){
         this.locations = Object.assign([], stations.data.data)
       }
    
-    },
+    }, */
     
     methods: {
       async findDestinations (id) {
@@ -152,6 +152,7 @@
         if (destinations.status >= 200 && destinations.status < 300){
           this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
         }
+        console.log(destinations)
       },
     }
   }

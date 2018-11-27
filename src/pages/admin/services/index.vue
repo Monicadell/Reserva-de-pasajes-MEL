@@ -19,32 +19,140 @@
     </v-toolbar>
 
     <v-divider></v-divider>
+<v-layout>
+  <v-flex xs4>
+     <v-navigation-drawer >
+      <v-list dense class="pt-0 user ">
+         <v-toolbar-title class="title-list-custom">Mis reservas</v-toolbar-title>
+            <v-divider></v-divider>
+            <v-layout v-for="item in items" :key="item.id">
+              <v-flex > 
+                <v-list-tile-content  >
+                  <tickets v-bind:item="item" />
+                </v-list-tile-content>
+              </v-flex> 
+            </v-layout> 
+      </v-list>
+    </v-navigation-drawer>
+  </v-flex>
+
+  <v-flex xs10>
+    <v-stepper v-model="e1" non-linear >
+    <v-stepper-header>
+      <v-stepper-step editable :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step  editable :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
+
+      <v-divider></v-divider>
+
+      <v-stepper-step editable  step="3">Confirmación</v-stepper-step>
+    </v-stepper-header>
+
+    <v-stepper-items>
+      <v-stepper-content step="1">
+        <v-container>
+          <v-card
+            class="mb-5"
+            flat
+            height="400px"
+               max-height="400px"
+          >
+            <v-card-title >
+              <h3 class="headline ">Selecciona los datos para tu viaje</h3>
+            </v-card-title>
+            <place-selector :direction="'from'"/> 
+            <service-date :direction="'from'" class="mt-3"/>
+          </v-card>
+        </v-container>
 
 
-    <v-card-text>
-      <v-container fluid grid-list-lg class="pt-0 pb-0">
+        <v-btn
+          color="primary"
+          @click="findServices"
+         
+        >
+          Buscar
+        </v-btn>
+
+      </v-stepper-content>
+
+      <v-stepper-content step="2">
+        <v-card
+          class="mb-5"
+          height="400px"
+          max-height="400px"
+          flat
+        >
+
+          <service-list/>
+        </v-card>
+
+      <!--  <v-btn
+          color="primary"
+          @click="e1 = 3"
+        >
+          Continue
+        </v-btn> -->
+
+      </v-stepper-content>
+
+      <v-stepper-content step="3">
+        <v-card
+          class="mb-5"
+          height="400px"
+          max-height="400px"
+          flat
+        >
+           <v-card-title >
+              <h3 class="headline ">Tu reserva esta confirmada</h3>
+            </v-card-title>
+          <img src="../../../../static/img/check.png" alt="Smiley face" height="200" width="200">
+              <h3 class="headline ">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
+           
+        </v-card>
+
+      
+        <v-btn
+          color="primary"
+          @click="e1 = 1"
+        >
+          Volver al menú principal
+        </v-btn>
+      </v-stepper-content>
+    </v-stepper-items>
+  </v-stepper> 
+      
+  </v-flex>  
+
+</v-layout>  
+   
+
+  
+
+   <!--  <v-card-text>
+     <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12 md5>
             <place-selector :direction="'from'"/> 
-           <!--  <place-selector :direction="'to'" class="mt-3"/> -->
+           
             <service-date :direction="'from'" class="mt-3"/>
           </v-flex>
           <v-flex xs12 md7>
             <service-list/>
           </v-flex>
-          <!--<v-flex xs12 md1 class="text-xs-center pb-0">
-<v-icon class="text-xs-center">fal fa-arrow-down</v-icon>
-          </v-flex>-->
-        </v-layout>
+   
+        </v-layout>-->
         <v-layout row wrap fill-height class="mt-2">
           <v-flex xs12 >
             <service-selected/>  
           </v-flex>
         </v-layout>
-      </v-container>
-    </v-card-text>
+   <!--   </v-container>
+    </v-card-text>  -->
 
-    <v-card-text>
+   <!-- <v-card-text>
       <v-container fluid grid-list-lg class="pt-0 pb-0">
         <v-layout row wrap fill-height>
           <v-flex xs12>
@@ -52,7 +160,7 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </v-card-text>
+    </v-card-text> -->
 
   </div>
 </template>
@@ -63,26 +171,174 @@
   import ServiceList from './List'
   import ServiceSelected from './Selected'
   import MyBooking from './MyBooking'
+  import tickets from './tickets'
+  import {mapGetters} from 'vuex'
+  import API from '@pi/app'
+
 
   export default {
+    data() {
+      return {
+        e1: 0,
+        items: [
+        {
+          booked_at: '17-20-2018',
+          id: 1,
+          service: {
+            from: 'mel',
+            to: 'Complejo-mel',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '03am'
+          }
+        },
+          {
+          booked_at: '18-20-2018',
+          id: 2,
+          service: {
+            from: 'baq',
+            to: 'Ccs',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '04am'
+          }
+        },
+          {
+          booked_at: '19-20-2018',
+          id: 3,
+          service: {
+            from: 'mcbo',
+            to: 'mcy',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '05am'
+          }
+        },
+          {
+          booked_at: '20-20-2018',
+          id: 4,
+          service: {
+            from: 'mer',
+            to: 'zul',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '06am'
+          }
+        },
+          {
+          booked_at: '21-20-2018',
+          id: 5,
+          service: {
+            from: 'lara',
+            to: 'mgta',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '07am'
+          }
+        }
+        ,
+          {
+          booked_at: '21-20-2018',
+          id: 6,
+          service: {
+            from: 'lara',
+            to: 'mgta',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '07am'
+          }
+        },
+          {
+          booked_at: '21-20-2018',
+          id: 7,
+          service: {
+            from: 'lara',
+            to: 'mgta',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '07am'
+          }
+        },
+          {
+          booked_at: '21-20-2018',
+          id: 8,
+          service: {
+            from: 'lara',
+            to: 'mgta',
+            date: '15-12-55',
+            departure: '10:11am',
+            arrival: '07am'
+          }
+        }
+
+      ],
+      right: null
+      }
+    },
     components: {
       PlaceSelector: PlaceSelector,
       ServiceDate: ServiceDate,
       ServiceList: ServiceList,
       ServiceSelected: ServiceSelected,
-      MyBooking: MyBooking
+      MyBooking: MyBooking,
+      tickets
     },
+     computed: {
+      ...mapGetters({
+        fecha: ['Booking/fechaSeleccionada'],
+        ruta: ['Booking/ruta']
+      }),
+     },  
     mounted () {
-
-       this.$store.dispatch('Booking/set_ruta', {
-            ruta: {},
-
-          }) 
+      this.$store.dispatch('Booking/set_ruta', {
+        ruta: {}
+      });    
+      this.$store.dispatch('Booking/set_listaServicios', {
+        listaServicios: [],
+      });  
+     // const tickets = this.getReservas()
+      
     },
+
+    methods: {
+      async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
+        const fecha= this.fecha
+        const ruta = this.ruta
+
+        const configService = {
+          'trip':ruta.id,
+          'date':fecha
+        }
+       const services = await API.get('services', configService)
+       //console.log(services)
+       if (services.status >= 200 && services.status < 300){
+         setTimeout(()=>{
+          this.$store.dispatch('Booking/set_listaServicios', {
+            listaServicios: services.data.data,
+          }); 
+          this.e1 = 2
+         }, 1000)
+       }
+      },
+      async getReservas() { //obtener las reservas de un usuario
+            const userId = {
+                'user_id': 113162
+            }
+            const tickets = await API.get('tickets', userId)
+            console.log(tickets)
+
+            if (tickets.status >= 200 && tickets.status < 300){
+                setTimeout(()=>{
+                    this.ticketsList = Object.assign([], tickets.data.data)
+                  this.consulta = true
+              }, 2000)
+            } 
+        },
+    }
   }
 </script>
 
-<style>
+<style >
 .v-btn.botonmenu {
     background: transparent ;
    border: 1px solid #1565c0 ;
@@ -93,4 +349,17 @@
     background: #1565c0;
     color: white;
   }
+
+  .v-list.user {
+  height: 800px;
+  overflow-y: auto;
+}
+
+.v-toolbar__title.title-list-custom {
+  background: #1565c0;
+}
+
+.v-navigation-drawer>.v-list .v-list__tile .prueba {
+  height: 300px;
+}
 </style>
