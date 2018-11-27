@@ -51,8 +51,12 @@ const mutations = {
     state.useremail = useremail
   },
   LOGOUT (state) {
-    state.isAuthorized = false
-    state.user = ''
+    state.isAuthorized= false
+    state.user = null
+    state.credential = null
+    state.role = null
+    state.username = null
+    state.useremail = null
   }
 }
 

@@ -164,8 +164,8 @@
 <script>
   import axios from 'axios'
   import { mapGetters } from 'vuex'
+  import API from '@pi/app'
   // import endPoints from '@/endPoints'
-
   export default {
     data: () => ({
       dialog: false,
@@ -209,10 +209,9 @@
       credential: ['Auth/credential']
     }),
     mounted () {
-      this.loadMyInfo()
+      this.getMyInfo()
     },
     methods: {
-
       save () {
       //   this.loading = true
       //   let auth = this.$store.getters.getAuth
@@ -241,59 +240,30 @@
       //     console.warn(err)
       //   })
       },
-      loadMyInfo () {
-        
-        // let auth = this.$store('Auth/isAuthorized')
-
-        let config =  {
-              headers: {'Authorization': "bearer " + this.credential}
+      async getMyInfo () {
+        console.log('al getinfo cred', this.credential)
+        let info = await API.get('profile')
+        if (info.status >= 200 && info.status < 300) {
+          console.log('profile',info)
+          this.user = {
+              tipoUsuario: info.data.role_id ? info.data.role_id : '',
+              tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte' ,
+              tipoContrato: info.data.contract_type ? info.data.contract_type : '',
+              password: '***',
+              numeroContacto: info.data.phone_number ? info.data.phone_number : '',
+              nombre: info.data.name ? info.data.name : '',
+              nContrato: '---',
+              mensaje: 'mensaje',
+              estado: info.data.active ? 'Activo' : 'Inactivo',
+              empresaAsociada: info.data.company_name ? info.data.company_name : '',
+              email: info.data.email ? info.data.email : '',
+              documento: info.data.rut ? info.data.rut : info.data.passport,
+              direccion: info.data.address ? info.data.address : ''
+            }
+            this.userEdited = this.user
+        } else {
+          console.log('error profile', error)
         }
-
-         axios.get('https://mel-2-backend.gestsol.cl/api/profile', config)
-            .then((response) => {
-              console.log('profile',response)
-              this.user = {
-                  tipoUsuario: response.data.role_id ? response.data.role_id : '',
-                  tipoDocumento: response.data.rut ? 'RUT' : 'Pasaporte' ,
-                  tipoContrato: response.data.contract_type ? response.data.contract_type : '',
-                  password: '***',
-                  numeroContacto: response.data.phone_number ? response.data.phone_number : '',
-                  nombre: response.data.name ? response.data.name : '',
-                  nContrato: '---',
-                  mensaje: 'mensaje',
-                  estado: response.data.active ? 'Activo' : 'Inactivo',
-                  empresaAsociada: response.data.company_name ? response.data.company_name : '',
-                  email: response.data.email ? response.data.email : '',
-                  documento: response.data.rut ? response.data.rut : response.data.passport,
-                  direccion: response.data.address ? response.data.address : ''
-                }
-                this.userEdited = this.user
-            })
-            .catch(function (error) {
-              console.log('error profile', error)
-            })
-        // let config = {
-        //   method: 'POST',
-        //   url: endPoints.searchUser,
-        //   params: {
-        //     rut: auth.user,
-        //     ncontrato: auth.agreementNumber,
-        //     tipoDocumento: auth.documentType,
-        //     documento: auth.user
-        //   }
-        // }
-        // axios(config).then((response) => {
-        //   if (response.status === 200 && response.data.success) {
-        //     this.user = response.data.response
-        //     this.userEdited = Object.assign({}, response.data.response)
-        //   } else {
-        //     alert('Error al cargar la información')
-        //     console.warn(response)
-        //   }
-        // }, (err) => {
-        //   alert('Error al cargar la información')
-        //   console.warn(err)
-        // })
       }
     }
   }

@@ -64,42 +64,74 @@ const router = new Router({
         {
           path: '/users',
           name: 'Users',
-          component: Users
+          component: Users,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/frecuencias',
           name: 'Frecuencias',
-          component: Frecuencias
+          component: Frecuencias,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/manifiestos',
           name: 'Manifiestos',
-          component: Manifiestos
+          component: Manifiestos,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/conductores',
           name: 'Conductores',
-          component: Conductores
+          component: Conductores,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/buses',
           name: 'Buses',
-          component: Buses
+          component: Buses,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/servicios',
           name: 'Servicios',
-          component: Servicios
+          component: Servicios,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/tramos',
           name: 'Recorridos',
-          component: Recorridos
+          component: Recorridos,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/estaciones',
           name: 'Estaciones',
-          component: Estaciones
+          component: Estaciones,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         },
         {
           path: '/myInfo',
@@ -116,9 +148,21 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   let isAuthorized = store.state.Auth.isAuthorized || false
-
+  let isAdmin = (store.state.Auth.role === 5) ? true : false
+  console.log('Es admin? ', isAdmin)
   if (to.matched.some(record => record.meta.requiresAuth)) {
+   
     if (isAuthorized) {
+      next()
+    } else {
+      next({
+        path: '/',
+        query: {error: 'noAuthorized'}
+      })
+    }
+  } else if (to.matched.some(record => record.meta.adminAuth)){
+    console.log('elseif adminauth')
+    if (isAdmin) {
       next()
     } else {
       next({

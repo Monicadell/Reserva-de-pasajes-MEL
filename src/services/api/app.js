@@ -3,20 +3,20 @@
  */
 import axios from '../../interceptor'
 import endpoints from '../../endpoints'
+import store  from '../../store'
 /**
  * Declare Variable
  */
 const url = endpoints.app
 const base = `${url}/`
-
+let credential =  store.getters['Auth/credential']
 /**
  * Export
  */
 
 export default {
   get (urlget, params) {
-    console.log(base + urlget, params)
-
+    // console.log('get algo', base + urlget, params)
     return axios.get(base + urlget, {
       params: {...params}
     })
