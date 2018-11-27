@@ -10,27 +10,27 @@ import store from './store'
 // axios.defaults.timeout = 5000
 
 axios.interceptors.request.use(config => {
-  var credential = store.getters['Auth/credential'];
-  var isAuthorize = store.getters['Auth/isAuthorized'];
+  var credential = store.getters['Auth/credential']
+  var isAuthorize = store.getters['Auth/isAuthorized']
 
   if (credential && isAuthorize) {
-    config.headers.common['Authorization'] = 'Bearer ' + credential;
+    config.headers.common['Authorization'] = 'Bearer ' + credential
   }
-  return config;
+  return config
 }, error => {
-  console.group('[Axios][Interceptor] Request Error');
-  console.log(error);
-  console.groupEnd();
-  return Promise.reject(error);
+  console.group('[Axios][Interceptor] Request Error')
+  console.log(error)
+  console.groupEnd()
+  return Promise.reject(error)
 });
 
-axios.interceptors.response.use(function(data) {
-  return data;
+axios.interceptors.response.use(data => {
+   return data;
 }, error => {
-  console.group('[Axios][Interceptor] Response Error');
-  console.log(error);
-  console.groupEnd();
-  return Promise.reject(error);
-});
+   console.group('[Axios][Interceptor] Response Error')
+   console.log('eroooorr ',error)
+   console.groupEnd()
+   return Promise.reject(error)
+ })
 
 export default axios

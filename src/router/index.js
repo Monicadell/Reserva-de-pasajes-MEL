@@ -148,11 +148,11 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   let isAuthorized = store.state.Auth.isAuthorized || false
-  let isAdmin = (store.state.Auth.role === 5) ? true : false
-  console.log('Es admin? ', isAdmin)
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-   
-    if (isAuthorized) {
+  let isAdmin = (store.state.Auth.role === 5 || store.state.Auth.role === 2) ? true : false
+
+  if (to.matched.some(record => record.meta.adminAuth)) {
+
+    if (isAdmin && isAuthorized) {
       next()
     } else {
       next({
@@ -160,9 +160,9 @@ router.beforeEach((to, from, next) => {
         query: {error: 'noAuthorized'}
       })
     }
-  } else if (to.matched.some(record => record.meta.adminAuth)){
-    console.log('elseif adminauth')
-    if (isAdmin) {
+  } else if (to.matched.some(record => record.meta.requiresAuth)){
+
+    if (isAuthorized) {
       next()
     } else {
       next({
