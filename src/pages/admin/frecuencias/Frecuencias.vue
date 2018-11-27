@@ -295,24 +295,11 @@
           end: '',
           set: '',
           departure: '',
-          arrival: '',
           duration: '',
           active: false,
           trips: [],
           trip_id: '',
           cars: ''
-        },
-        selectedFrecuencie: {
-          name: 'Frec1',
-          source_id: 'source',
-          dest_id: 'dest',
-          start: '2018-10/2018 20:00',
-          end: '2018-10/2018 20:00',
-          set: '2018-10/2018 20:00',
-          departure: '2018-10/2018 20:00',
-          arrival: '2018-10/2018 20:00',
-          duration: '5:00',
-          active: true
         },
         headers: [
           {text: 'Nombre', value: 'name'},
@@ -390,8 +377,7 @@
             'end': guardar.end ? guardar.end : '',
             'set': guardar.set ? guardar.set : '',
             'departure': guardar.departure ? guardar.departure : '',
-            'arrival': guardar.arrival ? guardar.arrival : '',
-            'active': guardar.active ? guardar.active : '',
+            'active': guardar.active ? guardar.active : false,
             'freq_type': guardar.freq_type ? guardar.freq_type : '',
             'name': guardar.name ? guardar.name : ''
           }

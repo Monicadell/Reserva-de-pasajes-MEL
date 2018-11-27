@@ -124,8 +124,8 @@
     },
     watch: {
       ruta() {
-        console.log('la ruta cambio')
-        console.log(this.ruta)
+       // console.log('la ruta cambio')
+       // console.log(this.ruta)
         if(this.ruta.id ) {
           this.disableCalendar = false
         }

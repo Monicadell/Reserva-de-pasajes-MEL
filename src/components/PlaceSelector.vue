@@ -129,7 +129,7 @@
         //  return this.search[this.direction].place
         },
         set (value) {
-        console.log('usuario eligio destino, fijo ruta', value)
+      //  console.log('usuario eligio destino, fijo ruta', value)
         this.locationsId = Object.assign([], this.locations)
         this.$store.dispatch('Booking/set_ruta', {
             ruta: value,
@@ -137,14 +137,14 @@
         }
       }
     },
-   /* mounted: async function () {
+    mounted: async function () {
       let stations = await API.get('stations')
-      console.log(stations.status)
+    //  console.log(stations.status)
       if (stations.status >= 200 && stations.status < 300){
         this.locations = Object.assign([], stations.data.data)
       }
    
-    }, */
+    }, 
     
     methods: {
       async findDestinations (id) {

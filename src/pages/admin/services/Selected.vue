@@ -157,29 +157,29 @@
       async doBooking () {
         this.loadingBooking = true
         const hora = moment().toISOString();
-        /* const ticket = {
+         const ticket = {
           status: 1,
           booked_at: hora,
-          user_id: 113162,
           service_id: this.servicioSeleccionado.id
         }
 
-       const booking = await API.post('tickets', ticket)
-          if (booking.status >= 200 && booking.status < 300){
-            this.ticket.status = 'progress'
-            setTimeout(() => {
-            this.booking.color = 'space'
-            this.booking.text = 'Reserva realizada con exito'
-            this.ticket.status = 'done'
-            this.loadingBooking = false
-              this.$store.dispatch('Booking/set_reservaRealizada', {
-              reservaRealizada: true
-              });  
-            }, 2000)
-          }
-       */
+       const booking = await API.postNoRest('services', ticket.service_id, 'book')
+      // console.log(booking)
+        if (booking.status >= 200 && booking.status < 300){
+            console.log('reserva exitosa')
+             this.$store.dispatch('Booking/set_actualizarReservas', {
+                actualizarReservas: true
+            });
+        this.$store.dispatch('Booking/select', {selected: false})
 
-       axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
+            this.$store.dispatch('Booking/set_e1', {
+            e1: 3,
+          }); 
+
+          }
+       
+
+     /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {
             status: 1,
             booked_at: hora,
@@ -210,7 +210,7 @@
             console.log('****')
             console.log(error);
           });     
- 
+ */
         
       },
     },

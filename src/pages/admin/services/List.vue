@@ -28,7 +28,7 @@
         v-model="selected"
         :loading="cargandoPeticion"
         :headers="headers"
-        :items="mientras"
+        :items="listaServicios"
         
         class="elevation-1 tablacustom"
         item-key="id"

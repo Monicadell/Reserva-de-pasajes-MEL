@@ -24,7 +24,7 @@
               </v-img>
               <v-img class="white--text" height="80px"
                     src="https://www.24horas.cl/incoming/article129292.ece/ALTERNATES/w1024h768/Sanhattan%20de%20noche">
-                <!-- <weather lat="-33.47" lon="-70.64" name="Santiago"/> -->
+                <weather lat="-33.47" lon="-70.64" name="Santiago"/>
               </v-img>
             </v-card>
           </v-flex>

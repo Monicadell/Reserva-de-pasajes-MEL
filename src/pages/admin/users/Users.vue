@@ -61,7 +61,7 @@
               <v-flex xs12 sm6 md4>
                 <v-select :items="editedItem.roles" v-model="editedItem.role_id"
                           label="Tipo de Usuario"
-                          single-line item-text="name" item-value="id"
+                          single-line item-text="text" item-value="id"
                 ></v-select>
               </v-flex>
 
@@ -393,6 +393,7 @@
       async getRoles () {
         let roles = await API.get('roles')
         if (roles.status >= 200 && roles.status < 300) {
+          console.log('roles', roles)
           this.editedItem.roles = roles.data.data
           this.loading = false         
         }

@@ -20,10 +20,10 @@
 
     <v-divider></v-divider>
 <v-layout>
-  <v-flex xs4>
-     <v-navigation-drawer >
+  <v-flex xs3>
+     <v-navigation-drawer style="width: 100%">
       <v-list dense class="pt-0 user ">
-         <v-toolbar-title class="title-list-custom">Mis reservas</v-toolbar-title>
+         <v-toolbar-title class="title-list-custom white--text">Mis reservas</v-toolbar-title>
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
               <v-flex > 
@@ -37,17 +37,17 @@
   </v-flex>
 
   <v-flex xs10>
-    <v-stepper v-model="e1" non-linear >
+    <v-stepper :value="e1" >
     <v-stepper-header>
-      <v-stepper-step editable :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
+      <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step  editable :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
+      <v-stepper-step   :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step editable  step="3">Confirmación</v-stepper-step>
+      <v-stepper-step   step="3">Confirmación</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
@@ -69,8 +69,10 @@
 
 
         <v-btn
-          color="primary"
+          color="secondary"
           @click="findServices"
+          :disabled="disabledBtn"
+          class="btn-step1 ml-4"
          
         >
           Buscar
@@ -89,13 +91,6 @@
           <service-list/>
         </v-card>
 
-      <!--  <v-btn
-          color="primary"
-          @click="e1 = 3"
-        >
-          Continue
-        </v-btn> -->
-
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -113,10 +108,9 @@
            
         </v-card>
 
-      
         <v-btn
           color="primary"
-          @click="e1 = 1"
+          @click="volverMenu"
         >
           Volver al menú principal
         </v-btn>
@@ -129,38 +123,27 @@
 </v-layout>  
    
 
-  
 
-   <!--  <v-card-text>
-     <v-container fluid grid-list-lg class="pt-0 pb-0">
-        <v-layout row wrap fill-height>
-          <v-flex xs12 md5>
-            <place-selector :direction="'from'"/> 
-           
-            <service-date :direction="'from'" class="mt-3"/>
-          </v-flex>
-          <v-flex xs12 md7>
-            <service-list/>
-          </v-flex>
-   
-        </v-layout>-->
         <v-layout row wrap fill-height class="mt-2">
           <v-flex xs12 >
             <service-selected/>  
           </v-flex>
         </v-layout>
-   <!--   </v-container>
-    </v-card-text>  -->
 
-   <!-- <v-card-text>
-      <v-container fluid grid-list-lg class="pt-0 pb-0">
-        <v-layout row wrap fill-height>
-          <v-flex xs12>
-            <my-booking />
+
+         <v-layout row wrap fill-height class="mt-2">
+          <v-flex xs12 >
+            <modal-anular/>  
           </v-flex>
         </v-layout>
-      </v-container>
-    </v-card-text> -->
+
+
+         <v-layout row wrap fill-height class="mt-2">
+          <v-flex xs12 >
+            <modal-confirmar/>  
+          </v-flex>
+        </v-layout>
+        
 
   </div>
 </template>
@@ -171,6 +154,9 @@
   import ServiceList from './List'
   import ServiceSelected from './Selected'
   import MyBooking from './MyBooking'
+  import modalAnular from './modalAnular'
+  import modalConfirmar from './modalConfirmar'
+
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
   import API from '@pi/app'
@@ -179,100 +165,10 @@
   export default {
     data() {
       return {
-        e1: 0,
-        items: [
-        {
-          booked_at: '17-20-2018',
-          id: 1,
-          service: {
-            from: 'mel',
-            to: 'Complejo-mel',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '03am'
-          }
-        },
-          {
-          booked_at: '18-20-2018',
-          id: 2,
-          service: {
-            from: 'baq',
-            to: 'Ccs',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '04am'
-          }
-        },
-          {
-          booked_at: '19-20-2018',
-          id: 3,
-          service: {
-            from: 'mcbo',
-            to: 'mcy',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '05am'
-          }
-        },
-          {
-          booked_at: '20-20-2018',
-          id: 4,
-          service: {
-            from: 'mer',
-            to: 'zul',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '06am'
-          }
-        },
-          {
-          booked_at: '21-20-2018',
-          id: 5,
-          service: {
-            from: 'lara',
-            to: 'mgta',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '07am'
-          }
-        }
-        ,
-          {
-          booked_at: '21-20-2018',
-          id: 6,
-          service: {
-            from: 'lara',
-            to: 'mgta',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '07am'
-          }
-        },
-          {
-          booked_at: '21-20-2018',
-          id: 7,
-          service: {
-            from: 'lara',
-            to: 'mgta',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '07am'
-          }
-        },
-          {
-          booked_at: '21-20-2018',
-          id: 8,
-          service: {
-            from: 'lara',
-            to: 'mgta',
-            date: '15-12-55',
-            departure: '10:11am',
-            arrival: '07am'
-          }
-        }
-
-      ],
-      right: null
+      //  e1: 0,
+        items: [],
+        right: null,
+        disabledBtn: true,
       }
     },
     components: {
@@ -281,23 +177,60 @@
       ServiceList: ServiceList,
       ServiceSelected: ServiceSelected,
       MyBooking: MyBooking,
-      tickets
+      tickets,
+      modalAnular,
+      modalConfirmar
     },
      computed: {
       ...mapGetters({
         fecha: ['Booking/fechaSeleccionada'],
-        ruta: ['Booking/ruta']
+        ruta: ['Booking/ruta'],
+        actualizarReservas: ['Booking/actualizarReservas'],
+        e1: ['Booking/e1']
       }),
+     },
+     watch : {
+       actualizarReservas () {
+         console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
+         this.getReservas()
+         this.$store.dispatch('Booking/set_actualizarReservas', {
+            actualizarReservas: false
+            }); 
+       },
+       fecha() {
+       //  console.log(`seleccionaron fecha ${this.fecha}`)
+         if(this.fecha != '') {
+           //Habilito boton de buscar
+           this.disabledBtn = false
+         }
+       },
+       e1() {
+         console.log('cambio el step')
+       }
      },  
     mounted () {
+      this.getReservas()
       this.$store.dispatch('Booking/set_ruta', {
         ruta: {}
       });    
       this.$store.dispatch('Booking/set_listaServicios', {
         listaServicios: [],
       });  
-     // const tickets = this.getReservas()
-      
+       this.$store.dispatch('Booking/set_anular', {
+        anular: false
+      });    
+       this.$store.dispatch('Booking/set_actualizarReservas', {
+                actualizarReservas: false
+            }); 
+       this.$store.dispatch('Booking/set_fechaSeleccionada', {
+            fechaSeleccionada: '',
+          })
+            this.$store.dispatch('Booking/set_confirmar', {
+        confirmar: false
+      }); 
+        this.$store.dispatch('Booking/set_e1', {
+        e1: 1
+      });   
     },
 
     methods: {
@@ -312,11 +245,14 @@
        const services = await API.get('services', configService)
        //console.log(services)
        if (services.status >= 200 && services.status < 300){
+         console.log(services)
          setTimeout(()=>{
           this.$store.dispatch('Booking/set_listaServicios', {
             listaServicios: services.data.data,
           }); 
-          this.e1 = 2
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 2,
+          }); 
          }, 1000)
        }
       },
@@ -324,17 +260,25 @@
             const userId = {
                 'user_id': 113162
             }
-            const tickets = await API.get('tickets', userId)
+            const tickets = await API.get('tickets')
             console.log(tickets)
 
             if (tickets.status >= 200 && tickets.status < 300){
+              console.log(`los tickets del usuario son `)
+              console.log(tickets.data.data)
                 setTimeout(()=>{
-                    this.ticketsList = Object.assign([], tickets.data.data)
-                  this.consulta = true
+                    this.items = Object.assign([], tickets.data.data)
+            //      this.consulta = true
               }, 2000)
             } 
+           
         },
-    }
+        volverMenu() {
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 1,
+          }); 
+        }
+    },
   }
 </script>
 
@@ -362,4 +306,9 @@
 .v-navigation-drawer>.v-list .v-list__tile .prueba {
   height: 300px;
 }
+
+.btn-step1 {
+  width: 96%
+}
+
 </style>
