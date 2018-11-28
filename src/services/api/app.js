@@ -32,5 +32,20 @@ export default {
   delete (urldel,  id) {
     console.log('elimina', id, base)
     return axios.delete(base + urldel + '/' + id)
+  },
+  postNoRest (url, id, url2) {
+    const request = `${base}${url}/${id}/${url2}`
+    console.log(request)
+    return axios.post(request)
+  },
+  deleteNoRest (url,id,url2) {
+    const request = `${base}${url}/${id}/${url2}`
+    console.log(request)
+    return axios.delete(request)
+  },
+  patchNoRest (url, id, url2) {
+    const request = `${base}${url}/${id}/${url2}`
+    console.log(request)
+    return axios.patch(request)
   }
 }

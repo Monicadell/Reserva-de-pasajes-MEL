@@ -27,10 +27,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(data => {
    return data;
 }, error => {
-   console.group('[Axios][Interceptor] Response Error')
-   console.log('eroooorr ',error)
-   console.groupEnd()
-   return Promise.reject(error)
- })
+  console.group('[Axios][Interceptor] Response Error');
+  console.log(error);
+  console.groupEnd();
+  return Promise.reject(error);
+});
 
 export default axios

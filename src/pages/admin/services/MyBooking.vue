@@ -142,11 +142,19 @@
             <countdown  :date="props.item.service.date" :time="props.item.service.departure" :id="props.item.id"/>
         </td>
         <td class="text-xs-center">
-          <v-dialog v-model="confirmaAnular" persistent max-width="290">
+          <v-dialog v-model="confirmaAnular" persistent max-width="490">
             <v-btn slot="activator" outline color="error" dark  >Anular</v-btn>
             <v-card>
-              <v-card-title class="headline">¿Esta seguro de anular la reserva?</v-card-title>
-              <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva.</v-card-text>
+              <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">¿Esta seguro de anular la reserva?</v-card-title>
+              <v-layout row wrap ml-4 mt-3> 
+              <v-flex xs3 class="mt-3 ml-2"> 
+                <v-icon color="red" size=80>warning</v-icon>
+              </v-flex>
+              <v-flex xs8 mt-3> 
+              <v-card-text>Una vez realizada esta acción no podrá recuperar la reserva realizada anteriormente.</v-card-text>
+
+              </v-flex>
+              </v-layout>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
