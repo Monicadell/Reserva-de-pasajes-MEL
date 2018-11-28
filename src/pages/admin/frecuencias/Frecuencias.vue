@@ -370,20 +370,21 @@
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
-        let trip = this.trips.find(obj => obj.id === guardar.trip_id);
-        console.log('trip', trip)
+        // let trip = this.trips.find(obj => obj.id === guardar.trip_id);
+        // console.log('trip', trip)
         let freq = {
           'frequency':
           {
-            'source_id': trip.source_id ? trip.source_id : '',
-            'dest_id': trip.dest_id ? trip.dest_id : '',
+            
+            'trip_id': guardar.trip_id ? guardar.trip_id : '',
             'start': guardar.start ? guardar.start : '',
             'end': guardar.end ? guardar.end : '',
             'set': guardar.set ? guardar.set : '',
             'departure': guardar.departure ? guardar.departure : '',
             'active': guardar.active ? guardar.active : false,
             'freq_type': guardar.freq_type ? guardar.freq_type : '',
-            'name': guardar.name ? guardar.name : ''
+            'name': guardar.name ? guardar.name : '',
+            'cars': guardar.cars ? guardar.cars : ''
           }
         }
         console.log('ser a post', freq)

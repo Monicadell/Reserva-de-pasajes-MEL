@@ -51,12 +51,12 @@
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Password" v-model="editedItem.password"
-                              type="password"></v-text-field>
+                              type="password" :rules="[rules.min]"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4 v-if="!editedItem.id">
                 <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
-                              type="password"></v-text-field>
+                              :rules="[rules.password_confirmation && rules.min]" type="password"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
@@ -272,7 +272,14 @@
         ],
         roles: [],
         contracts: [],
-        companies: []
+        companies: [],
+        rules: {
+          password_confirmation: value => {
+            const coinciden = this.editedItem.password === value ? true : false
+            return coinciden || 'Contraseñas no coinciden'
+          },
+          min: value => value.length >= 8 || 'Min 8 caracteres',
+        }
       }
     },
     mounted () {
@@ -310,7 +317,7 @@
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
         // this.editedItem = edit
         this.editedItem = item
-        this.userDocumentType.id = item.rut ? 'RUT' : 'PASAPORTE'
+        this.userDocumentType.text = item.rut ? 'RUT' : 'PASAPORTE'
         this.editedItem.documento = item.rut ? item.rut : item.passport
         // this.editedItem.rut = item.rut ? item.rut : ''
         // this.editedItem.passport = item.passport ? item.passport : ''
@@ -330,19 +337,22 @@
             'email': guardar.email ? guardar.email : '',
             'last_connection': guardar.last_connection ? guardar.last_connection : '',
             'name': guardar.name ? guardar.name : '',
-            'passport': guardar.tipoDocumento.id === 'PASAPORTE' ? guardar.documento : '',
+            'passport': guardar.tipoDocumento === 'PASAPORTE' ? guardar.documento : '',
             'rut': guardar.tipoDocumento === 'RUT' ? guardar.documento : '',
             'phone_number': guardar.phone_number ? guardar.phone_number : '',
             'role_id': guardar.role_id ? guardar.role_id : '',
-            'password': guardar.password ? guardar.password : ''
+            'password': guardar.password ? guardar.password : '',
+            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
           }
         }
+  
         if (guardar.id) {
            console.log('user a put', us)
           let id = guardar.id
-          let frec = await API.put('users', id, us)
-          if (frec.status >= 200 && frec.status < 300) {
-            this.services = frec.data.data
+          let putuser = await API.put('users', id, us)
+          if (putuser.status >= 200 && putuser.status < 300) {
+            // this.services = putuser.data.data
+            this.getUsers()
             this.dialog = false
           }
           else {
@@ -351,26 +361,31 @@
         }
         else {
           console.log('user a post', us)
-          let frec = await API.post('users', us)
-          if (frec.status >= 200 && frec.status < 300) {
-            console.log('frecuencias', frec)
-            this.getFrec()
-            this.frecuencias = frec.data.data
-            this.dialog = false
+          if(us.user.password !== us.user.password_confirmation){
+            
           }
           else {
-            alert('Ha ocurrido un error, intente nuevamente')
+            let postuser = await API.post('users', us)
+            if (postuser.status >= 200 && postuser.status < 300) {
+              console.log('result post user', postuser)
+              this.getUsers()
+              this.dialog = false
+            }
+            else {
+              alert('Ha ocurrido un error, intente nuevamente')
+            }
           }
+          
         }
       },
       async deleteItem (item) {
-        console.log('voy a eliminar frec', item)
+        console.log('voy a eliminar user', item)
         let eliminando = await API.delete('users', item)
         if (eliminando.status >= 200 && eliminando.status < 300) {
           console.log('ya hizo DELETE user', eliminando)
+          this.getUsers()
           this.confirmaAnular = false
           console.log(eliminando)
-          this.getFrec()
         }
         else {
           alert('Ha ocurrido un error, intente nuevamente')
@@ -382,7 +397,7 @@
       },
       close () {
         this.dialog = false
-        this.editedItem = {}
+        this.editedItem = Object.assign({})
         // setTimeout(() => {
         //   this.editedItem = Object.assign({}, this.defaultItem)
         //   this.editedIndex = -1

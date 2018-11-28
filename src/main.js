@@ -6,17 +6,17 @@ import router from './router'
 import store from './store/index'
 import Vuetify from 'vuetify'
 import i18n from './locales'
-import VueObserveVisibility from 'vue-observe-visibility'
+var VueScrollTo = require('vue-scrollto');
+import moment from 'moment'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 
-import moment from 'moment'
-
 Vue.prototype.moment = moment
-Vue.use(VueObserveVisibility)
+
+Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
   theme: {
     primary: '#1565c0',
