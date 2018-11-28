@@ -16,7 +16,7 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <v-select :items="editedItem.trips" v-model="editedItem.trip_id"
+                <v-select :items="trips" v-model="editedItem.trip_id"
                         label="Tramo"
                         single-line item-text="name" item-value="id"
                 ></v-select>
@@ -297,7 +297,6 @@
           departure: '',
           duration: '',
           active: false,
-          trips: [],
           trip_id: '',
           cars: ''
         },
@@ -320,7 +319,8 @@
           {id: 'daily', name: 'Diario', disabled: true},
           {id: 'weekly', name: 'Semanal'},
           {id: 'monthly', name: 'Mensual', disabled: true}
-        ]
+        ],
+        trips: []
       }
     },
     mounted () {
@@ -335,6 +335,7 @@
         let frec = await API.get('frequencies')
         if (frec.status >= 200 && frec.status < 300) {
           setTimeout(() => {
+            console.log(frec.data.data)
             this.frecuencias = frec.data.data
             this.loading = false
           }, 500)
@@ -347,7 +348,7 @@
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
-          this.editedItem.trips = trips.data.data
+          this.trips = trips.data.data
           this.loading = false
           // console.log(trips)
         }
@@ -369,10 +370,13 @@
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
+        let trip = this.trips.find(obj => obj.id === guardar.trip_id);
+        console.log('trip', trip)
         let freq = {
           'frequency':
           {
-            'trip_id': guardar.trip_id ? guardar.trip_id : '',
+            'source_id': trip.source_id ? trip.source_id : '',
+            'dest_id': trip.dest_id ? trip.dest_id : '',
             'start': guardar.start ? guardar.start : '',
             'end': guardar.end ? guardar.end : '',
             'set': guardar.set ? guardar.set : '',

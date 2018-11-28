@@ -1,5 +1,5 @@
 <template>
-  <v-layout column class="img-fondo">
+  <v-layout column class="img-fondo" id="img3">
     <img src="/static/img/gplay.png"/>
   </v-layout>
 </template>

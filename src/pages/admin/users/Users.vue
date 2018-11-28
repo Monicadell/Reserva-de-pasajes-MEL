@@ -10,7 +10,7 @@
         disableList: disableList && users.length === 0
         }"
         > -->
-        <v-card-title primary-title>
+        <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Usuario</h3>
         </v-card-title>
         <v-card-text>
@@ -25,7 +25,7 @@
 
               <v-flex xs12 md4>
                 <v-text-field label="Documento"
-                              v-model="editedItem.rut"></v-text-field>
+                              v-model="editedItem.documento"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout wrap>
@@ -54,19 +54,24 @@
                               type="password"></v-text-field>
               </v-flex>
 
+              <v-flex xs12 sm6 md4 v-if="!editedItem.id">
+                <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
+                              type="password"></v-text-field>
+              </v-flex>
+
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="editedItem.roles" v-model="editedItem.role_id"
+                <v-select :items="roles" v-model="editedItem.role_id"
                           label="Tipo de Usuario"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="editedItem.contracts" v-model="editedItem.contract_type_id"
+                <v-select :items="contracts" v-model="editedItem.contract_type_id"
                           label="Tipo de contrato"
                           single-line item-text="name" item-value="id"
                 ></v-select>
@@ -78,7 +83,7 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="editedItem.companies" v-model="editedItem.company_id"
+                <v-select :items="companies" v-model="editedItem.company_id"
                           label="Empresa asociada"
                           single-line item-text="name" item-value="id"
                 ></v-select>
@@ -227,10 +232,7 @@
           address: '',
           phone_number: '',
           company_name: '',
-          last_connection: '',
-          roles: [],
-          contracts: [],
-          companies: []
+          last_connection: ''
         },
         headers: [
           // {text: 'Documento Pasajero', value: 'documentoPasajero', sortable: false},
@@ -267,7 +269,10 @@
         userAgreement: [
           {text: 'MEL', id: 'MEL'},
           {text: 'CONTRATISTA', id: 'CONTRATISTA'}
-        ]
+        ],
+        roles: [],
+        contracts: [],
+        companies: []
       }
     },
     mounted () {
@@ -305,13 +310,17 @@
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
         // this.editedItem = edit
         this.editedItem = item
+        this.userDocumentType.id = item.rut ? 'RUT' : 'PASAPORTE'
+        this.editedItem.documento = item.rut ? item.rut : item.passport
+        // this.editedItem.rut = item.rut ? item.rut : ''
+        // this.editedItem.passport = item.passport ? item.passport : ''
         this.dialog = true
       },
       async save (guardar) {
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
-        let freq = {
+        let us = {
           'user':
           {
             'active': guardar.active ? guardar.active : '',
@@ -321,17 +330,17 @@
             'email': guardar.email ? guardar.email : '',
             'last_connection': guardar.last_connection ? guardar.last_connection : '',
             'name': guardar.name ? guardar.name : '',
-            'passport': guardar.passport ? guardar.passport : '',
-            'rut': guardar.rut ? guardar.rut : '',
+            'passport': guardar.tipoDocumento.id === 'PASAPORTE' ? guardar.documento : '',
+            'rut': guardar.tipoDocumento === 'RUT' ? guardar.documento : '',
             'phone_number': guardar.phone_number ? guardar.phone_number : '',
             'role_id': guardar.role_id ? guardar.role_id : '',
             'password': guardar.password ? guardar.password : ''
           }
         }
-        console.log('ser a post', freq)
         if (guardar.id) {
+           console.log('user a put', us)
           let id = guardar.id
-          let frec = await API.put('users', id, freq)
+          let frec = await API.put('users', id, us)
           if (frec.status >= 200 && frec.status < 300) {
             this.services = frec.data.data
             this.dialog = false
@@ -341,8 +350,8 @@
           }
         }
         else {
-          console.log('ser a post')
-          let frec = await API.post('users', freq)
+          console.log('user a post', us)
+          let frec = await API.post('users', us)
           if (frec.status >= 200 && frec.status < 300) {
             console.log('frecuencias', frec)
             this.getFrec()
@@ -394,21 +403,21 @@
         let roles = await API.get('roles')
         if (roles.status >= 200 && roles.status < 300) {
           console.log('roles', roles)
-          this.editedItem.roles = roles.data.data
+          this.roles = roles.data.data
           this.loading = false         
         }
       },
       async getCompanies () {
         let companies = await API.get('companies')
         if (companies.status >= 200 && companies.status < 300) {
-          this.editedItem.companies = companies.data.data
+          this.companies = companies.data.data
           this.loading = false         
         }
       },
       async getContracts () {
         let contracts = await API.get('contracts')
         if (contracts.status >= 200 && contracts.status < 300) {
-          this.editedItem.contracts = contracts.data.data
+          this.contracts = contracts.data.data
           this.loading = false         
         }
       },

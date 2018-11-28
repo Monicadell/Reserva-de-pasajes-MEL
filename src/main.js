@@ -6,7 +6,7 @@ import router from './router'
 import store from './store/index'
 import Vuetify from 'vuetify'
 import i18n from './locales'
-
+import VueObserveVisibility from 'vue-observe-visibility'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
@@ -16,7 +16,7 @@ import '../static/fonts/custom.css'
 import moment from 'moment'
 
 Vue.prototype.moment = moment
-
+Vue.use(VueObserveVisibility)
 Vue.use(Vuetify, {
   theme: {
     primary: '#1565c0',

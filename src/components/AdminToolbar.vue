@@ -1,7 +1,7 @@
 <template>
   <v-toolbar clipped-left  color="primary" dark app fixed>
     <v-toolbar-title class="ml-0 pl-3">
-      <v-toolbar-side-icon @click="showAdmin"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click="showAdmin" v-if="isAdmin"></v-toolbar-side-icon>
       
       <span class="hidden-sm-and-down">Minera Escondida Limitada</span>
     </v-toolbar-title>
@@ -13,8 +13,18 @@
       <v-btn
         flat
         class="white--text primary"
+        :to="profilepath"
+        v-if="!isAdmin"
       >
          <h4>{{nombre}}</h4>
+      </v-btn>
+      <v-btn
+        flat
+        class="white--text primary"
+        :to="reservaspath"
+        v-if="!isAdmin"
+      >
+         <h4>Mis Reservas</h4>
       </v-btn>
       <v-btn
         flat
@@ -32,26 +42,37 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import { mapGetters } from 'vuex'
-  // import endPoints from '@/endPoints'
+  // import axios from 'axios'
+  // import { mapGetters } from 'vuex'
+  import API from '@pi/app'
 
   export default {
     data: () => ({
       item: 'Admin',
       admin: false,
-      nombre: ''
+      nombre: '',
+      isAdmin: false,
+      reservaspath: '/service_reserve',
+      profilepath: '/myInfo'
     }),
-    computed: mapGetters({
-      username: ['Auth/username']
-    }),
+    // computed: mapGetters({
+    //   username: ['Auth/username'],
+    //   role: ['Auth/role']
+    // }),
     mounted () {
-      this.loadMyInfo()
+      this.getMyInfo()
     },
     methods: {
-      loadMyInfo () {
-        console.log('username gettter', this.username)
-        this.nombre = this.username
+      async getMyInfo () {
+        let info = await API.get('profile')
+        if (info.status >= 200 && info.status < 300) {
+          console.log('profile',info)
+          this.role = info.data.role_id ? info.data.role_id : '',
+          this.nombre = info.data.name ? info.data.name : ''
+          this.isAdmin = (this.role === 2 || this.role === 5) ? true : false
+        } else {
+          console.log('error profile', error)
+        }
       },
       changeDrawer () {
         this.$parent.drawer = !this.$parent.drawer
