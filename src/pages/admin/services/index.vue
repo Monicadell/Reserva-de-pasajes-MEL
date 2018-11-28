@@ -37,7 +37,7 @@
   </v-flex>
 
   <v-flex xs10>
-    <v-stepper :value="e1" >
+    <v-stepper :value="e1"  alt-labels >
     <v-stepper-header>
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
@@ -49,6 +49,7 @@
 
       <v-stepper-step   step="3">Confirmación</v-stepper-step>
     </v-stepper-header>
+    
 
     <v-stepper-items>
       <v-stepper-content step="1">
@@ -60,7 +61,7 @@
                max-height="400px"
           >
             <v-card-title >
-              <h3 class="headline ">Selecciona los datos para tu viaje</h3>
+              <h3 class="headline primary--text text-md-center">Selecciona los datos para tu viaje</h3>
             </v-card-title>
             <place-selector :direction="'from'"/> 
             <service-date :direction="'from'" class="mt-3"/>
@@ -100,20 +101,34 @@
           max-height="400px"
           flat
         >
-           <v-card-title >
-              <h3 class="headline ">Tu reserva esta confirmada</h3>
+        <v-layout align-center justify-space-around column fill-height>
+          <v-flex xs4> 
+             <v-card-title >
+              <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
             </v-card-title>
-          <img src="../../../../static/img/check.png" alt="Smiley face" height="200" width="200">
-              <h3 class="headline ">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
-           
-        </v-card>
+          </v-flex> 
+          <v-flex xs4> 
+          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="300" width="300">
+
+          </v-flex> 
+          <v-flex xs4> 
+              <h3 class="headline primary--text">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
 
         <v-btn
-          color="primary"
+          color="secondary"
           @click="volverMenu"
+          class="btn-step1"
         >
           Volver al menú principal
         </v-btn>
+          </v-flex> 
+
+
+        </v-layout>
+          
+           
+        </v-card>
+
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper> 
@@ -143,6 +158,13 @@
             <modal-confirmar/>  
           </v-flex>
         </v-layout>
+
+
+         <v-layout row wrap fill-height >
+          <v-flex xs12 >
+            <modal-detalle/>  
+          </v-flex>
+        </v-layout>
         
 
   </div>
@@ -156,6 +178,7 @@
   import MyBooking from './MyBooking'
   import modalAnular from './modalAnular'
   import modalConfirmar from './modalConfirmar'
+  import modalDetalle from './modalDetalle'
 
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
@@ -179,7 +202,8 @@
       MyBooking: MyBooking,
       tickets,
       modalAnular,
-      modalConfirmar
+      modalConfirmar,
+      modalDetalle
     },
      computed: {
       ...mapGetters({
@@ -230,7 +254,10 @@
       }); 
         this.$store.dispatch('Booking/set_e1', {
         e1: 1
-      });   
+      });  
+           this.$store.dispatch('Booking/set_detalle', {
+        detalle: false
+      });  
     },
 
     methods: {

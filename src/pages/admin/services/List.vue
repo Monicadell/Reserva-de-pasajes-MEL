@@ -11,9 +11,15 @@
     
     class="fadeinfwdfast"
     >
-    
-      <v-card-title style="height: 65px" class="barra-servicios">
+    <v-card-title style="height: 65px" class="barra-titulo-servicios">
+         
+    <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
+      <v-icon >keyboard_arrow_left</v-icon>
+    </v-btn>
         Servicios disponibles
+    </v-card-title>   
+      <v-card-title style="height: 45px" class="barra-servicios">
+
         <v-spacer></v-spacer>
         <v-text-field
           append-icon="search"
@@ -147,6 +153,12 @@
 </style>
 
 <style>
+
+  .v-card__title.barra-titulo-servicios{
+    font-size: 22px;
+    color: #1565c0;
+  }
+
   .v-card__title.barra-servicios {
     background: #1565c0;
     color: white;
