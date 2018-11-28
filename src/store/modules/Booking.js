@@ -30,7 +30,10 @@ const state = {
   actualizarReservas: false, // variable para refrescar la vista de las reservas del usuario cada vez que se haga una reserva nueva o se cancele alguna
   confirmar: false, //  maneja estado visible del modal confirmar ticket
   servicioConfirmar: {}, // almaceno el servicio seleccionado para ser confirmado
-  e1: 1 // pasos del step
+  e1: 1, // pasos del step
+  detalle: false,  //  maneja estado visible del modal confirmar ticket
+  servicioDetalle: {} // almaceno el servicio seleccionado para mostrar detalle
+
 }
 
 const getters = {
@@ -49,7 +52,9 @@ const getters = {
   actualizarReservas: state => state.actualizarReservas,
   confirmar: state => state.confirmar,
   servicioConfirmar: state => state.servicioConfirmar,
-  e1: state => state.e1
+  e1: state => state.e1,
+  detalle: state => state.detalle,
+  servicioDetalle: state => state.servicioDetalle
 }
 
 const actions = {
@@ -102,6 +107,12 @@ const actions = {
   },
   set_e1 ({commit}, payload) {
     commit('SET_E1', {e1: payload.e1})
+  },
+  set_detalle ({commit}, payload) {
+    commit('SET_DETALLE', {detalle: payload.detalle})
+  },
+  set_servicioDetalle ({commit}, payload) {
+    commit('SET_SERVICIODETALLE', {servicioDetalle: payload.servicioDetalle})
   }
 
 }
@@ -158,7 +169,14 @@ const mutations = {
   SET_E1: (state, {e1}) => {
     state.e1 = e1
   },
+  SET_DETALLE: (state, {detalle}) => {
+    state.detalle = detalle
+  },
+  SET_SERVICIODETALLE: (state, {servicioDetalle}) => {
+    state.servicioDetalle = servicioDetalle
+  },
 }
+
 
 /**
  * Export

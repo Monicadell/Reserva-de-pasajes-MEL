@@ -9,56 +9,130 @@
              <v-card-text class="ml-2"> 
               
                 <v-layout row> 
-                  <v-flex xs6>
-                    Servicio 
+                  <v-flex xs6 class="font-weight-black">
+                    SERVICIO 
                   </v-flex>
-                  <v-flex xs6 class="secondary--text"> 
+                  <v-flex xs6 class="secondary--text font-weight-black"> 
                     {{item.id}}
                   </v-flex>
                 </v-layout>
                    
-                    <v-layout row> 
-                  <v-flex xs4 class="secondary--text" >
-                    Origen
+                    <v-layout row mt-2> 
+                  <v-flex xs6 class="secondary--text font-weight-black" >
+                    ORIGEN
                    
                   </v-flex>
-                  <v-flex xs6 class="secondary--text"> 
-                    Destino
+                  <v-flex xs6 class="secondary--text font-weight-black"> 
+                    DESTINO
                 
 
                   </v-flex>
                 </v-layout>
 
-                  <v-layout row> 
-                  <v-flex xs4 >
-                 
-                    <div class="hora-ida"> {{item.service.departure}} </div> 
-                  </v-flex>
-                  <v-flex xs6 class="ml-2"> 
-                  
-                    <div class="hora-regreso "> {{item.service.arrival}} </div> 
-
-                  </v-flex>
+                  <v-layout row mt-2> 
+                    <v-flex xs5 >
+                      <div class="hora-ida white--text"> {{item.service.departure}} </div> 
+                    </v-flex>
+                    <v-flex xs5 class="ml-2"> 
+                      <div class="hora-regreso white--text"> {{item.service.arrival}} </div> 
+                    </v-flex>
                 </v-layout>
 
 
-                <v-layout>
-                  <v-flex xs6>
-                    Fecha de viaje 
+                <v-layout mt-2>
+                  <v-flex xs6 class=" font-weight-black">
+                    FECHA DE VIAJE
                   </v-flex>
-                  <v-flex xs6 class="secondary--text"> 
+                  <v-flex xs6 class="secondary--text font-weight-black"> 
                   {{item.service.date}}
                   </v-flex>
                 </v-layout>    
                 
               </v-card-text>
-
-            <v-card-actions>
-            <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
-              <v-btn  color="orange" @click="mostrarConfirmar(item)">Confirmar</v-btn>
-              <v-btn  color="primary">Ver Detalles</v-btn>
+            
+            <v-layout column v-if="statusConfirmacion.status =='done'"> <!-- USUARIO YA CONFIRMO -->
+            <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus </p>
+               <v-card-actions>
+              <v-layout justify-space-around row wrap fill-height> 
+                <v-flex xs4> 
+                  <button type="button" class="v-btn" id="prueba" disabled>Confirmado</button>
+                <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
+                </v-flex >
+                 <v-flex xs4> 
+                  <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                 </v-flex>
+              </v-layout>
             </v-card-actions>
+            </v-layout>
+
+            <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
+            <p> Ya puede confirmar su pasaje </p>
+
+              <v-card-actions>
+              <v-layout justify-space-around row wrap fill-height> 
+                <v-flex xs4> 
+                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                </v-flex>
+                <v-flex xs4> 
+                 <v-btn  color="orange" @click="mostrarConfirmar(item)">Confirmar</v-btn>
+                </v-flex >
+                 <v-flex xs4> 
+              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+
+                 </v-flex>
+              </v-layout>
+            </v-card-actions>
+            </v-layout>
+
+            <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
+            <v-flex> 
+              <v-layout justify-start row ml-4> 
+                <v-flex xs1>  <v-icon>timelapse</v-icon> </v-flex>
+           
+                <v-flex>   <p> {{item.service.hrs_left}}hrs para su confirmación</p> </v-flex>
+                <v-spacer> </v-spacer>
+              </v-layout>
+             
+
+            </v-flex>
+            
+
+              <v-card-actions>
+              <v-layout justify-space-around row wrap fill-height> 
+                <v-flex xs4> 
+                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                </v-flex>
+                <v-flex xs4> 
+                 <v-btn  color="orange" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                </v-flex >
+                 <v-flex xs4> 
+              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+
+                 </v-flex>
+              </v-layout>
+            </v-card-actions>
+            </v-layout>
+
+                  <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
+            <p> {{item.service.hrs_left}} para su viaje</p>
+
+              <v-card-actions>
+              <v-layout justify-space-around row wrap fill-height> 
+                <v-flex xs4> 
+                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                </v-flex>
+               
+                 <v-flex xs4> 
+              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+
+                 </v-flex>
+              </v-layout>
+            </v-card-actions>
+            </v-layout>
+
+            
           </v-card>
+          <v-divider> </v-divider>
         </v-flex>
    
   </v-layout>
@@ -77,10 +151,30 @@
     name: 'tickets',
     data() {
       return {
+        statusConfirmacion : {
+          status: ''
+        }
       }
     },
     mounted () {
-     // console.log(this.item)
+      console.log(this.item)
+      const tickete = this.item
+      if(tickete.confirmed_at != null) {
+        console.log('ya el usuario confirmo')
+        this.statusConfirmacion.status = 'done'
+      }else {
+        console.log('aun no confirma')
+        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          console.log('usuario puede confirmar')
+          this.statusConfirmacion.status = 'process'
+        }else if (tickete.service.hrs_left < 48) {
+          console.log('no necesita confirmacion porque es express')
+           this.statusConfirmacion.status = 'express'
+        } else {
+           console.log('aun no puede confirmar')
+          this.statusConfirmacion.status = 'none'
+        }
+      }
     },
     computed: {
       ...mapGetters({
@@ -100,12 +194,24 @@
         });  
       },
       mostrarConfirmar (item) {
+        console.log(item)
          this.$store.dispatch('Booking/set_confirmar', {
           confirmar: true
         });  
          this.$store.dispatch('Booking/set_servicioConfirmar', {
           servicioConfirmar: item
         }); 
+
+      },
+      mostrarDetalle (item) {
+        console.log(item)
+         this.$store.dispatch('Booking/set_detalle', {
+          detalle: true
+        });  
+        this.$store.dispatch('Booking/set_servicioDetalle', {
+          servicioDetalle: item
+        }); 
+
 
       }
     },
@@ -117,12 +223,24 @@
 
 <style>
 
+  #prueba {
+    background: green;
+    }
+
   #card-container {
-    width: 100%
+    width: 100%;
+    opacity: 0.8;
+    transition: all .4s ease-in-out;
+
   }
 
   #card-container:hover {
+     opacity: 1;
+    -webkit-transform: scale(0.99);
+    -ms-transform: scale(0.99);
+    transform: scale(0.99);
    
+
   }
 
     .hora-ida {
@@ -130,6 +248,9 @@
         background: #1565c0;
         text-align: center;
         height: 32px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+
     }
 
     .hora-regreso:before {
@@ -160,7 +281,9 @@
         position: relative;
         background: #1565c0;
         height: 32px;
-         width: 90%;
+        
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
        
     }
 

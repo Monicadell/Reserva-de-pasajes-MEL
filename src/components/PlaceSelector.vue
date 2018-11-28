@@ -1,7 +1,7 @@
 <template>
 <v-layout row wrap >
 
-    <v-flex xs6  >
+    <v-flex xs6 >
     <v-autocomplete
       v-model="place"
       :items="locations"
@@ -14,7 +14,8 @@
       label="Desde"
       item-text="name"
       item-value="name"
-      class="fadeinfwdfast" 
+      class="fadeinfwdfast mr-2" 
+      
     >
       <template
         slot="selection"
