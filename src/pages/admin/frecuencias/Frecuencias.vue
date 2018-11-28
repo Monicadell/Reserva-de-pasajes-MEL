@@ -213,8 +213,9 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.source_id }}</td>
-          <td class="">{{ props.item.dest_id }}</td>
+          <td class="">{{ props.item.trip_id }}</td>
+          <!-- <td class="">{{ props.item.source_id }}</td>
+          <td class="">{{ props.item.dest_id }}</td> -->
           <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
@@ -302,8 +303,9 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Origen', value: 'source_id'},
-          {text: 'Destino', value: 'dest_id'},
+          // {text: 'Origen', value: 'source_id'},
+          // {text: 'Destino', value: 'dest_id'},
+          {text: 'Tramo', value: 'trip_id'},
           {text: 'Estado', value: 'active'},
           {text: 'Inicio', value: 'start'},
           {text: 'Fin', value: 'end'},
@@ -335,7 +337,7 @@
         let frec = await API.get('frequencies')
         if (frec.status >= 200 && frec.status < 300) {
           setTimeout(() => {
-            console.log(frec.data.data)
+            console.log('frecuencias', frec.data.data)
             this.frecuencias = frec.data.data
             this.loading = false
           }, 500)
