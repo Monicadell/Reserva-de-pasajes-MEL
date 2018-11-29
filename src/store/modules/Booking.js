@@ -32,8 +32,8 @@ const state = {
   servicioConfirmar: {}, // almaceno el servicio seleccionado para ser confirmado
   e1: 1, // pasos del step
   detalle: false,  //  maneja estado visible del modal confirmar ticket
-  servicioDetalle: {} // almaceno el servicio seleccionado para mostrar detalle
-
+  servicioDetalle: {}, // almaceno el servicio seleccionado para mostrar detalle
+  estadoTickete: ' ', // almacena el estado del servicio seleccionado para mostrar el detalle -> no se guarda directamente en servicioDetalle para hacer la logica antes de que se muestre el componente
 }
 
 const getters = {
@@ -54,7 +54,8 @@ const getters = {
   servicioConfirmar: state => state.servicioConfirmar,
   e1: state => state.e1,
   detalle: state => state.detalle,
-  servicioDetalle: state => state.servicioDetalle
+  servicioDetalle: state => state.servicioDetalle,
+  estadoTickete: state => state.estadoTickete
 }
 
 const actions = {
@@ -113,6 +114,9 @@ const actions = {
   },
   set_servicioDetalle ({commit}, payload) {
     commit('SET_SERVICIODETALLE', {servicioDetalle: payload.servicioDetalle})
+  },
+  set_estadoTickete({commit}, payload) {
+    commit('SET_ESTADOTICKETE', {estadoTickete: payload.estadoTickete})
   }
 
 }
@@ -175,6 +179,9 @@ const mutations = {
   SET_SERVICIODETALLE: (state, {servicioDetalle}) => {
     state.servicioDetalle = servicioDetalle
   },
+  SET_ESTADOTICKETE: (state, {estadoTickete}) => {
+    state.estadoTickete = estadoTickete
+  }
 }
 
 

@@ -26,8 +26,8 @@
 
           <v-card-text class="ml-3 mr-3"  >
             <v-timeline align-top dense>
-
-              <v-timeline-item color="light-blue lighten-1" large icon="fal fa-map-marked">
+                
+              <v-timeline-item color="#2B8DFC" large icon="fal fa-map-marked">
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
@@ -44,7 +44,7 @@
 
 
 
-              <v-timeline-item color="cyan accent-3" large icon="airline_seat_recline_extra" class="mb-3">
+              <v-timeline-item color="#2A86BA" large icon="airline_seat_recline_extra" class="mb-3">
                 <v-layout pt-3>
                   <v-flex xs6>
                      <div class="grey--text"> <b>Día del trayecto</b></div>
@@ -56,7 +56,7 @@
               </v-timeline-item>
    
 
-              <v-timeline-item color="light-blue darken-3" large icon="fal fa-map-marker-check">
+              <v-timeline-item color="#2269BA" large icon="fal fa-map-marker-check">
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
@@ -73,17 +73,18 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions>
+          <v-card-actions >
             <v-btn
-              color="primary"
-              flat
+              color="error"
               @click="cancel"
+              class="ml-4 mb-1"
             >
               Cancelar
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              color="primary"
+              color="secondary"
+              class="mr-4 mb-1"              
               @click="doBooking"
             >
               Reservar

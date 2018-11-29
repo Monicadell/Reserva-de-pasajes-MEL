@@ -23,7 +23,9 @@
   <v-flex xs3>
      <v-navigation-drawer style="width: 100%">
       <v-list dense class="pt-0 user ">
-         <v-toolbar-title class="title-list-custom white--text">Mis reservas</v-toolbar-title>
+         <v-toolbar-title class="title-list-custom white--text">
+           <span class="hidden-sm-and-down ml-4">Mis reservas</span>
+         </v-toolbar-title>
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
               <v-flex > 
@@ -37,8 +39,10 @@
   </v-flex>
 
   <v-flex xs10>
-    <v-stepper :value="e1"  alt-labels >
-    <v-stepper-header>
+    <v-layout  align-start justify-center row fill-height id="principal-container"> 
+      <v-flex xs10 >   
+        <v-stepper :value="e1"  class="elevation-0">
+    <v-stepper-header >
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
       <v-divider></v-divider>
@@ -53,31 +57,12 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-container>
-          <v-card
-            class="mb-5"
-            flat
-            height="400px"
-               max-height="400px"
-          >
-            <v-card-title >
-              <h3 class="headline primary--text text-md-center">Selecciona los datos para tu viaje</h3>
-            </v-card-title>
-            <place-selector :direction="'from'"/> 
-            <service-date :direction="'from'" class="mt-3"/>
-          </v-card>
-        </v-container>
+        <v-layout align-center justify-center row fill-height> 
+          <v-flex xs6>
+        <date-place-container/>
+          </v-flex>
 
-
-        <v-btn
-          color="secondary"
-          @click="findServices"
-          :disabled="disabledBtn"
-          class="btn-step1 ml-4"
-         
-        >
-          Buscar
-        </v-btn>
+        </v-layout>
 
       </v-stepper-content>
 
@@ -97,8 +82,8 @@
       <v-stepper-content step="3">
         <v-card
           class="mb-5"
-          height="400px"
-          max-height="400px"
+          height="500px"
+          
           flat
         >
         <v-layout align-center justify-space-around column fill-height>
@@ -107,17 +92,18 @@
               <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
             </v-card-title>
           </v-flex> 
-          <v-flex xs4> 
-          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="300" width="300">
+          <v-flex xs4 mb-5> 
+          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="290" width="290">
 
           </v-flex> 
           <v-flex xs4> 
-              <h3 class="headline primary--text">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
+              <h3 class="headline primary--text mb-2">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
 
         <v-btn
           color="secondary"
           @click="volverMenu"
-          class="btn-step1"
+          class="btn-step3 ml-5"
+         
         >
           Volver al menú principal
         </v-btn>
@@ -131,7 +117,13 @@
 
       </v-stepper-content>
     </v-stepper-items>
-  </v-stepper> 
+  </v-stepper>
+
+
+      </v-flex>
+    </v-layout>
+
+   <!--  -->
       
   </v-flex>  
 
@@ -179,6 +171,7 @@
   import modalAnular from './modalAnular'
   import modalConfirmar from './modalConfirmar'
   import modalDetalle from './modalDetalle'
+  import datePlaceContainer from './containerDatePlace'
 
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
@@ -203,7 +196,8 @@
       tickets,
       modalAnular,
       modalConfirmar,
-      modalDetalle
+      modalDetalle,
+      datePlaceContainer
     },
      computed: {
       ...mapGetters({
@@ -221,13 +215,13 @@
             actualizarReservas: false
             }); 
        },
-       fecha() {
-       //  console.log(`seleccionaron fecha ${this.fecha}`)
+      /* fecha() {
+         //console.log(`seleccionaron fecha ${this.fecha}`)
          if(this.fecha != '') {
            //Habilito boton de buscar
            this.disabledBtn = false
          }
-       },
+       }, */
        e1() {
          console.log('cambio el step')
        }
@@ -261,28 +255,7 @@
     },
 
     methods: {
-      async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
-        const fecha= this.fecha
-        const ruta = this.ruta
-
-        const configService = {
-          'trip':ruta.id,
-          'date':fecha
-        }
-       const services = await API.get('services', configService)
-       //console.log(services)
-       if (services.status >= 200 && services.status < 300){
-         console.log(services)
-         setTimeout(()=>{
-          this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: services.data.data,
-          }); 
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 2,
-          }); 
-         }, 1000)
-       }
-      },
+    
       async getReservas() { //obtener las reservas de un usuario
             const userId = {
                 'user_id': 113162
@@ -310,6 +283,10 @@
 </script>
 
 <style >
+#principal-container {
+  background: rgb(242, 245, 247);
+}
+
 .v-btn.botonmenu {
     background: transparent ;
    border: 1px solid #1565c0 ;
@@ -322,8 +299,8 @@
   }
 
   .v-list.user {
-  height: 800px;
-  overflow-y: auto;
+    height: calc(100vh - 24px);
+    overflow-y: auto;
 }
 
 .v-toolbar__title.title-list-custom {
@@ -337,5 +314,11 @@
 .btn-step1 {
   width: 96%
 }
+
+.btn-step3 {
+  width: 85%
+}
+
+
 
 </style>

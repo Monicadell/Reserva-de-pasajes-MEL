@@ -15,68 +15,72 @@
                                 <v-list  three-line >
                                     <v-list-tile >
                                         <v-list-tile-action>
-                                           <v-icon color="primary" size=50> directions_bus</v-icon>
+                                           <v-icon color="primary" size=35> directions_bus</v-icon>
                                         </v-list-tile-action>
                                         <v-list-tile-content >
-                                            <v-list-tile-sub-title class="black--text ">LINEA TANDEM</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text ">Ruta: {{servicioDetalle.service.from}} - {{servicioDetalle.service.to}} </v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">RUTA:</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text"> {{servicioDetalle.service.from}} - {{servicioDetalle.service.to}} </v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile  >
-                                        <v-list-tile-action>
-                                           <v-icon color="primary" size=50>airline_seat_recline_extra</v-icon>
+                                           <v-list-tile-action>
+                                           <v-icon color="primary" size=35>location_on</v-icon>
                                         </v-list-tile-action>
-                                        <v-list-tile-content  >
-                                            <v-list-tile-sub-title class="black--text ">???</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text  "></v-list-tile-sub-title>
+                                        <v-list-tile-content class="custom-text" >
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">SALIDA:</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.departure}}{{servicioDetalle.service.date}} </v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.from}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
                                     </v-list-tile>
                                      <v-list-tile  >
-                                         <v-list-tile-action>
-                                           <v-icon color="primary" size=50>access_time</v-icon>
-                                        </v-list-tile-action>
-                                        <v-list-tile-content  >
-                                            <v-list-tile-sub-title class="black--text ">DURACIÓN</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.duration}}</v-list-tile-sub-title>
+                                         
 
+                                        <v-list-tile-action>
+                                           <v-icon color="primary" size=35>location_on</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-content class="custom-text"  >   
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">LLEGADA:</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.arrival}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.to}}</v-list-tile-sub-title>
                                         </v-list-tile-content>
+
                                      </v-list-tile>
                                 </v-list>
                             </v-flex>
                             <v-flex xs4 >
                                 <v-list three-line  >
                                     <v-list-tile  >
-                                        <v-list-tile-action>
-                                           <v-icon color="primary" size=54>location_on</v-icon>
+                                         <v-list-tile-action>
+                                           <v-icon color="primary" size=35>error_outline</v-icon>
                                         </v-list-tile-action>
-                                        <v-list-tile-content class="custom-text" >
-                                            <v-list-tile-sub-title class="black--text ">SALIDA</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.departure}}{{servicioDetalle.service.date}} </v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.from}}</v-list-tile-sub-title>
+                                        <v-list-tile-content  >
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">ESTADO:</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text ">{{estadoTickete}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
+
+                                    
                                     </v-list-tile>
                                     <v-list-tile   >
                                         <v-list-tile-action>
-                                           <v-icon color="primary" size=54>location_on</v-icon>
+                                           <v-icon color="primary" size=35>access_time</v-icon>
                                         </v-list-tile-action>
-                                        <v-list-tile-content class="custom-text"  >
-                                           
-                                            <v-list-tile-sub-title class="black--text ">LLEGADA</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.arrival}}</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.to}}</v-list-tile-sub-title>
-
+                                        <v-list-tile-content  >
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">DURACIÓN</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.duration}}</v-list-tile-sub-title>
 
                                         </v-list-tile-content>
+
+
                                     </v-list-tile>
                                     <v-list-tile  >
                                         <v-list-tile-action>
-                                           <v-icon color="primary" size=50>stars</v-icon>
+                                           <v-icon color="primary" size=35>stars</v-icon>
                                         </v-list-tile-action>
                                         <v-list-tile-content class="custom-text" >
-                                            <v-list-tile-sub-title class="black--text ">SERVICIO</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text">{{servicioDetalle.service.name}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo">SERVICIO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.name}}</v-list-tile-sub-title>
 
                                         </v-list-tile-content>
                                     </v-list-tile>
@@ -92,9 +96,9 @@
                                         </v-list-tile-avatar> -->
                         
                                          <v-list-tile-content  >
-                                            <img src="../../../../static/img/Tandem_reserva.png">
+                                            <img src="../../../../static/img/Tandem_reserva.png" class= "ml-2">
                                             
-                                            <v-list-tile-sub-title class="black--text text-lg-center">BOLETO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="black--text text-lg-center dtl-titulo">BOLETO</v-list-tile-sub-title>
                                             <v-list-tile-sub-title class="secondary--text text-lg-center ">{{servicioDetalle.id}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
@@ -133,9 +137,16 @@
     data: () => ({
         modal : {
             status: 'none'
-        }
+        },
+        statusTicket: '' 
     }),
     mounted () {
+      //  console.log('********')
+        const tickete = this.servicioDetalle
+     //   console.log(tickete)
+
+
+
    
     },
     methods: {
@@ -150,8 +161,8 @@
          this.modal.status = 'none'
 
         },2000)
-            this.$store.dispatch('Booking/set_confirmar', {
-            confirmar: false
+            this.$store.dispatch('Booking/set_detalle', {
+            detalle: false
             });  
         }
     },
@@ -162,7 +173,8 @@
         current: ['Booking/current'],
         ruta: ['Booking/ruta'],
         servicioDetalle: ['Booking/servicioDetalle'],
-        detalle: ['Booking/detalle']
+        detalle: ['Booking/detalle'],
+        estadoTickete: ['Booking/estadoTickete']
       })
     }
   }
@@ -180,4 +192,22 @@
     .btn-cerrar {
         width: 90%
     }
+
+    .dtl-titulo{
+        font-size: 1.6em;
+        color:#05182e;
+        letter-spacing: 0.1em ;
+    }
+
+    .dtl-subtitulo {
+        line-height: 1.2em;
+        font-size: 0.8em;        
+    }
+
+    .dtl-text {
+        line-height: 1.2em;
+    }
+
+  
+    
 </style>

@@ -15,8 +15,11 @@
          
     <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
       <v-icon >keyboard_arrow_left</v-icon>
+     
     </v-btn>
-        Servicios disponibles
+     <v-spacer> </v-spacer>
+        <span class="font-weight-medium"> Servicios disponibles </span>
+         <v-spacer> </v-spacer>
     </v-card-title>   
       <v-card-title style="height: 45px" class="barra-servicios">
 
@@ -36,22 +39,27 @@
         :headers="headers"
         :items="listaServicios"
         
-        class="elevation-1 tablacustom"
+        class="elevation-1 list-th"
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
         :rows-per-page-items="rowsNumber"
-      
+        
       >
 
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
             <td>{{ props.item.name }}</td>
-            <td >{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td> 
-            <td >{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>  
-            <td class="text-xs-center">
-                <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
+            <td class="azul">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td> 
+            <td class="azul">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>  
+            <td>
+                <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }} </td> 
-            <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
+                  <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
+
+          <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
+            <td> </td>
+            <td> </td>
+
           </tr>
         </template>
       </v-data-table>
@@ -115,8 +123,8 @@
       loading: false,
       headers: [
         {text: 'Servicio', sortable: false},
-        {text: 'Salida', value: 'from'},
-        {text: 'Llegada', value: 'to'},
+        {text: 'Salida', value: 'from', sortable: false},
+        {text: 'Llegada', value: 'to', sortable: false},
         {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
@@ -154,6 +162,20 @@
 
 <style>
 
+   .v-btn.btn-list{
+    text-transform: none;
+    background-color:transparent;
+    border: #1565c0 1px solid;
+    }
+
+    .v-btn.btn-list:hover{
+    text-transform: none;
+    color:white;
+    background-color:#1565c0;
+   
+    }
+
+
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
     color: #1565c0;
@@ -175,5 +197,15 @@
 
   .list {
     opacity: 0;
+  }
+
+  .list-th .v-table.theme--light thead th{
+    color: #1565c0;
+    font-size: 1em;
+    font-weight: 500;
+  }
+
+    .list-th .v-table.theme--light tbody td.azul{
+    color: #1565c0;
   }
 </style>

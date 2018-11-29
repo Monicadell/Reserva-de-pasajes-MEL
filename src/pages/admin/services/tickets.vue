@@ -2,10 +2,10 @@
   <v-layout id ="card-container">
       <v-flex xs12>
           <v-card>
-            <v-card-title primary-title>
-             <p class="mb-0">Resumen de reserva</p>
+            <v-card-title primary-title class = "pb-1">
+             <p class="mb-0 title-ticket font-weight-black">Resumen de reserva</p>
             </v-card-title>
-             <v-divider> </v-divider>
+             <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
              <v-card-text class="ml-2"> 
               
                 <v-layout row> 
@@ -51,33 +51,43 @@
               </v-card-text>
             
             <v-layout column v-if="statusConfirmacion.status =='done'"> <!-- USUARIO YA CONFIRMO -->
-            <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus </p>
+              <v-layout justify-start row ml-4> 
+                <v-flex xs1>  <v-icon color="primary">check_box</v-icon> </v-flex>
+                <v-flex>   <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus.  </p> </v-flex>
+                <v-spacer> </v-spacer>
+              </v-layout>
+       
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <button type="button" class="v-btn" id="prueba" disabled>Confirmado</button>
+                  <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
                 </v-flex >
                  <v-flex xs4> 
-                  <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
                  </v-flex>
               </v-layout>
             </v-card-actions>
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
-            <p> Ya puede confirmar su pasaje </p>
+                 <v-layout justify-start row ml-4> 
+                <v-flex xs1>  <v-icon color="primary">check</v-icon> </v-flex>
+           
+                <v-flex>   <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
+                <v-spacer> </v-spacer>
+              </v-layout>
 
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                 <v-flex xs4> 
-                 <v-btn  color="orange" @click="mostrarConfirmar(item)">Confirmar</v-btn>
+                 <v-btn  color="orange" class="btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
                 </v-flex >
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -87,7 +97,7 @@
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
             <v-flex> 
               <v-layout justify-start row ml-4> 
-                <v-flex xs1>  <v-icon>timelapse</v-icon> </v-flex>
+                <v-flex xs1>  <v-icon color="primary">timelapse</v-icon> </v-flex>
            
                 <v-flex>   <p> {{item.service.hrs_left}}hrs para su confirmación</p> </v-flex>
                 <v-spacer> </v-spacer>
@@ -100,13 +110,13 @@
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                 <v-flex xs4> 
-                 <v-btn  color="orange" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                 <v-btn  color="orange" class="btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
                 </v-flex >
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -119,11 +129,11 @@
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -204,7 +214,42 @@
 
       },
       mostrarDetalle (item) {
-        console.log(item)
+
+
+        const tickete = this.item
+  console.log(tickete)
+
+
+      if(tickete.confirmed_at != null) {
+        console.log('ya el usuario confirmo')
+          this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion realizada'
+        }); 
+
+      }else {
+        console.log('aun no confirma')
+        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+
+            this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion Pendiente'
+        }); 
+       
+        }else if (tickete.service.hrs_left < 48) {
+          console.log('no necesita confirmacion porque es express')
+
+                 this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion realizada'
+        }); 
+          
+         
+        } else {
+
+                  this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion Pendiente'
+        }); 
+        }
+      } 
+       // console.log(item)
          this.$store.dispatch('Booking/set_detalle', {
           detalle: true
         });  
@@ -223,8 +268,25 @@
 
 <style>
 
+  .v-btn.btn-ticket{
+    text-transform: none;
+   
+}
+
+  .v-divider.divider-ticket {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #1565c0;
+    width:90%;
+}
+
+  .title-ticket {
+    color: #003e86;
+    font-size: 16px;
+  }
   #prueba {
     background: green;
+    color: white;
     }
 
   #card-container {
@@ -236,21 +298,22 @@
 
   #card-container:hover {
      opacity: 1;
-    -webkit-transform: scale(0.99);
-    -ms-transform: scale(0.99);
-    transform: scale(0.99);
+    -webkit-transform: scale(0.999);
+    -ms-transform: scale(0.999);
+    transform: scale(0.999);
    
 
   }
 
     .hora-ida {
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center;
         position: relative;
         background: #1565c0;
-        text-align: center;
         height: 32px;
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-
     }
 
     .hora-regreso:before {
@@ -261,8 +324,6 @@
         position: absolute;
         top: 0;
         left: 0;
-       
-    
     }
 
     .hora-ida:after {
@@ -277,7 +338,10 @@
     }
 
     .hora-regreso {
-        text-align: center;
+        display: flex;
+justify-content: center; /* align horizontal */
+align-items: center;
+       
         position: relative;
         background: #1565c0;
         height: 32px;
