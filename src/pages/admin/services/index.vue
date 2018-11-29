@@ -39,7 +39,9 @@
   </v-flex>
 
   <v-flex xs10>
-    <v-stepper :value="e1"  alt-labels >
+    <v-layout  align-start justify-center row fill-height> 
+      <v-flex xs10>   
+        <v-stepper :value="e1"  alt-labels >
     <v-stepper-header>
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
@@ -61,32 +63,6 @@
           </v-flex>
 
         </v-layout>
-    <!--    <v-container>
-          <v-card
-            class="mb-5"
-            flat
-            height="400px"
-               max-height="400px"
-               max-width="600px"
-          >
-            <v-card-title >
-              <h3 class="headline primary--text text-md-center">Selecciona los datos para tu viaje</h3>
-            </v-card-title>
-            <place-selector :direction="'from'"/> 
-            <service-date :direction="'from'" class="mt-3"/>
-          </v-card>
-        </v-container>
-
-
-        <v-btn
-          color="secondary"
-          @click="findServices"
-          :disabled="disabledBtn"
-          class="btn-step1 ml-4"
-         
-        >
-          Buscar
-        </v-btn> -->
 
       </v-stepper-content>
 
@@ -141,7 +117,13 @@
 
       </v-stepper-content>
     </v-stepper-items>
-  </v-stepper> 
+  </v-stepper>
+
+
+      </v-flex>
+    </v-layout>
+
+   <!--  -->
       
   </v-flex>  
 
