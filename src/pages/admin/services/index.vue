@@ -106,8 +106,8 @@
       <v-stepper-content step="3">
         <v-card
           class="mb-5"
-          height="400px"
-          max-height="400px"
+          height="500px"
+          
           flat
         >
         <v-layout align-center justify-space-around column fill-height>
@@ -116,17 +116,18 @@
               <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
             </v-card-title>
           </v-flex> 
-          <v-flex xs4> 
-          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="300" width="300">
+          <v-flex xs4 mb-5> 
+          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="290" width="290">
 
           </v-flex> 
           <v-flex xs4> 
-              <h3 class="headline primary--text">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
+              <h3 class="headline primary--text mb-2">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
 
         <v-btn
           color="secondary"
           @click="volverMenu"
-          class="btn-step1"
+          class="btn-step3 ml-5"
+         
         >
           Volver al menú principal
         </v-btn>
@@ -326,6 +327,10 @@
 
 .btn-step1 {
   width: 96%
+}
+
+.btn-step3 {
+  width: 85%
 }
 
 

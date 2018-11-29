@@ -15,8 +15,11 @@
          
     <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
       <v-icon >keyboard_arrow_left</v-icon>
+     
     </v-btn>
+     <v-spacer> </v-spacer>
         Servicios disponibles
+         <v-spacer> </v-spacer>
     </v-card-title>   
       <v-card-title style="height: 45px" class="barra-servicios">
 
@@ -40,7 +43,7 @@
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
         :rows-per-page-items="rowsNumber"
-      
+        
       >
 
         <template slot="items" slot-scope="props">
@@ -52,6 +55,9 @@
                 <v-icon color="primary" size=medium>airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }} </td> 
             <v-btn block small dark color="primary darken-1" @click="resume(props.item)">Seleccionar</v-btn>
+            <td> </td>
+            <td> </td>
+
           </tr>
         </template>
       </v-data-table>
@@ -115,8 +121,8 @@
       loading: false,
       headers: [
         {text: 'Servicio', sortable: false},
-        {text: 'Salida', value: 'from'},
-        {text: 'Llegada', value: 'to'},
+        {text: 'Salida', value: 'from', sortable: false},
+        {text: 'Llegada', value: 'to', sortable: false},
         {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
@@ -153,6 +159,7 @@
 </style>
 
 <style>
+
 
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
