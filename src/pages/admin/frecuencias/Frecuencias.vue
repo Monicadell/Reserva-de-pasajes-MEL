@@ -213,8 +213,9 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.source_id }}</td>
-          <td class="">{{ props.item.dest_id }}</td>
+          <td class="">{{ props.item.trip_id }}</td>
+          <!-- <td class="">{{ props.item.source_id }}</td>
+          <td class="">{{ props.item.dest_id }}</td> -->
           <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
@@ -302,8 +303,9 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Origen', value: 'source_id'},
-          {text: 'Destino', value: 'dest_id'},
+          // {text: 'Origen', value: 'source_id'},
+          // {text: 'Destino', value: 'dest_id'},
+          {text: 'Tramo', value: 'trip_id'},
           {text: 'Estado', value: 'active'},
           {text: 'Inicio', value: 'start'},
           {text: 'Fin', value: 'end'},
@@ -335,7 +337,7 @@
         let frec = await API.get('frequencies')
         if (frec.status >= 200 && frec.status < 300) {
           setTimeout(() => {
-            console.log(frec.data.data)
+            console.log('frecuencias', frec.data.data)
             this.frecuencias = frec.data.data
             this.loading = false
           }, 500)
@@ -370,20 +372,21 @@
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
-        let trip = this.trips.find(obj => obj.id === guardar.trip_id);
-        console.log('trip', trip)
+        // let trip = this.trips.find(obj => obj.id === guardar.trip_id);
+        // console.log('trip', trip)
         let freq = {
           'frequency':
           {
-            'source_id': trip.source_id ? trip.source_id : '',
-            'dest_id': trip.dest_id ? trip.dest_id : '',
+            
+            'trip_id': guardar.trip_id ? guardar.trip_id : '',
             'start': guardar.start ? guardar.start : '',
             'end': guardar.end ? guardar.end : '',
             'set': guardar.set ? guardar.set : '',
             'departure': guardar.departure ? guardar.departure : '',
             'active': guardar.active ? guardar.active : false,
             'freq_type': guardar.freq_type ? guardar.freq_type : '',
-            'name': guardar.name ? guardar.name : ''
+            'name': guardar.name ? guardar.name : '',
+            'cars': guardar.cars ? guardar.cars : ''
           }
         }
         console.log('ser a post', freq)

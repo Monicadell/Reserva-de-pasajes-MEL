@@ -9,16 +9,14 @@
                 <menu-selection/> 
               </template>
             </v-card>
+        
           </v-flex>
-           <v-flex>
-            <!-- <img src="../../../../../static/icons/01.png" alt=""> -->
+           <!-- <v-flex class="btn-bajar">
  
 
-            <!-- <v-btn flat icon color="primary" href="#vuelos" style="position: absolute; bottom: 10px; right:0">
-              <v-icon style="font-size: 80px">expand_more</v-icon>
-            </v-btn> -->
+           
 
-          </v-flex>
+          </v-flex> -->
         </v-layout>
         <!-- <v-layout align-start row >
           <v-flex xs12 mt-1 mx-3 class="fadeinfwd">
@@ -38,7 +36,9 @@
             </v-card>
           </v-flex>
          </v-layout> -->
-       
+            <v-btn fab flat large icon color="white" v-scroll-to="'#vuelos'" style="position: absolute; bottom: 20px; right:-65%">
+              <v-icon style="font-size: 80px">expand_more</v-icon>
+            </v-btn>
       </v-flex>
       
     </v-layout>

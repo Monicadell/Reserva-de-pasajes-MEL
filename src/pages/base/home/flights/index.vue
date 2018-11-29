@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card-flights" fill-height id="vuelos" v-show="show" v-observe-visibility="visibilityChanged()">
+  <v-card class="card-flights" fill-height id="vuelos">
     <v-container fluid fill-height class="pl-0 pr-0">
       <v-layout row fill-height wrap align-center justify-space-around>
         <v-flex class="ml-5 text-xs-left container-titulo-vuelos">
@@ -64,7 +64,7 @@
 
         </v-flex>
         <v-flex xs10 text-xs-center>
-          <v-btn flat icon color="primary" href="#img3">
+          <v-btn fab flat large icon color="primary" v-scroll-to="'#img3'" style="position: absolute; bottom: 40px; left: calc(50% - 25px)">
             <v-icon style="font-size: 80px">expand_more</v-icon>
           </v-btn>
         </v-flex>
@@ -83,8 +83,6 @@
   export default {
     data: () => ({
       flights: [],
-      show: true,
-      isVisible: true,
       llegadasHeader: [
         {text: 'Nº vuelo', sortable: true, value: '0'},
         {text: 'Origen', sortable: true, value: '1'},
@@ -106,10 +104,6 @@
         let flights = await API.get()
         console.log(flights)
         this.flights = flights.data
-      },
-      visibilityChanged (isVisible, entry) {
-        this.isVisible = isVisible
-        console.log(entry)
       }
     }
   }

@@ -19,12 +19,6 @@
     }),
     mounted () {
     },
-    methods: {
-      // visibilityChanged (isVisible, entry) {
-      //   this.isVisible = isVisible
-      //   console.log(entry)
-      // }
-    },
     components: {
       Fligths: Fligths,
       ImgHome: ImgHome,
