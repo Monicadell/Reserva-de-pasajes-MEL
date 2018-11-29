@@ -39,7 +39,7 @@
             ></v-text-field>
           </v-flex>
         </v-layout>
-        <v-layout align-center justify-end row fill-height class="mt-3 pr-5">
+        <v-layout align-center justify-end row fill-height class="contiene-btn-login mt-3 pr-5">
           <v-flex xs12 md6>
             <v-btn block class="btn-login" @click="log()">Iniciar sesión</v-btn>
           </v-flex>
@@ -249,7 +249,7 @@
   .login-input .theme--light.v-messages {
     color: rgba(255,255,255,.54);
   }
-  .btn-login.v-btn.v-btn--block.theme--light{
+  .contiene-btn-login .btn-login.v-btn.v-btn--block.theme--light{
     background-color: #9BCDFD;
     color: #fff;
   }

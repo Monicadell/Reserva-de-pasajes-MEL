@@ -18,7 +18,7 @@
       <!-- <v-flex xs12 md5 sm7 lg4 xl4 fill-height> -->
         <v-layout row style="z-index: 2; ">
           <v-flex xs12 py-0 class="" >
-            <v-card class="card--flex-toolbar" flat style="position: absolute; bottom: 0; width: 50%">
+            <v-card class="card--flex-toolbar" flat style="position: absolute; bottom: 0; width: 50%; left: 0;">
               <template v-if="!isAuthorized" style="position: relative">
                 <menu-selection/> 
               </template>
