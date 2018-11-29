@@ -73,17 +73,18 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions>
+          <v-card-actions >
             <v-btn
-              color="primary"
-              flat
+              color="error"
               @click="cancel"
+              class="ml-4 mb-1"
             >
               Cancelar
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              color="primary"
+              color="secondary"
+              class="mr-4 mb-1"              
               @click="doBooking"
             >
               Reservar

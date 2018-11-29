@@ -60,11 +60,11 @@
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <button type="button" class="v-btn" id="prueba" disabled>Confirmado</button>
+                  <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
                 </v-flex >
                  <v-flex xs4> 
-                  <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
                  </v-flex>
               </v-layout>
             </v-card-actions>
@@ -81,13 +81,13 @@
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                 <v-flex xs4> 
-                 <v-btn  color="orange" @click="mostrarConfirmar(item)">Confirmar</v-btn>
+                 <v-btn  color="orange" class="btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
                 </v-flex >
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -110,13 +110,13 @@
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                 <v-flex xs4> 
-                 <v-btn  color="orange" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                 <v-btn  color="orange" class="btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
                 </v-flex >
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -129,11 +129,11 @@
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
-                  <v-btn  color="red" @click="mostrarAnular(item)">Anular</v-btn> 
+                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                
                  <v-flex xs4> 
-              <v-btn  color="primary" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>
               </v-layout>
@@ -232,6 +232,11 @@
 </script>
 
 <style>
+
+  .v-btn.btn-ticket{
+    text-transform: none;
+   
+}
 
   .v-divider.divider-ticket {
     border-style: dashed;
