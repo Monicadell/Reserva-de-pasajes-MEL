@@ -55,12 +55,19 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-container>
+        <v-layout align-center justify-center row fill-height> 
+          <v-flex xs6>
+        <date-place-container/>
+          </v-flex>
+
+        </v-layout>
+    <!--    <v-container>
           <v-card
             class="mb-5"
             flat
             height="400px"
                max-height="400px"
+               max-width="600px"
           >
             <v-card-title >
               <h3 class="headline primary--text text-md-center">Selecciona los datos para tu viaje</h3>
@@ -79,7 +86,7 @@
          
         >
           Buscar
-        </v-btn>
+        </v-btn> -->
 
       </v-stepper-content>
 
@@ -181,6 +188,7 @@
   import modalAnular from './modalAnular'
   import modalConfirmar from './modalConfirmar'
   import modalDetalle from './modalDetalle'
+  import datePlaceContainer from './containerDatePlace'
 
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
@@ -205,7 +213,8 @@
       tickets,
       modalAnular,
       modalConfirmar,
-      modalDetalle
+      modalDetalle,
+      datePlaceContainer
     },
      computed: {
       ...mapGetters({
@@ -223,13 +232,13 @@
             actualizarReservas: false
             }); 
        },
-       fecha() {
-       //  console.log(`seleccionaron fecha ${this.fecha}`)
+      /* fecha() {
+         //console.log(`seleccionaron fecha ${this.fecha}`)
          if(this.fecha != '') {
            //Habilito boton de buscar
            this.disabledBtn = false
          }
-       },
+       }, */
        e1() {
          console.log('cambio el step')
        }
@@ -263,28 +272,7 @@
     },
 
     methods: {
-      async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
-        const fecha= this.fecha
-        const ruta = this.ruta
-
-        const configService = {
-          'trip':ruta.id,
-          'date':fecha
-        }
-       const services = await API.get('services', configService)
-       //console.log(services)
-       if (services.status >= 200 && services.status < 300){
-         console.log(services)
-         setTimeout(()=>{
-          this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: services.data.data,
-          }); 
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 2,
-          }); 
-         }, 1000)
-       }
-      },
+    
       async getReservas() { //obtener las reservas de un usuario
             const userId = {
                 'user_id': 113162

@@ -11,7 +11,7 @@
       return-object
       hide-details
       color="primary"
-      label="Desde"
+      label="Origen"
       item-text="name"
       item-value="name"
       class="fadeinfwdfast mr-2" 
@@ -56,7 +56,7 @@
       return-object
       hide-details
       color="primary"
-      label="Hacia"
+      label="Destino"
       item-text="name"
       item-value="name"
       class="fadeinfwd"
