@@ -149,11 +149,15 @@
     
     methods: {
       async findDestinations (id) {
+        console.log(`preguntare por id ${id}`)
         const destinations = await API.get('trips')
-        if (destinations.status >= 200 && destinations.status < 300){
-          this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
-        }
         console.log(destinations)
+        if (destinations.status >= 200 && destinations.status < 300){
+          console.log('actualizo valor de los destinos')
+           this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
+        }
+      //  console.log(this.destLocations)
+       
       },
     }
   }

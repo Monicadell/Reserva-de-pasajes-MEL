@@ -23,7 +23,9 @@
   <v-flex xs3>
      <v-navigation-drawer style="width: 100%">
       <v-list dense class="pt-0 user ">
-         <v-toolbar-title class="title-list-custom white--text">Mis reservas</v-toolbar-title>
+         <v-toolbar-title class="title-list-custom white--text">
+           <span class="hidden-sm-and-down ml-4">Mis reservas</span>
+         </v-toolbar-title>
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
               <v-flex > 
@@ -322,8 +324,8 @@
   }
 
   .v-list.user {
-  height: 800px;
-  overflow-y: auto;
+    height: calc(100vh - 24px);
+    overflow-y: auto;
 }
 
 .v-toolbar__title.title-list-custom {
@@ -337,5 +339,7 @@
 .btn-step1 {
   width: 96%
 }
+
+
 
 </style>

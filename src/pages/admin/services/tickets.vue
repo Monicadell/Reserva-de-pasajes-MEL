@@ -2,10 +2,10 @@
   <v-layout id ="card-container">
       <v-flex xs12>
           <v-card>
-            <v-card-title primary-title>
-             <p class="mb-0">Resumen de reserva</p>
+            <v-card-title primary-title class = "pb-1">
+             <p class="mb-0 title-ticket font-weight-black">Resumen de reserva</p>
             </v-card-title>
-             <v-divider> </v-divider>
+             <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
              <v-card-text class="ml-2"> 
               
                 <v-layout row> 
@@ -51,7 +51,12 @@
               </v-card-text>
             
             <v-layout column v-if="statusConfirmacion.status =='done'"> <!-- USUARIO YA CONFIRMO -->
-            <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus </p>
+              <v-layout justify-start row ml-4> 
+                <v-flex xs1>  <v-icon color="primary">check_box</v-icon> </v-flex>
+                <v-flex>   <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus.  </p> </v-flex>
+                <v-spacer> </v-spacer>
+              </v-layout>
+       
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs4> 
@@ -66,7 +71,12 @@
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
-            <p> Ya puede confirmar su pasaje </p>
+                 <v-layout justify-start row ml-4> 
+                <v-flex xs1>  <v-icon color="primary">check</v-icon> </v-flex>
+           
+                <v-flex>   <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
+                <v-spacer> </v-spacer>
+              </v-layout>
 
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
@@ -87,7 +97,7 @@
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
             <v-flex> 
               <v-layout justify-start row ml-4> 
-                <v-flex xs1>  <v-icon>timelapse</v-icon> </v-flex>
+                <v-flex xs1>  <v-icon color="primary">timelapse</v-icon> </v-flex>
            
                 <v-flex>   <p> {{item.service.hrs_left}}hrs para su confirmación</p> </v-flex>
                 <v-spacer> </v-spacer>
@@ -223,6 +233,17 @@
 
 <style>
 
+  .v-divider.divider-ticket {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #1565c0;
+    width:90%;
+}
+
+  .title-ticket {
+    color: #003e86;
+    font-size: 16px;
+  }
   #prueba {
     background: green;
     }
@@ -244,13 +265,14 @@
   }
 
     .hora-ida {
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center;
         position: relative;
         background: #1565c0;
-        text-align: center;
         height: 32px;
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-
     }
 
     .hora-regreso:before {
@@ -261,8 +283,6 @@
         position: absolute;
         top: 0;
         left: 0;
-       
-    
     }
 
     .hora-ida:after {
@@ -277,7 +297,10 @@
     }
 
     .hora-regreso {
-        text-align: center;
+        display: flex;
+justify-content: center; /* align horizontal */
+align-items: center;
+       
         position: relative;
         background: #1565c0;
         height: 32px;
