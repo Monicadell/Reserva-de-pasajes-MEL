@@ -1,8 +1,8 @@
 <template>
   <div class="cover-height">
     <background-image/>
-    <home-tool-bar/>
-    <main-menu/>
+    <home-tool-bar />
+    <main-menu />
   </div>
 </template>
 

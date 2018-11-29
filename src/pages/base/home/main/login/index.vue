@@ -1,12 +1,17 @@
 <template>
   <div>
     <v-card-text class="px-0 py-0">
-      <v-container>
+      <v-container class="pb-5 pt-4" style="background-color: rgba(28, 103, 189)">
         <v-layout align-center justify-center row fill-height>
           <v-flex xs12 md10>
-            <v-radio-group v-model="documentType" row class="text-xs-center">
-              <v-radio label="Rut" value="1" color="primary"></v-radio>
-              <v-radio label="Pasaporte" value="2" color="primary"></v-radio>
+            <h3 class="white--text">RESERVA TU PASAJE AQUÍ</h3>
+          </v-flex>
+        </v-layout>
+        <v-layout align-center justify-center row fill-height>
+          <v-flex xs12 md10>
+            <v-radio-group v-model="documentType" row class="text-xs-center" color="white">
+              <v-radio label="Rut" value="1" color="white" class="usertype"></v-radio>
+              <v-radio label="Pasaporte" value="2" color="white" class="usertype"></v-radio>
             </v-radio-group>
           </v-flex>
         </v-layout>
@@ -14,9 +19,11 @@
         <v-layout align-center justify-center row fill-height>
           <v-flex xs12 md10>
             <v-text-field
-              label="Usuario"
+              label="Usuario" style="max-width: 60%"
               v-model="user"
+              color="white"
               persistent-hint
+              class="login-input"
               hint="Puede ser su RUT o su numero de pasaporte"
             ></v-text-field>
           </v-flex>
@@ -24,15 +31,17 @@
         <v-layout align-center justify-center row fill-height class="mt-3">
           <v-flex xs12 md10>
             <v-text-field
+              color="white" style="max-width: 60%"
               label="Contraseña"
               v-model="password"
+              class="login-input"
               type="password"
             ></v-text-field>
           </v-flex>
         </v-layout>
-        <v-layout align-center justify-center row fill-height class="mt-3">
+        <v-layout align-center justify-end row fill-height class="mt-3 pr-5">
           <v-flex xs12 md6>
-            <v-btn block color="primary" @click="log()">Iniciar sesión</v-btn>
+            <v-btn block class="btn-login" @click="log()">Iniciar sesión</v-btn>
           </v-flex>
         </v-layout>
         <!-- <v-layout align-center justify-center row fill-height class="mt-3">
@@ -61,12 +70,12 @@
       </v-container>
     </v-card-text>
 
-    <v-card-actions class="justify-center pt-1">
+    <!-- <v-card-actions class="justify-center pt-1">
       <v-btn color="primary" flat small @click="goToSingUp">Solicitar registro</v-btn>
       <v-spacer></v-spacer>
 
       <v-btn color="primary" flat small @click="goToForgotPassword">¿Olvido su contraseña?</v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
 
 
   </div>
@@ -207,3 +216,41 @@
     }
   }
 </script>
+
+<style>
+  /* .usertype .theme--light.v-input input{
+    color: rgba(255,255,255,.87) !important;
+  } */
+  .usertype.v-radio.theme--light .v-input--selection-controls__input input{
+    color: #fff;
+  }
+  .usertype .theme--light.v-icon{
+    color: #fff;
+  }
+  .usertype .theme--light.v-label {
+    color: #fff;
+  }
+  .login-input .theme--light.v-label {
+    color: #fff;
+  }
+
+  .login-input .theme--light.v-input input{
+    color: #fff;
+  }
+  .login-input.theme--light.v-input:not(.v-input--is-disabled) input{
+    color: rgba(255,255,255,.87);
+  }
+  .login-input.theme--light.v-text-field .v-input__slot:before {
+    border-color: rgba(255, 255, 255,.42);
+  }
+  .login-input.theme--light.v-text-field .v-input__slot:hover:before {
+    border-color: rgba(255, 255, 255,.42);
+  }
+  .login-input .theme--light.v-messages {
+    color: rgba(255,255,255,.54);
+  }
+  .btn-login.v-btn.v-btn--block.theme--light{
+    background-color: #9BCDFD;
+    color: #fff;
+  }
+</style>

@@ -56,7 +56,7 @@
 
               <v-flex xs12 sm6 md4 v-if="!editedItem.id">
                 <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
-                              :rules="[rules.password_confirmation && rules.min]" type="password"></v-text-field>
+                              :rules="[rules.password_confirmation]" type="password"></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md4>

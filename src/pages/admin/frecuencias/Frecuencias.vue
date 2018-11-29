@@ -394,7 +394,8 @@
           let id = guardar.id
           let frec = await API.put('frequencies', id, freq)
           if (frec.status >= 200 && frec.status < 300) {
-            this.services = frec.data.data
+            // this.services = frec.data.data
+            this.getFrec()
             this.dialog = false
           }
           else {
@@ -407,7 +408,7 @@
           if (frec.status >= 200 && frec.status < 300) {
             console.log('frecuencias', frec)
             this.getFrec()
-            this.frecuencias = frec.data.data
+            // this.frecuencias = frec.data.data
             this.dialog = false
           }
           else {
