@@ -286,6 +286,7 @@
   }
   #prueba {
     background: green;
+    color: white;
     }
 
   #card-container {
