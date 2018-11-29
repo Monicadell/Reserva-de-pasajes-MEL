@@ -214,7 +214,42 @@
 
       },
       mostrarDetalle (item) {
-        console.log(item)
+
+
+        const tickete = this.item
+  console.log(tickete)
+
+
+      if(tickete.confirmed_at != null) {
+        console.log('ya el usuario confirmo')
+          this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion realizada'
+        }); 
+
+      }else {
+        console.log('aun no confirma')
+        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+
+            this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion Pendiente'
+        }); 
+       
+        }else if (tickete.service.hrs_left < 48) {
+          console.log('no necesita confirmacion porque es express')
+
+                 this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion realizada'
+        }); 
+          
+         
+        } else {
+
+                  this.$store.dispatch('Booking/set_estadoTickete', {
+          estadoTickete: 'Confirmacion Pendiente'
+        }); 
+        }
+      } 
+       // console.log(item)
          this.$store.dispatch('Booking/set_detalle', {
           detalle: true
         });  
@@ -262,9 +297,9 @@
 
   #card-container:hover {
      opacity: 1;
-    -webkit-transform: scale(0.99);
-    -ms-transform: scale(0.99);
-    transform: scale(0.99);
+    -webkit-transform: scale(0.999);
+    -ms-transform: scale(0.999);
+    transform: scale(0.999);
    
 
   }
