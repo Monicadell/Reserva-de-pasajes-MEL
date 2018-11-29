@@ -39,10 +39,10 @@
   </v-flex>
 
   <v-flex xs10>
-    <v-layout  align-start justify-center row fill-height> 
-      <v-flex xs10>   
-        <v-stepper :value="e1"  alt-labels >
-    <v-stepper-header>
+    <v-layout  align-start justify-center row fill-height id="principal-container"> 
+      <v-flex xs10 >   
+        <v-stepper :value="e1"  class="elevation-0">
+    <v-stepper-header >
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
       <v-divider></v-divider>
@@ -283,6 +283,10 @@
 </script>
 
 <style >
+#principal-container {
+  background: rgb(242, 245, 247);
+}
+
 .v-btn.botonmenu {
     background: transparent ;
    border: 1px solid #1565c0 ;
