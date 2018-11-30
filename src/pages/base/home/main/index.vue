@@ -29,7 +29,7 @@
                 <v-icon color="white" style="font-size: 80px; text-shadow: 1px 1px rgba(0, 0, 0, 0.5);">expand_more</v-icon>
               </v-btn>
             </v-card>
-            <v-card class="card--flex-toolbar py-4 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: rgba(107, 175, 215) !important; color: #fff">
+            <v-card class="card--flex-toolbar py-4 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: rgba(107, 175, 215, 1) !important; color: #fff">
               <v-card-title primary-title color="primary" class="p">
                 <v-flex xs12 class="pt-0 pb-3">
                   <div class="headline">¿Necesitas Ayuda?</div>

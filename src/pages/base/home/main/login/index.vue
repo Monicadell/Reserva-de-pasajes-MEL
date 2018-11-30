@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="azul-login">
     <v-card-text class="px-0 py-0">
-      <v-container class="pb-5 pt-4" style="background-color: rgba(28, 103, 189)">
+      <v-container class="pb-5 pt-4">
         <v-layout align-center justify-center row fill-height>
           <v-flex xs12 md10>
             <h3 class="white--text">RESERVA TU PASAJE AQUÍ</h3>
@@ -221,6 +221,9 @@
   /* .usertype .theme--light.v-input input{
     color: rgba(255,255,255,.87) !important;
   } */
+  .azul-login{
+    background-color: rgba(28, 103, 189, 1)
+  }
   .usertype.v-radio.theme--light .v-input--selection-controls__input input{
     color: #fff;
   }

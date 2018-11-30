@@ -4,8 +4,8 @@
       <v-layout row fill-height wrap align-center justify-space-around>
         <v-flex class="ml-5 text-xs-left container-titulo-vuelos">
           <div class="contiene-avion pl-4">
-            <v-card-text class="px-1 py-1 contiene-icono">
-              <v-icon large class="icon-avion">flight</v-icon>
+            <v-card-text class="px-1 py-1 contiene-icono secondary">
+              <v-icon large class="icon-avion" color="white">flight</v-icon>
             </v-card-text>
           </div>
           <div class="titulo-flights white--text pb-4">      
@@ -20,8 +20,8 @@
 
         <v-flex xs6 md6 pb-3 pl-5 pr-3>
           <v-card-text class="py-0 px-0 card-vuelos">
-              <h2 class="uppercase py-2 pl-3 light amarillo-vuelos">
-                <v-icon large class="amarillo-vuelos">flight_land</v-icon>
+              <h2 class="uppercase py-2 pl-3 light secondary--text">
+                <v-icon large color="secondary">flight_land</v-icon>
                 Llegadas
               </h2>
               <v-data-table
@@ -46,8 +46,8 @@
         </v-flex>
         <v-flex xs6 md6 pb-3 pl-3 pr-5>
           <v-card-text class="py-0 px-0 card-vuelos">
-             <h2 class="uppercase py-2 pl-3 amarillo-vuelos light">
-              <v-icon large right class="amarillo-vuelos">flight_takeoff</v-icon>
+             <h2 class="uppercase py-2 pl-3 light secondary--text">
+              <v-icon large right color="secondary">flight_takeoff</v-icon>
               Salidas
             </h2>
             <v-data-table
@@ -132,7 +132,7 @@
     background-color: rgba(64,64,64,0.8);
   }
   .amarillo-vuelos{
-    color: rgba(250, 193, 99) !important;
+    color: rgba(250, 193, 99, 1) !important;
   }
   .titulo-flights{
     order: 1;
@@ -151,7 +151,8 @@
     width: 70px;
     text-align: center;
     padding-right: 10px;
-    background-color: rgba(250, 193, 99);
+    /* background-color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .contiene-icono i{
     padding-top: 10px;
@@ -159,12 +160,14 @@
     padding-left: 3px;
   }
   .flight-th table.v-table.theme--light{
-    color: rgba(250, 193, 99);
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
     font-size: 1.2em;
     background-color: transparent;
   }
   .flight-th .v-table.theme--light thead th{
-    color: rgba(250, 193, 99);
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
     font-size: 1.1em;
     background-color: transparent;
     padding: 0 14px;
@@ -181,13 +184,16 @@
     border: none;
   }
   .flight-th .v-table.theme--light thead th.column.sortable.active{
-    color: rgba(250, 193, 99);
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .flight-th .v-table.theme--light thead th.column.sortable.active i{
-    color: rgba(250, 193, 99);
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .flight-th .v-table.theme--light thead th.column.sortable:hover{
-    color: rgba(250, 193, 99);
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .flight-th .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row) {
     background: rgba(84, 84, 84, 0.7);
