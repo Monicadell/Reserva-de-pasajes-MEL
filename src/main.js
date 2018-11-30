@@ -20,12 +20,13 @@ Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
   theme: {
     primary: '#1565c0',
-    secondary: '#cc6633',
+    secondary: '#ff9800',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
+    naranjo: '#cc6633',
     calendario: '#FFC107'
   }
 })

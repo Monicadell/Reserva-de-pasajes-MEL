@@ -30,19 +30,214 @@
               </v-btn>
             </v-card>
             <v-card class="card--flex-toolbar py-4 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: rgba(107, 175, 215, 1) !important; color: #fff">
-              <v-card-title primary-title color="primary" class="p">
+              <v-card-title primary-title color="primary" class="seccion-ayuda">
                 <v-flex xs12 class="pt-0 pb-3">
                   <div class="headline">¿Necesitas Ayuda?</div>
                 </v-flex>
-                <v-flex xs6 py-0 class="">
-                  <p><v-icon small color="white" class="pr-2">warning</v-icon> Recupera tu contraseña</p>
-                  <p><v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí</p>
-                  <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p>
+                <v-flex xs6 py-0>
+                  <v-dialog
+                    v-model="dialogpass"
+                    width="500"
+                  >
+                    <v-btn
+                      slot="activator"
+                      flat class="white--text"
+                    >
+                      <v-icon small color="white" class="pr-2">warning</v-icon> Recupera tu contraseña
+                    </v-btn>
+                    <v-card>
+                      <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                      >Recupera tu contraseña
+                      </v-card-title>
+                      <v-card-text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          flat
+                          @click="dialogpass = false"
+                        >I accept
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                  </v-flex>
+                  <v-flex xs6 py-0>
+                    <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p> -->
+                    <v-dialog
+                      v-model="dialogreserva"
+                      width="500"
+                    >
+                      <v-btn
+                        slot="activator"
+                        flat class="white--text"
+                      >
+                        <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje
+                      </v-btn>
+                      <v-card>
+                        <v-card-title
+                          class="headline grey lighten-2"
+                          primary-title
+                        >Reservar Pasaje
+                        </v-card-title>
+                        <v-card-text>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            flat
+                            @click="dialogreserva = false"
+                          >OK
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-flex>
+                  <v-flex xs6 py-0>
+                    <!-- <p><v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí</p> -->
+                    <v-dialog
+                      v-model="dialogregistro"
+                      width="500"
+                    >
+                      <v-btn
+                        slot="activator"
+                        flat class="white--text"
+                      >
+                        <v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí
+                      </v-btn>
+                      <v-card>
+                        <v-card-title
+                          class="headline grey lighten-2"
+                          primary-title
+                        >Solicita tu registro
+                        </v-card-title>
+                        <v-card-text>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            flat
+                            @click="dialogregistro = false"
+                          >I accept
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                 </v-flex>
+
                 <v-flex xs6 py-0 class="">
-                  <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p>
-                  <p><v-icon small color="white" class="pr-2">airplanemode_active</v-icon> Itinerario de vuelos</p>
-                  <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p>
+                  <!-- <p><v-icon small color="white" class="pr-2">airplanemode_active</v-icon> Itinerario de vuelos</p> -->
+                  <v-dialog
+                    v-model="dialogvuelos"
+                    width="500"
+                  >
+                    <v-btn
+                      slot="activator"
+                      flat class="white--text"
+                    >
+                      <v-icon small color="white" class="pr-2">airplanemode_active</v-icon> Itinerario de vuelos
+                    </v-btn>
+                    <v-card>
+                      <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                      >Itinerario de vuelos
+                      </v-card-title>
+                      <v-card-text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          flat
+                          @click="dialogvuelos = false"
+                        >OK
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                  </v-flex>
+
+                <v-flex xs6 py-0 class="">
+                   <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p> -->
+                  <v-dialog
+                    v-model="dialogimprime"
+                    width="500"
+                  >
+                    <v-btn
+                      slot="activator"
+                      flat class="white--text"
+                    >
+                      <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket
+                    </v-btn>
+                    <v-card>
+                      <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                      >Impresión de ticket
+                      </v-card-title>
+                      <v-card-text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          flat
+                          @click="dialogimprime = false"
+                        >I accept
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-flex>
+                  <v-flex xs6 py-0 class="">
+                  <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->
+                  <v-dialog
+                    v-model="dialogentrete"
+                    width="500"
+                  >
+                    <v-btn
+                      slot="activator"
+                      flat class="white--text"
+                    >
+                      <v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo
+                    </v-btn>
+                    <v-card>
+                      <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                      >Entretención a bordo
+                      </v-card-title>
+                      <v-card-text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          flat
+                          @click="dialogentrete = false"
+                        >OK
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </v-flex>
               </v-card-title>
             </v-card>
@@ -65,6 +260,12 @@
   export default {
      data () {
       return {
+        dialogpass: false,
+        dialogreserva: false,
+        dialogregistro: false,
+        dialogvuelos: false,
+        dialogimprime: false,
+        dialogentrete: false,
         items: [
           {
             src: '../../../../../static/img/1.jpg', text: 'Servicio de transporte privado Minera escondida'
@@ -168,5 +369,8 @@
     filter: brightness(100%);
     min-height: calc(100vh - 40px);
     height: 100%;
+  }
+  .seccion-ayuda .v-btn{
+    text-transform: none;
   }
 </style>
