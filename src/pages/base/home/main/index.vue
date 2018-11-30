@@ -47,22 +47,45 @@
                     </v-btn>
                     <v-card>
                       <v-card-title
-                        class="headline grey lighten-2"
+                        class="headline naranjo white--text"
                         primary-title
                       >Recupera tu contraseña
                       </v-card-title>
-                      <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </v-card-text>
+                     <v-card-text>
+                      <v-container>
+                        <v-layout align-center justify-center row fill-height>
+                          <v-flex xs12 md8>
+                            <v-text-field
+                              label="Ingrese su nombre de usuario"
+                              persistent-hint
+                              hint="Puede ser su RUT o su numero de pasaporte"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                        <!-- <v-layout align-center justify-center row fill-height class="mt-5">
+                          <v-flex xs12 md8>
+                            <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
+                          </v-flex>
+                        </v-layout> -->
+                      </v-container>
+                    </v-card-text>
+
+                    <!-- <v-card-actions class="justify-center pt-1">
+                      <v-btn small flat color="primary" @click="goToLogin">Volver</v-btn>
+                      <v-spacer></v-spacer>
+
+                    </v-card-actions> -->
                       <v-divider></v-divider>
-                      <v-card-actions>
+                      <v-card-actions  class="justify-center pt-1">
                         <v-spacer></v-spacer>
-                        <v-btn
+                        <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
+                        <v-btn small flat color="primary" @click="dialogpass = false">Cerrar</v-btn>
+                        <!-- <v-btn
                           color="primary"
                           flat
                           @click="dialogpass = false"
                         >I accept
-                        </v-btn>
+                        </v-btn> -->
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -115,21 +138,87 @@
                       </v-btn>
                       <v-card>
                         <v-card-title
-                          class="headline grey lighten-2"
+                          class="headline naranjo white--text"
                           primary-title
                         >Solicita tu registro
                         </v-card-title>
-                        <v-card-text>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                          <v-card-text>
+                            <v-container fluid grid-list-md class="pa-0">
+
+                              <v-layout wrap row>
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Nombre y apellido *"
+                                    v-model="item.name"
+                                  ></v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="RUT"
+                                    v-model="item.rut"
+                                  ></v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Pasaporte"
+                                    v-model="item.passport"
+                                  ></v-text-field>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    v-model="item.email"
+                                    :rules="[rules.email]"
+                                    label="E-mail *"
+                                  ></v-text-field>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Dirección *"
+                                    v-model="item.address"
+                                  ></v-text-field>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Telefono contacto *"
+                                    v-model="item.phone_number"
+                                  ></v-text-field>
+                                </v-flex>
+                                
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Contraseña *"
+                                    v-model="item.password"
+                                  ></v-text-field>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                  <v-text-field
+                                    label="Repita contraseña *"
+                                    v-model="item.password_confirmation"
+                                  ></v-text-field>
+                                </v-flex>
+
+                                <small>* Campos obligatorios</small>
+                              </v-layout>
+
+                            </v-container>
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn
+                            block color="primary"
+                            @click="dialogregistro = false"
+                          >Enviar solicitud
+                          </v-btn>
+                          <v-btn
                             color="primary"
                             flat
                             @click="dialogregistro = false"
-                          >I accept
+                          >Cerrar
                           </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -137,38 +226,13 @@
                 </v-flex>
 
                 <v-flex xs6 py-0 class="">
-                  <!-- <p><v-icon small color="white" class="pr-2">airplanemode_active</v-icon> Itinerario de vuelos</p> -->
-                  <v-dialog
-                    v-model="dialogvuelos"
-                    width="500"
-                  >
                     <v-btn
                       slot="activator"
                       flat class="white--text"
+                      v-scroll-to="'#vuelos'"
                     >
                       <v-icon small color="white" class="pr-2">airplanemode_active</v-icon> Itinerario de vuelos
                     </v-btn>
-                    <v-card>
-                      <v-card-title
-                        class="headline grey lighten-2"
-                        primary-title
-                      >Itinerario de vuelos
-                      </v-card-title>
-                      <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </v-card-text>
-                      <v-divider></v-divider>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="primary"
-                          flat
-                          @click="dialogvuelos = false"
-                        >OK
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
                   </v-flex>
 
                 <v-flex xs6 py-0 class="">
@@ -207,37 +271,13 @@
                 </v-flex>
                   <v-flex xs6 py-0 class="">
                   <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->
-                  <v-dialog
-                    v-model="dialogentrete"
-                    width="500"
-                  >
                     <v-btn
                       slot="activator"
                       flat class="white--text"
+                      v-scroll-to="'#img3'"
                     >
                       <v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo
                     </v-btn>
-                    <v-card>
-                      <v-card-title
-                        class="headline grey lighten-2"
-                        primary-title
-                      >Entretención a bordo
-                      </v-card-title>
-                      <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </v-card-text>
-                      <v-divider></v-divider>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="primary"
-                          flat
-                          @click="dialogentrete = false"
-                        >OK
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
                 </v-flex>
               </v-card-title>
             </v-card>
@@ -256,6 +296,7 @@
   import {mapGetters} from 'vuex'
   import MenuSelection from './menuSelection'
   import weather from './currentWeather'
+  import API from '@pi/app'
 
   export default {
      data () {
@@ -279,7 +320,66 @@
           {
             src: '../../../../../static/img/4.jpg', text: 'Servicio de transporte privado Minera escondida 4'
           }
-        ]
+        ],
+        item: {
+          name: '',
+          rut: '',
+          passport: '',
+          email: '',
+          address: '',
+          phone_number: '',
+          active: false,
+          password: '',
+          password_confirmation: ''
+        },
+        roles: [],
+        rules: {
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'Email invalido'
+          }
+        },
+        contractTypes: [
+          {id: 0, name: 'MEL'},
+          {id: 1, name: 'Contratista'}
+        ],
+        companies: []
+      }
+    },
+    methods: {
+      goToSingUp () {
+        this.$store.dispatch('Home/set_menu', {menu: 1})
+      },
+      goToLogin () {
+        this.$store.dispatch('Home/set_menu', {menu: 0})
+      },
+      async solicitarRegistro (guardar) {
+        console.log('user a guardar', guardar)
+        let user = {
+          "user": {
+            "name": guardar.name ? guardar.name : '',
+            "rut": guardar.rut ? guardar.rut : '',
+            "passport": guardar.passport ? guardar.passport : '',
+            "email": guardar.email ? guardar.email : '',
+            "address": guardar.address ? guardar.address : '',
+            "phone_number": guardar.phone_number ? guardar.phone_number : '',
+            "active": guardar.active ? guardar.active : false,
+            "password": guardar.password ? guardar.password : '',
+            "password_confirmation": guardar.password_confirmation ? guardar.password_confirmation : '',
+          }
+        }
+        console.log('ser a post', user)
+        let usuario = await API.post('users', user)
+        if (usuario.status >= 200 && usuario.status < 300) {
+          console.log(usuario)
+          alert("Se ha enviado la solicitud para crear su usuario")
+          this.item = {}
+          this.goToLogin()
+        }
+        else {
+          alert("Ha ocurrido un error, intente nuevamente")
+          console.log(usuario)
+        }
       }
     },
     computed: {
