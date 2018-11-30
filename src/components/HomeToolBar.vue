@@ -1,13 +1,11 @@
 <template>
   <div>
     <v-toolbar
-      color="primary"
+      color="secondary"
       dark
       height="40"
       
     >
-
-
       <v-toolbar-items class="hidden-sm-and-down">
        <h3 class="mt-2">Reserva pasajes TANDEM </h3>
         <template v-if="isAuthorized">

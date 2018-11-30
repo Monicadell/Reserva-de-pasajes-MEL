@@ -4,72 +4,83 @@
       <v-layout row fill-height wrap align-center justify-space-around>
         <v-flex class="ml-5 text-xs-left container-titulo-vuelos">
           <div class="contiene-avion pl-4">
-            <v-card-text class="px-1 py-1 primary contiene-icono">
-              <v-icon large color="white" class="icon-avion">flight</v-icon>
+            <v-card-text class="px-1 py-1 contiene-icono secondary">
+              <v-icon large class="icon-avion" color="white">flight</v-icon>
             </v-card-text>
           </div>
-          <div class="titulo-flights primary--text">      
+          <div class="titulo-flights white--text pb-4">      
             <h1 class="mb-0 uppercase">
               Itinerario de vuelos
             </h1>
-            <h3 class="uppercase light">
+            <h1 class="mb-0 uppercase">
               Aeropuerto de antofagasta
-            </h3>
+            </h1>
           </div>
         </v-flex>
-        <v-flex xs12 class="py-4">
-          <hr class="linea-vuelos mx-5">
-        </v-flex>
-        <v-flex xs6 md6 pb-3>
-          <v-card-text class="pt-0 pl-0">
-              <h2 class="uppercase pb-4 primary--text light ml-5">
-                <v-icon large color="primary">flight_land</v-icon>
+
+        <v-flex xs6 md6 pb-3 pl-5 pr-3>
+          <v-card-text class="py-0 px-0 card-vuelos">
+              <h2 class="uppercase py-2 pl-3 light secondary--text">
+                <v-icon large color="secondary">flight_land</v-icon>
                 Llegadas
               </h2>
               <v-data-table
                 :headers="llegadasHeader"
                 :items="flights.llegadas"
                 hide-actions
-                class="elevation-1 flight-th ml-5"
+                class="flight-th"
               >
                 <template slot="items" slot-scope="props">
-                  <td class="gris">{{ props.item[0] }}</td>
+                  <td>{{ props.item[0] }}</td>
                   <td>{{ props.item[1] }}</td>
-                  <td class="gris">{{ props.item[2] }}</td>
+                  <td>{{ props.item[2] }}</td>
                   <td>{{ props.item[3] }}</td>
+                </template>
+                <template slot="footer">
+                  <td :colspan="llegadasHeader.length">
+                    <strong>Todas las llegadas de hoy  {{fecha}}</strong>
+                  </td>
                 </template>
               </v-data-table>
           </v-card-text>
         </v-flex>
-        <v-flex xs6 md6 pb-3>
-          <v-card-text class="pt-0 pr-0">
-             <h2 class="uppercase pb-4 primary--text light">
-              <v-icon large color="primary" right>flight_takeoff</v-icon>
+        <v-flex xs6 md6 pb-3 pl-3 pr-5>
+          <v-card-text class="py-0 px-0 card-vuelos">
+             <h2 class="uppercase py-2 pl-3 light secondary--text">
+              <v-icon large right color="secondary">flight_takeoff</v-icon>
               Salidas
             </h2>
             <v-data-table
                 :headers="salidasHeader"
                 :items="flights.salidas"
                 hide-actions
-                class="elevation-1 flight-th mr-5"
+                flat
+                class="flight-th"
               >
                 <template slot="items" slot-scope="props">
-                  <td class="gris">{{ props.item[0] }}</td>
+                  <td>{{ props.item[0] }}</td>
                   <td>{{ props.item[1] }}</td>
-                  <td class="gris">{{ props.item[2] }}</td>
+                  <td>{{ props.item[2] }}</td>
                   <td>{{ props.item[3] }}</td>
+                </template>
+                <template slot="footer">
+                  <td :colspan="salidasHeader.length">
+                    <strong>Todas las salidas de hoy  {{fecha}}</strong>
+                  </td>
                 </template>
               </v-data-table>
           </v-card-text>
-
         </v-flex>
         <v-flex xs10 text-xs-center>
-          <v-btn fab flat large icon color="primary" v-scroll-to="'#img3'" style="position: absolute; bottom: 40px; left: calc(50% - 25px)">
+          <v-btn fab flat large icon color="secondary" v-scroll-to="'#img3'" style="position: absolute; bottom: 40px; left: calc(50% - 25px)">
             <v-icon style="font-size: 80px">expand_more</v-icon>
           </v-btn>
         </v-flex>
+        <v-flex xs12 class="py-4">
+          <hr class="linea-vuelos mx-5">
+        </v-flex>
          <v-flex xs12 text-xs-right pt-4 pr-4>
-          <h4 class="primary--text">Esta información está recopilada desde la base de datos de vuelos nacionales</h4>
+          <h4 class="white--text">Esta información está recopilada desde la base de datos de vuelos nacionales</h4>
         </v-flex>
       </v-layout>
     </v-container>
@@ -79,10 +90,12 @@
 
 <script>
   import API from '@pi/flights'
+  import moment from 'moment'
 
   export default {
     data: () => ({
       flights: [],
+      fecha: '',
       llegadasHeader: [
         {text: 'Nº vuelo', sortable: true, value: '0'},
         {text: 'Origen', sortable: true, value: '1'},
@@ -97,13 +110,17 @@
       ]
     }),
     mounted () {
-    this.getFlights()
+      this.getFlights()
+      this.currentDate()
     },
     methods: {
       async getFlights () {
         let flights = await API.get()
         console.log(flights)
         this.flights = flights.data
+      },
+      currentDate () {
+        this.fecha = moment().format('DD-MM-YYYY')
       }
     }
   }
@@ -111,6 +128,12 @@
 
 
 <style>
+  .card-vuelos{
+    background-color: rgba(64,64,64,0.8);
+  }
+  .amarillo-vuelos{
+    color: rgba(250, 193, 99, 1) !important;
+  }
   .titulo-flights{
     order: 1;
     flex: 30;
@@ -128,37 +151,67 @@
     width: 70px;
     text-align: center;
     padding-right: 10px;
+    /* background-color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .contiene-icono i{
     padding-top: 10px;
     text-align: center;
     padding-left: 3px;
   }
-  .flight-th .v-table.theme--light thead th{
-    color: #fff;
+  .flight-th table.v-table.theme--light{
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
     font-size: 1.2em;
-    background-color: #1565c0;
+    background-color: transparent;
+  }
+  .flight-th .v-table.theme--light thead th{
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
+    font-size: 1.1em;
+    background-color: transparent;
+    padding: 0 14px;
+  }
+  .flight-th .v-table.theme--light tfoot td{
+    color: #fff;
+    font-size: 0.9em;
+    background-color: transparent;
+  }
+  .flight-th .v-table.theme--light thead tr{
+    border: none;
+  }
+  .flight-th .v-table.theme--light tfoot tr{
+    border: none;
   }
   .flight-th .v-table.theme--light thead th.column.sortable.active{
-    color: #fff;
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .flight-th .v-table.theme--light thead th.column.sortable.active i{
-    color: #fff;
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
   }
   .flight-th .v-table.theme--light thead th.column.sortable:hover{
-    color: #fff;
+    /* color: rgba(250, 193, 99, 1); */
+    color: #cc6633;
+  }
+  .flight-th .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row) {
+    background: rgba(84, 84, 84, 0.7);
   }
   .flight-th .v-table.theme--light tbody{
     color: #1565c0;
   }
-  .flight-th .v-table.theme--light tbody td.gris{
-    color: #646464;
+  .flight-th .v-table.theme--light tbody tr:nth-child(even) {
+    background: rgba(104, 104, 104, 0.7);
   }
   .flight-th .v-table.theme--light tbody td{
-    font-size: 1.1em;
+    font-size: 1em;
+    color: #fff;
+    padding: 5px 24px;
+    height: auto !important;
   }
   .card-flights.v-card.theme--light{
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(64, 64, 64, 0.7);
     min-height: 100vh;
     /* height 100%; */
   }
@@ -167,7 +220,7 @@
     /* height 100%; */
   }
   .linea-vuelos{
-    border-color: rgba(20, 102, 192, 0.5)
+    border-color: rgba(255, 255, 255, 0.5)
   }
   .light{
     font-weight: 400;
@@ -182,8 +235,9 @@
     flex-basis: auto;
     align-self: center;
   }
-  .icon-avion{
-    font-size: 50px
+  .theme--light.icon-avion{
+    font-size: 50px;
+    color: #fff;
   }
  
 </style>

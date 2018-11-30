@@ -1,18 +1,18 @@
 <template>
   <div class="div-contain-login">
-    <v-toolbar card prominent>
-      <v-spacer></v-spacer>
-      <v-toolbar-title class="body-3 primary--text">
+    <!-- <v-toolbar card prominent>
+      <v-spacer></v-spacer> -->
+      <!-- <v-toolbar-title class="body-3 primary--text">
         {{$t(`lang.home.auth.${menuSelection.text}`)}}
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
+      </v-toolbar-title> -->
+      <!-- <v-spacer></v-spacer> -->
  <!--
      <v-btn icon class="grey--text">
         <v-icon>help</v-icon>
       </v-btn> -->
-    </v-toolbar>
+    <!-- </v-toolbar> -->
 
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
 
     <v-window v-model="menuSelection.menu" class="bottom-login">
       <v-window-item>
