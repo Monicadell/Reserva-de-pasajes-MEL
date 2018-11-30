@@ -209,21 +209,21 @@
      },
      watch : {
        actualizarReservas () {
+         if(this.actualizarReservas) {
+           //const porfis = []
          console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
-         this.getReservas()
-         this.$store.dispatch('Booking/set_actualizarReservas', {
+          //this.items = Object.assign([], porfis)
+
+
+            this.getReservas()
+            this.$store.dispatch('Booking/set_actualizarReservas', {
             actualizarReservas: false
             }); 
-       },
-      /* fecha() {
-         //console.log(`seleccionaron fecha ${this.fecha}`)
-         if(this.fecha != '') {
-           //Habilito boton de buscar
-           this.disabledBtn = false
          }
-       }, */
+        
+       },
        e1() {
-         console.log('cambio el step')
+         //console.log('cambio el step')
        }
      },  
     mounted () {
@@ -252,6 +252,14 @@
            this.$store.dispatch('Booking/set_detalle', {
         detalle: false
       });  
+
+        this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {
+                actualizarVistaConfirmacion: false
+            });
+
+                this.$store.dispatch('Booking/set_listaReservas', {
+                listaReservas: []
+            });
     },
 
     methods: {
@@ -266,6 +274,10 @@
             if (tickets.status >= 200 && tickets.status < 300){
               console.log(`los tickets del usuario son `)
               console.log(tickets.data.data)
+
+                this.$store.dispatch('Booking/set_listaReservas', {
+                listaReservas: tickets.data.data
+            });
                 setTimeout(()=>{
                     this.items = Object.assign([], tickets.data.data)
             //      this.consulta = true

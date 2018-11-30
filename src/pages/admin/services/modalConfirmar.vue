@@ -121,10 +121,11 @@
 
             if (confirmacion.status >= 200 && confirmacion.status < 300) {
             //confirmacion exitosa 
-             setTimeout(()=>{this.modal.status = 'done' }, 1000)
-                 this.$store.dispatch('Booking/set_actualizarReservas', {
+          
+           this.$store.dispatch('Booking/set_actualizarReservas', {
                 actualizarReservas: true
             });
+             this.modal.status = 'done' 
             
         }
 

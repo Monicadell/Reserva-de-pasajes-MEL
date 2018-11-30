@@ -34,6 +34,9 @@ const state = {
   detalle: false,  //  maneja estado visible del modal confirmar ticket
   servicioDetalle: {}, // almaceno el servicio seleccionado para mostrar detalle
   estadoTickete: ' ', // almacena el estado del servicio seleccionado para mostrar el detalle -> no se guarda directamente en servicioDetalle para hacer la logica antes de que se muestre el componente
+  actualizarVistaConfirmacion: false,
+  listaReservas: []
+
 }
 
 const getters = {
@@ -55,7 +58,9 @@ const getters = {
   e1: state => state.e1,
   detalle: state => state.detalle,
   servicioDetalle: state => state.servicioDetalle,
-  estadoTickete: state => state.estadoTickete
+  estadoTickete: state => state.estadoTickete,
+  actualizarVistaConfirmacion: state => state.actualizarVistaConfirmacion,
+  listaReservas: state => state.listaReservas
 }
 
 const actions = {
@@ -117,6 +122,12 @@ const actions = {
   },
   set_estadoTickete({commit}, payload) {
     commit('SET_ESTADOTICKETE', {estadoTickete: payload.estadoTickete})
+  },
+  set_actualizarVistaConfirmacion ({commit},payload) {
+    commit('SET_ACTUALIZARVISTACONFIRMACION', {actualizarVistaConfirmacion: payload.actualizarVistaConfirmacion})
+  },
+  set_listaReservas ({commit}, payload) {
+    commit('SET_LISTARESERVAS', {listaReservas: payload.listaReservas})
   }
 
 }
@@ -181,6 +192,12 @@ const mutations = {
   },
   SET_ESTADOTICKETE: (state, {estadoTickete}) => {
     state.estadoTickete = estadoTickete
+  },
+  SET_ACTUALIZARVISTACONFIRMACION: (state, {actualizarVistaConfirmacion}) => {
+    state.actualizarVistaConfirmacion = actualizarVistaConfirmacion
+  },
+  SET_LISTARESERVAS: (state, {listaReservas}) => {
+    state.listaReservas = listaReservas
   }
 }
 

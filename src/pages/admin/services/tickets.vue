@@ -52,13 +52,14 @@
             
             <v-layout column v-if="statusConfirmacion.status =='done'"> <!-- USUARIO YA CONFIRMO -->
               <v-layout justify-start row ml-4> 
-                <v-flex xs1>  <v-icon color="primary">check_box</v-icon> </v-flex>
+                <v-flex xs1>  <v-icon color="primary">check_circle_outline</v-icon> </v-flex>
                 <v-flex>   <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus.  </p> </v-flex>
                 <v-spacer> </v-spacer>
               </v-layout>
        
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
+               
                 <v-flex xs4> 
                   <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
@@ -186,10 +187,39 @@
         }
       }
     },
+     watch : {
+       item () {
+
+           const tickete = this.item
+      if(tickete.confirmed_at != null) {
+        console.log('ya el usuario confirmo')
+        this.statusConfirmacion.status = 'done'
+      }else {
+        console.log('aun no confirma')
+        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          console.log('usuario puede confirmar')
+          this.statusConfirmacion.status = 'process'
+        }else if (tickete.service.hrs_left < 48) {
+          console.log('no necesita confirmacion porque es express')
+           this.statusConfirmacion.status = 'express'
+        } else {
+           console.log('aun no puede confirmar')
+          this.statusConfirmacion.status = 'none'
+        }
+      }
+        
+         console.log('dale refresca la vista')
+         
+        
+       }
+     },
     computed: {
       ...mapGetters({
         search: ['Booking/current'],
-        ruta: ['Booking/ruta']
+        ruta: ['Booking/ruta'],
+        actualizarVistaConfirmacion: ['Booking/actualizarVistaConfirmacion'],
+        listaReservas: ['Booking/listaReservas'],
+
       }),
     
     },
@@ -259,9 +289,6 @@
 
 
       }
-    },
-    watch: {
-    
     }
   }
 </script>
