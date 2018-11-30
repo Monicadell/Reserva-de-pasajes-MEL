@@ -2,7 +2,8 @@
   <div >
     <v-card >
       <v-card dark flat>
-        <v-card-title class="custom-header" >
+        <v-card-title   v-bind:class="{ 'custom-header-active' :  !disableCalendar, 'custom-header': disableCalendar }" >
+          
           <h3 class="title font-weight-light text-xs-center grow">
             {{mesformateado}} 
           </h3>
@@ -17,7 +18,7 @@
     <v-date-picker
       :min="moment().format('YYYY-MM-DD')"
       :max="moment().add(maxDays, 'days').format('YYYY-MM-DD')"
-      color="primary"
+      :color="colorCalendario"
       locale="es-Es"
       v-model="fecha"
       full-width
@@ -26,6 +27,7 @@
       :first-day-of-week="1"
       :readonly="disableCalendar"
       @input="actFecha"
+      class="dateCalendar"
     ></v-date-picker>
     </v-card>
   </div>
@@ -54,7 +56,10 @@
      year: '',
      mesformateado: '',
      calendarIsVisible: false,
-     disableCalendar: true
+     disableCalendar: true,
+     headerActiveClass: 'custom-header-active',
+     headerClass: 'custom-header',
+     colorCalendario: 'lighten5'
   
     }),
     mounted () {
@@ -96,29 +101,7 @@
             fechaSeleccionada: value,
           })
 
-/*
-        const configService = {
-          'trip':idRuta,
-          'date':fechaViaje
-        }
-        console.log(configService)
-       
-       const services = await API.get('services', configService)
-       console.log(services)
-        if (services.status >= 200 && services.status < 300){
-            this.$store.dispatch('Booking/set_cargandoPeticion', {
-            cargandoPeticion: true
-            
-          });  
-           setTimeout(()=>{
-              this.$store.dispatch('Booking/set_cargandoPeticion', {
-              cargandoPeticion: false
-            });
-              this.$store.dispatch('Booking/set_listaServicios', {
-              listaServicios: services.data.data,
-            }); 
-          },2000)
-        } */
+
 
       }
     },
@@ -128,6 +111,8 @@
        // console.log(this.ruta)
         if(this.ruta.id ) {
           this.disableCalendar = false
+          this.colorCalendario = 'primary'
+       //   console.log(this.disableCalendar)
         }
       }
     }
@@ -147,8 +132,14 @@
   .calendario {
     opacity: 0;
   }
-  .v-card__title.custom-header {
+  .v-card__title.custom-header-active {
     background: #1565c0;
     height: 30px
   }
+
+   .v-card__title.custom-header {
+    background:rgb(199, 198, 198);
+    height: 30px
+  }
+
 </style>
