@@ -20,7 +20,7 @@ Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
   theme: {
     primary: '#1565c0',
-    secondary: '#fd9426',
+    secondary: '#cc6633',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',
