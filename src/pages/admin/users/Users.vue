@@ -278,7 +278,7 @@
             const coinciden = this.editedItem.password === value ? true : false
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres',
+          min: value => value.length >= 8 || 'Min 8 caracteres'
         }
       }
     },

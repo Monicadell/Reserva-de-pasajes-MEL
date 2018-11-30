@@ -3,12 +3,12 @@
     <v-card-text class="px-0 py-0">
       <v-container class="pb-5 pt-4">
         <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 md10>
-            <h3 class="white--text">RESERVA TU PASAJE AQUÍ</h3>
+          <v-flex xs12 pl-5 pt-3>
+            <h2 class="white--text font-weight-bold" style="font-family: Roboto">RESERVA TU PASAJE AQUÍ</h2>
           </v-flex>
         </v-layout>
         <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 md10>
+          <v-flex xs12 pl-5>
             <v-radio-group v-model="documentType" row class="text-xs-center" color="white">
               <v-radio label="Rut" value="1" color="white" class="usertype"></v-radio>
               <v-radio label="Pasaporte" value="2" color="white" class="usertype"></v-radio>
@@ -17,10 +17,11 @@
         </v-layout>
         
         <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 md10>
+          <v-flex xs12 pl-5>
             <v-text-field
               label="Usuario" style="max-width: 60%"
               v-model="user"
+              @keyup="keymonitor"
               color="white"
               persistent-hint
               class="login-input"
@@ -29,7 +30,7 @@
           </v-flex>
         </v-layout>
         <v-layout align-center justify-center row fill-height class="mt-3">
-          <v-flex xs12 md10>
+          <v-flex xs12 pl-5>
             <v-text-field
               color="white" style="max-width: 60%"
               label="Contraseña"
@@ -93,7 +94,8 @@
         documentType:'',
         user: '',
         password: '',
-        errorDialog: false
+        errorDialog: false,
+        event: ''
       }
     },
     // computed: mapGetters({
@@ -111,8 +113,10 @@
         if(this.documentType === '1'){
           // let rut = this.checkRut(this.user)
           // console.log('return checkrut', rut)
+          let usuario = this.user.replace(/\./g,'')
+          console.log('usuario', usuario)
           params = {
-              rut: this.user,
+              rut: usuario,
               password: this.password
             }
         }
@@ -150,68 +154,14 @@
           console.log('error profile', error)
         }
       },
-      checkRut(rut) {
-        // Despejar Puntos
-        console.log("rut", rut)
-        let valor = rut.replace('.','')
-        // Despejar Guión
-        valor = valor.replace('-','')
-        
-        // Aislar Cuerpo y Dígito Verificador
-        cuerpo = valor.slice(0,-1)
-        dv = valor.slice(-1).toUpperCase()
-        
-        // Formatear RUN
-        rut = cuerpo + '-'+ dv
-        
-        // Si no cumple con el mínimo ej. (n.nnn.nnn)
-        if(cuerpo.length < 7) {
-          rut.setCustomValidity("RUT Incompleto")
-          return false
+      keymonitor(event) {
+        console.log('doc tyme', this.documentType)
+        if (this.documentType === '1') {
+          let value = event.target.value;
+          if(!value) this.user = ''
+          value = value.match(/[0-9Kk]+/g).join('')
+          this.user = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
         }
-        
-        // Calcular Dígito Verificador
-        suma = 0
-        multiplo = 2
-        
-        // Para cada dígito del Cuerpo
-        for (let i in cuerpo) {
-           // Obtener su Producto con el Múltiplo Correspondiente
-          index = multiplo * valor.charAt(cuerpo.length - i);
-          // Sumar al Contador General
-          suma = suma + index;
-          // Consolidar Múltiplo dentro del rango [2,7]
-          if(multiplo < 7) {
-            multiplo = multiplo + 1
-          } else {
-            multiplo = 2
-          }
-        }
-        // for(i=1;i<=cuerpo.length;i++) {
-        
-        //   index = multiplo * valor.charAt(cuerpo.length - i);
-
-        //   suma = suma + index;
- 
-        //   if(multiplo < 7) {
-        //     multiplo = multiplo + 1
-        //   } else {
-        //     multiplo = 2
-        //   }
-
-        // }
-        // Calcular Dígito Verificador en base al Módulo 11
-        dvEsperado = 11 - (suma % 11);
-        // Casos Especiales (0 y K)
-        dv = (dv == 'K')?10:dv
-        dv = (dv == 0)?11:dv
-        // Validar que el Cuerpo coincide con su Dígito Verificador
-        if(dvEsperado != dv) {
-          rut.setCustomValidity("RUT Inválido")
-          return false
-        }
-        // Si todo sale bien, eliminar errores (decretar que es válido)
-        rut.setCustomValidity('')
       }
     }
   }

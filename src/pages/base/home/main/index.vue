@@ -12,7 +12,7 @@
             class="carusel-item"
             style="height: 100%"
           >
-            <h1 style="position: absolute; right: 20%; top: 20%; color: #fff; max-width: 50%; font-size: 4em; font-weight: bold; text-align: right; text-shadow: 1px 1px rgba(0,0,0, 0.5)">{{item.text}}</h1>
+            <!-- <h1 style="position: absolute; right: 20%; top: 20%; color: #fff; max-width: 50%; font-size: 4em; font-weight: bold; text-align: right; text-shadow: 1px 1px rgba(0,0,0, 0.5)">{{item.text}}</h1> -->
           </v-carousel-item>
         </v-carousel>
       <!-- <v-flex xs12 md5 sm7 lg4 xl4 fill-height> -->
@@ -29,10 +29,10 @@
                 <v-icon color="white" style="font-size: 80px; text-shadow: 1px 1px rgba(0, 0, 0, 0.5);">expand_more</v-icon>
               </v-btn>
             </v-card>
-            <v-card class="card--flex-toolbar py-4 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: rgba(107, 175, 215, 1) !important; color: #fff">
+            <v-card class="card--flex-toolbar py-3 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: #38B2D7 !important; color: #fff">
               <v-card-title primary-title color="primary" class="seccion-ayuda">
                 <v-flex xs12 class="pt-0 pb-3">
-                  <div class="headline">¿Necesitas Ayuda?</div>
+                  <div class="headline font-weight-bold">¿Necesitas Ayuda?</div>
                 </v-flex>
                 <v-flex xs6 py-0>
                   <v-dialog
@@ -92,19 +92,19 @@
                   </v-flex>
                   <v-flex xs6 py-0>
                     <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p> -->
-                    <v-dialog
+                    <!-- <v-dialog
                       v-model="dialogreserva"
                       width="500"
-                    >
+                    > -->
                       <v-btn
                         slot="activator"
                         flat class="white--text"
                       >
                         <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje
                       </v-btn>
-                      <v-card>
+                      <!-- <v-card>
                         <v-card-title
-                          class="headline grey lighten-2"
+                          class="headline naranjo white--text"
                           primary-title
                         >Reservar Pasaje
                         </v-card-title>
@@ -122,7 +122,7 @@
                           </v-btn>
                         </v-card-actions>
                       </v-card>
-                    </v-dialog>
+                    </v-dialog> -->
                   </v-flex>
                   <v-flex xs6 py-0>
                     <!-- <p><v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí</p> -->
@@ -190,14 +190,18 @@
                                 <v-flex xs12 sm6>
                                   <v-text-field
                                     label="Contraseña *"
+                                    type="password"
                                     v-model="item.password"
+                                    :rules="[rules.min]"
                                   ></v-text-field>
                                 </v-flex>
 
                                 <v-flex xs12 sm6>
                                   <v-text-field
                                     label="Repita contraseña *"
+                                    type="password"
                                     v-model="item.password_confirmation"
+                                    :rules="[rules.password_confirmation]" 
                                   ></v-text-field>
                                 </v-flex>
 
@@ -211,13 +215,13 @@
                           <v-spacer></v-spacer>
                           <v-btn
                             block color="primary"
-                            @click="dialogregistro = false"
+                            @click="solicitarRegistro(item)"
                           >Enviar solicitud
                           </v-btn>
                           <v-btn
                             color="primary"
                             flat
-                            @click="dialogregistro = false"
+                            @click="cerrarRegistro()"
                           >Cerrar
                           </v-btn>
                         </v-card-actions>
@@ -237,19 +241,19 @@
 
                 <v-flex xs6 py-0 class="">
                    <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p> -->
-                  <v-dialog
+                  <!-- <v-dialog
                     v-model="dialogimprime"
                     width="500"
-                  >
+                  > -->
                     <v-btn
                       slot="activator"
                       flat class="white--text"
                     >
                       <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket
                     </v-btn>
-                    <v-card>
+                    <!-- <v-card>
                       <v-card-title
-                        class="headline grey lighten-2"
+                        class="headline naranjo white--text"
                         primary-title
                       >Impresión de ticket
                       </v-card-title>
@@ -267,7 +271,7 @@
                         </v-btn>
                       </v-card-actions>
                     </v-card>
-                  </v-dialog>
+                  </v-dialog> -->
                 </v-flex>
                   <v-flex xs6 py-0 class="">
                   <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->
@@ -332,18 +336,17 @@
           password: '',
           password_confirmation: ''
         },
-        roles: [],
         rules: {
           email: value => {
             const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return pattern.test(value) || 'Email invalido'
-          }
-        },
-        contractTypes: [
-          {id: 0, name: 'MEL'},
-          {id: 1, name: 'Contratista'}
-        ],
-        companies: []
+          },
+          password_confirmation: value => {
+            const coinciden = this.item.password === value ? true : false
+            return coinciden || 'Contraseñas no coinciden'
+          },
+          min: value => value.length >= 8 || 'Min 8 caracteres',
+        }
       }
     },
     methods: {
@@ -352,6 +355,10 @@
       },
       goToLogin () {
         this.$store.dispatch('Home/set_menu', {menu: 0})
+      },
+      cerrarRegistro(){
+        this.item = Object.assign({},'')
+        this.dialogregistro = false
       },
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
@@ -363,7 +370,7 @@
             "email": guardar.email ? guardar.email : '',
             "address": guardar.address ? guardar.address : '',
             "phone_number": guardar.phone_number ? guardar.phone_number : '',
-            "active": guardar.active ? guardar.active : false,
+            "active": false,
             "password": guardar.password ? guardar.password : '',
             "password_confirmation": guardar.password_confirmation ? guardar.password_confirmation : '',
           }
@@ -374,7 +381,7 @@
           console.log(usuario)
           alert("Se ha enviado la solicitud para crear su usuario")
           this.item = {}
-          this.goToLogin()
+          this.dialogregistro = false
         }
         else {
           alert("Ha ocurrido un error, intente nuevamente")

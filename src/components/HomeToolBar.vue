@@ -7,7 +7,13 @@
       
     >
       <v-toolbar-items class="hidden-sm-and-down">
-       <h3 class="mt-2">Reserva pasajes TANDEM </h3>
+        <!-- <v-flex xs12 md10> -->
+          <!-- <h3 class="mt-2 pl-5" style="margin-left: 24px;">Reserva pasajes TANDEM </h3> -->
+          <!-- <div class="container py-0"> -->
+            <img src="/../../../static/img/logo_tandem.png" alt="tandem" class="logo-tandem pl-5">
+          <!-- </div> -->
+        <!-- </v-flex> -->
+       
         <template v-if="isAuthorized">
           <v-btn flat>Reservar pasaje</v-btn>
           <v-btn flat>Mis Reservas</v-btn>
@@ -66,4 +72,10 @@
   }
 </script>
 
+<style scoped>
+  .logo-tandem{
+    height: 38px;
+    width: auto;
+  }
+</style>
 
