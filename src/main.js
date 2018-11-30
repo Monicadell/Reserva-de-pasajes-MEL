@@ -26,7 +26,8 @@ Vue.use(Vuetify, {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
-    naranjo: '#cc6633'
+    naranjo: '#cc6633',
+    calendario: '#FFC107'
   }
 })
 
