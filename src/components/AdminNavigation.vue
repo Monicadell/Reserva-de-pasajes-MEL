@@ -66,8 +66,9 @@
       show: true,
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
-        {subheader: true, text: 'Mis reservas'},
-        {icon: '../../static/icons/06.png', text: 'Reservas', path: { path: '/service_reserve' }},
+        {subheader: true, text: 'Reservas'},
+        {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }},
+        {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }},
         {subheader: true, text: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }},
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }},

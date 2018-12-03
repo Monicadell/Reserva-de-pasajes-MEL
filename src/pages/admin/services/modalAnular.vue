@@ -70,7 +70,7 @@
                   anular: false
               });  */
         } catch (e) {
-          console.log('Error al anular reserva', e)
+          console.log('Error al anular reserva', e.response)
           alert('Ha ocurrido un error al intentar anular reserva')
         }
       },

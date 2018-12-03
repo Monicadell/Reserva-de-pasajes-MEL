@@ -114,7 +114,7 @@
           :headers="headers"
           :items="users"
           :loading="loading"
-  
+          no-data-text="No hay usuarios registradas"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -367,7 +367,7 @@
               this.editedItem = Object.assign({}, '')
             }
           } catch (e) {
-            console.log('catch err', e)
+            console.log('catch err', e.response)
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
@@ -388,7 +388,7 @@
               this.dialog = false
             }
           } catch (e) {
-            console.log('catch err', e)
+            console.log('catch err', e.response)
             this.editedItem = Object.assign({}, '')
             // alert('Ha ocurrido un error, intente más tarde!')
             this.dialog = false
@@ -410,7 +410,7 @@
             console.log(eliminando)
           }
         } catch (e) {
-         console.log('catch err', e)
+         console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false

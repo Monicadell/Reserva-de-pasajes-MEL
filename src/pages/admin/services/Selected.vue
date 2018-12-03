@@ -157,6 +157,9 @@
         reservaRealizada: false
       })
     },
+    components: {
+      Modal: Modal
+    },
     methods: {
       cancel () {
         setTimeout(() => {
@@ -186,10 +189,14 @@
             })
           }
         } catch (e) {
-          console.log('error al reservar', e)
+          console.log('error al reservar', e.response)
+          this.$store.dispatch('Booking/select', {selected: false})
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 1
+          })
           this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al generar reserva, intente nuevamente.'
+          this.modalInfoDetail = e.response.data.error
           this.modalInfoBtn1 = 'OK'
         }
      /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {

@@ -210,6 +210,7 @@
           :search="search"
           :loading="loading"
           hide-actions
+          no-data-text="No hay Frecuencias registradas"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>

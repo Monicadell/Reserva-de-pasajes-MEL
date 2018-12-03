@@ -61,6 +61,7 @@
           :items="buses"
           :search="search"
           hide-actions
+          no-data-text="No hay buses registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>

@@ -217,7 +217,7 @@
         e1: ['Booking/e1']
       })
      },
-     watch : {
+     watch: {
        actualizarReservas () {
           if(this.actualizarReservas) {
           //const porfis = []
@@ -286,7 +286,7 @@
             }, 2000)
           }
         } catch (e) {
-          console.log('Error al obtener tickets del usuario', e)
+          console.log('Error al obtener tickets del usuario', e.response)
           this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
           this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente nuevamente.'

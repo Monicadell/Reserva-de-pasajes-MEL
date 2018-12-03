@@ -72,6 +72,7 @@
           :search="search"
           :loading="loading"
           hide-actions
+          no-data-text="No hay tramos registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -222,7 +223,7 @@
             this.getTrips()
           }
         } catch (e) {
-         console.log('catch err', e)
+         console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
@@ -264,7 +265,7 @@
               this.dialog = false
             }
           } catch (e) {
-            console.log('catch err', e)
+            console.log('catch err', e.response)
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
@@ -284,7 +285,7 @@
               this.dialog = false
             }
           } catch (e) {
-            console.log('catch err', e)
+            console.log('catch err', e.response)
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false

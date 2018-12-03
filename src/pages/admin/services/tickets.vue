@@ -279,7 +279,6 @@
     text-transform: none;
    
 }
-
   .v-divider.divider-ticket {
     border-style: dashed;
     border-width: 1px;

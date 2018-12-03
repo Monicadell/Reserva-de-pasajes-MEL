@@ -90,7 +90,7 @@
             }, 1000)
           }
         } catch (e) {
-          console.log('catch error al obtener serivicios', e)
+          console.log('catch error al obtener serivicios', e.response)
         }
       }
     }

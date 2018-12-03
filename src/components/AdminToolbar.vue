@@ -21,10 +21,18 @@
       <v-btn
         flat
         class="white--text primary"
-        :to="reservaspath"
+        :to="reservarpath"
         v-if="!isAdmin"
       >
-         <h4>Mis Reservas</h4>
+        <h4>Reservar</h4>
+      </v-btn>
+      <v-btn
+        flat
+        class="white--text primary"
+        :to="misreservaspath"
+        v-if="!isAdmin"
+      >
+        <h4>Mis reservas</h4>
       </v-btn>
       <v-btn
         flat
@@ -52,7 +60,8 @@
       admin: false,
       nombre: '',
       isAdmin: false,
-      reservaspath: '/service_reserve',
+      reservarpath: '/service_reserve',
+      misreservaspath: '/misreservas',
       profilepath: '/myInfo'
     }),
     // computed: mapGetters({

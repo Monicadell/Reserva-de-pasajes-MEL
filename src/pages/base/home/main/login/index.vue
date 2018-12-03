@@ -146,8 +146,14 @@
               })
               this.getMyInfo()
           }
+          else {
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Los datos son incorrectos, intente nuevamente.'
+            this.modalInfoBtn1 = 'OK'
+          }
         } catch (e) {
-          console.log('catch err', e)
+          console.log('catch err', e.response)
           // alert('Datos incorrectos, intente nuevamente')
           this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
@@ -159,12 +165,13 @@
         console.log('luego de login exitoso voy a montar datos user')
         let info = await API.get('profile')
         if (info.status >= 200 && info.status < 300) {
-          // console.log('profile',info)
+          console.log('profile',info)
           this.$store.dispatch('Auth/setData', {
-              role: info.data.role_id,
-              username: info.data.name,
-              useremail: info.data.email
-            })
+            role: info.data.role_id,
+            username: info.data.name,
+            useremail: info.data.email,
+            userid: info.data.id
+          })
         } else {
           console.log('error profile', error)
         }

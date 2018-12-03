@@ -196,6 +196,7 @@
           :loading="loading"
           :rows-per-page-items="[20, 40, 100]"
           item-key="id"
+          no-data-text="No hay servicios registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -328,7 +329,7 @@
             this.loading = false         
           }
         } catch (e) {
-          console.log('error al cargar tramos', e)
+          console.log('error al cargar tramos', e.response)
         }
       },
       async getFrequencies () {
@@ -340,7 +341,7 @@
           
           }
         } catch (e) {
-          console.log('error al cargar frecuencias', e)
+          console.log('error al cargar frecuencias', e.response)
         }
       },
       async getServices () {
@@ -355,7 +356,7 @@
               }, 500)
           }
         } catch (e) {
-          console.log('error al cargar servicios', e)
+          console.log('error al cargar servicios', e.response)
         }
       },
       editItem (item) {

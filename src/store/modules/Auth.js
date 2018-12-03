@@ -7,7 +7,8 @@ const state = {
   credential: null,
   role: null,
   username: null,
-  useremail: null
+  useremail: null,
+  userid: null
 }
 const getters = {
   isAuthorized: state => state.isAuthorized,
@@ -16,6 +17,7 @@ const getters = {
   username: state => state.username,
   useremail: state => state.useremail,
   role: state => state.role,
+  userid: state => state.userid
 }
 const actions = {
   login ({commit}, payload) {
@@ -31,7 +33,8 @@ const actions = {
     commit('SET_USER_ADDONS', {
       role: payload.role,
       username: payload.username,
-      useremail: payload.useremail
+      useremail: payload.useremail,
+      userid: payload.userid
     })
   },
   logout ({commit}) {
@@ -45,10 +48,11 @@ const mutations = {
     state.user = user
     state.credential = credential
   },
-  SET_USER_ADDONS: (state, {role, username, useremail}) => {
+  SET_USER_ADDONS: (state, {role, username, useremail, userid}) => {
     state.role = role
     state.username = username
     state.useremail = useremail
+    state.userid = userid
   },
   LOGOUT (state) {
     state.isAuthorized= false

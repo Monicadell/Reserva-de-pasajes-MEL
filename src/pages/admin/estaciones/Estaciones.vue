@@ -72,6 +72,7 @@
           :search="search"
           :loading="loading"
           hide-actions
+          no-data-text="No hay estaciones registradas"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -186,7 +187,7 @@
               }, 500)
           }
         } catch (e) {
-          console.log('catch err', e)
+          console.log('catch err', e.response)
           this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
           this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'

@@ -153,7 +153,7 @@
           let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
           //  this.modal.status = 'done'
         } catch (e) {
-          console.log('error al confirmar reserva, modal detalle', e)
+          console.log('error al confirmar reserva, modal detalle', e.response)
           alert('Ha ocurrido un error!')
         }
       },

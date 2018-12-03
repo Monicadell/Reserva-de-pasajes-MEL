@@ -239,7 +239,7 @@
             }, 2000)
           }
         } catch (e) {
-          console.log('Error ', e)
+          console.log('Error ', e.response)
           this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
           this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
@@ -266,7 +266,7 @@
             this.getReservas()   
           }
         } catch (e) {
-          console.log('error al anular reserva ', e)
+          console.log('error al anular reserva ', e.response)
           alert('Ha ocurrido un error al anular reserva')
         }
       }

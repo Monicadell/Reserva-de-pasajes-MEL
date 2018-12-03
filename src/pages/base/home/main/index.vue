@@ -393,8 +393,11 @@
             this.item = {}
             this.dialogregistro = false
           }
+          else{
+            console.log('error status', usuario)
+          }
         } catch (e) {
-          console.log('catch err', e)
+          console.log('catch err', e.response)
           // alert('Ha ocurrido un error, intente más tarde!')
           this.item = {}
           this.dialogregistro = false

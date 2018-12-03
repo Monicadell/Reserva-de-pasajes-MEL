@@ -126,7 +126,7 @@
             this.modal.status = 'done'
           }
         } catch (e) {
-          console.log('error al confirmar reserva', e)
+          console.log('error al confirmar reserva', e.response)
           alert('Ha ocurrido un error al intentar confirmar la reserva, intente nuevamente')
         }
       },
