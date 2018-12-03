@@ -74,13 +74,10 @@
   import moment from 'moment'
 
   export default {
-   
-     
- 
     watch: {
       cargandoPeticion () {
        if(this.cargandoPeticion) {
-         this.listIsVisible = true
+          this.listIsVisible = true
        }
       }
     },
@@ -94,15 +91,12 @@
     methods: {
       resume (servicioSeleccionado) {
         console.log(servicioSeleccionado)
-
-      this.$store.dispatch('Booking/select', {selected: true})
-       this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
+        this.$store.dispatch('Booking/select', {selected: true})
+        this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
       selectService (service) {
-      
-      this.$store.dispatch('Booking/set_service', {service: service})
-      },
-  
+        this.$store.dispatch('Booking/set_service', {service: service})
+      }
     },
     computed: {
       ...mapGetters({
@@ -111,15 +105,14 @@
         booking: ['Booking/service'],
         listaServicios: ['Booking/listaServicios'],
         cargandoPeticion: ['Booking/cargandoPeticion']
-      }) 
-    
+      })
     },
     data: () => ({
-       listIsVisible: false,
+      listIsVisible: false,
       rowsNumber: [6],
       disableList: true,
       selected: [],
-       moment: moment,
+      moment: moment,
       loading: false,
       headers: [
         {text: 'Servicio', sortable: false},
@@ -128,26 +121,24 @@
         {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
         {text: '', value: 'action' , sortable: false},
         {text: '', value: 'action' , sortable: false},
-        {text: '', value: 'action' , sortable: false},
+        {text: '', value: 'action' , sortable: false}
       ],
       mientras : [
         {
-            "arrival": "18:34:00",
-            "avail_seats": 10,
-            "car_id": null,
-            "date": "2018-11-24",
-            "departure": "15:20:00",
-            "driver_id": null,
-            "duration": null,
-            "freq_id": null,
-            "id": 61,
-            "name": "21",
-            "set": "15:00:00",
-            "trip_id": 1
+          "arrival": "18:34:00",
+          "avail_seats": 10,
+          "car_id": null,
+          "date": "2018-11-24",
+          "departure": "15:20:00",
+          "driver_id": null,
+          "duration": null,
+          "freq_id": null,
+          "id": 61,
+          "name": "21",
+          "set": "15:00:00",
+          "trip_id": 1
         }
-    
       ]
- 
     })
   }
 </script>
@@ -156,7 +147,6 @@
   .disableList
     pointer-events none
     opacity 0.1
-
 
 </style>
 

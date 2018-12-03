@@ -22,15 +22,15 @@ axios.interceptors.request.use(config => {
   console.log(error)
   console.groupEnd()
   return Promise.reject(error)
-});
+})
 
 axios.interceptors.response.use(data => {
-   return data;
+   return data
 }, error => {
-  console.group('[Axios][Interceptor] Response Error');
-  console.log(error);
-  console.groupEnd();
-  return Promise.reject(error);
-});
+  console.group('[Axios][Interceptor] Response Error')
+  console.log(error)
+  console.groupEnd()
+  return Promise.reject(error)
+})
 
 export default axios

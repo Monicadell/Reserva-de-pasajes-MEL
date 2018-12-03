@@ -15,12 +15,10 @@
                               v-model="editedItem.name"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <!-- <v-text-field label="Activo"
-                              v-model="editedItem.active"></v-text-field> -->
                 <v-switch
                   class="justify-center"
-                  label="Activo"
-                  v-model="editedItem.active"
+                  label="Público"
+                  v-model="editedItem.public"
                 ></v-switch>
               </v-flex>
             </v-layout>
@@ -87,7 +85,7 @@
           <td class="">{{ props.item.source_id }}</td>
           <td class="">{{ props.item.dest_id }}</td>
           <td class="">
-            <span v-if="props.item.active">Activo</span>
+            <span v-if="props.item.public">Activo</span>
             <span v-else>Inactivo</span>
           </td>
           <td class="justify-center">
@@ -130,12 +128,20 @@
         </template>
       </v-data-table>
     </div>
+        <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
 <script>
   import API from '@pi/app'
   import moment from 'moment'
+  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -146,47 +152,35 @@
         trips: [],
         loading: true,
         moment: moment,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         editedItem: {
           name: '',
           source_id: '',
           dest_id: '',
-          active: ''
+          public: ''
         },
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Duración (horas)', value: 'duration'},
           {text: 'Origen', value: 'source_id'},
           {text: 'Destino', value: 'dest_id'},
-          {text: 'Estado', value: 'active'},
+          {text: 'Público', value: 'public'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
         recorridos: [],
-        stations: [
-          { address: null,
-            id: 1,
-            lat: null,
-            lon: null,
-            name: 'Aeropuerto ANF'
-          },
-          { address: null,
-            id: 2,
-            lat: null,
-            lon: null,
-            name: 'La Negra'
-          },
-          { address: null,
-            id: 3,
-            lat: null,
-            lon: null,
-            name: 'MEL'
-          }
-        ]
+        stations: []
       }
     },
     mounted () {
       this.getTrips()
       this.getStations()
+    },
+    components: {
+      modal: Modal
     },
     methods: {
       convertMinsToHrsMins (mins) {
@@ -219,20 +213,28 @@
         this.confirmaAnular = true
       },
       async deleteItem (item) {
-        let eliminando = await API.delete('trips', item)
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE', eliminando)
+        try {
+          let eliminando = await API.delete('trips', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE', eliminando)
+            this.confirmaAnular = false
+            console.log(eliminando)
+            this.getTrips()
+          }
+        } catch (e) {
+         console.log('catch err', e)
+          this.editedItem = Object.assign({}, '')
+          // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          console.log(eliminando)
-          this.getTrips()
-        }
-        else{
-          alert('Ha ocurrido un error, intente nuevamente')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error eliminando el tramo, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       close () {
         this.dialog = false
-        this.editedItem = {}
+        this.editedItem =  Object.assign({}, '')
       },
       editItem (item) {
         this.editedItem = item
@@ -246,35 +248,50 @@
             'dest_id': guardar.dest_id ? guardar.dest_id : '',
             'source_id': guardar.source_id ? guardar.source_id : '',
             'name': guardar.name ? guardar.name : '',
-            'active': guardar.active ? guardar.active : '',
+            'public': guardar.public,
             'duration': guardar.duration ? guardar.duration : ''
           }
         }
         if (guardar.id) {
           console.log('ser a put', tramo)
           let id = guardar.id
-          // console.log('voy a PUT, ser', id)
-          let tramos = await API.put('trips', id, tramo)
-          if (tramos.status >= 200 && tramos.status < 300) {
-            // console.log('ya hizo PUT',tramos)
-            this.services = tramos.data.data
+          try {
+            let tramos = await API.put('trips', id, tramo)
+            if (tramos.status >= 200 && tramos.status < 300) {
+              console.log('ya hizo PUT',tramos)
+              this.editedItem = Object.assign({}, '')
+              this.getTrips()
+              this.dialog = false
+            }
+          } catch (e) {
+            console.log('catch err', e)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.editedItem = Object.assign({}, '')
             this.dialog = false
-          }
-          else {
-            alert('Ha ocurrido un error, intente nuevamente')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
         }
         else {
           console.log('ser a post', tramo)
-          let tramos = await API.post('trips', tramo)
-          if (tramos.status >= 200 && tramos.status < 300) {
-            console.log('post ok', tramos)
-            this.getTrips()
-            this.recorridos = tramos.data.data
+          try {
+            let tramos = await API.post('trips', tramo)
+            if (tramos.status >= 200 && tramos.status < 300) {
+              console.log('post ok', tramos)
+              this.getTrips()
+              this.dialog = false
+            }
+          } catch (e) {
+            console.log('catch err', e)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.editedItem = Object.assign({}, '')
             this.dialog = false
-          }
-          else {
-            alert('Ha ocurrido un error, intente nuevamente')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error creando el tramo, intente nuevamente.'
+            this.modalInfoBtn1 = 'OK'
           }
         }
       }

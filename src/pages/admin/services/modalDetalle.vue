@@ -132,39 +132,39 @@
   import {mapGetters} from 'vuex'
   import moment from 'moment'
   import axios from 'axios'
+
   export default {
-     name: 'modalDetalle', 
+    name: 'modalDetalle', 
     data: () => ({
-        modal : {
-            status: 'none'
-        },
-        statusTicket: '' 
+      modal : {
+          status: 'none'
+      },
+      statusTicket: '' 
     }),
     mounted () {
       //  console.log('********')
-        const tickete = this.servicioDetalle
+      const tickete = this.servicioDetalle
      //   console.log(tickete)
-
-
-
-   
     },
     methods: {
-        async confirmarReserva() {
-            const idServicio = this.servicioConfirmar.id
-            let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
-
+      async confirmarReserva() {
+        const idServicio = this.servicioConfirmar.id
+        try {
+          let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
           //  this.modal.status = 'done'
-        },
-        cerrar() {
-            setTimeout(()=>{
-         this.modal.status = 'none'
-
-        },2000)
-            this.$store.dispatch('Booking/set_detalle', {
-            detalle: false
-            });  
+        } catch (e) {
+          console.log('error al confirmar reserva, modal detalle', e)
+          alert('Ha ocurrido un error!')
         }
+      },
+      cerrar() {
+        setTimeout(() => {
+          this.modal.status = 'none'
+        }, 2000)
+        this.$store.dispatch('Booking/set_detalle', {
+          detalle: false
+        })
+      }
     },
     computed: {
       ...mapGetters({
@@ -181,10 +181,10 @@
 </script>
 
 <style>
-      .v-card__title.titulo-detalle {
-        background: #1565c0;
-        color: white;
-        font-weight: lighter;
+    .v-card__title.titulo-detalle {
+      background: #1565c0;
+      color: white;
+      font-weight: lighter;
     }
     .btn-confirmar {
         width: 90%

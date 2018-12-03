@@ -37,7 +37,6 @@
       updateCountdown () {
         var a = moment(this.fecha)
         var b = moment(this.currentTime)
-      
         this.countdown = a.diff(b, 'hours')
       },
       confirmar(item) {
@@ -50,8 +49,7 @@
       const dia = this.date.replace(/-/g ,'/')
       const hora = moment(this.time, ["h:mm A"]).format("HH:mm")
       this.finalDate = `${dia} ${hora}`
-     this.fecha  = moment(this.finalDate, 'YYYY/MM/DD hh:mm')
-
+      this.fecha  = moment(this.finalDate, 'YYYY/MM/DD hh:mm')
       // setInterval(() => this.updateCountdown(), 1 * 1000)
       this.updateCountdown()
       setInterval(() => this.updateCurrentTime(), 60 * 1000)

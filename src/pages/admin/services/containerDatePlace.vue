@@ -28,51 +28,45 @@
   import {mapGetters} from 'vuex'
   import axios from 'axios'
   import API from '@pi/app'
-import PlaceSelector from '@c/PlaceSelector'
+  import PlaceSelector from '@c/PlaceSelector'
   import ServiceDate from '@c/DatePicker'
 
   export default {
-   
     name: 'datePlaceContainer',
     data() {
       return {
         statusConfirmacion : {
           status: ''
         },
-        disabledBtn: true,
-
+        disabledBtn: true
       }
     },
-      components: {
+    components: {
       PlaceSelector,
       ServiceDate
-    
     },
     mounted () {
      
     },
-      watch : {
-     
-       fecha() {
-           console.log('aqui si seleccionaron fecha')
+    watch : {
+      fecha() {
+        console.log('aqui si seleccionaron fecha')
        //  console.log(`seleccionaron fecha ${this.fecha}`)
-         if(this.fecha != '') {
-           //Habilito boton de buscar
-           this.disabledBtn = false
-         }
-       },
-
+        if(this.fecha != '') {
+          //Habilito boton de buscar
+          this.disabledBtn = false
+        }
+       }
      },  
     computed: {
       ...mapGetters({
         search: ['Booking/current'],
         fecha: ['Booking/fechaSeleccionada'],
         ruta: ['Booking/ruta']
-      }),
-    
+      })
     },
     methods: {
-         async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
+      async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
         const fecha= this.fecha
         const ruta = this.ruta
 
@@ -81,20 +75,24 @@ import PlaceSelector from '@c/PlaceSelector'
           'date':fecha
         }
         console.log(configService)
-       const services = await API.get('services', configService)
-       //console.log(services)
-       if (services.status >= 200 && services.status < 300){
-         console.log(services)
-         setTimeout(()=>{
-          this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: services.data.data,
-          }); 
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 2,
-          }); 
-         }, 1000)
-       }
-      },
+        try {
+          const services = await API.get('services', configService)
+          //console.log(services)
+          if (services.status >= 200 && services.status < 300) {
+            console.log(services)
+            setTimeout(()=>{
+              this.$store.dispatch('Booking/set_listaServicios', {
+                listaServicios: services.data.data
+              }); 
+              this.$store.dispatch('Booking/set_e1', {
+                e1: 2
+              }) 
+            }, 1000)
+          }
+        } catch (e) {
+          console.log('catch error al obtener serivicios', e)
+        }
+      }
     }
   }
 </script>
@@ -103,7 +101,4 @@ import PlaceSelector from '@c/PlaceSelector'
     .btn-dpContainer {
         width: 100%
     }
-
-
-
 </style>

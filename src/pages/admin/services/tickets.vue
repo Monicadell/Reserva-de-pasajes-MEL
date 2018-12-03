@@ -158,7 +158,7 @@
   import API from '@pi/app'
 
   export default {
-     props: ['item'],
+    props: ['item'],
     name: 'tickets',
     data() {
       return {
@@ -173,7 +173,7 @@
       if(tickete.confirmed_at != null) {
         console.log('ya el usuario confirmo')
         this.statusConfirmacion.status = 'done'
-      }else {
+      } else {
         console.log('aun no confirma')
         if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
           console.log('usuario puede confirmar')
@@ -182,112 +182,92 @@
           console.log('no necesita confirmacion porque es express')
            this.statusConfirmacion.status = 'express'
         } else {
-           console.log('aun no puede confirmar')
+          console.log('aun no puede confirmar')
           this.statusConfirmacion.status = 'none'
         }
       }
     },
-     watch : {
-       item () {
-
-           const tickete = this.item
-      if(tickete.confirmed_at != null) {
-        console.log('ya el usuario confirmo')
-        this.statusConfirmacion.status = 'done'
-      }else {
-        console.log('aun no confirma')
-        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
-          console.log('usuario puede confirmar')
-          this.statusConfirmacion.status = 'process'
-        }else if (tickete.service.hrs_left < 48) {
-          console.log('no necesita confirmacion porque es express')
-           this.statusConfirmacion.status = 'express'
-        } else {
-           console.log('aun no puede confirmar')
-          this.statusConfirmacion.status = 'none'
+    watch : {
+      item () {
+        const tickete = this.item
+        if(tickete.confirmed_at != null) {
+          console.log('ya el usuario confirmo')
+          this.statusConfirmacion.status = 'done'
+        }else {
+          console.log('aun no confirma')
+          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+            console.log('usuario puede confirmar')
+            this.statusConfirmacion.status = 'process'
+          }else if (tickete.service.hrs_left < 48) {
+            console.log('no necesita confirmacion porque es express')
+            this.statusConfirmacion.status = 'express'
+          } else {
+            console.log('aun no puede confirmar')
+            this.statusConfirmacion.status = 'none'
+          }
         }
+        console.log('dale refresca la vista')
       }
-        
-         console.log('dale refresca la vista')
-         
-        
-       }
-     },
+    },
     computed: {
       ...mapGetters({
         search: ['Booking/current'],
         ruta: ['Booking/ruta'],
         actualizarVistaConfirmacion: ['Booking/actualizarVistaConfirmacion'],
-        listaReservas: ['Booking/listaReservas'],
-
-      }),
-    
+        listaReservas: ['Booking/listaReservas']
+      })
     },
     methods: {
-       mostrarAnular(item) {
-         console.log(item)
-           this.$store.dispatch('Booking/set_servicioAnular', {
+      mostrarAnular (item) {
+        console.log(item)
+        this.$store.dispatch('Booking/set_servicioAnular', {
           servicioAnular: item
-        }); 
+        })
         this.$store.dispatch('Booking/set_anular', {
           anular: true
-        });  
+        })
       },
       mostrarConfirmar (item) {
         console.log(item)
-         this.$store.dispatch('Booking/set_confirmar', {
+        this.$store.dispatch('Booking/set_confirmar', {
           confirmar: true
-        });  
-         this.$store.dispatch('Booking/set_servicioConfirmar', {
+        })
+        this.$store.dispatch('Booking/set_servicioConfirmar', {
           servicioConfirmar: item
-        }); 
-
+        })
       },
       mostrarDetalle (item) {
-
-
         const tickete = this.item
-  console.log(tickete)
-
-
-      if(tickete.confirmed_at != null) {
-        console.log('ya el usuario confirmo')
+        console.log(tickete)
+        if(tickete.confirmed_at != null) {
+          console.log('ya el usuario confirmo')
           this.$store.dispatch('Booking/set_estadoTickete', {
-          estadoTickete: 'Confirmacion realizada'
-        }); 
-
-      }else {
-        console.log('aun no confirma')
-        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
-
-            this.$store.dispatch('Booking/set_estadoTickete', {
-          estadoTickete: 'Confirmacion Pendiente'
-        }); 
-       
-        }else if (tickete.service.hrs_left < 48) {
-          console.log('no necesita confirmacion porque es express')
-
-                 this.$store.dispatch('Booking/set_estadoTickete', {
-          estadoTickete: 'Confirmacion realizada'
-        }); 
-          
-         
+            estadoTickete: 'Confirmacion realizada'
+          })
         } else {
-
-                  this.$store.dispatch('Booking/set_estadoTickete', {
-          estadoTickete: 'Confirmacion Pendiente'
-        }); 
+          console.log('aun no confirma')
+          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+            this.$store.dispatch('Booking/set_estadoTickete', {
+            estadoTickete: 'Confirmacion Pendiente'
+          })
+          } else if (tickete.service.hrs_left < 48) {
+            console.log('no necesita confirmacion porque es express')
+            this.$store.dispatch('Booking/set_estadoTickete', {
+              estadoTickete: 'Confirmacion realizada'
+            })
+          } else {
+            this.$store.dispatch('Booking/set_estadoTickete', {
+              estadoTickete: 'Confirmacion Pendiente'
+            }) 
+          }
         }
-      } 
        // console.log(item)
-         this.$store.dispatch('Booking/set_detalle', {
+        this.$store.dispatch('Booking/set_detalle', {
           detalle: true
-        });  
+        })
         this.$store.dispatch('Booking/set_servicioDetalle', {
           servicioDetalle: item
-        }); 
-
-
+        })
       }
     }
   }

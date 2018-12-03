@@ -46,40 +46,42 @@
   import moment from 'moment'
   import axios from 'axios'
   export default {
-     name: 'modalAnular', 
+    name: 'modalAnular', 
     data: () => ({
-        modal : {
-            status: 'none'
-        }
+      modal : {
+          status: 'none'
+      }
     }),
     mounted () {
-   
     },
     methods: {
-        async anularReserva() { 
-            const idServicio = this.servicioAnular.id
-            let eliminando = await API.deleteNoRest('tickets', idServicio,'cancel') 
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-            //eliminado exitoso 
-             this.$store.dispatch('Booking/set_actualizarReservas', {
-                actualizarReservas: true
-            });
+      async anularReserva() {
+        const idServicio = this.servicioAnular.id
+        try {
+          let eliminando = await API.deleteNoRest('tickets', idServicio,'cancel') 
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+              //eliminado exitoso 
+            this.$store.dispatch('Booking/set_actualizarReservas', {
+              actualizarReservas: true
+            })
             this.modal.status = 'done' 
+          }
+            /*   this.$store.dispatch('Booking/set_anular', {
+                  anular: false
+              });  */
+        } catch (e) {
+          console.log('Error al anular reserva', e)
+          alert('Ha ocurrido un error al intentar anular reserva')
         }
-         /*   this.$store.dispatch('Booking/set_anular', {
-                anular: false
-            });  */
-        },
-        cerrar() {
-
-            setTimeout(()=>{
-         this.modal.status = 'none'
-
-        },2000)
-            this.$store.dispatch('Booking/set_anular', {
-            anular: false
-            });  
-        }
+      },
+      cerrar() {
+        setTimeout(() => {
+          this.modal.status = 'none'
+        }, 2000)
+        this.$store.dispatch('Booking/set_anular', {
+          anular: false
+        })
+      }
     },
     computed: {
       ...mapGetters({
@@ -95,9 +97,9 @@
 </script>
 
 <style>
-      .v-card__title.titulo-detalle {
-        background: #1565c0;
-        color: white;
-        font-weight: lighter;
-    }
+    .v-card__title.titulo-detalle {
+    background: #1565c0;
+    color: white;
+    font-weight: lighter;
+}
 </style>

@@ -120,11 +120,19 @@
         </template>
       </v-data-table>
     </div>
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
 <script>
   import API from '@pi/app'
+  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -133,6 +141,10 @@
         dialog: false,
         search: '',
         loading: true,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         editedItem: {
           name: '',
           address: '',
@@ -155,19 +167,30 @@
         cities: []
       }
     },
+    components: {
+      modal: Modal
+    },
     mounted () {
       this.getStations()
       this.getCities()
     },
     methods: {
       async getStations () {
-        let usuarios = await API.get('stations')
-        if (usuarios.status >= 200 && usuarios.status < 300) {
-          console.log(usuarios)
-          setTimeout(() => {
-            this.estaciones = usuarios.data.data
-            this.loading = false
-            }, 500)
+        try {
+          let stations = await API.get('stations')
+          if (stations.status >= 200 && stations.status < 300) {
+            console.log(stations)
+            setTimeout(() => {
+              this.estaciones = stations.data.data
+              this.loading = false
+              }, 500)
+          }
+        } catch (e) {
+          console.log('catch err', e)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       editItem (item) {

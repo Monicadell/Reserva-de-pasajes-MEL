@@ -103,42 +103,41 @@
   import moment from 'moment'
   import axios from 'axios'
   export default {
-     name: 'modalConfirmar', 
+    name: 'modalConfirmar', 
     data: () => ({
-        modal : {
-            status: 'none'
-        }
+      modal : {
+          status: 'none'
+      }
     }),
     mounted () {
-   
     },
     methods: {
-        async confirmarReserva() {
-            const idServicio = this.servicioConfirmar.id
-            let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
-            console.log(confirmacion)
-          //  this.modal.status = 'done'
-
-            if (confirmacion.status >= 200 && confirmacion.status < 300) {
-            //confirmacion exitosa 
-          
-           this.$store.dispatch('Booking/set_actualizarReservas', {
+      async confirmarReserva() {
+        const idServicio = this.servicioConfirmar.id
+        try {
+          let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
+          console.log(confirmacion)
+        //  this.modal.status = 'done'
+          if (confirmacion.status >= 200 && confirmacion.status < 300) {
+          //confirmacion exitosa 
+            this.$store.dispatch('Booking/set_actualizarReservas', {
                 actualizarReservas: true
-            });
-             this.modal.status = 'done' 
-            
+            })
+            this.modal.status = 'done'
+          }
+        } catch (e) {
+          console.log('error al confirmar reserva', e)
+          alert('Ha ocurrido un error al intentar confirmar la reserva, intente nuevamente')
         }
-
-        },
-        cerrar() {
-            setTimeout(()=>{
-         this.modal.status = 'none'
-
-        },2000)
-            this.$store.dispatch('Booking/set_confirmar', {
-            confirmar: false
-            });  
-        }
+      },
+      cerrar() {
+        setTimeout(()=>{
+          this.modal.status = 'none'
+        }, 2000)
+        this.$store.dispatch('Booking/set_confirmar', {
+          confirmar: false
+        }); 
+      }
     },
     computed: {
       ...mapGetters({
@@ -154,10 +153,10 @@
 </script>
 
 <style>
-      .v-card__title.titulo-detalle {
-        background: #1565c0;
-        color: white;
-        font-weight: lighter;
+    .v-card__title.titulo-detalle {
+      background: #1565c0;
+      color: white;
+      font-weight: lighter;
     }
     .btn-confirmar {
         width: 90%

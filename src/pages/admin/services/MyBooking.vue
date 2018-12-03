@@ -166,6 +166,14 @@
       </template>
     </v-data-table>
     </v-card>
+
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -174,7 +182,7 @@
   import Countdown from './Countdown'
   import axios from 'axios'
   import API from '@pi/app'
-
+  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -182,10 +190,13 @@
         currentTime: '',
         confirmaAnular: false,
         bookingDetails: false,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         selectedBooking: {
-            service: {
-
-            },
+          service: {
+          },
           descripcionServicio: 'Frec1',
           fechaEmbarcacion: '25/11/2018 20:48',
           fechaCompra: '20/10/2018 20:48',
@@ -206,69 +217,77 @@
           {text: '', value: 'confirmar', sortable: false},
           {text: '', value: 'cancel', sortable: false}
         ],
-        ticketsList : [],
-        desserts: [
-          
-        ]
+        ticketsList : []
       }
     },
     components: {
-      Countdown: Countdown
+      Countdown: Countdown,
+      modal: Modal
     },
-     methods : {
-        async getReservas() {
-            const userId = {
-                'user_id': 113162
-            }
-            const tickets = await API.get('tickets', userId)
-            console.log(tickets)
-
-            if (tickets.status >= 200 && tickets.status < 300){
-                setTimeout(()=>{
-                    this.ticketsList = Object.assign([], tickets.data.data)
-                  this.consulta = true
-              }, 2000)
-            } 
-        },
-        verDetalle(item) {
-            console.log(item)
-                    this.selectedBooking = Object.assign([], item)
-
-        },
-        updatePagination (pagination) {
-                //  console.log('update:pagination', pagination)
-                },
-        async anular (item) {
-            console.log('xxxxx')
-            console.log(item)
-
-               console.log('voy a eliminar', item)
-        let eliminando = await API.delete('tickets', item.id)
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE',eliminando)
-          this.confirmaAnular = false
-          console.log(eliminando)
-          this.getReservas()   
+    methods : {
+      async getReservas() {
+        const userId = {
+            'user_id': 113162
         }
+        try {
+          const tickets = await API.get('tickets', userId)
+          console.log(tickets)
+          if (tickets.status >= 200 && tickets.status < 300){
+            setTimeout(()=>{
+              this.ticketsList = Object.assign([], tickets.data.data)
+              this.consulta = true
+            }, 2000)
+          }
+        } catch (e) {
+          console.log('Error ', e)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
+          this.modalInfoBtn1 = 'OK'
         }
+      },
+      verDetalle(item) {
+        console.log(item)
+        this.selectedBooking = Object.assign([], item)
+      },
+      updatePagination (pagination) {
+      //  console.log('update:pagination', pagination)
+      },
+      async anular (item) {
+        console.log('xxxxx')
+        console.log(item)
+        console.log('voy a eliminar', item)
+        try {
+          let eliminando = await API.delete('tickets', item.id)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE',eliminando)
+            this.confirmaAnular = false
+            console.log(eliminando)
+            this.getReservas()   
+          }
+        } catch (e) {
+          console.log('error al anular reserva ', e)
+          alert('Ha ocurrido un error al anular reserva')
+        }
+      }
     },
     mounted() {
-       this.getReservas();
+      this.getReservas()
     },
-     watch: {
+    watch: {
       reservaRealizada () {
         console.log(`se hizo una reserva ${this.reservaRealizada}`)
         this.getReservas()
-            this.$store.dispatch('Booking/set_reservaRealizada', {
-            reservaRealizada: false
-            });  
+        this.$store.dispatch('Booking/set_reservaRealizada', {
+          reservaRealizada: false
+        })
       }
     },
     computed: {
       ...mapGetters({
         reservaRealizada: ['Booking/reservaRealizada']
-      }),
-    },
+      })
+    }
   }
 </script>
 

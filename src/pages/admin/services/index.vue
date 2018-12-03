@@ -158,7 +158,13 @@
           </v-flex>
         </v-layout>
         
-
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -172,11 +178,10 @@
   import modalConfirmar from './modalConfirmar'
   import modalDetalle from './modalDetalle'
   import datePlaceContainer from './containerDatePlace'
-
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
   import API from '@pi/app'
-
+  import Modal from '@c/Modal'
 
   export default {
     data() {
@@ -185,6 +190,10 @@
         items: [],
         right: null,
         disabledBtn: true,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: ''
       }
     },
     components: {
@@ -197,7 +206,8 @@
       modalAnular,
       modalConfirmar,
       modalDetalle,
-      datePlaceContainer
+      datePlaceContainer,
+      modal: Modal
     },
      computed: {
       ...mapGetters({
@@ -205,24 +215,21 @@
         ruta: ['Booking/ruta'],
         actualizarReservas: ['Booking/actualizarReservas'],
         e1: ['Booking/e1']
-      }),
+      })
      },
      watch : {
        actualizarReservas () {
-         if(this.actualizarReservas) {
-           //const porfis = []
-         console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
+          if(this.actualizarReservas) {
+          //const porfis = []
+          console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
           //this.items = Object.assign([], porfis)
-
-
-            this.getReservas()
-            this.$store.dispatch('Booking/set_actualizarReservas', {
+          this.getReservas()
+          this.$store.dispatch('Booking/set_actualizarReservas', {
             actualizarReservas: false
-            }); 
+          })
          }
-        
        },
-       e1() {
+       e1 () {
          //console.log('cambio el step')
        }
      },  
@@ -230,79 +237,80 @@
       this.getReservas()
       this.$store.dispatch('Booking/set_ruta', {
         ruta: {}
-      });    
+      }) 
       this.$store.dispatch('Booking/set_listaServicios', {
         listaServicios: [],
-      });  
-       this.$store.dispatch('Booking/set_anular', {
+      })
+      this.$store.dispatch('Booking/set_anular', {
         anular: false
-      });    
-       this.$store.dispatch('Booking/set_actualizarReservas', {
-                actualizarReservas: false
-            }); 
-       this.$store.dispatch('Booking/set_fechaSeleccionada', {
-            fechaSeleccionada: '',
-          })
-            this.$store.dispatch('Booking/set_confirmar', {
+      })
+      this.$store.dispatch('Booking/set_actualizarReservas', {
+        actualizarReservas: false
+      })
+      this.$store.dispatch('Booking/set_fechaSeleccionada', {
+        fechaSeleccionada: '',
+      })
+      this.$store.dispatch('Booking/set_confirmar', {
         confirmar: false
-      }); 
-        this.$store.dispatch('Booking/set_e1', {
+      })
+      this.$store.dispatch('Booking/set_e1', {
         e1: 1
-      });  
-           this.$store.dispatch('Booking/set_detalle', {
+      })
+      this.$store.dispatch('Booking/set_detalle', {
         detalle: false
-      });  
-
-        this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {
-                actualizarVistaConfirmacion: false
-            });
-
-                this.$store.dispatch('Booking/set_listaReservas', {
-                listaReservas: []
-            });
+      })
+      this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {
+        actualizarVistaConfirmacion: false
+      })
+      this.$store.dispatch('Booking/set_listaReservas', {
+        listaReservas: []
+      })
     },
-
     methods: {
-    
-      async getReservas() { //obtener las reservas de un usuario
-            const userId = {
-                'user_id': 113162
-            }
-            const tickets = await API.get('tickets')
-            console.log(tickets)
-
-            if (tickets.status >= 200 && tickets.status < 300){
-              console.log(`los tickets del usuario son `)
-              console.log(tickets.data.data)
-
-                this.$store.dispatch('Booking/set_listaReservas', {
-                listaReservas: tickets.data.data
-            });
-                setTimeout(()=>{
-                    this.items = Object.assign([], tickets.data.data)
-            //      this.consulta = true
-              }, 2000)
-            } 
-           
-        },
-        volverMenu() {
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 1,
-          }); 
+      async getReservas () { //obtener las reservas de un usuario
+        const userId = {
+          'user_id': 113162
         }
-    },
+        try {
+          const tickets = await API.get('tickets')
+          console.log(tickets)
+          if (tickets.status >= 200 && tickets.status < 300){
+            console.log(`los tickets del usuario son `)
+            console.log(tickets.data.data)
+            this.$store.dispatch('Booking/set_listaReservas', {
+              listaReservas: tickets.data.data
+            })
+            setTimeout(() => {
+              this.items = Object.assign([], tickets.data.data)
+      //      this.consulta = true
+            }, 2000)
+          }
+        } catch (e) {
+          console.log('Error al obtener tickets del usuario', e)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente nuevamente.'
+          this.modalInfoBtn1 = 'OK'
+        }
+      },
+      volverMenu () {
+        this.$store.dispatch('Booking/set_e1', {
+          e1: 1
+        })
+      }
+    }
   }
 </script>
 
-<style >
-#principal-container {
-  background: rgb(242, 245, 247);
-}
+<style>
+  #principal-container {
+    background: rgb(242, 245, 247);
+  }
 
-.v-btn.botonmenu {
-    background: transparent ;
-   border: 1px solid #1565c0 ;
-   color: #1565c0;
+  .v-btn.botonmenu {
+      background: transparent ;
+    border: 1px solid #1565c0 ;
+    color: #1565c0;
   }
 
   .v-btn.botonmenu:hover {
@@ -313,24 +321,21 @@
   .v-list.user {
     height: calc(100vh - 24px);
     overflow-y: auto;
-}
+  }
 
-.v-toolbar__title.title-list-custom {
-  background: #1565c0;
-}
+  .v-toolbar__title.title-list-custom {
+    background: #1565c0;
+  }
 
-.v-navigation-drawer>.v-list .v-list__tile .prueba {
-  height: 300px;
-}
+  .v-navigation-drawer>.v-list .v-list__tile .prueba {
+    height: 300px;
+  }
 
-.btn-step1 {
-  width: 96%
-}
+  .btn-step1 {
+    width: 96%
+  }
 
-.btn-step3 {
-  width: 85%
-}
-
-
-
+  .btn-step3 {
+    width: 85%
+  }
 </style>

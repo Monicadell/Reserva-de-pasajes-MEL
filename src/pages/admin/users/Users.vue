@@ -4,12 +4,7 @@
     
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
-      <!-- <v-card :class="{
-        'elevation-1': !loading && users.length === 0,
-        'elevation-10': users.length > 0,
-        disableList: disableList && users.length === 0
-        }"
-        > -->
+
         <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Usuario</h3>
         </v-card-title>
@@ -124,7 +119,7 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.rut }}</td>
+          <td class="">{{ props.item.rut || props.item.passport}}</td>
           <td class="">{{ props.item.role_id }}</td>
           <td class="">
             <span v-if="props.item.active">Activo</span>
@@ -198,12 +193,20 @@
         </template>
       </v-data-table>
     </div>
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
 <script>
   import API from '@pi/app'
   import moment from 'moment'
+  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -215,6 +218,10 @@
         moment: moment,
         eliminaid: '',
         page: 1,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         pagination: {
           page: 1,
           rowsPerPage: 40, // -1 for All
@@ -281,6 +288,9 @@
           min: value => value.length >= 8 || 'Min 8 caracteres'
         }
       }
+    },
+    components: {
+      modal: Modal
     },
     mounted () {
       this.getUsers()
@@ -349,46 +359,65 @@
         if (guardar.id) {
            console.log('user a put', us)
           let id = guardar.id
-          let putuser = await API.put('users', id, us)
-          if (putuser.status >= 200 && putuser.status < 300) {
-            // this.services = putuser.data.data
-            this.getUsers()
+          try {
+            let putuser = await API.put('users', id, us)
+            if (putuser.status >= 200 && putuser.status < 300) {
+              this.getUsers()
+              this.dialog = false
+              this.editedItem = Object.assign({}, '')
+            }
+          } catch (e) {
+            console.log('catch err', e)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.editedItem = Object.assign({}, '')
             this.dialog = false
-          }
-          else {
-            alert('Ha ocurrido un error, intente nuevamente')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
         }
         else {
           console.log('user a post', us)
-          if(us.user.password !== us.user.password_confirmation){
-            
-          }
-          else {
+          try {
             let postuser = await API.post('users', us)
             if (postuser.status >= 200 && postuser.status < 300) {
               console.log('result post user', postuser)
+              this.editedItem = Object.assign({}, '')
               this.getUsers()
               this.dialog = false
             }
-            else {
-              alert('Ha ocurrido un error, intente nuevamente')
-            }
+          } catch (e) {
+            console.log('catch err', e)
+            this.editedItem = Object.assign({}, '')
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.dialog = false
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error creando el usuario, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
-          
         }
       },
       async deleteItem (item) {
         console.log('voy a eliminar user', item)
-        let eliminando = await API.delete('users', item)
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE user', eliminando)
-          this.getUsers()
+        try {
+          let eliminando = await API.delete('users', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE user', eliminando)
+            this.getUsers()
+            this.confirmaAnular = false
+            console.log(eliminando)
+          }
+        } catch (e) {
+         console.log('catch err', e)
+          this.editedItem = Object.assign({}, '')
+          // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          console.log(eliminando)
-        }
-        else {
-          alert('Ha ocurrido un error, intente nuevamente')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error eliminando el usuario, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       irEliminar (datoid) {

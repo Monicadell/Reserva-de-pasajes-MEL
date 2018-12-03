@@ -116,6 +116,13 @@
             </v-btn>
       </v-card> -->
     </v-dialog>
+     <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -124,62 +131,67 @@
   import {mapGetters} from 'vuex'
   import moment from 'moment'
   import axios from 'axios'
+  import Modal from '@c/Modal'
+
   export default {
     data: () => ({
       loadingBooking: false,
+      showModal: false,
+      modalInfoTitle: '',
+      modalInfoDetail: '',
+      modalInfoBtn1: '',
       booking: {
         state: 'booking', // booking, error, success
         color: 'primary',
         text: 'Confirmar reserva',
         name: '',
-         moment: moment,
+        moment: moment,
       },
-      
       ticket : {
         status: 'none'
       }
-
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
       this.$store.dispatch('Booking/set_reservaRealizada', {
-            reservaRealizada: false
-            });  
+        reservaRealizada: false
+      })
     },
     methods: {
       cancel () {
-        setTimeout(()=>{
-         this.ticket.status = 'none'
-
+        setTimeout(() => {
+          this.ticket.status = 'none'
         },2000)
         this.$store.dispatch('Booking/select', {selected: false})
-        
       },
       async doBooking () {
         this.loadingBooking = true
         const hora = moment().toISOString();
-         const ticket = {
+        const ticket = {
           status: 1,
           booked_at: hora,
           service_id: this.servicioSeleccionado.id
         }
-
-       const booking = await API.postNoRest('services', ticket.service_id, 'book')
-      // console.log(booking)
-        if (booking.status >= 200 && booking.status < 300){
+        try {
+          const booking = await API.postNoRest('services', ticket.service_id, 'book')
+        // console.log(booking)
+          if (booking.status >= 200 && booking.status < 300){
             console.log('reserva exitosa')
-             this.$store.dispatch('Booking/set_actualizarReservas', {
-                actualizarReservas: true
-            });
-        this.$store.dispatch('Booking/select', {selected: false})
-
+            this.$store.dispatch('Booking/set_actualizarReservas', {
+              actualizarReservas: true
+            })
+            this.$store.dispatch('Booking/select', {selected: false})
             this.$store.dispatch('Booking/set_e1', {
-            e1: 3,
-          }); 
-
+              e1: 3
+            })
           }
-       
-
+        } catch (e) {
+          console.log('error al reservar', e)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al generar reserva, intente nuevamente.'
+          this.modalInfoBtn1 = 'OK'
+        }
      /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {
             status: 1,
@@ -212,8 +224,7 @@
             console.log(error);
           });     
  */
-        
-      },
+      }
     },
     computed: {
       ...mapGetters({

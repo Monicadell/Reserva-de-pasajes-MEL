@@ -287,11 +287,15 @@
             </v-card>
           </v-flex>
         </v-layout>
-        
-          
-
       <!-- </v-flex> -->
-      
+
+      <!-- Modal error-->
+      <modal v-if="showModal"
+          @close="showModal = false"
+          v-bind:btn1="modalInfoBtn1">
+          <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+          <h3 slot="body">{{modalInfoDetail}}</h3>
+      </modal>
     </v-layout>
   <!-- </v-container> -->
 </template>
@@ -301,6 +305,7 @@
   import MenuSelection from './menuSelection'
   import weather from './currentWeather'
   import API from '@pi/app'
+  import Modal from '@c/Modal'
 
   export default {
      data () {
@@ -311,6 +316,10 @@
         dialogvuelos: false,
         dialogimprime: false,
         dialogentrete: false,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         items: [
           {
             src: '../../../../../static/img/1.jpg', text: 'Servicio de transporte privado Minera escondida'
@@ -376,16 +385,23 @@
           }
         }
         console.log('ser a post', user)
-        let usuario = await API.post('users', user)
-        if (usuario.status >= 200 && usuario.status < 300) {
-          console.log(usuario)
-          alert("Se ha enviado la solicitud para crear su usuario")
+        try {
+          let usuario = await API.post('users', user)
+          if (usuario.status >= 200 && usuario.status < 300) {
+            console.log(usuario)
+            alert("Se ha enviado la solicitud para crear su usuario")
+            this.item = {}
+            this.dialogregistro = false
+          }
+        } catch (e) {
+          console.log('catch err', e)
+          // alert('Ha ocurrido un error, intente más tarde!')
           this.item = {}
           this.dialogregistro = false
-        }
-        else {
-          alert("Ha ocurrido un error, intente nuevamente")
-          console.log(usuario)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       }
     },
@@ -396,7 +412,8 @@
     },
     components: {
       MenuSelection: MenuSelection,
-      weather: weather
+      weather: weather,
+      modal: Modal
     },
     mounted () {
       if (this.isAuthorized) {

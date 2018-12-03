@@ -133,7 +133,7 @@
               </v-flex>
                             
               <v-flex xs12 md6>
-                <v-select :items="editedItem.trips" v-model="editedItem.trip_id"
+                <v-select :items="trips" v-model="editedItem.trip_id"
                         label="Tramo"
                         single-line item-text="name" item-value="id"
                 ></v-select>
@@ -270,7 +270,6 @@
         eliminaid: '',
         editedItem: {
           date: new Date().toISOString().substr(0, 10),
-          trips: []
         },
         datepicker: false,
         timepicker1: false,
@@ -301,7 +300,8 @@
           {text: 'Sprinter 3', id: '2'}
         ],
         frequencies: [
-        ]
+        ],
+        trips: []
       }
     },
     mounted () {
@@ -320,32 +320,46 @@
         this.confirmaAnular = true
       },
       async getTrips () {
-        let trips = await API.get('trips')
-        if (trips.status >= 200 && trips.status < 300) {
-          this.editedItem.trips = trips.data.data
-          this.loading = false         
+        try {
+          let trips = await API.get('trips')
+          if (trips.status >= 200 && trips.status < 300) {
+            console.log('Result load trips', trips)
+            this.trips = trips.data.data
+            this.loading = false         
+          }
+        } catch (e) {
+          console.log('error al cargar tramos', e)
         }
       },
       async getFrequencies () {
-        let frecs = await API.get('frequencies')
-        if (frecs.status >= 200 && frecs.status < 300) {
-          this.frequencies = frecs.data.data
-          this.loading = false
-         
+        try {
+          let frecs = await API.get('frequencies')
+          if (frecs.status >= 200 && frecs.status < 300) {
+            this.frequencies = frecs.data.data
+            this.loading = false
+          
+          }
+        } catch (e) {
+          console.log('error al cargar frecuencias', e)
         }
       },
       async getServices () {
         console.log('get services')
-        let servicios = await API.get('services')
-        if (servicios.status >= 200 && servicios.status < 300) {
-          console.log(servicios)
-          setTimeout(() => {
-            this.services = servicios.data.data
-            this.loading = false
-            }, 500)
+        try {
+          let servicios = await API.get('services')
+          if (servicios.status >= 200 && servicios.status < 300) {
+            console.log(servicios)
+            setTimeout(() => {
+              this.services = servicios.data.data
+              this.loading = false
+              }, 500)
+          }
+        } catch (e) {
+          console.log('error al cargar servicios', e)
         }
       },
       editItem (item) {
+        console.log('item->', item)
         this.editedItem = item
         this.dialog = true
       },

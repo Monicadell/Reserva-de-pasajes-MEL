@@ -78,7 +78,13 @@
       <v-btn color="primary" flat small @click="goToForgotPassword">¿Olvido su contraseña?</v-btn>
     </v-card-actions> -->
 
-
+    <!-- Modal error logueo-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -87,20 +93,25 @@
   import axios from 'axios'
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
+  import Modal from '@c/Modal'
 
   export default {
     data () {
       return {
-        documentType:'',
+        documentType: '1',
         user: '',
         password: '',
         errorDialog: false,
-        event: ''
+        event: '',
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: ''
       }
     },
-    // computed: mapGetters({
-    //   authentication: ['getAuth']
-    // }),
+     components: {
+      modal: Modal
+    },
     methods: {
       goToSingUp () {
         this.$store.dispatch('Home/set_menu', {menu: 1})
@@ -111,10 +122,7 @@
       async log () {
         let params = {}
         if(this.documentType === '1'){
-          // let rut = this.checkRut(this.user)
-          // console.log('return checkrut', rut)
           let usuario = this.user.replace(/\./g,'')
-          console.log('usuario', usuario)
           params = {
               rut: usuario,
               password: this.password
@@ -126,18 +134,25 @@
               password: this.password
           }
         }
-        let log = await API.post('sign_in', params)
-        if (log.status >= 200 && log.status < 300) {
-          console.log('login succes log', log.data)
-            this.$store.dispatch('Auth/login', {
-              pass: this.password,
-              user: this.user,
-              credential: log.data.jwt
-            })
-            this.getMyInfo()
-        } else {
-          alert('Ha ocurrido un error, intente nuevamente más tarde.')
-          console.log(log)
+        try {
+          let log = await API.post('sign_in', params)
+          console.log('log await', log)
+          if (log.status >= 200 && log.status < 300) {
+            console.log('login succes log', log.data)
+              this.$store.dispatch('Auth/login', {
+                pass: this.password,
+                user: this.user,
+                credential: log.data.jwt
+              })
+              this.getMyInfo()
+          }
+        } catch (e) {
+          console.log('catch err', e)
+          // alert('Datos incorrectos, intente nuevamente')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Los datos son incorrectos, intente nuevamente.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       async getMyInfo () {
