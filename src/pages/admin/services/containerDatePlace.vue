@@ -9,7 +9,8 @@
         <service-date :direction="'from'" class="mt-3"/> 
     </v-flex>
     <v-flex xs4>   
-        <v-btn
+      <v-layout align-center justify-center row fill-height> 
+         <v-btn
           color="secondary"
           @click="findServices"
           :disabled="disabledBtn"
@@ -17,6 +18,8 @@
         >
           Buscar
         </v-btn>   
+      </v-layout>
+       
     </v-flex>
   </v-layout>
 </template>
@@ -116,6 +119,8 @@
 
 <style>
     .btn-dpContainer {
-        width: 100%
+        width: 50%;
+        display: flex;
+        align-self: center;
     }
 </style>

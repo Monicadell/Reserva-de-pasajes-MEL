@@ -6,7 +6,7 @@
       v-model="place"
       :items="locations"
       chips
-      clearable
+      
       box
       return-object
       hide-details
@@ -51,7 +51,7 @@
       :items="destLocations"
       no-data-text="No hay destinos disponibles"
       chips
-      clearable
+      
       box
       return-object
       hide-details
@@ -66,7 +66,7 @@
         slot="selection"
         slot-scope="data"
       >
-      <v-avatar>
+      <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
                :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
         </v-avatar>  
