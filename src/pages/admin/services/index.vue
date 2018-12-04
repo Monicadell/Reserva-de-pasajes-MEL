@@ -58,7 +58,7 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-layout align-center justify-center row fill-height> 
-          <v-flex xs6>
+          <v-flex xs9>
         <date-place-container/>
           </v-flex>
 

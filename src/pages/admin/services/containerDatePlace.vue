@@ -9,7 +9,8 @@
         <service-date :direction="'from'" class="mt-3"/> 
     </v-flex>
     <v-flex xs4>   
-        <v-btn
+      <v-layout align-center justify-center row fill-height> 
+         <v-btn
           color="secondary"
           @click="findServices"
           :disabled="disabledBtn"
@@ -17,6 +18,8 @@
         >
           Buscar
         </v-btn>   
+      </v-layout>
+       
     </v-flex>
   </v-layout>
 </template>
@@ -74,13 +77,27 @@
           'trip':ruta.id,
           'date':fecha
         }
-        console.log(configService)
+       // console.log(configService)
         try {
           const services = await API.get('services', configService)
           //console.log(services)
           if (services.status >= 200 && services.status < 300) {
-            console.log(services)
-            setTimeout(()=>{
+            console.log(services.data.data)
+            if (services.data.data.length == 0) {
+              console.log('no hay pasajes')
+              this.$swal({
+                type: 'error',
+                customClass: '',
+                timer: 2000,
+                title: 'Oops...',
+                text: '¡No hay servicios para la fecha seleccionada!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+
+            } else {
+              setTimeout(()=>{
               this.$store.dispatch('Booking/set_listaServicios', {
                 listaServicios: services.data.data
               }); 
@@ -88,6 +105,9 @@
                 e1: 2
               }) 
             }, 1000)
+            }
+            
+            
           }
         } catch (e) {
           console.log('catch error al obtener serivicios', e.response)
@@ -99,6 +119,8 @@
 
 <style>
     .btn-dpContainer {
-        width: 100%
+        width: 50%;
+        display: flex;
+        align-self: center;
     }
 </style>

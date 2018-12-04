@@ -19,11 +19,11 @@
                    
                     <v-layout row mt-2> 
                   <v-flex xs6 class="secondary--text font-weight-black" >
-                    ORIGEN
+                    {{item.service.from}}
                    
                   </v-flex>
                   <v-flex xs6 class="secondary--text font-weight-black"> 
-                    DESTINO
+                    {{item.service.to}}
                 
 
                   </v-flex>
