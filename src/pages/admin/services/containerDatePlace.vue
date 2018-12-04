@@ -74,13 +74,27 @@
           'trip':ruta.id,
           'date':fecha
         }
-        console.log(configService)
+       // console.log(configService)
         try {
           const services = await API.get('services', configService)
           //console.log(services)
           if (services.status >= 200 && services.status < 300) {
-            console.log(services)
-            setTimeout(()=>{
+            console.log(services.data.data)
+            if (services.data.data.length == 0) {
+              console.log('no hay pasajes')
+              this.$swal({
+                type: 'error',
+                customClass: '',
+                timer: 2000,
+                title: 'Oops...',
+                text: '¡No hay servicios para la fecha seleccionada!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+
+            } else {
+              setTimeout(()=>{
               this.$store.dispatch('Booking/set_listaServicios', {
                 listaServicios: services.data.data
               }); 
@@ -88,6 +102,9 @@
                 e1: 2
               }) 
             }, 1000)
+            }
+            
+            
           }
         } catch (e) {
           console.log('catch error al obtener serivicios', e.response)
