@@ -3,7 +3,7 @@
     <img :src="imgbg" class="img-ppal"/>
     <div class="cinta">
       <div>
-<img src="/static/img/Cinta-superior.png" class="img-cinta1">
+        <img src="/static/img/Cinta-superior.png" class="img-cinta1">
       </div>
       
       <div class="img-peqe-cinta">
@@ -33,7 +33,8 @@
   export default {
      data () {
       return {
-        imgbg: '/static/img/uno.jpg'
+        imgbg: '/static/img/uno.jpg',
+        imagenes: ['uno.jpg', 'dos.jpg', 'tres.jpg', 'cuatro.jpg', 'cinco.jpg']
       }
     },
     mounted () {
@@ -88,6 +89,15 @@
   }
   .img-peqe-cinta img{
     z-index: 3;
-    width: 19%;
+    width: 10%;
+    padding-left: 0.5%;
+    opacity: 0.6;
+    transition: all .4s ease-in-out;
+  }
+  .img-peqe-cinta img:hover{
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
   }
 </style>

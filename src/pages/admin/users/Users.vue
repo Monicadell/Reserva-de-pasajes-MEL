@@ -258,8 +258,8 @@
         users: [],
         totalUsers: 0,
         userDocumentType: [
-          {text: 'RUT', id: 'RUT'},
-          {text: 'PASAPORTE', id: 'PASAPORTE'}
+          {text: 'RUT', id: '1'},
+          {text: 'PASAPORTE', id: '2'}
         ],
         userState: [
           {text: 'ACTIVO', id: 'ACT'},
@@ -300,19 +300,28 @@
     },
     methods: {
       async getUsers (params) {
-        let usuarios = await API.get('users', params)
-        if (usuarios.status >= 200 && usuarios.status < 300) {
-          console.log('usuarios', usuarios.data)
-          setTimeout(() => {
-            this.users = usuarios.data.data
-            this.pagination.totalItems = usuarios.data.total_entries
-            this.pagination.page = usuarios.data.page_number
-            this.pagination.rowsPerPage = usuarios.data.page_size
-            this.pagination.total_pages = usuarios.data.total_pages
-            this.loading = false
-            console.log('pagination', this.pagination)
-            }, 500)
+        try {
+          let usuarios = await API.get('users', params)
+          if (usuarios.status >= 200 && usuarios.status < 300) {
+            console.log('usuarios', usuarios.data)
+            setTimeout(() => {
+              this.users = usuarios.data.data
+              this.pagination.totalItems = usuarios.data.total_entries
+              this.pagination.page = usuarios.data.page_number
+              this.pagination.rowsPerPage = usuarios.data.page_size
+              this.pagination.total_pages = usuarios.data.total_pages
+              this.loading = false
+              console.log('pagination', this.pagination)
+              }, 500)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al obtener los usuarios, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
+        
       },
       busca() {
         console.log('busca', this.search)
@@ -327,7 +336,7 @@
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
         // this.editedItem = edit
         this.editedItem = item
-        this.userDocumentType.text = item.rut ? 'RUT' : 'PASAPORTE'
+        this.userDocumentType.id = item.rut ? '1' : '2'
         this.editedItem.documento = item.rut ? item.rut : item.passport
         // this.editedItem.rut = item.rut ? item.rut : ''
         // this.editedItem.passport = item.passport ? item.passport : ''
@@ -347,8 +356,8 @@
             'email': guardar.email ? guardar.email : '',
             'last_connection': guardar.last_connection ? guardar.last_connection : '',
             'name': guardar.name ? guardar.name : '',
-            'passport': guardar.tipoDocumento === 'PASAPORTE' ? guardar.documento : '',
-            'rut': guardar.tipoDocumento === 'RUT' ? guardar.documento : '',
+            'passport': guardar.tipoDocumento === '2' ? guardar.documento : '',
+            'rut': guardar.tipoDocumento === '1' ? guardar.documento : '',
             'phone_number': guardar.phone_number ? guardar.phone_number : '',
             'role_id': guardar.role_id ? guardar.role_id : '',
             'password': guardar.password ? guardar.password : '',

@@ -252,6 +252,13 @@
         </template>
       </v-data-table>
     </div>
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -259,6 +266,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import axios from 'axios'
+  import Modal from '@c/Modal'
   
   export default {
     data () {
@@ -269,6 +277,10 @@
         loading: true,
         moment: moment,
         eliminaid: '',
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         editedItem: {
           date: new Date().toISOString().substr(0, 10),
         },
@@ -304,6 +316,9 @@
         ],
         trips: []
       }
+    },
+    components: {
+      Modal: Modal
     },
     mounted () {
       this.getServices()
@@ -357,6 +372,11 @@
           }
         } catch (e) {
           console.log('error al cargar servicios', e.response)
+          console.log('catch err', e.response)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       editItem (item) {
@@ -366,57 +386,86 @@
       },
       async deleteItem (item) {
         console.log('voy a eliminar', item)
-        let eliminando = await API.delete('services', item)
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE',eliminando)
-          this.confirmaAnular = false
-          console.log(eliminando)
-          this.getServices()   
+        try {
+          let eliminando = await API.delete('services', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE',eliminando)
+            this.confirmaAnular = false
+            console.log(eliminando)
+            this.getServices()   
+          } else {
+            alert('Ha ocurrido un error al eliminar')
+          }
+        } catch (e) {
+          console.log('catch error al eliminar el servicio', e.response)
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al eliminar el servicio, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       close () {
         this.dialog = false
-        this.editedItem = {}
+        this.editedItem = Object.assign({}, '')
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-      
         let ser = {
-             "service": 
-                {
-                    "arrival": guardar.arrival ? guardar.arrival : '',
-                    "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
-                    "date": guardar.date ? guardar.date : '',
-                    "departure": guardar.departure ? guardar.departure : '',
-                    "name": guardar.name ? guardar.name : '',
-                    "set": guardar.set ? guardar.set : '',
-                    "trip_id": guardar.trip_id ? guardar.trip_id : ''
-                }
+            "service": 
+              {
+                  "arrival": guardar.arrival ? guardar.arrival : '',
+                  "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
+                  "date": guardar.date ? guardar.date : '',
+                  "departure": guardar.departure ? guardar.departure : '',
+                  "name": guardar.name ? guardar.name : '',
+                  "set": guardar.set ? guardar.set : '',
+                  "trip_id": guardar.trip_id ? guardar.trip_id : ''
+              }
         }
-        
-        console.log('ser a post',ser)
+
         if(guardar.id){
+          console.log('ser a put',ser)
           let id = guardar.id
-          // console.log('voy a PUT, ser', id)
-          let servicios = await API.put('services', id, ser )
-          if (servicios.status >= 200 && servicios.status < 300) {
-            // console.log('ya hizo PUT',servicios)
-              this.services = servicios.data.data
-              this.dialog = false
-            
+          try {
+            let servicios = await API.put('services', id, ser )
+            if (servicios.status >= 200 && servicios.status < 300) {
+              // console.log('ya hizo PUT',servicios)
+                this.services = servicios.data.data
+                this.dialog = false
+                this.editedItem = Object.assign({}, '')
+            }
+            else {
+              alert ('Ha ocurrido un error al editar el servicio')
+            }
+          } catch (e) {
+            console.log('catch error al editar el servicio', e.response)
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
         }
         else{
           console.log('ser a post',ser)
-	        let servicios = await API.post('services', ser)
-	        if (servicios.status >= 200 && servicios.status < 300) {
-            console.log(servicios)
-            this.getServices()
-            this.services = servicios.data.data
-            this.dialog = false
-	        }
+          try {
+            let servicios = await API.post('services', ser)
+            if (servicios.status >= 200 && servicios.status < 300) {
+              console.log(servicios)
+              this.getServices()
+              this.dialog = false
+              this.editedItem = Object.assign({}, '')
+            }
+            else {
+              alert('Ha ocurrido un error al crear el servicio')
+            }
+          } catch (e) {
+            console.log('catch error al crear el servicio', e.response)
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
+          }
         }
-       
       }
     }
   }

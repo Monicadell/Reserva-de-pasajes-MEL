@@ -16,7 +16,7 @@
           </v-carousel-item>
         </v-carousel>
       <!-- <v-flex xs12 md5 sm7 lg4 xl4 fill-height> -->
-        <v-layout row style="z-index: 2; ">
+        <v-layout row style="z-index: 2;">
           <v-flex xs12 py-0 class="" >
             <v-card class="card--flex-toolbar" flat style="position: absolute; bottom: 0; width: 50%; left: 0;">
               <template v-if="!isAuthorized" style="position: relative">
@@ -29,9 +29,9 @@
                 <v-icon color="white" style="font-size: 80px; text-shadow: 1px 1px rgba(0, 0, 0, 0.5);">expand_more</v-icon>
               </v-btn>
             </v-card>
-            <v-card class="card--flex-toolbar py-3 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: #38B2D7 !important; color: #fff">
-              <v-card-title primary-title color="primary" class="seccion-ayuda">
-                <v-flex xs12 class="pt-0 pb-3">
+            <v-card class="card--flex-toolbar py-0 px-5" flat style="position: absolute; bottom: 70px; right: 0; width: 50%; min-height: 100px; background-color: #38B2D7 !important; color: #fff">
+              <v-card-title primary-title color="primary" class="pt-3 seccion-ayuda">
+                <v-flex xs12 class="pt-0 pb-2">
                   <div class="headline font-weight-bold">¿Necesitas Ayuda?</div>
                 </v-flex>
                 <v-flex xs6 py-0>
@@ -247,7 +247,7 @@
                   > -->
                     <v-btn
                       slot="activator"
-                      flat class="white--text"
+                      flat class="white--text mb-0"
                     >
                       <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket
                     </v-btn>
@@ -277,7 +277,7 @@
                   <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->
                     <v-btn
                       slot="activator"
-                      flat class="white--text"
+                      flat class="white--text mb-0"
                       v-scroll-to="'#img3'"
                     >
                       <v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo

@@ -216,6 +216,62 @@
           this.cities = cit.data.data
         }
       },
+      async save (guardar) {
+        console.log('a guardar', guardar)
+        let esta = {
+            "station": 
+              {
+                  "name": guardar.arrival ? guardar.arrival : '',
+                  "address": guardar.address ? guardar.address : '',
+                  "let": guardar.lat ? guardar.lat : '',
+                  "lon": guardar.lon ? guardar.lon : '',
+                  "description": guardar.description ? guardar.description : '',
+                  "city_id": guardar.city_id ? guardar.city_id : ''
+              }
+        }
+        if(guardar.id){
+          console.log('ser a put', esta)
+          let id = guardar.id
+          try {
+            let station = await API.put('stations', id, esta )
+            if (station.status >= 200 && station.status < 300) {
+              // console.log('ya hizo PUT',station)
+              this.dialog = false
+              this.editedItem = Object.assign({}, '')
+            }
+            else {
+              alert ('Ha ocurrido un error al editar la estación')
+            }
+          } catch (e) {
+            console.log('catch error al editar la estación', e.response)
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
+          }
+        }
+        else{
+          console.log('ser a post', esta)
+          try {
+            let station = await API.post('stations', esta)
+            if (station.status >= 200 && station.status < 300) {
+              console.log(station)
+              this.getStations()
+              this.dialog = false
+              this.editedItem = Object.assign({}, '')
+            }
+            else {
+              alert('Ha ocurrido un error al crear la estación')
+            }
+          } catch (e) {
+            console.log('catch error al crear estación', e.response)
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al crear la estación, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
+          }
+        }
+      }
     }
   }
 </script>

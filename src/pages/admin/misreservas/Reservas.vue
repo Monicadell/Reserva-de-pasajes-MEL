@@ -26,11 +26,11 @@
           no-data-text="No tiene reservas registradas"
         >
         <template slot="items" slot-scope="props">
+          <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
           <td class="">{{ props.item.checkin_at }}</td>
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
-          <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.status }}</td>
 
         </template>
@@ -53,11 +53,11 @@
         headers: [
           // {text: 'Origen', value: 'source_id'},
           // {text: 'Destino', value: 'dest_id'},
+          {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha reserva', value: 'booked_at'},
           {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
           {text: 'Asiento', value: 'seat'},
-          {text: 'Servicio', value: 'service.name'},
           {text: 'Estado', value: 'status'},
         ],
         ticketsList: []
@@ -76,7 +76,7 @@
         console.log('user id', this.userId)
         try {
           const tickets = await API.get('tickets', this.userId)
-          if (tickets.status >= 200 && tickets.status < 300){
+          if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas', tickets)
             // setTimeout(() => {
               this.ticketsList = Object.assign([], tickets.data.data)

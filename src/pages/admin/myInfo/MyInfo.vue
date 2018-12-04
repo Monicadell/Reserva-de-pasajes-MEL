@@ -158,6 +158,13 @@
       {{msgReponse}}
       <v-btn flat color="white" @click.native="showMsg = false">Cerrar</v-btn>
     </v-snackbar>
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -165,13 +172,18 @@
   import axios from 'axios'
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
-  // import endPoints from '@/endPoints'
+  import Modal from '@c/Modal'
+
   export default {
     data: () => ({
       dialog: false,
       msgReponse: '',
       showMsg: false,
       loading: false,
+      showModal: false,
+      modalInfoTitle: '',
+      modalInfoDetail: '',
+      modalInfoBtn1: '',
       avatar: 'https://ui-avatars.com/api/?name=',
       user: {
         tipoUsuario: '',
@@ -204,6 +216,9 @@
         direccion: ''
       }
     }),
+    components: {
+      Modal: Modal
+    },
     computed: mapGetters({
       authentication: ['Auth/isAuthorized'],
       credential: ['Auth/credential']
@@ -242,28 +257,38 @@
       },
       async getMyInfo () {
         console.log('al getinfo cred', this.credential)
-        let info = await API.get('profile')
-        if (info.status >= 200 && info.status < 300) {
-          console.log('profile',info)
-          this.user = {
-              tipoUsuario: info.data.role_id ? info.data.role_id : '',
-              tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte' ,
-              tipoContrato: info.data.contract_type ? info.data.contract_type : '',
-              password: '***',
-              numeroContacto: info.data.phone_number ? info.data.phone_number : '',
-              nombre: info.data.name ? info.data.name : '',
-              nContrato: '---',
-              mensaje: 'mensaje',
-              estado: info.data.active ? 'Activo' : 'Inactivo',
-              empresaAsociada: info.data.company_name ? info.data.company_name : '',
-              email: info.data.email ? info.data.email : '',
-              documento: info.data.rut ? info.data.rut : info.data.passport,
-              direccion: info.data.address ? info.data.address : ''
-            }
-            this.userEdited = this.user
-        } else {
-          console.log('error profile', error)
+        try {
+          let info = await API.get('profile')
+          if (info.status >= 200 && info.status < 300) {
+            console.log('profile',info)
+            this.user = {
+                tipoUsuario: info.data.role_id ? info.data.role_id : '',
+                tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte' ,
+                tipoContrato: info.data.contract_type ? info.data.contract_type : '',
+                password: '***',
+                numeroContacto: info.data.phone_number ? info.data.phone_number : '',
+                nombre: info.data.name ? info.data.name : '',
+                nContrato: '---',
+                mensaje: 'mensaje',
+                estado: info.data.active ? 'Activo' : 'Inactivo',
+                empresaAsociada: info.data.company_name ? info.data.company_name : '',
+                email: info.data.email ? info.data.email : '',
+                documento: info.data.rut ? info.data.rut : info.data.passport,
+                direccion: info.data.address ? info.data.address : ''
+              }
+              this.userEdited = this.user
+          } else {
+            console.log('error profile', info)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          // alert('Ha ocurrido un error, intente más tarde!')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
+        
       }
     }
   }

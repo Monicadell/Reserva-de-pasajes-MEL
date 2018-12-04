@@ -267,6 +267,13 @@
         </template>
       </v-data-table>
     </div>
+    <!-- Modal error-->
+    <modal v-if="showModal"
+        @close="showModal = false"
+        v-bind:btn1="modalInfoBtn1">
+        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+        <h3 slot="body">{{modalInfoDetail}}</h3>
+    </modal>
   </div>
 </template>
 
@@ -274,6 +281,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import {mapGetters} from 'vuex'
+  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -289,6 +297,10 @@
         timepickerSet: false,
         eliminaid: '',
         moment: moment,
+        showModal: false,
+        modalInfoTitle: '',
+        modalInfoDetail: '',
+        modalInfoBtn1: '',
         editedItem: {
           name: '',
           source_id: '',
@@ -310,7 +322,7 @@
           {text: 'Estado', value: 'active'},
           {text: 'Inicio', value: 'start'},
           {text: 'Fin', value: 'end'},
-          {text: 'Set', value: 'set'},
+          {text: 'Hora de postura', value: 'set'},
           {text: 'Salida', value: 'departure'},
           {text: 'Llegada', value: 'arrival'},
           {text: 'Duración', value: 'duration'},
@@ -326,6 +338,9 @@
         trips: []
       }
     },
+    components: {
+      Modal: Modal
+    },
     mounted () {
       this.getFrec()
       this.getTrips()
@@ -335,28 +350,41 @@
         return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
       },
       async getFrec () {
-        let frec = await API.get('frequencies')
-        if (frec.status >= 200 && frec.status < 300) {
-          setTimeout(() => {
-            console.log('frecuencias', frec.data.data)
-            this.frecuencias = frec.data.data
-            this.loading = false
-          }, 500)
-          // console.log(frec)
-        }
-        else {
-          alert('Ha ocurrido un error, intente nuevamente')
+        try {
+          let frec = await API.get('frequencies')
+          if (frec.status >= 200 && frec.status < 300) {
+            setTimeout(() => {
+              console.log('frecuencias', frec.data.data)
+              this.frecuencias = frec.data.data
+              this.loading = false
+            }, 500)
+            // console.log(frec)
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          // alert('Ha ocurrido un error, intente más tarde!')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al cargar las frecuencias, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
       },
       async getTrips () {
-        let trips = await API.get('trips')
-        if (trips.status >= 200 && trips.status < 300) {
-          this.trips = trips.data.data
-          this.loading = false
-          // console.log(trips)
-        }
-        else {
-          alert('Ha ocurrido un error, intente nuevamente')
+        try {
+          let trips = await API.get('trips')
+          if (trips.status >= 200 && trips.status < 300) {
+            this.trips = trips.data.data
+            this.loading = false
+            // console.log(trips)
+          }
+          else {
+            alert('Ha ocurrido un error al cargar tramos, intente nuevamente')
+          }
+        } catch (e) {
+           console.log('catch err, al cargar trips', e.response)
         }
       },
       editItem (item) {
@@ -378,7 +406,6 @@
         let freq = {
           'frequency':
           {
-            
             'trip_id': guardar.trip_id ? guardar.trip_id : '',
             'start': guardar.start ? guardar.start : '',
             'end': guardar.end ? guardar.end : '',
@@ -390,31 +417,48 @@
             'cars': guardar.cars ? guardar.cars : ''
           }
         }
-        console.log('ser a post', freq)
+        console.log('frec guardar', freq)
         if (guardar.id) {
           let id = guardar.id
-          let frec = await API.put('frequencies', id, freq)
-          if (frec.status >= 200 && frec.status < 300) {
-            // this.services = frec.data.data
-            this.getFrec()
-            this.dialog = false
-          }
-          else {
-            alert('Ha ocurrido un error, intente nuevamente')
-          }
+          try {
+            let frec = await API.put('frequencies', id, freq)
+            if (frec.status >= 200 && frec.status < 300) {
+              this.getFrec()
+              this.dialog = false
+            }
+            else {
+              alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
+            }
+          } catch (e) {
+            console.log('catch err', e.response)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al editar la frecuencia, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
+          } 
         }
         else {
           console.log('ser a post')
-          let frec = await API.post('frequencies', freq)
-          if (frec.status >= 200 && frec.status < 300) {
-            console.log('frecuencias', frec)
-            this.getFrec()
-            // this.frecuencias = frec.data.data
-            this.dialog = false
+          try {
+            let frec = await API.post('frequencies', freq)
+            if (frec.status >= 200 && frec.status < 300) {
+              console.log('frecuencias despues post', frec)
+              this.getFrec()
+              this.dialog = false
+            }
+            else {
+              alert('Ha ocurrido un error, intente nuevamente')
+            }
+          } catch (e) {
+            console.log('catch err', e.response)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al guardar la frecuencia, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
-          else {
-            alert('Ha ocurrido un error, intente nuevamente')
-          }
+          
         }
       },
       irEliminar (datoid) {
@@ -423,16 +467,26 @@
       },
       async deleteItem (item) {
         console.log('voy a eliminar frec', item)
-        let eliminando = await API.delete('frequencies', item)
-        if (eliminando.status >= 200 && eliminando.status < 300) {
-          console.log('ya hizo DELETE freq', eliminando)
-          this.confirmaAnular = false
-          console.log(eliminando)
-          this.getFrec()
+        try {
+          let eliminando = await API.delete('frequencies', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE freq', eliminando)
+            this.confirmaAnular = false
+            console.log(eliminando)
+            this.getFrec()
+          }
+          else {
+            alert('Ha ocurrido un error, intente nuevamente')
+          }
+        } catch (e) {
+            console.log('catch err', e.response)
+            // alert('Ha ocurrido un error, intente más tarde!')
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
         }
-        else {
-          alert('Ha ocurrido un error, intente nuevamente')
-        }
+        
       },
       close () {
         this.dialog = false
