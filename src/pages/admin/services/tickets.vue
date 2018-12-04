@@ -6,7 +6,7 @@
              <p class="mb-0 title-ticket font-weight-black">Resumen de reserva</p>
             </v-card-title>
              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-             <v-card-text class="ml-2"> 
+             <v-card-text class=""> 
               
                 <v-layout row> 
                   <v-flex xs6 class="font-weight-black">
@@ -30,10 +30,10 @@
                 </v-layout>
 
                   <v-layout row mt-2> 
-                    <v-flex xs5 >
+                    <v-flex xs6>
                       <div class="hora-ida white--text"> {{item.service.departure}} </div> 
                     </v-flex>
-                    <v-flex xs5 class="ml-2"> 
+                    <v-flex xs6 class="ml-2"> 
                       <div class="hora-regreso white--text"> {{item.service.arrival}} </div> 
                     </v-flex>
                 </v-layout>
@@ -124,18 +124,17 @@
             </v-card-actions>
             </v-layout>
 
-                  <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
-            <p> {{item.service.hrs_left}} para su viaje</p>
+            <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
+              <p style="padding: 0 16px;"> {{item.service.hrs_left}}hrs. para su viaje</p>
 
               <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
+              <v-layout row wrap fill-height> 
+                <v-flex xs6> 
                   <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                
-                 <v-flex xs4> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
+                 <v-flex xs6 text-xs-center> 
+                  <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
                  </v-flex>
               </v-layout>
             </v-card-actions>
