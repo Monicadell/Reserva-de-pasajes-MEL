@@ -1,5 +1,6 @@
 <template>
   <v-layout column class="img-fondo" id="img3">
+
     <img :src="imgbg" class="img-ppal"/>
     <div class="cinta">
       <div>
@@ -7,19 +8,19 @@
       </div>
       
       <div class="img-peqe-cinta">
-        <a v-on:click="changeimg('uno.jpg')">
+        <a v-on:click="changeimg('uno.jpg', 0)">
           <img src="/static/img/pequena1.png">
         </a>
-        <a v-on:click="changeimg('dos.jpg')">
+        <a v-on:click="changeimg('dos.jpg', 1)">
           <img src="/static/img/pequena2.png">
         </a>
-        <a v-on:click="changeimg('tres.jpg')">
+        <a v-on:click="changeimg('tres.jpg', 2)">
           <img src="/static/img/pequena3.png">
         </a>
-        <a v-on:click="changeimg('cuatro.jpg')">
+        <a v-on:click="changeimg('cuatro.jpg', 3)">
           <img src="/static/img/pequena4.png">
         </a>
-        <a v-on:click="changeimg('cinco.jpg')">
+        <a v-on:click="changeimg('cinco.jpg', 4)">
           <img src="/static/img/pequena5.png">
         </a>
       </div>
@@ -34,7 +35,8 @@
      data () {
       return {
         imgbg: '/static/img/uno.jpg',
-        imagenes: ['uno.jpg', 'dos.jpg', 'tres.jpg', 'cuatro.jpg', 'cinco.jpg']
+        imagenes: ['uno.jpg', 'dos.jpg', 'tres.jpg', 'cuatro.jpg', 'cinco.jpg'],
+        imgnumber: 0
       }
     },
     mounted () {
@@ -43,9 +45,26 @@
       }
     },
     methods:{
-      changeimg(imgname){
+      changeimg(imgname, num){
         this.imgbg = 'static/img/' + imgname
+        this.imgnumber = num
+      },
+      updateImg () {
+        if(this.imgnumber === 4){
+          this.imgnumber = 0
+        }
+        else{
+          this.imgnumber++
+        }
+        this.imgbg = '../../static/img/' + this.imagenes[this.imgnumber]
       }
+    },
+    beforeDestroy() {
+      clearInterval(this.refreshInterval);
+    },
+    mounted () {
+      this.updateImg()
+      this.refreshInterval = setInterval(() => this.updateImg(), 1000 * 5)
     }
   }
 </script>
@@ -100,4 +119,5 @@
     -ms-transform: scale(1.1);
     transform: scale(1.1);
   }
+  
 </style>

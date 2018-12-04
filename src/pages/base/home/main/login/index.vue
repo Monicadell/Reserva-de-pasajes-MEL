@@ -153,6 +153,7 @@
             this.modalInfoBtn1 = 'OK'
           }
         } catch (e) {
+          console.log(e)
           console.log('catch err', e.response)
           // alert('Datos incorrectos, intente nuevamente')
           this.showModal = true
