@@ -4,23 +4,23 @@
     <img :src="imgbg" class="img-ppal"/>
     <div class="cinta">
       <div>
-        <img src="/static/img/Cinta-superior.png" class="img-cinta1">
+        <img :src="cintaimg" class="img-cinta1">
       </div>
       
       <div class="img-peqe-cinta">
-        <a v-on:click="changeimg('uno.jpg', 0)">
+        <a v-on:click="changeimg('uno.jpg', 1)">
           <img src="/static/img/pequena1.png">
         </a>
-        <a v-on:click="changeimg('dos.jpg', 1)">
+        <a v-on:click="changeimg('dos.jpg', 2)">
           <img src="/static/img/pequena2.png">
         </a>
-        <a v-on:click="changeimg('tres.jpg', 2)">
+        <a v-on:click="changeimg('tres.jpg', 3)">
           <img src="/static/img/pequena3.png">
         </a>
-        <a v-on:click="changeimg('cuatro.jpg', 3)">
+        <a v-on:click="changeimg('cuatro.jpg', 4)">
           <img src="/static/img/pequena4.png">
         </a>
-        <a v-on:click="changeimg('cinco.jpg', 4)">
+        <a v-on:click="changeimg('cinco.jpg', 5)">
           <img src="/static/img/pequena5.png">
         </a>
       </div>
@@ -36,7 +36,8 @@
       return {
         imgbg: '/static/img/uno.jpg',
         imagenes: ['uno.jpg', 'dos.jpg', 'tres.jpg', 'cuatro.jpg', 'cinco.jpg'],
-        imgnumber: 0
+        imgnumber: 1,
+        cintaimg: '/static/img/cinta1.png'
       }
     },
     mounted () {
@@ -47,16 +48,23 @@
     methods:{
       changeimg(imgname, num){
         this.imgbg = 'static/img/' + imgname
-        this.imgnumber = num
+        
+        this.cintaimg = 'static/img/cinta' + num + '.png'
+
+        // console.log('click img grande', this.imgbg)
+        // console.log('click img cinta', this.cintaimg)
       },
       updateImg () {
-        if(this.imgnumber === 4){
-          this.imgnumber = 0
+        if(this.imgnumber === 5){
+          this.imgnumber = 1
         }
         else{
           this.imgnumber++
         }
-        this.imgbg = '../../static/img/' + this.imagenes[this.imgnumber]
+        this.imgbg = '../../static/img/' + this.imagenes[this.imgnumber - 1]
+        this.cintaimg = 'static/img/cinta' + this.imgnumber + '.png'
+        // console.log('time, img grande', this.imgbg)
+        // console.log('time, img cinta', this.cintaimg)
       }
     },
     beforeDestroy() {
