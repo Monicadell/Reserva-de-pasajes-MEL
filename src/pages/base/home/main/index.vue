@@ -75,7 +75,7 @@
                       <v-spacer></v-spacer>
 
                     </v-card-actions> -->
-                      <v-divider></v-divider>
+                      <!-- <v-divider></v-divider> -->
                       <v-card-actions  class="justify-center pt-1">
                         <v-spacer></v-spacer>
                         <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
@@ -210,7 +210,7 @@
 
                             </v-container>
                         </v-card-text>
-                        <v-divider></v-divider>
+                        <!-- <v-divider></v-divider> -->
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn
