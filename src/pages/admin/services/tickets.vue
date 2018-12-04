@@ -97,10 +97,8 @@
 
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
             <v-flex> 
-              <v-layout justify-start row ml-4> 
-                <v-flex xs1>  <v-icon color="primary">timelapse</v-icon> </v-flex>
-           
-                <v-flex>   <p> {{item.service.hrs_left}}hrs para su confirmación</p> </v-flex>
+              <v-layout justify-start row ml-3> 
+                <v-flex> <v-icon color="primary" class="pr-1" style="vertical-align: top">timelapse</v-icon>  <span style="padding: 0 16px 0 0; margin-bottom: 16px; display: inline-block; vertical-align: middle;"> {{item.service.hrs_left}}hrs para su confirmación</span> </v-flex>
                 <v-spacer> </v-spacer>
               </v-layout>
              
@@ -108,19 +106,18 @@
             </v-flex>
             
 
-              <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
+            <v-card-actions>
+              <!-- <v-layout row wrap fill-height>  -->
+                <v-flex xs4 text-xs-center> 
                   <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
-                <v-flex xs4> 
+                <v-flex xs4 text-xs-center> 
                  <v-btn  color="orange" class="btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
                 </v-flex >
-                 <v-flex xs4> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
+                 <v-flex xs4 text-xs-center> 
+                   <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
                  </v-flex>
-              </v-layout>
+              <!-- </v-layout> -->
             </v-card-actions>
             </v-layout>
 
@@ -129,7 +126,7 @@
 
               <v-card-actions>
               <v-layout row wrap fill-height> 
-                <v-flex xs6> 
+                <v-flex xs6 text-xs-center> 
                   <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
                
