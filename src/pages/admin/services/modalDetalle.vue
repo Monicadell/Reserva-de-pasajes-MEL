@@ -2,10 +2,10 @@
 
     <v-dialog v-model="detalle" max-width="900">
          <v-card>
-                <v-card-title class="titulo-detalle text-xs-center elevation-22">
-                 
-                        <h3 class="headline ml-3 text-xs-center" style="font-weight: lighter;" >Detalles reserva</h3>
-                
+                <v-card-title class="titulo-detalle justify-center elevation-22">
+                 <div class="text-xs-center">
+                        <h3 class="headline ml-3" style="font-weight: lighter;" >Detalles reserva</h3>
+                </div>
                 </v-card-title>
                 <v-card-text class="pb-0">
                     <!-- <v-container > -->
@@ -89,21 +89,27 @@
                             </v-flex>
 
                             <v-flex xs4 style="align-self: center;"> 
-                                <v-list   >
+                               <!-- <div text-xs-center>
+                                            <img src="../../../../static/img/Logo-tandem-azul-mediano.png" class= "" style="max-width: 70%; margin: 0 auto;">
+                                            
+                                            <p class="v-list__tile__sub-title black--text text-xs-left dtl-subtitulo">BOLETO</p>
+                                            <p class="gris--text text-xs-left ">{{servicioDetalle.id}}</p>
+                                            
+                                </div> -->
+                              <v-list   > 
                       
-                                       <!-- <v-list-tile-avatar tile>
+                                      <!-- <v-list-tile-avatar tile>
                                             <img src="../../../../static/img/Tandem_reserva.png">
                                         </v-list-tile-avatar> -->
                         
-                                         <v-list-tile-content  >
-                                            <img src="../../../../static/img/Tandem_reserva.png" class= "ml-2">
+                                         <v-list-tile-content class="text-xs-left">
+                                            <img src="../../../../static/img/Logo-tandem-azul-mediano.png" class= "" style="max-width: 60%;">
                                             
-                                            <v-list-tile-sub-title class="black--text text-lg-center dtl-titulo">BOLETO</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="gris--text text-lg-center ">{{servicioDetalle.id}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="black--text dtl-subtitulo pl-2">BOLETO</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text pl-2">{{servicioDetalle.id}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
-                            
-                                </v-list>
+                              </v-list>
                             </v-flex>
                             <!-- <v-flex offset-xs3 offset-md4 md8 xs8>
                                 <qr-code :text="qr" :size="200" error-level="M"></qr-code>
