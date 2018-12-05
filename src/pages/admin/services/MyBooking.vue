@@ -29,7 +29,7 @@
                         
                         <v-layout wrap  >
                           <v-flex xs4 >
-                                <v-list  three-line >
+                                <v-list three-line >
                                     <v-list-tile >
                                         <v-list-tile-action>
                                            <v-icon color="primary" size=50> directions_bus</v-icon>

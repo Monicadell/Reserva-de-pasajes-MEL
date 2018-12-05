@@ -127,4 +127,8 @@
     .swal2-popup.modal-info {
       font-family: Helvetica, sans-serif;
     }
+    .swal2-popup.swal2-modal.modal-info{
+      border-radius: 0;
+    }
+
 </style>

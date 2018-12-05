@@ -338,4 +338,7 @@
   .btn-step3 {
     width: 85%
   }
+  .theme--light.v-stepper .v-stepper__step--active .v-stepper__label {
+    text-shadow: 0 0 0 #1565c0;
+  }
 </style>

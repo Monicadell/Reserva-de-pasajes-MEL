@@ -61,15 +61,16 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions>
+          <v-card-actions class="justify-center">
          <!-- *********** CENTRA BOTON ***** -->
             <v-btn
               color="secondary"
-              class="btn-confirmar ml-4"
+              class="btn-confirmar-conf ml-4"
               @click="confirmarReserva"
             >
              Confirmar
             </v-btn>
+            <v-btn color="primary" class="btn-cerrar-conf ml-3" @click="cerrar()" >Cerrar</v-btn>
           </v-card-actions>
 
       </v-card>
@@ -77,8 +78,7 @@
         <v-card max-width="500"  v-if="modal.status == 'done'">
               <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">CHECK-IN</v-card-title>
             <v-card-text class="text-xs-center ">
-               
-            
+              
                <v-icon color="secondary" size=200>check</v-icon>                  
        
             
@@ -158,10 +158,13 @@
       color: white;
       font-weight: lighter;
     }
-    .btn-confirmar {
-        width: 90%
+    .btn-confirmar-conf {
+      width: 40%;
+    }
+    .btn-cerrar-conf {
+      width: 40%;
     }
     .btn-cerrar {
-        width: 90%
+        width: 90%;
     }
 </style>
