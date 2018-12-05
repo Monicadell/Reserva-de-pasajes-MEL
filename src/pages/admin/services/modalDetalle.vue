@@ -1,6 +1,6 @@
 <template>
 
-    <v-dialog v-model="detalle" max-width="900">
+    <v-dialog v-model="detalle" persistent max-width="900">
          <v-card>
                 <v-card-title class="titulo-detalle justify-center elevation-22">
                  <div class="text-xs-center">
