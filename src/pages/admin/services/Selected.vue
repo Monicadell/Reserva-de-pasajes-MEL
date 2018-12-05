@@ -31,11 +31,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="secondary--text"> {{ruta.name.split('→')[0]}} </b>
+                    <b class="gris--text"> {{ruta.name.split('→')[0]}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
-                    <b class="secondary--text">{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
+                    <b class="gris--text">{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class=" divider-custom mt-3"></v-divider>
@@ -48,7 +48,7 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                      <div class="grey--text"> <b>Día del trayecto</b></div>
-                    <b class="secondary--text"> {{moment(servicioSeleccionado.date).format('dddd D  MMMM YYYY')}}</b>
+                    <b class="gris--text"> {{moment(servicioSeleccionado.date).format('dddd D  MMMM YYYY')}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class="divider-custom mt-3"></v-divider>
@@ -60,11 +60,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
-                    <b class="secondary--text"> {{ruta.name.split('→')[1]}} </b>
+                    <b class="gris--text"> {{ruta.name.split('→')[1]}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
-                    <b class="secondary--text"> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
+                    <b class="gris--text"> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -73,18 +73,18 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions >
+          <v-card-actions class="pb-4">
             <v-btn
-              color="error"
+              color="primary" outline
               @click="cancel"
-              class="ml-4 mb-1"
+              class="ml-4 mb-1 text-capitalize"
             >
               Cancelar
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              color="secondary"
-              class="mr-4 mb-1"              
+              color="primary"
+              class="mr-4 mb-1 text-capitalize"              
               @click="doBooking"
             >
               Reservar

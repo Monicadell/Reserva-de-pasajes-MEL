@@ -58,8 +58,10 @@
        
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
-               
-                <v-flex xs4> 
+                <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" disabled>Anular</v-btn> 
+                  </v-flex>
+                <v-flex xs6 text-xs-center> 
                   <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
                 </v-flex >
@@ -71,53 +73,48 @@
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
-                 <v-layout row ml-4> 
+              <v-layout row ml-4> 
                 <v-flex xs1>  <v-icon color="primary">check</v-icon> </v-flex>
-           
-                <v-flex>   <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
+                <v-flex> <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
                 <v-spacer> </v-spacer>
               </v-layout>
 
-              <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs6 text-xs-center> 
-                  <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
-                </v-flex>
-                <v-flex xs6 text-xs-center> 
-                 <v-btn  color="orange" class="white--text btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
-                </v-flex >
-                 <!-- <v-flex xs4 text-xs-center> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
-                 </v-flex> -->
-              </v-layout>
-            </v-card-actions>
+                <v-card-actions>
+                <v-layout justify-space-around row wrap fill-height> 
+                  <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
+                  </v-flex>
+                  <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
+                  </v-flex >
+                  <!-- <v-flex xs4 text-xs-center> 
+                <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  </v-flex> -->
+                </v-layout>
+              </v-card-actions>
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
-            <v-flex> 
-              <v-layout justify-start row ml-3> 
-                <v-flex> <v-icon color="primary" class="pr-1" style="vertical-align: top">timelapse</v-icon>  <span style="padding: 0 16px 0 0; margin-bottom: 16px; display: inline-block; vertical-align: middle;"> {{item.service.hrs_left}}hrs para su confirmación</span> </v-flex>
-                <v-spacer> </v-spacer>
-              </v-layout>
-             
-
-            </v-flex>
+              <v-flex> 
+                <v-layout justify-start row ml-3> 
+                  <v-flex> <v-icon color="primary" class="pr-1" style="vertical-align: top">timelapse</v-icon>  <span style="padding: 0 16px 0 0; margin-bottom: 16px; display: inline-block; vertical-align: middle;"> {{item.service.hrs_left}}hrs para su confirmación</span> </v-flex>
+                  <v-spacer> </v-spacer>
+                </v-layout>
+              </v-flex>
             
-
-            <v-card-actions>
-              <!-- <v-layout row wrap fill-height>  -->
-                <v-flex xs6 text-xs-center> 
-                  <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
-                </v-flex>
-                <v-flex xs6 text-xs-center> 
-                 <v-btn  color="orange" class="white--text btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
-                </v-flex >
-                 <!-- <v-flex xs4 text-xs-center> 
-                   <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-                 </v-flex> -->
-              <!-- </v-layout> -->
-            </v-card-actions>
+              <v-card-actions>
+                <!-- <v-layout row wrap fill-height>  -->
+                  <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
+                  </v-flex>
+                  <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                  </v-flex >
+                  <!-- <v-flex xs4 text-xs-center> 
+                    <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  </v-flex> -->
+                <!-- </v-layout> -->
+              </v-card-actions>
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
@@ -125,10 +122,13 @@
 
               <v-card-actions>
               <v-layout row wrap fill-height> 
-                <v-flex xs12 text-xs-center> 
+                <v-flex xs6 text-xs-center> 
                   <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
-               
+                
+                <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                </v-flex >
                  <!-- <v-flex xs6 text-xs-center> 
                   <v-btn  color="primary" class="white--text btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
                  </v-flex> -->

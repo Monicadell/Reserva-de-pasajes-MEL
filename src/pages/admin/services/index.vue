@@ -26,8 +26,10 @@
          <v-toolbar-title class="title-list-custom white--text">
            <span class="hidden-sm-and-down ml-4">Mis reservas</span>
          </v-toolbar-title>
+            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
+              
               <v-flex > 
                 <v-list-tile-content  >
                   <tickets v-bind:item="item" />
@@ -193,7 +195,8 @@
         showModal: false,
         modalInfoTitle: '',
         modalInfoDetail: '',
-        modalInfoBtn1: ''
+        modalInfoBtn1: '',
+        progres: true
       }
     },
     components: {
@@ -282,6 +285,7 @@
             })
             setTimeout(() => {
               this.items = Object.assign([], tickets.data.data)
+              this.progres = false
       //      this.consulta = true
             }, 2000)
           }

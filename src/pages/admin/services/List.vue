@@ -56,8 +56,8 @@
                   <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
 
           <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
-            <td> </td>
-            <td> </td>
+            <!-- <td> </td>
+            <td> </td> -->
 
           </tr>
         </template>
@@ -117,10 +117,10 @@
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from', sortable: false},
         {text: 'Llegada', value: 'to', sortable: false},
-        {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
         {text: '', value: 'action' , sortable: false},
-        {text: '', value: 'action' , sortable: false},
-        {text: '', value: 'action' , sortable: false}
+        // {text: '', value: 'action' , sortable: false},
+        // {text: '', value: 'action' , sortable: false}
       ],
       mientras : [
         {

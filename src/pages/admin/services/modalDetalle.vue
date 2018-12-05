@@ -1,25 +1,25 @@
 <template>
 
-    <v-dialog v-model="detalle" persistent max-width="900">
+    <v-dialog v-model="detalle" max-width="900">
          <v-card>
-                <v-card-title class="titulo-detalle  elevation-22">
-                    <div>
-                        <h3 class="headline ml-3 " style="font-weight: lighter;" >Detalles reserva</h3>
-                    </div>
+                <v-card-title class="titulo-detalle text-xs-center elevation-22">
+                 
+                        <h3 class="headline ml-3 text-xs-center" style="font-weight: lighter;" >Detalles reserva</h3>
+                
                 </v-card-title>
-                <v-card-text>
-                    <v-container >
+                <v-card-text class="pb-0">
+                    <!-- <v-container > -->
                         
                         <v-layout wrap  >
                           <v-flex xs4 >
-                                <v-list  three-line >
+                                <v-list class="modal-list"  three-line >
                                     <v-list-tile >
                                         <v-list-tile-action>
                                            <v-icon color="primary" size=35> directions_bus</v-icon>
                                         </v-list-tile-action>
                                         <v-list-tile-content >
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">RUTA:</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text"> {{servicioDetalle.service.from}} - {{servicioDetalle.service.to}} </v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text"> {{servicioDetalle.service.from}} - {{servicioDetalle.service.to}} </v-list-tile-sub-title>
                                         </v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile  >
@@ -28,8 +28,8 @@
                                         </v-list-tile-action>
                                         <v-list-tile-content class="custom-text" >
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">SALIDA:</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.departure}}{{servicioDetalle.service.date}} </v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.from}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.departure}}{{servicioDetalle.service.date}} </v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.from}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
                                     </v-list-tile>
@@ -41,22 +41,22 @@
                                         </v-list-tile-action>
                                         <v-list-tile-content class="custom-text"  >   
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">LLEGADA:</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.arrival}}</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.to}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.arrival}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.to}}</v-list-tile-sub-title>
                                         </v-list-tile-content>
 
                                      </v-list-tile>
                                 </v-list>
                             </v-flex>
                             <v-flex xs4 >
-                                <v-list three-line  >
+                                <v-list three-line class="modal-list" >
                                     <v-list-tile  >
                                          <v-list-tile-action>
                                            <v-icon color="primary" size=35>error_outline</v-icon>
                                         </v-list-tile-action>
                                         <v-list-tile-content  >
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">ESTADO:</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text ">{{estadoTickete}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text ">{{estadoTickete}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
 
@@ -68,7 +68,7 @@
                                         </v-list-tile-action>
                                         <v-list-tile-content  >
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">DURACIÓN</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.duration}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.duration}}</v-list-tile-sub-title>
 
                                         </v-list-tile-content>
 
@@ -80,7 +80,7 @@
                                         </v-list-tile-action>
                                         <v-list-tile-content class="custom-text" >
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo">SERVICIO</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text dtl-text">{{servicioDetalle.service.name}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text dtl-text">{{servicioDetalle.service.name}}</v-list-tile-sub-title>
 
                                         </v-list-tile-content>
                                     </v-list-tile>
@@ -99,7 +99,7 @@
                                             <img src="../../../../static/img/Tandem_reserva.png" class= "ml-2">
                                             
                                             <v-list-tile-sub-title class="black--text text-lg-center dtl-titulo">BOLETO</v-list-tile-sub-title>
-                                            <v-list-tile-sub-title class="secondary--text text-lg-center ">{{servicioDetalle.id}}</v-list-tile-sub-title>
+                                            <v-list-tile-sub-title class="gris--text text-lg-center ">{{servicioDetalle.id}}</v-list-tile-sub-title>
                                             
                                         </v-list-tile-content>
                             
@@ -110,9 +110,9 @@
                             </v-flex> -->
 
                         </v-layout>
-                    </v-container>
+                    <!-- </v-container> -->
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions class="pt-0">
                     <!-- <v-btn color="orange darken-1" flat
                            @click.native="resendMail"
                            :loading="this.loading"
@@ -120,7 +120,7 @@
                     >Reenviar a email
                     </v-btn> -->
                     <v-spacer></v-spacer>
-                    <v-btn color="primary darken-1" flat @click="$store.dispatch('Booking/set_detalle', {detalle: false});   ">Cerrar</v-btn>
+                    <v-btn color="primary" class="mr-5 mb-3" outline @click="$store.dispatch('Booking/set_detalle', {detalle: false});   ">Cerrar</v-btn>
                 </v-card-actions>
             </v-card>
     </v-dialog>
@@ -137,7 +137,7 @@
     name: 'modalDetalle', 
     data: () => ({
       modal : {
-          status: 'none'
+        status: 'none'
       },
       statusTicket: '' 
     }),
@@ -187,10 +187,10 @@
       font-weight: lighter;
     }
     .btn-confirmar {
-        width: 90%
+        width: 90%;
     }
     .btn-cerrar {
-        width: 90%
+        width: 90%;
     }
 
     .dtl-titulo{
@@ -208,6 +208,8 @@
         line-height: 1.2em;
     }
 
-  
+    .v-list.modal-list.v-list--three-line.theme--light{
+        background: transparent;
+    }
     
 </style>

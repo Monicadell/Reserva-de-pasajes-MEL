@@ -11,10 +11,10 @@
     <v-flex xs4>   
       <v-layout align-center justify-center row fill-height> 
          <v-btn
-          color="secondary"
+          color="primary"
           @click="findServices"
           :disabled="disabledBtn"
-          class="ml-0 btn-dpContainer"
+          class="ml-0 mt-4 btn-dpContainer"
         >
           Buscar
         </v-btn>   
