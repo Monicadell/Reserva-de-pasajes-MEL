@@ -100,8 +100,8 @@
 
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Editar</span>
+        <v-card-title class="primary">
+          <span class="headline white--text">Editar</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -133,11 +133,12 @@
 
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" flat @click.native="dialog = false">
+        <v-card-actions class="px-3 pb-3">
+          
+          <v-btn color="primary darken-1" outline @click.native="dialog = false">
             <span>Cancelar</span>
           </v-btn>
+          <v-spacer></v-spacer>
           <v-btn color="primary darken-1" dark @click.native="save()"
                  :loading="loading"
                  :disabled="loading">

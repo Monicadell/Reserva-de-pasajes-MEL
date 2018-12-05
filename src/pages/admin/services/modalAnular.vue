@@ -2,7 +2,7 @@
 
     <v-dialog v-model="anular" persistent max-width="500">
         <v-card v-if="modal.status == 'none'">
-              <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">¿Esta seguro de anular la reserva?</v-card-title>
+              <v-card-title class="headline titulo-detalle elevation-22 justify-center">¿Esta seguro de anular la reserva?</v-card-title>
               <v-layout row wrap ml-4 mt-3> 
               <v-flex xs3 class="mt-3 ml-2"> 
                 <v-icon color="red" size=80>warning</v-icon>
@@ -12,10 +12,11 @@
 
               </v-flex>
               </v-layout>
-              <v-card-actions>
+              <v-card-actions class="pb-3 px-4">
+                
+                <v-btn color="primary darken-1" outline @click="cerrar()" >Volver</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary darken-1" flat @click="cerrar()" >Volver</v-btn>
-               <v-btn color="red darken-1" flat @click="anularReserva()" >Anular</v-btn> 
+               <v-btn color="red darken-1" outline @click="anularReserva()" >Anular</v-btn> 
               </v-card-actions>
             </v-card>
 
