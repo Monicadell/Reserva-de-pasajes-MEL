@@ -38,7 +38,6 @@
         :loading="cargandoPeticion"
         :headers="headers"
         :items="listaServicios"
-        
         class="elevation-1 list-th"
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"

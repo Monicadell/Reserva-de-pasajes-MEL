@@ -6,7 +6,6 @@
       v-model="place"
       :items="locations"
       chips
-      
       box
       return-object
       hide-details
@@ -21,7 +20,7 @@
         slot="selection"
         slot-scope="data"
       >
-          <v-avatar >
+        <v-avatar >
           <img style="width: 30px; height: 30px;"
                :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
         </v-avatar>
@@ -51,7 +50,6 @@
       :items="destLocations"
       no-data-text="No hay destinos disponibles"
       chips
-      
       box
       return-object
       hide-details
@@ -107,21 +105,20 @@
       destLocations: [],
       origen: '',
       destino: '',
-      seldestination:{
+      seldestination: {
         status: true
-      } 
+      }
     }),
     computed: {
       ...mapGetters({
-      //  search: ['Booking/current']
+        e1_prev: ['Booking/e1_prev']
       }),
       place: {
         get () {
         //  return this.search[this.direction].place
         },
         set (value) {
-         // console.log('usuario eligio origen')
-          this.findDestinations(value.id) 
+          this.findDestinations(value.id)
           this.seldestination.status = false
         }
       },
@@ -131,9 +128,9 @@
         },
         set (value) {
       //  console.log('usuario eligio destino, fijo ruta', value)
-        this.locationsId = Object.assign([], this.locations)
-        this.$store.dispatch('Booking/set_ruta', {
-            ruta: value,
+          this.locationsId = Object.assign([], this.locations)
+          this.$store.dispatch('Booking/set_ruta', {
+              ruta: value
           })   
         }
       }
@@ -141,24 +138,21 @@
     mounted: async function () {
       let stations = await API.get('stations')
     //  console.log(stations.status)
-      if (stations.status >= 200 && stations.status < 300){
+      if (stations.status >= 200 && stations.status < 300) {
         this.locations = Object.assign([], stations.data.data)
       }
-   
-    }, 
-    
+    },
     methods: {
       async findDestinations (id) {
         console.log(`preguntare por id ${id}`)
         const destinations = await API.get('trips')
         console.log(destinations)
-        if (destinations.status >= 200 && destinations.status < 300){
+        if (destinations.status >= 200 && destinations.status < 300) {
           console.log('actualizo valor de los destinos')
-           this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
+          this.destLocations = destinations.data.data.filter(item => item.source_id == id)
         }
       //  console.log(this.destLocations)
-       
-      },
+      }
     }
   }
 </script>

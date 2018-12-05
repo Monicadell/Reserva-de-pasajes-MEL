@@ -5,8 +5,8 @@
         <h3 class="headline primary--text text-md-center">Selecciona los datos para tu viaje</h3> 
     </v-flex>
     <v-flex xs6> 
-        <place-selector :direction="'from'"/> 
-        <service-date :direction="'from'" class="mt-3"/> 
+        <place-selector :direction="'from'" :key="componentKeySelect"/> 
+        <service-date :direction="'from'" class="mt-3" :key="componentKeyDate"/> 
     </v-flex>
     <v-flex xs4>   
       <v-layout align-center justify-center row fill-height> 
@@ -41,15 +41,14 @@
         statusConfirmacion : {
           status: ''
         },
-        disabledBtn: true
+        disabledBtn: true,
+        componentKeySelect: 0,
+        componentKeyDate: 1
       }
     },
     components: {
       PlaceSelector,
       ServiceDate
-    },
-    mounted () {
-     
     },
     watch : {
       fecha() {
@@ -85,9 +84,12 @@
             console.log(services.data.data)
             if (services.data.data.length == 0) {
               console.log('no hay pasajes')
+              this.componentKeySelect++
+              this.componentKeyDate++
+              this.disabledBtn = true
               this.$swal({
                 type: 'error',
-                customClass: '',
+                customClass: 'modal-info',
                 timer: 2000,
                 title: 'Oops...',
                 text: '¡No hay servicios para la fecha seleccionada!',
@@ -95,16 +97,15 @@
                 showConfirmButton: false,
                 showCloseButton: false
               })
-
             } else {
               setTimeout(()=>{
-              this.$store.dispatch('Booking/set_listaServicios', {
-                listaServicios: services.data.data
-              }); 
-              this.$store.dispatch('Booking/set_e1', {
-                e1: 2
-              }) 
-            }, 1000)
+                this.$store.dispatch('Booking/set_listaServicios', {
+                  listaServicios: services.data.data
+                }); 
+                this.$store.dispatch('Booking/set_e1', {
+                  e1: 2
+                }) 
+              }, 1000)
             }
             
             
@@ -122,5 +123,8 @@
         width: 50%;
         display: flex;
         align-self: center;
+    }
+    .swal2-popup.modal-info {
+      font-family: Helvetica, sans-serif;
     }
 </style>

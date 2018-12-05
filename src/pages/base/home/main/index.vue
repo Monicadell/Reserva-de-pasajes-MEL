@@ -76,10 +76,10 @@
 
                     </v-card-actions> -->
                       <!-- <v-divider></v-divider> -->
-                      <v-card-actions  class="justify-center pt-1">
+                      <v-card-actions  class="justify-center py-3">
                         <v-spacer></v-spacer>
-                        <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
-                        <v-btn small flat color="primary" @click="dialogpass = false">Cerrar</v-btn>
+                        <v-btn block color="primary" class="mx-2" @click="">Recuperar contraseña</v-btn>
+                        <v-btn small flat color="primary" class="mx-2" @click="dialogpass = false">Cerrar</v-btn>
                         <!-- <v-btn
                           color="primary"
                           flat
@@ -211,16 +211,16 @@
                             </v-container>
                         </v-card-text>
                         <!-- <v-divider></v-divider> -->
-                        <v-card-actions>
+                        <v-card-actions class="py-3">
                           <v-spacer></v-spacer>
                           <v-btn
-                            block color="primary"
+                            block color="primary" class="mx-2"
                             @click="solicitarRegistro(item)"
                           >Enviar solicitud
                           </v-btn>
                           <v-btn
                             color="primary"
-                            flat
+                            flat class="mx-2"
                             @click="cerrarRegistro()"
                           >Cerrar
                           </v-btn>

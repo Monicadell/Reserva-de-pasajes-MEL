@@ -17,15 +17,12 @@
                   </v-flex>
                 </v-layout>
                    
-                    <v-layout row mt-2> 
+                <v-layout row mt-2> 
                   <v-flex xs6 class="secondary--text font-weight-black" >
-                    {{item.service.from}}
-                   
+                    {{item.service.from}} 
                   </v-flex>
                   <v-flex xs6 class="secondary--text font-weight-black"> 
                     {{item.service.to}}
-                
-
                   </v-flex>
                 </v-layout>
 
@@ -72,7 +69,7 @@
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
-                 <v-layout justify-start row ml-4> 
+                 <v-layout row ml-4> 
                 <v-flex xs1>  <v-icon color="primary">check</v-icon> </v-flex>
            
                 <v-flex>   <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
@@ -81,13 +78,13 @@
 
               <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
+                <v-flex xs4 text-xs-center> 
                   <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
-                <v-flex xs4> 
+                <v-flex xs4 text-xs-center> 
                  <v-btn  color="orange" class="btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
                 </v-flex >
-                 <v-flex xs4> 
+                 <v-flex xs4 text-xs-center> 
               <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
 
                  </v-flex>

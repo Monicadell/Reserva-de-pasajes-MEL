@@ -145,7 +145,7 @@
         color: 'primary',
         text: 'Confirmar reserva',
         name: '',
-        moment: moment,
+        moment: moment
       },
       ticket : {
         status: 'none'
@@ -183,21 +183,31 @@
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
             })
-            this.$store.dispatch('Booking/select', {selected: false})
+            this.$store.dispatch('Booking/select', { selected: false })
             this.$store.dispatch('Booking/set_e1', {
               e1: 3
             })
           }
         } catch (e) {
           console.log('error al reservar', e.response)
-          this.$store.dispatch('Booking/select', {selected: false})
+          this.$store.dispatch('Booking/select', { selected: false })
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = e.response.data.error
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = e.response.data.error
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+                type: 'warning',
+                customClass: 'modal-info',
+                timer: 2000,
+                title: 'Ha ocurrido un inconveniete!',
+                text: e.response.data.error,
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
         }
      /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {

@@ -59,7 +59,7 @@
       <v-stepper-content step="1">
         <v-layout align-center justify-center row fill-height> 
           <v-flex xs9>
-        <date-place-container/>
+        <date-place-container v-if="e1 === 1"/>
           </v-flex>
 
         </v-layout>
