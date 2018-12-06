@@ -4,7 +4,7 @@
       <v-card dark flat>
         <v-card-title   v-bind:class="{ 'custom-header-active' :  !disableCalendar, 'custom-header': disableCalendar }" >
           
-          <h3 class="title font-weight-light text-xs-center grow">
+          <h3 class="title font-weight-light text-xs-center grow text-capitalize">
             {{mesformateado}} 
           </h3>
           <v-spacer> </v-spacer>
