@@ -82,8 +82,7 @@
       ...mapGetters({
         search: ['Booking/current'],
         ruta: ['Booking/ruta']
-      }),
-    
+      })
     },
     methods: {
       async actFecha(value) {
@@ -95,14 +94,9 @@
       //  const  idRuta = this.ruta.id
         const fechaViaje = value
       //  console.log(idRuta, fechaViaje)
-
-
-           this.$store.dispatch('Booking/set_fechaSeleccionada', {
-            fechaSeleccionada: value,
-          })
-
-
-
+        this.$store.dispatch('Booking/set_fechaSeleccionada', {
+          fechaSeleccionada: value,
+        })
       }
     },
     watch: {
@@ -127,19 +121,25 @@
   .borde-calendario-out {
    border: none; 
   }
-
+  .v-date-picker-header__value strong:first-letter{
+    text-transform: uppercase;
+  }
 
   .calendario {
     opacity: 0;
   }
   .v-card__title.custom-header-active {
     background: #1565c0;
-    height: 30px
+    /* height: 30px */
+    padding: 10px;
+        min-height: 40px;
   }
 
    .v-card__title.custom-header {
     background:rgb(199, 198, 198);
-    height: 30px
+    /* height: 30px */
+    padding: 10px;
+    min-height: 40px;
   }
 
 </style>
