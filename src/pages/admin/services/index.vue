@@ -42,7 +42,7 @@
 
   <v-flex xs10>
     <v-layout  align-start justify-center row fill-height id="principal-container"> 
-      <v-flex xs10 >   
+      <v-flex xs12 >   
         <v-stepper :value="e1"  class="elevation-0">
     <v-stepper-header >
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
@@ -128,7 +128,31 @@
    <!--  -->
       
   </v-flex>  
+  <!-- <v-flex xs2>
+     <v-navigation-drawer style="width: 100%">
+      <v-list dense class="pt-0 user ">
+         <v-toolbar-title class="title-list-custom white--text">
+           <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
+         </v-toolbar-title>
+            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+            <v-divider></v-divider>
+            <v-card style="min-height: 40vh">
+              <v-card-title primary-title class = "pb-1">
+              <span class="mb-0 title-ticket font-weight-black">Hoy</span>
+              </v-card-title>
+              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+            </v-card>
 
+            <v-divider></v-divider>
+            <v-card style="min-height: 40vh">
+              <v-card-title primary-title class = "pb-1">
+              <span class="mb-0 title-ticket font-weight-black">Mañana</span>
+              </v-card-title>
+              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+            </v-card>
+      </v-list>
+    </v-navigation-drawer>
+  </v-flex> -->
 </v-layout>  
    
 

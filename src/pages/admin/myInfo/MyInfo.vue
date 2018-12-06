@@ -139,7 +139,7 @@
             <span>Cancelar</span>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" dark @click.native="save()"
+          <v-btn color="primary darken-1" dark @click.native="save(userEdited)"
                  :loading="loading"
                  :disabled="loading">
             <span>Guardar</span>
@@ -228,7 +228,8 @@
       this.getMyInfo()
     },
     methods: {
-      save () {
+      save (item) {
+        console.log(item)
       //   this.loading = true
       //   let auth = this.$store.getters.getAuth
       //   let config = {
@@ -257,7 +258,7 @@
       //   })
       },
       async getMyInfo () {
-        console.log('al getinfo cred', this.credential)
+        // console.log('al getinfo cred', this.credential)
         try {
           let info = await API.get('profile')
           if (info.status >= 200 && info.status < 300) {

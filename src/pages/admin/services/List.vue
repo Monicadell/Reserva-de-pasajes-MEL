@@ -21,7 +21,7 @@
         <span class="font-weight-medium"> Servicios disponibles </span>
          <v-spacer> </v-spacer>
     </v-card-title>   
-      <v-card-title style="height: 45px" class="barra-servicios">
+      <v-card-title class="barra-servicios">
 
         <v-spacer></v-spacer>
         <v-text-field
@@ -29,8 +29,8 @@
           label="Filtrar"
           single-line
           hide-details
-          dark
-          class="mb-4"
+          color="white"
+          class="pt-0 white--text"
         ></v-text-field>
       </v-card-title>
       <v-data-table
@@ -163,8 +163,27 @@
     background-color:#1565c0;
    
     }
-
-
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+    border-color: #fff;
+  }
+  .barra-servicios .theme--light.v-label {
+    color: #fff;
+  }
+  .barra-servicios .theme--light.v-icon {
+    color: #fff;
+  }
+  .barra-servicios .theme--light.v-input:not(.v-input--is-disabled) input{
+    color: rgba(255,255,255, 0.9);
+  }
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+      border-color: rgba(255,255,255,.42);
+  }
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+    border-color: rgba(255,255,255,.42);
+}
+.barra-servicios .theme--light.v-text-field:not(.v-input--has-state) .v-input__slot:hover:before {
+    border-color: rgba(255,255,255,.87);
+}
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
     color: #1565c0;

@@ -20,6 +20,7 @@
 
               <v-flex xs12 md4>
                 <v-text-field label="Documento"
+                              @keyup="keymonitor(editedItem.tipoDocumento)"
                               v-model="editedItem.documento"></v-text-field>
               </v-flex>
             </v-layout>
@@ -273,10 +274,6 @@
           {text: 'REDUCIDO', id: 'RED'},
           {text: 'ADMINISTRATIVO', id: 'AD2'}
         ],
-        userAgreement: [
-          {text: 'MEL', id: 'MEL'},
-          {text: 'CONTRATISTA', id: 'CONTRATISTA'}
-        ],
         roles: [],
         contracts: [],
         companies: [],
@@ -346,6 +343,10 @@
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
+        if(guardar.tipoDocumento === '1'){
+          console.log('es rut guarda')
+          guardar.documento = guardar.documento.replace(/\./g,'')
+        }
         let us = {
           'user':
           {
@@ -474,6 +475,16 @@
           this.loading = false         
         }
       },
+      keymonitor(doctype) {
+        console.log('doc', doctype)
+        if (doctype === '1') {
+          console.log('entra a rut')
+          let value = event.target.value;
+          if(!value) this.user = ''
+          value = value.match(/[0-9Kk]+/g).join('')
+          this.editedItem.documento = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+        }
+      }
     }
   }
 </script>

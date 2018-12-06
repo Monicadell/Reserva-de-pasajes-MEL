@@ -157,6 +157,7 @@
                                   <v-text-field
                                     label="RUT"
                                     v-model="item.rut"
+                                    @keyup="keymonitor"
                                   ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6>
@@ -372,10 +373,11 @@
       },
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
+        let rut = guardar.rut ? guardar.rut.replace(/\./g,'') : ''
         let user = {
           "user": {
             "name": guardar.name ? guardar.name : '',
-            "rut": guardar.rut ? guardar.rut : '',
+            "rut": rut,
             "passport": guardar.passport ? guardar.passport : '',
             "email": guardar.email ? guardar.email : '',
             "address": guardar.address ? guardar.address : '',
@@ -407,6 +409,13 @@
           this.modalInfoDetail = 'Ha ocurrido un error, intente más tarde.'
           this.modalInfoBtn1 = 'OK'
         }
+      },
+      keymonitor(event) {
+        // console.log(event)
+        let value = event.target.value;
+        if(!value) this.item.rut = ''
+        value = value.match(/[0-9Kk]+/g).join('')
+        this.item.rut = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
       }
     },
     computed: {
