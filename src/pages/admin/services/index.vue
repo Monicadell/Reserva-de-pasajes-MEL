@@ -40,9 +40,9 @@
     </v-navigation-drawer>
   </v-flex>
 
-  <v-flex xs10>
+  <v-flex xs9>
     <v-layout  align-start justify-center row fill-height id="principal-container"> 
-      <v-flex xs12 >   
+      <v-flex xs10 >   
         <v-stepper :value="e1"  class="elevation-0">
     <v-stepper-header >
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
