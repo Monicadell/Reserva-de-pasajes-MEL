@@ -174,6 +174,20 @@
       </v-card>
     </v-dialog>
 
+    <!-- dialogo confirmar eliminar -->
+    <v-dialog v-model="confirmaAnular" persistent max-width="450">
+      <v-card>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el servicio?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
+        <v-card-actions class="pb-3 px-3">
+          
+          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -205,7 +219,8 @@
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="" v-if="props.item.set">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm')}}</td>
           <td class="" v-else></td>
-          <td class="">{{ props.item.duration }}</td>
+          <td class="" v-if="props.item.duration">{{ moment(props.item.duration, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="" v-else></td>
           <td class="">{{ props.item.trip_id }}</td>
 
           <td class="">{{ props.item.freq_id }}</td>
@@ -237,17 +252,6 @@
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-            <v-dialog v-model="confirmaAnular" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperar el servicio.</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </td>
         </template>
       </v-data-table>
@@ -430,7 +434,8 @@
             let servicios = await API.put('services', id, ser )
             if (servicios.status >= 200 && servicios.status < 300) {
               // console.log('ya hizo PUT',servicios)
-                this.services = servicios.data.data
+                // this.services = servicios.data.data
+                this.getServices()
                 this.dialog = false
                 this.editedItem = Object.assign({}, '')
             }

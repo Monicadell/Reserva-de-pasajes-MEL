@@ -89,8 +89,22 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
+          <v-btn color="primary darken-1" outline @click.native="close()">Cancelar</v-btn>
           <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- dialogo confirmar eliminar -->
+    <v-dialog v-model="confirmaAnular" persistent max-width="450">
+      <v-card>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el usuario?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
+        <v-card-actions class="pb-3 px-3">
+          
+          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -144,6 +158,7 @@
             </v-tooltip>
           </td>
           <td class="">
+            
             <v-tooltip top>
               <v-icon
                 small
@@ -155,17 +170,7 @@
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-            <v-dialog v-model="confirmaAnular" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+           
           </td>
         </template>
         <template slot="footer">
