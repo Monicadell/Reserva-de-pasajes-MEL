@@ -147,17 +147,17 @@
 <script>
   // <img :src="avatar + auth.name + '?font-size=0.45&length=2&background=F17B31&color=fff'">
   // avatar: 'https://ui-avatars.com/api/?name=',
-  import moment from 'moment'
+  // import moment from 'moment'
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
-  import API from '@pi/app'
+  // import axios from 'axios'
+  // import API from '@pi/app'
 
   export default {
     props: ['item'],
     name: 'tickets',
-    data() {
+    data () {
       return {
-        statusConfirmacion : {
+        statusConfirmacion: {
           status: ''
         }
       }
@@ -165,35 +165,35 @@
     mounted () {
       console.log(this.item)
       const tickete = this.item
-      if(tickete.confirmed_at != null) {
+      if (tickete.confirmed_at != null) {
         console.log('ya el usuario confirmo')
         this.statusConfirmacion.status = 'done'
       } else {
         console.log('aun no confirma')
-        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+        if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
           console.log('usuario puede confirmar')
           this.statusConfirmacion.status = 'process'
-        }else if (tickete.service.hrs_left < 48) {
+        } else if (tickete.service.hrs_left < 48) {
           console.log('no necesita confirmacion porque es express')
-           this.statusConfirmacion.status = 'express'
+          this.statusConfirmacion.status = 'express'
         } else {
           console.log('aun no puede confirmar')
           this.statusConfirmacion.status = 'none'
         }
       }
     },
-    watch : {
+    watch: {
       item () {
         const tickete = this.item
-        if(tickete.confirmed_at != null) {
+        if (tickete.confirmed_at != null) {
           console.log('ya el usuario confirmo')
           this.statusConfirmacion.status = 'done'
-        }else {
+        } else {
           console.log('aun no confirma')
-          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
             console.log('usuario puede confirmar')
             this.statusConfirmacion.status = 'process'
-          }else if (tickete.service.hrs_left < 48) {
+          } else if (tickete.service.hrs_left < 48) {
             console.log('no necesita confirmacion porque es express')
             this.statusConfirmacion.status = 'express'
           } else {
@@ -234,17 +234,17 @@
       mostrarDetalle (item) {
         const tickete = this.item
         console.log(tickete)
-        if(tickete.confirmed_at != null) {
+        if (tickete.confirmed_at != null) {
           console.log('ya el usuario confirmo')
           this.$store.dispatch('Booking/set_estadoTickete', {
             estadoTickete: 'Confirmacion realizada'
           })
         } else {
           console.log('aun no confirma')
-          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
             this.$store.dispatch('Booking/set_estadoTickete', {
-            estadoTickete: 'Confirmacion Pendiente'
-          })
+              estadoTickete: 'Confirmacion Pendiente'
+            })
           } else if (tickete.service.hrs_left < 48) {
             console.log('no necesita confirmacion porque es express')
             this.$store.dispatch('Booking/set_estadoTickete', {
@@ -253,7 +253,7 @@
           } else {
             this.$store.dispatch('Booking/set_estadoTickete', {
               estadoTickete: 'Confirmacion Pendiente'
-            }) 
+            })
           }
         }
        // console.log(item)
@@ -275,9 +275,10 @@
    
 }
   .v-divider.divider-ticket {
-    border-style: dashed;
+    /* border-style: dashed;
     border-width: 1px;
-    border-color: #1565c0;
+    border-color: #1565c0; */
+    border-top: 1px dashed #1565c0;
     width:90%;
 }
 

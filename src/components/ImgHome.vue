@@ -32,7 +32,7 @@
 
 <script>
   export default {
-     data () {
+    data () {
       return {
         imgbg: '/static/img/uno.jpg',
         imagenes: ['uno.jpg', 'dos.jpg', 'tres.jpg', 'cuatro.jpg', 'cinco.jpg'],
@@ -44,21 +44,20 @@
       if (this.isAuthorized) {
         this.$router.push('/admin')
       }
+      this.updateImg()
+      this.refreshInterval = setInterval(() => this.updateImg(), 1000 * 5)
     },
-    methods:{
-      changeimg(imgname, num){
+    methods: {
+      changeimg (imgname, num) {
         this.imgbg = 'static/img/' + imgname
-        
         this.cintaimg = 'static/img/cinta' + num + '.png'
-
         // console.log('click img grande', this.imgbg)
         // console.log('click img cinta', this.cintaimg)
       },
       updateImg () {
-        if(this.imgnumber === 5){
+        if (this.imgnumber === 5) {
           this.imgnumber = 1
-        }
-        else{
+        } else {
           this.imgnumber++
         }
         this.imgbg = '../../static/img/' + this.imagenes[this.imgnumber - 1]
@@ -67,12 +66,8 @@
         // console.log('time, img cinta', this.cintaimg)
       }
     },
-    beforeDestroy() {
-      clearInterval(this.refreshInterval);
-    },
-    mounted () {
-      this.updateImg()
-      this.refreshInterval = setInterval(() => this.updateImg(), 1000 * 5)
+    beforeDestroy () {
+      clearInterval(this.refreshInterval)
     }
   }
 </script>

@@ -44,30 +44,31 @@
 <script>
   import API from '@pi/app'
   import {mapGetters} from 'vuex'
-  import moment from 'moment'
-  import axios from 'axios'
+  // import moment from 'moment'
+  // import axios from 'axios'
+
   export default {
-    name: 'modalAnular', 
+    name: 'modalAnular',
     data: () => ({
-      modal : {
-          status: 'none'
+      modal: {
+        status: 'none'
       }
     }),
     mounted () {
     },
     methods: {
-      async anularReserva() {
+      async anularReserva () {
         const idServicio = this.servicioAnular.id
         try {
-          let eliminando = await API.deleteNoRest('tickets', idServicio,'cancel') 
+          let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
           if (eliminando.status >= 200 && eliminando.status < 300) {
-              //eliminado exitoso 
+              // eliminado exitoso
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
             })
-            this.modal.status = 'done' 
+            this.modal.status = 'done'
           }
-            /*   this.$store.dispatch('Booking/set_anular', {
+            /* this.$store.dispatch('Booking/set_anular', {
                   anular: false
               });  */
         } catch (e) {
@@ -75,7 +76,7 @@
           alert('Ha ocurrido un error al intentar anular reserva')
         }
       },
-      cerrar() {
+      cerrar () {
         setTimeout(() => {
           this.modal.status = 'none'
         }, 2000)

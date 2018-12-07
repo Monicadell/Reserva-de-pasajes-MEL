@@ -19,170 +19,210 @@
     </v-toolbar>
 
     <v-divider></v-divider>
-<v-layout>
-  <v-flex xs3>
-     <v-navigation-drawer style="width: 100%">
-      <v-list dense class="pt-0 user ">
-         <v-toolbar-title class="title-list-custom white--text">
-           <span class="hidden-sm-and-down ml-4">Mis reservas</span>
-         </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-            <v-divider></v-divider>
-            <v-layout v-for="item in items" :key="item.id">
-              
-              <v-flex > 
-                <v-list-tile-content  >
-                  <tickets v-bind:item="item" />
-                </v-list-tile-content>
-              </v-flex> 
-            </v-layout> 
-      </v-list>
-    </v-navigation-drawer>
-  </v-flex>
 
-  <v-flex xs10>
-    <v-layout  align-start justify-center row fill-height id="principal-container"> 
-      <v-flex xs10>   
-        <v-stepper :value="e1"  class="elevation-0">
-    <v-stepper-header >
-      <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
+    <v-layout>
+      <v-flex xs3>
+        <v-navigation-drawer style="width: 100%">
+          <v-list dense class="pt-0 user ">
+            <v-toolbar-title class="title-list-custom white--text">
+              <span class="hidden-sm-and-down ml-4">Mis reservas</span>
+            </v-toolbar-title>
+                <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+                <v-divider></v-divider>
+                <v-layout v-for="item in items" :key="item.id">
+                  
+                  <v-flex > 
+                    <v-list-tile-content  >
+                      <tickets v-bind:item="item" />
+                    </v-list-tile-content>
+                  </v-flex> 
+                </v-layout> 
+          </v-list>
+        </v-navigation-drawer>
+      </v-flex>
 
-      <v-divider></v-divider>
+      <v-flex xs7>
+        <v-layout  align-start justify-center row fill-height id="principal-container"> 
+          <v-flex xs12>   
+            <v-stepper :value="e1"  class="elevation-0">
+              <v-stepper-header >
+                <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
-      <v-stepper-step   :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
+                <v-divider></v-divider>
 
-      <v-divider></v-divider>
+                <v-stepper-step   :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
 
-      <v-stepper-step   step="3">Confirmación</v-stepper-step>
-    </v-stepper-header>
-    
+                <v-divider></v-divider>
 
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <v-layout align-center justify-center row fill-height> 
-          <v-flex xs9>
-        <date-place-container v-if="e1 === 1"/>
+                <v-stepper-step   step="3">Confirmación</v-stepper-step>
+              </v-stepper-header>
+        
+
+              <v-stepper-items>
+                <v-stepper-content step="1">
+                  <v-layout align-center justify-center row fill-height> 
+                    <v-flex xs9>
+                      <date-place-container v-if="e1 === 1"/>
+                    </v-flex>
+                  </v-layout>
+                </v-stepper-content>
+
+                <v-stepper-content step="2">
+                  <v-card
+                    class="mb-5"
+                    height="400px"
+                    max-height="400px"
+                    flat
+                  >
+                    <service-list/>
+                  </v-card>
+                </v-stepper-content>
+
+                <v-stepper-content step="3">
+                  <v-card
+                    class="mb-5"
+                    height="500px"
+                    
+                    flat
+                  >
+                    <v-layout align-center justify-space-around column fill-height>
+                      <v-flex xs4> 
+                        <v-card-title >
+                          <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
+                        </v-card-title>
+                      </v-flex> 
+                      <v-flex xs4 mb-5> 
+                      <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="290" width="290">
+
+                      </v-flex> 
+                      <v-flex xs4> 
+                        <h3 class="headline primary--text mb-2">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
+                        <v-btn
+                          color="secondary"
+                          @click="volverMenu"
+                          class="btn-step3 ml-5"
+                        >
+                          Volver al menú principal
+                        </v-btn>
+                      </v-flex> 
+                    </v-layout>
+                    
+                  </v-card>
+
+                </v-stepper-content>
+              </v-stepper-items>
+            </v-stepper>
           </v-flex>
-
         </v-layout>
 
-      </v-stepper-content>
-
-      <v-stepper-content step="2">
-        <v-card
-          class="mb-5"
-          height="400px"
-          max-height="400px"
-          flat
-        >
-
-          <service-list/>
-        </v-card>
-
-      </v-stepper-content>
-
-      <v-stepper-content step="3">
-        <v-card
-          class="mb-5"
-          height="500px"
+      <!--  -->
           
-          flat
-        >
-        <v-layout align-center justify-space-around column fill-height>
-          <v-flex xs4> 
-             <v-card-title >
-              <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
-            </v-card-title>
-          </v-flex> 
-          <v-flex xs4 mb-5> 
-          <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="290" width="290">
+      </v-flex>  
+      <v-flex xs2>
+        <v-navigation-drawer style="width: 100%">
+          <v-list dense class="pt-0 user ">
+            <v-toolbar-title class="title-list-custom white--text">
+              <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
+            </v-toolbar-title>
+                <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+                <v-divider></v-divider>
+                <v-card style="min-height: 40vh">
+                  <v-card-title primary-title class = "pb-1">
+                  <span class="mb-0 title-ticket font-weight-black">Hoy</span>
+                  </v-card-title>
+                  <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+                      <v-data-table
+                        :headers="hoyHeaders"
+                        :items="hoy"
+                        hide-actions
+                        class="tabla-express pt-3"
+                        no-data-text="No hay viajes para hoy"
+                      >
+                      <template slot="items" slot-scope="props" >
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                        <td class="text-xs-center">
+                          <v-tooltip top>
+                            <v-icon
+                              small
+                              slot="activator"
+                              class="icono-select"
+                              @click="selectExpress(props.item)"
+                            >
+                              chevron_right
+                            </v-icon>
+                            <span>Eliminar</span>
+                          </v-tooltip>
+                        </td>
+                      </template>
+                    </v-data-table>
+                </v-card>
 
-          </v-flex> 
-          <v-flex xs4> 
-              <h3 class="headline primary--text mb-2">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
-
-        <v-btn
-          color="secondary"
-          @click="volverMenu"
-          class="btn-step3 ml-5"
-         
-        >
-          Volver al menú principal
-        </v-btn>
-          </v-flex> 
-
-
-        </v-layout>
-          
-           
-        </v-card>
-
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
-
-
+                <v-divider></v-divider>
+                <v-card style="min-height: 45vh">
+                  <v-card-title primary-title class = "pb-1">
+                  <span class="mb-0 title-ticket font-weight-black">Mañana</span>
+                  </v-card-title>
+                  <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+                  <v-data-table
+                        :headers="mananaHeaders"
+                        :items="manana"
+                        hide-actions
+                        class="tabla-express pt-3"
+                        no-data-text="No hay viajes para mañana"
+                      >
+                      <template slot="items" slot-scope="props" >
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
+                        <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                        <td class="text-xs-center">
+                          <v-tooltip top>
+                            <v-icon
+                              small
+                              slot="activator"
+                              class="icono-select"
+                              @click="selectExpress(props.item)"
+                            >
+                              chevron_right
+                            </v-icon>
+                            <span>Eliminar</span>
+                          </v-tooltip>
+                        </td>
+                      </template>
+                    </v-data-table>
+                </v-card>
+          </v-list>
+        </v-navigation-drawer>
+      </v-flex>
+    </v-layout>  
+   
+    <v-layout row wrap fill-height class="mt-2">
+      <v-flex xs12 >
+        <service-selected/>  
       </v-flex>
     </v-layout>
 
-   <!--  -->
-      
-  </v-flex>  
-  <!-- <v-flex xs2>
-     <v-navigation-drawer style="width: 100%">
-      <v-list dense class="pt-0 user ">
-         <v-toolbar-title class="title-list-custom white--text">
-           <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
-         </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-            <v-divider></v-divider>
-            <v-card style="min-height: 40vh">
-              <v-card-title primary-title class = "pb-1">
-              <span class="mb-0 title-ticket font-weight-black">Hoy</span>
-              </v-card-title>
-              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-            </v-card>
 
-            <v-divider></v-divider>
-            <v-card style="min-height: 45vh">
-              <v-card-title primary-title class = "pb-1">
-              <span class="mb-0 title-ticket font-weight-black">Mañana</span>
-              </v-card-title>
-              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-            </v-card>
-      </v-list>
-    </v-navigation-drawer>
-  </v-flex> -->
-</v-layout>  
-   
+      <v-layout row wrap fill-height class="mt-2">
+      <v-flex xs12 >
+        <modal-anular/>  
+      </v-flex>
+    </v-layout>
 
 
-        <v-layout row wrap fill-height class="mt-2">
-          <v-flex xs12 >
-            <service-selected/>  
-          </v-flex>
-        </v-layout>
+      <v-layout row wrap fill-height class="mt-2">
+      <v-flex xs12 >
+        <modal-confirmar/>  
+      </v-flex>
+    </v-layout>
 
 
-         <v-layout row wrap fill-height class="mt-2">
-          <v-flex xs12 >
-            <modal-anular/>  
-          </v-flex>
-        </v-layout>
-
-
-         <v-layout row wrap fill-height class="mt-2">
-          <v-flex xs12 >
-            <modal-confirmar/>  
-          </v-flex>
-        </v-layout>
-
-
-         <v-layout row wrap fill-height >
-          <v-flex xs12 >
-            <modal-detalle/>  
-          </v-flex>
-        </v-layout>
+      <v-layout row wrap fill-height >
+      <v-flex xs12 >
+        <modal-detalle/>  
+      </v-flex>
+    </v-layout>
         
     <!-- Modal error-->
     <modal v-if="showModal"
@@ -210,10 +250,32 @@
   import Modal from '@c/Modal'
 
   export default {
-    data() {
+    data () {
       return {
       //  e1: 0,
         items: [],
+        hoyHeaders: [
+          {text: 'Origen', value: 'origen', sortable: false, align: 'left'},
+          {text: 'Destino', value: 'destino', sortable: false, align: 'left'},
+          {text: 'Salida', value: 'email', sortable: false, align: 'left'},
+          {text: 'Ir', value: '', sortable: false, align: 'left'}],
+        hoy: [
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
+        ],
+        mananaHeaders: [
+          {text: 'Origen', value: 'origen', sortable: false},
+          {text: 'Destino', value: 'destino', sortable: false},
+          {text: 'Salida', value: 'salida', sortable: false},
+          {text: 'Ir', value: '', sortable: false, align: 'left'}],
+        manana: [
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
+        ],
         right: null,
         disabledBtn: true,
         showModal: false,
@@ -236,37 +298,37 @@
       datePlaceContainer,
       modal: Modal
     },
-     computed: {
+    computed: {
       ...mapGetters({
         fecha: ['Booking/fechaSeleccionada'],
         ruta: ['Booking/ruta'],
         actualizarReservas: ['Booking/actualizarReservas'],
         e1: ['Booking/e1']
       })
-     },
-     watch: {
-       actualizarReservas () {
-          if(this.actualizarReservas) {
-          //const porfis = []
+    },
+    watch: {
+      actualizarReservas () {
+        if (this.actualizarReservas) {
+          // const porfis = []
           console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
-          //this.items = Object.assign([], porfis)
+          // this.items = Object.assign([], porfis)
           this.getReservas()
           this.$store.dispatch('Booking/set_actualizarReservas', {
             actualizarReservas: false
           })
-         }
-       },
-       e1 () {
-         //console.log('cambio el step')
-       }
-     },  
+        }
+      },
+      e1 () {
+        // console.log('cambio el step')
+      }
+    },
     mounted () {
       this.getReservas()
       this.$store.dispatch('Booking/set_ruta', {
         ruta: {}
-      }) 
+      })
       this.$store.dispatch('Booking/set_listaServicios', {
-        listaServicios: [],
+        listaServicios: []
       })
       this.$store.dispatch('Booking/set_anular', {
         anular: false
@@ -275,7 +337,7 @@
         actualizarReservas: false
       })
       this.$store.dispatch('Booking/set_fechaSeleccionada', {
-        fechaSeleccionada: '',
+        fechaSeleccionada: ''
       })
       this.$store.dispatch('Booking/set_confirmar', {
         confirmar: false
@@ -294,14 +356,14 @@
       })
     },
     methods: {
-      async getReservas () { //obtener las reservas de un usuario
-        const userId = {
-          'user_id': 113162
-        }
+      async getReservas () {  // obtener las reservas de un usuario
+        // const userId = {
+        //   'user_id': 113162
+        // }
         try {
           const tickets = await API.get('tickets')
           console.log(tickets)
-          if (tickets.status >= 200 && tickets.status < 300){
+          if (tickets.status >= 200 && tickets.status < 300) {
             console.log(`los tickets del usuario son `)
             console.log(tickets.data.data)
             this.$store.dispatch('Booking/set_listaReservas', {
@@ -325,6 +387,11 @@
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
         })
+      },
+      selectExpress (servicioSeleccionado) {
+        alert('select')
+        // this.$store.dispatch('Booking/select', {selected: true})
+        // this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       }
     }
   }
@@ -334,7 +401,42 @@
   #principal-container {
     background: rgb(242, 245, 247);
   }
-
+  .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
+    background: rgba(104, 104, 104, 0.1);
+  }
+  .tabla-express .theme--light.v-table thead tr{
+    height: auto;
+  }
+  .tabla-express .theme--light.v-table thead th{
+    font-size: 10px;
+    padding: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #9e9e9e;
+  }
+  .tabla-express .theme--light.v-table tbody td{
+    font-size: 10px;
+    padding: 5px;
+    height: auto;
+  }
+  .tabla-express .theme--light.v-table tbody tr:not(:last-child){
+    border: none;
+  }
+  .tabla-express .theme--light.v-table tbody tr:hover{
+    background: rgba(104, 104, 104, 0.4);
+    cursor: pointer;
+  }
+  .icono-select{
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+  }
+  .tabla-express .theme--light.v-table tbody tr:hover .icono-select{
+    background-color: #1565c0;
+    border: 1px solid #1565c0;
+    color: #fff;
+    border-radius: 50%;
+  }
   .v-btn.botonmenu {
       background: transparent ;
     border: 1px solid #1565c0 ;

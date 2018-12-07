@@ -38,8 +38,8 @@
   // avatar: 'https://ui-avatars.com/api/?name=',
   import moment from 'moment'
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
-  import API from '@pi/app'
+  // import axios from 'axios'
+  // import API from '@pi/app'
 
   export default {
     props: ['direction'],
@@ -51,20 +51,18 @@
       allowedFromDates: [],
       allowedToDates: [],
       maxDays: 45,
-     fecha: new Date().toISOString().substr(0, 10),
-     mes: '',
-     year: '',
-     mesformateado: '',
-     calendarIsVisible: false,
-     disableCalendar: true,
-     headerActiveClass: 'custom-header-active',
-     headerClass: 'custom-header',
-     colorCalendario: 'lighten5'
-  
+      fecha: new Date().toISOString().substr(0, 10),
+      mes: '',
+      year: '',
+      mesformateado: '',
+      calendarIsVisible: false,
+      disableCalendar: true,
+      headerActiveClass: 'custom-header-active',
+      headerClass: 'custom-header',
+      colorCalendario: 'lighten5'
     }),
     mounted () {
-    
-       moment.locale('es-es')
+      moment.locale('es-es')
       if (this.search[this.direction].date) {
         let lastDateSearch = moment(this.search[this.direction].date)
         let today = moment()
@@ -85,28 +83,28 @@
       })
     },
     methods: {
-      async actFecha(value) {
+      async actFecha (value) {
         // actualizo valor a mostrar en el header
         this.mes = value.split('-')[1]
         this.mesformateado = moment(this.mes, 'MM').format('MMMM')
         this.year = value.split('-')[0]
      //   console.log(`selecciono fecha ${value}`)
       //  const  idRuta = this.ruta.id
-        const fechaViaje = value
+        // const fechaViaje = value
       //  console.log(idRuta, fechaViaje)
         this.$store.dispatch('Booking/set_fechaSeleccionada', {
-          fechaSeleccionada: value,
+          fechaSeleccionada: value
         })
       }
     },
     watch: {
-      ruta() {
+      ruta () {
        // console.log('la ruta cambio')
        // console.log(this.ruta)
-        if(this.ruta.id ) {
+        if (this.ruta.id) {
           this.disableCalendar = false
           this.colorCalendario = 'primary'
-       //   console.log(this.disableCalendar)
+        // console.log(this.disableCalendar)
         }
       }
     }

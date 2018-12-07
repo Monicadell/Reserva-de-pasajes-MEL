@@ -284,7 +284,7 @@
         companies: [],
         rules: {
           password_confirmation: value => {
-            const coinciden = this.editedItem.password === value ? true : false
+            const coinciden = this.editedItem.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
           min: value => value.length >= 8 || 'Min 8 caracteres'
@@ -323,9 +323,8 @@
           this.modalInfoDetail = 'Ha ocurrido un error al obtener los usuarios, intente más tarde.'
           this.modalInfoBtn1 = 'OK'
         }
-        
       },
-      busca() {
+      busca () {
         console.log('busca', this.search)
         let buscar = {'q': this.search}
         this.getUsers(buscar)
@@ -348,9 +347,9 @@
         console.log('a guardar', guardar)
         // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
         // console.log('trip', obj)
-        if(guardar.tipoDocumento === '1'){
+        if (guardar.tipoDocumento === '1') {
           console.log('es rut guarda')
-          guardar.documento = guardar.documento.replace(/\./g,'')
+          guardar.documento = guardar.documento.replace(/\./g, '')
         }
         let us = {
           'user':
@@ -370,9 +369,8 @@
             'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
           }
         }
-  
         if (guardar.id) {
-           console.log('user a put', us)
+          console.log('user a put', us)
           let id = guardar.id
           try {
             let putuser = await API.put('users', id, us)
@@ -401,8 +399,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else {
+        } else {
           console.log('user a post', us)
           try {
             let postuser = await API.post('users', us)
@@ -443,19 +440,19 @@
             this.getUsers()
             this.confirmaAnular = false
             this.$swal({
-                type: 'success',
-                customClass: 'modal-info',
-                timer: 2000,
-                title: 'Usuario',
-                text: 'Usuario eliminado exitosamente!',
-                animation: true,
-                showConfirmButton: false,
-                showCloseButton: false
-              })
+              type: 'success',
+              customClass: 'modal-info',
+              timer: 2000,
+              title: 'Usuario',
+              text: 'Usuario eliminado exitosamente!',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
             console.log(eliminando)
           }
         } catch (e) {
-         console.log('catch err', e.response)
+          console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
@@ -477,13 +474,13 @@
         //   this.editedIndex = -1
         // }, 300)
       },
-      changePageNumber(){
+      changePageNumber () {
         console.log(this.pagination.page)
         let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
         console.log(newpage)
         this.getUsers(newpage)
       },
-      changeRowsPage(){
+      changeRowsPage () {
         // console.log(this.pagination.rowsPerPage)
         let pagesize = {'page_size': this.pagination.rowsPerPage}
         this.getUsers(pagesize)
@@ -493,31 +490,31 @@
         if (roles.status >= 200 && roles.status < 300) {
           console.log('roles', roles)
           this.roles = roles.data.data
-          this.loading = false         
+          this.loading = false
         }
       },
       async getCompanies () {
         let companies = await API.get('companies')
         if (companies.status >= 200 && companies.status < 300) {
           this.companies = companies.data.data
-          this.loading = false         
+          this.loading = false
         }
       },
       async getContracts () {
         let contracts = await API.get('contracts')
         if (contracts.status >= 200 && contracts.status < 300) {
           this.contracts = contracts.data.data
-          this.loading = false         
+          this.loading = false
         }
       },
-      keymonitor(doctype) {
+      keymonitor (doctype) {
         console.log('doc', doctype)
         if (doctype === '1') {
           console.log('entra a rut')
-          let value = event.target.value;
-          if(!value) this.user = ''
+          let value = event.target.value
+          if (!value) this.user = ''
           value = value.match(/[0-9Kk]+/g).join('')
-          this.editedItem.documento = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+          this.editedItem.documento = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
         }
       }
     }

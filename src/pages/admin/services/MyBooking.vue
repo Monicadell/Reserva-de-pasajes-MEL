@@ -180,7 +180,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import Countdown from './Countdown'
-  import axios from 'axios'
+  // import axios from 'axios'
   import API from '@pi/app'
   import Modal from '@c/Modal'
 
@@ -217,23 +217,23 @@
           {text: '', value: 'confirmar', sortable: false},
           {text: '', value: 'cancel', sortable: false}
         ],
-        ticketsList : []
+        ticketsList: []
       }
     },
     components: {
       Countdown: Countdown,
       modal: Modal
     },
-    methods : {
-      async getReservas() {
+    methods: {
+      async getReservas () {
         const userId = {
-            'user_id': 113162
+          'user_id': 113162
         }
         try {
           const tickets = await API.get('tickets', userId)
           console.log(tickets)
-          if (tickets.status >= 200 && tickets.status < 300){
-            setTimeout(()=>{
+          if (tickets.status >= 200 && tickets.status < 300) {
+            setTimeout(() => {
               this.ticketsList = Object.assign([], tickets.data.data)
               this.consulta = true
             }, 2000)
@@ -246,7 +246,7 @@
           this.modalInfoBtn1 = 'OK'
         }
       },
-      verDetalle(item) {
+      verDetalle (item) {
         console.log(item)
         this.selectedBooking = Object.assign([], item)
       },
@@ -260,10 +260,10 @@
         try {
           let eliminando = await API.delete('tickets', item.id)
           if (eliminando.status >= 200 && eliminando.status < 300) {
-            console.log('ya hizo DELETE',eliminando)
+            console.log('ya hizo DELETE', eliminando)
             this.confirmaAnular = false
             console.log(eliminando)
-            this.getReservas()   
+            this.getReservas()
           }
         } catch (e) {
           console.log('error al anular reserva ', e.response)
@@ -271,7 +271,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.getReservas()
     },
     watch: {

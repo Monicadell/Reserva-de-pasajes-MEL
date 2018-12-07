@@ -284,7 +284,7 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  import {mapGetters} from 'vuex'
+  // import {mapGetters} from 'vuex'
   import Modal from '@c/Modal'
 
   export default {
@@ -363,8 +363,7 @@
               this.loading = false
             }, 500)
             // console.log(frec)
-          }
-          else {
+          } else {
             alert('Ha ocurrido un error, intente nuevamente')
           }
         } catch (e) {
@@ -383,12 +382,11 @@
             this.trips = trips.data.data
             this.loading = false
             // console.log(trips)
-          }
-          else {
+          } else {
             alert('Ha ocurrido un error al cargar tramos, intente nuevamente')
           }
         } catch (e) {
-           console.log('catch err, al cargar trips', e.response)
+          console.log('catch err, al cargar trips', e.response)
         }
       },
       editItem (item) {
@@ -429,8 +427,7 @@
             if (frec.status >= 200 && frec.status < 300) {
               this.getFrec()
               this.dialog = false
-            }
-            else {
+            } else {
               alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
             }
           } catch (e) {
@@ -440,7 +437,7 @@
             this.modalInfoTitle = 'Ha ocurrido un error'
             this.modalInfoDetail = 'Ha ocurrido un error al editar la frecuencia, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
-          } 
+          }
         }
         else {
           console.log('ser a post')
@@ -450,8 +447,7 @@
               console.log('frecuencias despues post', frec)
               this.getFrec()
               this.dialog = false
-            }
-            else {
+            } else {
               alert('Ha ocurrido un error, intente nuevamente')
             }
           } catch (e) {
@@ -462,7 +458,6 @@
             this.modalInfoDetail = 'Ha ocurrido un error al guardar la frecuencia, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-          
         }
       },
       irEliminar (datoid) {
@@ -483,14 +478,13 @@
             alert('Ha ocurrido un error, intente nuevamente')
           }
         } catch (e) {
-            console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+          console.log('catch err', e.response)
+          // alert('Ha ocurrido un error, intente más tarde!')
+          this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
+          this.modalInfoBtn1 = 'OK'
         }
-        
       },
       close () {
         this.dialog = false

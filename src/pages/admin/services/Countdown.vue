@@ -17,7 +17,7 @@
   import VueCircle from 'vue2-circle-progress'
 
   export default {
-    props: ['deadline','date', 'time', 'id'],
+    props: ['deadline', 'date', 'time', 'id'],
     components: {
       VueCircle
     },
@@ -26,7 +26,7 @@
       currentTime: '',
       countdown: '',
       finalDate: '',
-      fill : { gradient: ["#1466C0", "#ff9801", "#fbead2"] },
+      fill: {gradient: ['#1466C0', '#ff9801', '#fbead2']},
       fecha: ''
     }),
     methods: {
@@ -39,17 +39,17 @@
         var b = moment(this.currentTime)
         this.countdown = a.diff(b, 'hours')
       },
-      confirmar(item) {
+      confirmar (item) {
         const ticketId = item
         console.log(`hago la confimacion del ticket ${ticketId}`)
       }
     },
     mounted () {
       this.currentTime = moment()
-      const dia = this.date.replace(/-/g ,'/')
-      const hora = moment(this.time, ["h:mm A"]).format("HH:mm")
+      const dia = this.date.replace(/-/g, '/')
+      const hora = moment(this.time, ['h:mm A']).format('HH:mm')
       this.finalDate = `${dia} ${hora}`
-      this.fecha  = moment(this.finalDate, 'YYYY/MM/DD hh:mm')
+      this.fecha = moment(this.finalDate, 'YYYY/MM/DD hh:mm')
       // setInterval(() => this.updateCountdown(), 1 * 1000)
       this.updateCountdown()
       setInterval(() => this.updateCurrentTime(), 60 * 1000)

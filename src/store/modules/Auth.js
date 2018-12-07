@@ -26,11 +26,10 @@ const actions = {
     // console.log('action login')
     commit('LOGIN_SUCCESS', {user: payload.user, credential: payload.credential})
   },
-  login ({commit}, payload) {
-    // console.log('action login')
-    commit('LOGIN_SUCCESS', {user: payload.user, credential: payload.credential})
+  // login ({commit}, payload) {
+  //   commit('LOGIN_SUCCESS', {user: payload.user, credential: payload.credential})
 
-  },
+  // },
   setData ({commit}, payload) {
     commit('SET_USER_ADDONS', {
       role: payload.role,
@@ -63,17 +62,17 @@ const mutations = {
     state.userid = userid
   },
   LOGOUT (state) {
-    state.isAuthorized= false
+    state.isAuthorized = false
     state.user = null
     state.credential = null
     state.role = null
     state.username = null
     state.useremail = null
   },
-  HIDE (state, {hidesidebar}){
+  HIDE (state, {hidesidebar}) {
     // console.log('muta hide', hidesidebar)
     state.hidesidebar = hidesidebar
-  },
+  }
 }
 
 /**

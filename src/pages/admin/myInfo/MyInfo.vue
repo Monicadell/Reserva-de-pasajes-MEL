@@ -170,7 +170,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
   import Modal from '@c/Modal'
@@ -262,23 +261,23 @@
         try {
           let info = await API.get('profile')
           if (info.status >= 200 && info.status < 300) {
-            console.log('profile',info)
+            console.log('profile', info)
             this.user = {
-                tipoUsuario: info.data.role_id ? info.data.role_id : '',
-                tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte' ,
-                tipoContrato: info.data.contract_type ? info.data.contract_type : '',
-                password: '***',
-                numeroContacto: info.data.phone_number ? info.data.phone_number : '',
-                nombre: info.data.name ? info.data.name : '',
-                nContrato: '---',
-                mensaje: 'mensaje',
-                estado: info.data.active ? 'Activo' : 'Inactivo',
-                empresaAsociada: info.data.company_name ? info.data.company_name : '',
-                email: info.data.email ? info.data.email : '',
-                documento: info.data.rut ? info.data.rut : info.data.passport,
-                direccion: info.data.address ? info.data.address : ''
-              }
-              this.userEdited = this.user
+              tipoUsuario: info.data.role_id ? info.data.role_id : '',
+              tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte',
+              tipoContrato: info.data.contract_type ? info.data.contract_type : '',
+              password: '***',
+              numeroContacto: info.data.phone_number ? info.data.phone_number : '',
+              nombre: info.data.name ? info.data.name : '',
+              nContrato: '---',
+              mensaje: 'mensaje',
+              estado: info.data.active ? 'Activo' : 'Inactivo',
+              empresaAsociada: info.data.company_name ? info.data.company_name : '',
+              email: info.data.email ? info.data.email : '',
+              documento: info.data.rut ? info.data.rut : info.data.passport,
+              direccion: info.data.address ? info.data.address : ''
+            }
+            this.userEdited = this.user
           } else {
             console.log('error profile', info)
           }
@@ -290,7 +289,6 @@
           this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
           this.modalInfoBtn1 = 'OK'
         }
-        
       }
     }
   }

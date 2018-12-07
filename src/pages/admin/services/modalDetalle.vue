@@ -136,34 +136,34 @@
 <script>
   import API from '@pi/app'
   import {mapGetters} from 'vuex'
-  import moment from 'moment'
-  import axios from 'axios'
+//   import moment from 'moment'
+  // import axios from 'axios'
 
   export default {
-    name: 'modalDetalle', 
+    name: 'modalDetalle',
     data: () => ({
-      modal : {
+      modal: {
         status: 'none'
       },
-      statusTicket: '' 
+      statusTicket: ''
     }),
     mounted () {
       //  console.log('********')
-      const tickete = this.servicioDetalle
+    //   const tickete = this.servicioDetalle
      //   console.log(tickete)
     },
     methods: {
-      async confirmarReserva() {
+      async confirmarReserva () {
         const idServicio = this.servicioConfirmar.id
         try {
-          let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
+          let confirmacion = await API.patchNoRest('tickets', idServicio, 'confirm')
           //  this.modal.status = 'done'
         } catch (e) {
           console.log('error al confirmar reserva, modal detalle', e.response)
           alert('Ha ocurrido un error!')
         }
       },
-      cerrar() {
+      cerrar () {
         setTimeout(() => {
           this.modal.status = 'none'
         }, 2000)

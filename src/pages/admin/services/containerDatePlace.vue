@@ -27,18 +27,18 @@
 <script>
   // <img :src="avatar + auth.name + '?font-size=0.45&length=2&background=F17B31&color=fff'">
   // avatar: 'https://ui-avatars.com/api/?name=',
-  import moment from 'moment'
+  // import moment from 'moment'
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
+  // import axios from 'axios'
   import API from '@pi/app'
   import PlaceSelector from '@c/PlaceSelector'
   import ServiceDate from '@c/DatePicker'
 
   export default {
     name: 'datePlaceContainer',
-    data() {
+    data () {
       return {
-        statusConfirmacion : {
+        statusConfirmacion: {
           status: ''
         },
         disabledBtn: true,
@@ -50,16 +50,16 @@
       PlaceSelector,
       ServiceDate
     },
-    watch : {
-      fecha() {
+    watch: {
+      fecha () {
         console.log('aqui si seleccionaron fecha')
        //  console.log(`seleccionaron fecha ${this.fecha}`)
-        if(this.fecha != '') {
-          //Habilito boton de buscar
+        if (this.fecha != '') {
+          // Habilito boton de buscar
           this.disabledBtn = false
         }
-       }
-     },  
+      }
+    },
     computed: {
       ...mapGetters({
         search: ['Booking/current'],
@@ -68,21 +68,20 @@
       })
     },
     methods: {
-      async findServices() { // obtener los servicios disponibles para una ruta y dia en especifico
-        const fecha= this.fecha
+      async findServices () { // obtener los servicios disponibles para una ruta y dia en especifico
+        const fecha = this.fecha
         const ruta = this.ruta
-
         const configService = {
-          'trip':ruta.id,
-          'date':fecha
+          'trip': ruta.id,
+          'date': fecha
         }
        // console.log(configService)
         try {
           const services = await API.get('services', configService)
-          //console.log(services)
+          // console.log(services)
           if (services.status >= 200 && services.status < 300) {
             console.log(services.data.data)
-            if (services.data.data.length == 0) {
+            if (services.data.data.length === 0) {
               console.log('no hay pasajes')
               this.componentKeySelect++
               this.componentKeyDate++
@@ -98,17 +97,15 @@
                 showCloseButton: false
               })
             } else {
-              setTimeout(()=>{
+              setTimeout(() => {
                 this.$store.dispatch('Booking/set_listaServicios', {
                   listaServicios: services.data.data
-                }); 
+                })
                 this.$store.dispatch('Booking/set_e1', {
                   e1: 2
-                }) 
+                })
               }, 1000)
             }
-            
-            
           }
         } catch (e) {
           console.log('catch error al obtener serivicios', e.response)

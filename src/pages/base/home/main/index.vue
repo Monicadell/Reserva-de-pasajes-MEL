@@ -310,7 +310,7 @@
   import Modal from '@c/Modal'
 
   export default {
-     data () {
+    data () {
       return {
         dialogpass: false,
         dialogreserva: false,
@@ -353,10 +353,10 @@
             return pattern.test(value) || 'Email invalido'
           },
           password_confirmation: value => {
-            const coinciden = this.item.password === value ? true : false
+            const coinciden = this.item.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres',
+          min: value => value.length >= 8 || 'Min 8 caracteres'
         }
       }
     },
@@ -367,24 +367,24 @@
       goToLogin () {
         this.$store.dispatch('Home/set_menu', {menu: 0})
       },
-      cerrarRegistro(){
-        this.item = Object.assign({},'')
+      cerrarRegistro () {
+        this.item = Object.assign({}, '')
         this.dialogregistro = false
       },
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
-        let rut = guardar.rut ? guardar.rut.replace(/\./g,'') : ''
+        let rut = guardar.rut ? guardar.rut.replace(/\./g, '') : ''
         let user = {
-          "user": {
-            "name": guardar.name ? guardar.name : '',
-            "rut": rut,
-            "passport": guardar.passport ? guardar.passport : '',
-            "email": guardar.email ? guardar.email : '',
-            "address": guardar.address ? guardar.address : '',
-            "phone_number": guardar.phone_number ? guardar.phone_number : '',
-            "active": false,
-            "password": guardar.password ? guardar.password : '',
-            "password_confirmation": guardar.password_confirmation ? guardar.password_confirmation : '',
+          'user': {
+            'name': guardar.name ? guardar.name : '',
+            'rut': rut,
+            'passport': guardar.passport ? guardar.passport : '',
+            'email': guardar.email ? guardar.email : '',
+            'address': guardar.address ? guardar.address : '',
+            'phone_number': guardar.phone_number ? guardar.phone_number : '',
+            'active': false,
+            'password': guardar.password ? guardar.password : '',
+            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : '',
           }
         }
         console.log('ser a post', user)
@@ -392,11 +392,11 @@
           let usuario = await API.post('users', user)
           if (usuario.status >= 200 && usuario.status < 300) {
             console.log(usuario)
-            alert("Se ha enviado la solicitud para crear su usuario")
+            alert('Se ha enviado la solicitud para crear su usuario')
             this.item = {}
             this.dialogregistro = false
           }
-          else{
+          else {
             console.log('error status', usuario)
           }
         } catch (e) {
@@ -410,12 +410,12 @@
           this.modalInfoBtn1 = 'OK'
         }
       },
-      keymonitor(event) {
+      keymonitor (event) {
         // console.log(event)
-        let value = event.target.value;
-        if(!value) this.item.rut = ''
+        let value = event.target.value
+        if (!value) this.item.rut = ''
         value = value.match(/[0-9Kk]+/g).join('')
-        this.item.rut = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+        this.item.rut = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
       }
     },
     computed: {

@@ -227,7 +227,7 @@
             this.getTrips()
           }
         } catch (e) {
-         console.log('catch err', e.response)
+          console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
@@ -239,7 +239,7 @@
       },
       close () {
         this.dialog = false
-        this.editedItem =  Object.assign({}, '')
+        this.editedItem = Object.assign({}, '')
       },
       editItem (item) {
         this.editedItem = item
@@ -263,7 +263,7 @@
           try {
             let tramos = await API.put('trips', id, tramo)
             if (tramos.status >= 200 && tramos.status < 300) {
-              console.log('ya hizo PUT',tramos)
+              console.log('ya hizo PUT', tramos)
               this.editedItem = Object.assign({}, '')
               this.getTrips()
               this.dialog = false
@@ -278,8 +278,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else {
+        } else {
           console.log('ser a post', tramo)
           try {
             let tramos = await API.post('trips', tramo)

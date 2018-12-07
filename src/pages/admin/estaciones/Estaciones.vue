@@ -187,7 +187,7 @@
             setTimeout(() => {
               this.estaciones = stations.data.data
               this.loading = false
-              }, 500)
+            }, 500)
           }
         } catch (e) {
           console.log('catch err', e.response)
@@ -216,7 +216,7 @@
             this.getStations()
           }
         } catch (e) {
-         console.log('catch err', e.response)
+          console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
@@ -240,29 +240,28 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         let esta = {
-            "station": 
-              {
-                  "name": guardar.name ? guardar.name : '',
-                  "address": guardar.address ? guardar.address : '',
-                  "lat": guardar.lat ? guardar.lat : '',
-                  "lon": guardar.lon ? guardar.lon : '',
-                  // "description": guardar.desc ? guardar.desc : '',
-                  // "city_id": guardar.city_id ? guardar.city_id : ''
-              }
+          'station':
+          {
+            'name': guardar.name ? guardar.name : '',
+            'address': guardar.address ? guardar.address : '',
+            'lat': guardar.lat ? guardar.lat : '',
+            'lon': guardar.lon ? guardar.lon : ''
+            // 'description': guardar.desc ? guardar.desc : '',
+            // 'city_id': guardar.city_id ? guardar.city_id : ''
+          }
         }
-        if(guardar.id){
+        if (guardar.id) {
           console.log('ser a put', esta)
           let id = guardar.id
           try {
-            let station = await API.put('stations', id, esta )
+            let station = await API.put('stations', id, esta)
             if (station.status >= 200 && station.status < 300) {
-              // console.log('ya hizo PUT',station)
+              // console.log('ya hizo PUT', station)
               this.getStations()
               this.dialog = false
               this.editedItem = Object.assign({}, '')
-            }
-            else {
-              alert ('Ha ocurrido un error al editar la estación')
+            } else {
+              alert('Ha ocurrido un error al editar la estación')
             }
           } catch (e) {
             console.log('catch error al editar la estación', e.response)
@@ -271,8 +270,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else{
+        } else {
           console.log('ser a post', esta)
           try {
             let station = await API.post('stations', esta)
@@ -281,8 +279,7 @@
               this.getStations()
               this.dialog = false
               this.editedItem = Object.assign({}, '')
-            }
-            else {
+            } else {
               alert('Ha ocurrido un error al crear la estación')
             }
           } catch (e) {

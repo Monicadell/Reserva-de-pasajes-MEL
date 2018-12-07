@@ -2,13 +2,11 @@
   <div  > 
     <div > 
     <v-card 
-    
    :class="{
     'elevation-1': !cargandoPeticion && listaServicios.length === 0,
     'elevation-10': listaServicios.length > 0,
     //disableList: disableList && servicesList.length === 0 
     }"
-    
     class="fadeinfwdfast"
     >
     <v-card-title style="height: 65px" class="barra-titulo-servicios">
@@ -69,15 +67,15 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
+  // import axios from 'axios'
   import moment from 'moment'
 
   export default {
     watch: {
       cargandoPeticion () {
-       if(this.cargandoPeticion) {
+        if (this.cargandoPeticion) {
           this.listIsVisible = true
-       }
+        }
       }
     },
     mounted () {
@@ -118,24 +116,22 @@
         {text: 'Salida', value: 'from', sortable: false},
         {text: 'Llegada', value: 'to', sortable: false},
         {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
-        {text: '', value: 'action' , sortable: false},
-        // {text: '', value: 'action' , sortable: false},
-        // {text: '', value: 'action' , sortable: false}
+        {text: '', value: 'action', sortable: false}
       ],
-      mientras : [
+      mientras: [
         {
-          "arrival": "18:34:00",
-          "avail_seats": 10,
-          "car_id": null,
-          "date": "2018-11-24",
-          "departure": "15:20:00",
-          "driver_id": null,
-          "duration": null,
-          "freq_id": null,
-          "id": 61,
-          "name": "21",
-          "set": "15:00:00",
-          "trip_id": 1
+          'arrival': '18:34:00',
+          'avail_seats': 10,
+          'car_id': null,
+          'date': '2018-11-24',
+          'departure': '15:20:00',
+          'driver_id': null,
+          'duration': null,
+          'freq_id': null,
+          'id': 61,
+          'name': '21',
+          'set': '15:00:00',
+          'trip_id': 1
         }
       ]
     })

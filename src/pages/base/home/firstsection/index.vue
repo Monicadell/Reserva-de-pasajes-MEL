@@ -21,7 +21,7 @@
     components: {
       HomeToolBar: HomeToolBar,
       MainMenu: MainMenu,
-      BackgroundImage: BackgroundImage,
+      BackgroundImage: BackgroundImage
     }
   }
 </script>

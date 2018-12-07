@@ -95,7 +95,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
   import API from '@pi/app'
 
   export default {
@@ -130,8 +129,8 @@
       //  console.log('usuario eligio destino, fijo ruta', value)
           this.locationsId = Object.assign([], this.locations)
           this.$store.dispatch('Booking/set_ruta', {
-              ruta: value
-          })   
+            ruta: value
+          })
         }
       }
     },
@@ -149,7 +148,7 @@
         console.log(destinations)
         if (destinations.status >= 200 && destinations.status < 300) {
           console.log('actualizo valor de los destinos')
-          this.destLocations = destinations.data.data.filter(item => item.source_id == id)
+          this.destLocations = destinations.data.data.filter(item => item.source_id === id)
         }
       //  console.log(this.destLocations)
       }
