@@ -37,7 +37,7 @@
           {{item.text}}
         </v-subheader>
 
-        <v-list-tile v-else :to="item.path">
+        <v-list-tile v-else :to="item.path" @click="outside()">
           <v-list-tile-action>
             <img :src="item.icon">
             
