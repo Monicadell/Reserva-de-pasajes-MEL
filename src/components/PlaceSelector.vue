@@ -158,27 +158,36 @@
 </script>
 
 <style>
-  .selector-azul{
+  #principal-container .selector-azul{
     background-color: #1565c0;
     color: #fff !important;
   }
-  .selector-azul .theme--light.v-text-field--box.v-input__slot {
+  #principal-container .selector-azul.v-text-field.v-text-field--box.v-text-field--enclosed.v-select.v-select--chips.v-autocomplete.v-input--hide-details.v-input--is-disabled.theme--light{
+    background-color: #ccc;
+  }
+  #principal-container .selector-azul .theme--light.v-text-field--box.v-input__slot {
     color: #fff;
   }
-  .selector-azul .theme--light.v-icon {
+  #principal-container .selector-azul .theme--light.v-icon {
     color: rgba(255,255,255,.54);
   }
+  #principal-container .selector-azul .v-select__selections .theme--light.v-icon.v-icon--disabled{
+    color: #fff !important;
+  }
+  .selector-azul .theme--light.v-input--is-disabled .v-label{
+    color: rgba(255,255,255,.87);
+  }
 
-  .selector-azul .v-select__slot .v-select__selections {
+  #principal-container .selector-azul .v-select__slot .v-select__selections {
     color: rgba(255,255,255,.87) !important;
   }
-  .selector-azul .theme--light.v-label.v-label--active {
+  #principal-container .selector-azul .theme--light.v-label.v-label--active {
       color: rgba(255,255,255,.94) !important;
   }
-  .selector-azul .theme--light.v-label {
+  #principal-container .selector-azul .theme--light.v-label {
       color: rgba(255,255,255,.84);
   }
-  .selector-azul .v-text-field.v-label--active {
+  #principal-container .selector-azul .v-text-field.v-label--active {
     color: #fff;
   }
 </style>
