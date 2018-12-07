@@ -51,7 +51,7 @@
 
 <script>
   // import axios from 'axios'
-  // import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import API from '@pi/app'
 
   export default {
@@ -64,10 +64,9 @@
       misreservaspath: '/misreservas',
       profilepath: '/myInfo'
     }),
-    // computed: mapGetters({
-    //   username: ['Auth/username'],
-    //   role: ['Auth/role']
-    // }),
+    computed: mapGetters({
+      hidesidebar: ['Auth/hidesidebar']
+    }),
     mounted () {
       this.getMyInfo()
     },
@@ -93,7 +92,25 @@
       showAdmin () {
         let env = !this.admin
         this.admin = env
+        if(this.admin === true){
+          this.$store.dispatch('Auth/hide', {
+            hide: false
+          })
+        }
+        else{
+          this.$store.dispatch('Auth/hide', {
+            hide: true
+          })
+        }
         this.$emit('showAdminBar', env)
+      }
+    },
+    watch : {
+      hidesidebar (val) {
+        // console.log('watch cambio hide', val)
+         this.$emit('showAdminBar', !val)
+
+         this.admin = !val
       }
     }
   }

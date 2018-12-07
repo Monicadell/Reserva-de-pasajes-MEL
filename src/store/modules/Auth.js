@@ -8,7 +8,8 @@ const state = {
   role: null,
   username: null,
   useremail: null,
-  userid: null
+  userid: null,
+  hidesidebar: false
 }
 const getters = {
   isAuthorized: state => state.isAuthorized,
@@ -17,7 +18,8 @@ const getters = {
   username: state => state.username,
   useremail: state => state.useremail,
   role: state => state.role,
-  userid: state => state.userid
+  userid: state => state.userid,
+  hidesidebar: state => state.hidesidebar
 }
 const actions = {
   login ({commit}, payload) {
@@ -39,6 +41,12 @@ const actions = {
   },
   logout ({commit}) {
     commit('LOGOUT')
+  },
+  hide ({commit}, payload) {
+    // console.log('commit a hide', payload)
+    commit('HIDE', {
+      hidesidebar: payload.hide
+    })
   }
 }
 const mutations = {
@@ -61,7 +69,11 @@ const mutations = {
     state.role = null
     state.username = null
     state.useremail = null
-  }
+  },
+  HIDE (state, {hidesidebar}){
+    // console.log('muta hide', hidesidebar)
+    state.hidesidebar = hidesidebar
+  },
 }
 
 /**

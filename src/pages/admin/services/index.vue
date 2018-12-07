@@ -40,9 +40,9 @@
     </v-navigation-drawer>
   </v-flex>
 
-  <v-flex xs9>
+  <v-flex xs10>
     <v-layout  align-start justify-center row fill-height id="principal-container"> 
-      <v-flex xs10 >   
+      <v-flex xs10>   
         <v-stepper :value="e1"  class="elevation-0">
     <v-stepper-header >
       <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
@@ -144,7 +144,7 @@
             </v-card>
 
             <v-divider></v-divider>
-            <v-card style="min-height: 40vh">
+            <v-card style="min-height: 45vh">
               <v-card-title primary-title class = "pb-1">
               <span class="mb-0 title-ticket font-weight-black">Mañana</span>
               </v-card-title>

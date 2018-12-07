@@ -9,20 +9,20 @@
       box
       return-object
       hide-details
-      color="primary"
       label="Origen"
       item-text="name"
       item-value="name"
-      class="fadeinfwdfast mr-2" 
+      class="fadeinfwdfast mr-2 selector-azul white--text" 
       
     >
       <template
         slot="selection"
         slot-scope="data"
+        class="white--text"
       >
         <v-avatar >
           <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
         </v-avatar>
         {{ data.item.name }}
       </template>
@@ -57,7 +57,7 @@
       label="Destino"
       item-text="name"
       item-value="name"
-      class="fadeinfwd"
+      class="fadeinfwd selector-azul"
       :disabled="seldestination.status" 
     >
       <template
@@ -66,7 +66,7 @@
       >
       <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
         </v-avatar>  
 
         {{ data.item.name.split('→')[1] }}
@@ -156,3 +156,29 @@
     }
   }
 </script>
+
+<style>
+  .selector-azul{
+    background-color: #1565c0;
+    color: #fff !important;
+  }
+  .selector-azul .theme--light.v-text-field--box.v-input__slot {
+    color: #fff;
+  }
+  .selector-azul .theme--light.v-icon {
+    color: rgba(255,255,255,.54);
+  }
+
+  .selector-azul .v-select__slot .v-select__selections {
+    color: rgba(255,255,255,.87) !important;
+  }
+  .selector-azul .theme--light.v-label.v-label--active {
+      color: rgba(255,255,255,.94) !important;
+  }
+  .selector-azul .theme--light.v-label {
+      color: rgba(255,255,255,.84);
+  }
+  .selector-azul .v-text-field.v-label--active {
+    color: #fff;
+  }
+</style>

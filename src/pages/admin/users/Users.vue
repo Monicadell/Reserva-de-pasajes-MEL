@@ -379,6 +379,16 @@
             if (putuser.status >= 200 && putuser.status < 300) {
               this.getUsers()
               this.dialog = false
+              this.$swal({
+                type: 'success',
+                customClass: 'modal-info',
+                timer: 2000,
+                title: 'Usuario',
+                text: 'Usuario actualizado exitosamente!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
               this.editedItem = Object.assign({}, '')
             }
           } catch (e) {
@@ -401,6 +411,16 @@
               this.editedItem = Object.assign({}, '')
               this.getUsers()
               this.dialog = false
+              this.$swal({
+                type: 'success',
+                customClass: 'modal-info',
+                timer: 2000,
+                title: 'Usuario',
+                text: 'Usuario creado exitosamente!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
             }
           } catch (e) {
             console.log('catch err', e.response)
@@ -422,6 +442,16 @@
             console.log('ya hizo DELETE user', eliminando)
             this.getUsers()
             this.confirmaAnular = false
+            this.$swal({
+                type: 'success',
+                customClass: 'modal-info',
+                timer: 2000,
+                title: 'Usuario',
+                text: 'Usuario eliminado exitosamente!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
             console.log(eliminando)
           }
         } catch (e) {
