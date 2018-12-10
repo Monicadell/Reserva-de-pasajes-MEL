@@ -118,7 +118,7 @@
           
       </v-flex>  
       <v-flex xs2>
-        <v-navigation-drawer style="width: 100%; max-height: 100%;">
+        <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); border-left: 1px solid rgba(0, 0, 0, .12)">
           <!-- <v-list dense class="pt-0 user "> -->
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
@@ -136,7 +136,7 @@
                     hide-actions
                     class="tabla-express pt-3"
                     no-data-text="No hay viajes para hoy"
-                    style="overflow-y: scroll; max-height: 100%;"
+                    style="overflow-y: scroll; height: calc(100% - 40px); "
                   >
                   <template slot="items" slot-scope="props" >
                     <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
@@ -170,7 +170,7 @@
                     hide-actions
                     class="tabla-express pt-3"
                     no-data-text="No hay viajes para mañana"
-                    style="max-height: 100%; overflow-y: scroll;"
+                    style="height: calc(100% - 40px); overflow-y: scroll;"
                   >
                   <template slot="items" slot-scope="props" >
                     <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
@@ -271,13 +271,13 @@
         /*  {from: 'ccs', to: 'mer', arrival: "16:45:00", avail_seats: 123, date: "2018-12-10", departure: "15:15:00", driver_id: null, duration: "01:30:00.000000", freq_id: 11,
             hrs_left: 0, id: 26, name: "FRECUENCIA MEL", set: "15:00:00", trip_id: 1}, */
           {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
@@ -292,13 +292,13 @@
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
@@ -410,10 +410,12 @@
 <style>
   #principal-container {
     background: rgb(242, 245, 247);
+    overflow-y: scroll;
   }
   .media-alt{
-    height: calc(50vh - 79px);
+    height: calc(50vh - 85px);
     /* max-height: calc(50% - 15px); */
+
   }
   .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
     background: rgba(104, 104, 104, 0.1);
