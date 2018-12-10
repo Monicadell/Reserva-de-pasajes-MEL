@@ -191,10 +191,21 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar las estaciones, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
         }
       },
       editItem (item) {
@@ -214,13 +225,36 @@
             this.confirmaAnular = false
             console.log(eliminando)
             this.getStations()
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'success',
+              customClass: '',
+              title: 'Estación',
+              timer: 2000,
+              text: 'Estación eliminada exitosamente',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'OK'
+            })
           }
         } catch (e) {
           console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          alert('Ha ocurrido un error al eliminar')
+          // alert('Ha ocurrido un error al eliminar')
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: 'Ha ocurrido un error al eliminar la estación',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       close () {
@@ -259,16 +293,50 @@
               // console.log('ya hizo PUT', station)
               this.getStations()
               this.dialog = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                customClass: '',
+                title: 'Estación',
+                timer: 2000,
+                text: 'Estación actualizada exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.editedItem = Object.assign({}, '')
             } else {
-              alert('Ha ocurrido un error al editar la estación')
+              // alert('Ha ocurrido un error al editar la estación')
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'error',
+                customClass: '',
+                title: 'Error',
+                text: 'Ha ocurrido un error al editar la estación.',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Cerrar'
+              })
             }
           } catch (e) {
             console.log('catch error al editar la estación', e.response)
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              customClass: '',
+              title: 'Error',
+              text: 'Ha ocurrido un error al editar la estación.',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         } else {
           console.log('ser a post', esta)
@@ -278,16 +346,39 @@
               console.log(station)
               this.getStations()
               this.dialog = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                customClass: '',
+                title: 'Estación',
+                timer: 2000,
+                text: 'Estación creada exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.editedItem = Object.assign({}, '')
             } else {
               alert('Ha ocurrido un error al crear la estación')
             }
           } catch (e) {
             console.log('catch error al crear estación', e.response)
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al crear la estación, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al crear la estación, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              customClass: '',
+              title: 'Ha ocurrido un error al crear la estación.',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         }
       }

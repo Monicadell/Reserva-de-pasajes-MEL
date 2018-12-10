@@ -369,10 +369,20 @@
         } catch (e) {
           console.log('catch err', e.response)
           // alert('Ha ocurrido un error, intente más tarde!')
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al cargar las frecuencias, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las frecuencias, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Frecuencias',
+            text: 'Ha ocurrido un error al obtener las frecuencias',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
         }
       },
       async getTrips () {
@@ -427,16 +437,37 @@
             if (frec.status >= 200 && frec.status < 300) {
               this.getFrec()
               this.dialog = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Frecuencia',
+                timer: 2000,
+                text: 'Frecuencia actualizada exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
             } else {
               alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
             }
           } catch (e) {
             console.log('catch err', e.response)
             // alert('Ha ocurrido un error, intente más tarde!')
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al editar la frecuencia, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al editar la frecuencia, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Ha ocurrido un error al editar la frecuencia, intente más tarde.',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         }
         else {
@@ -446,6 +477,17 @@
             if (frec.status >= 200 && frec.status < 300) {
               console.log('frecuencias despues post', frec)
               this.getFrec()
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Frecuencia',
+                timer: 2000,
+                text: 'Frecuencia creada exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.dialog = false
             } else {
               alert('Ha ocurrido un error, intente nuevamente')
@@ -453,10 +495,20 @@
           } catch (e) {
             console.log('catch err', e.response)
             // alert('Ha ocurrido un error, intente más tarde!')
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al guardar la frecuencia, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al guardar la frecuencia, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Ha ocurrido un error al crear la frecuencia',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         }
       },
@@ -472,6 +524,18 @@
             console.log('ya hizo DELETE freq', eliminando)
             this.confirmaAnular = false
             console.log(eliminando)
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'success',
+              customClass: '',
+              title: 'Frecuencia',
+              text: 'Frecuencia eliminada exitosamente',
+              animation: true,
+              timer: 2000,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'OK'
+            })
             this.getFrec()
           }
           else {
@@ -480,10 +544,20 @@
         } catch (e) {
           console.log('catch err', e.response)
           // alert('Ha ocurrido un error, intente más tarde!')
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al eliminar la frecuencia',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       close () {

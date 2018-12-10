@@ -140,14 +140,14 @@ const actions = {
   set_listaReservas ({commit}, payload) {
     commit('SET_LISTARESERVAS', {listaReservas: payload.listaReservas})
   },
-  set_limpiar({commit}, payload) {
+  set_limpiar ({commit}, payload) {
     commit('SET_LIMPIAR', {limpiar: payload.limpiar})
   },
   set_origen ({commit}, payload) {
     commit('SET_ORIGEN', {origen: payload.origen})
   },
   set_selectedExpress ({commit}, payload) {
-    commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress}) 
+    commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress})
   },
   set_servicioExpress ({commit}, payload) {
     commit('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})

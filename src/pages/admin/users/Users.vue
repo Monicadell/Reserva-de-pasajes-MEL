@@ -318,10 +318,17 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al obtener los usuarios, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: 'Ha ocurrido un error',
+            text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       busca () {
@@ -394,10 +401,20 @@
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              type: 'error',
+              customClass: 'modal-info',
+              timer: 2000,
+              title: 'Ha ocurrido un error',
+              text: 'Ha ocurrido un error editando el usuario, intente más tarde.',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
           }
         } else {
           console.log('user a post', us)
@@ -424,10 +441,19 @@
             this.editedItem = Object.assign({}, '')
             // alert('Ha ocurrido un error, intente más tarde!')
             this.dialog = false
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error creando el usuario, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error creando el usuario, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              type: 'error',
+              customClass: 'modal-info',
+              title: 'Ha ocurrido un error',
+              text: 'Ha ocurrido un error creando el usuario, intente más tarde.',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
           }
         }
       },
@@ -456,10 +482,20 @@
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error eliminando el usuario, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error eliminando el usuario, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            type: 'error',
+            customClass: 'modal-info',
+            timer: 2000,
+            title: 'Ha ocurrido un error',
+            text: 'Ha ocurrido un error eliminando el usuario, intente más tarde.',
+            animation: true,
+            showConfirmButton: false,
+            showCloseButton: false
+          })
         }
       },
       irEliminar (datoid) {

@@ -284,10 +284,21 @@
         } catch (e) {
           console.log('catch err', e.response)
           // alert('Ha ocurrido un error, intente más tarde!')
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: 'Ha ocurrido un error al obtener sus datos, intente más tarde.',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       }
     }

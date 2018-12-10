@@ -85,17 +85,39 @@
             // }, 500)
           } else {
             console.log('Error ', tickets.status)
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Reservas',
+              timer: 2000,
+              text: 'Ha ocurrido un error al obtener las reservas',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'OK'
+            })
           }
         } catch (e) {
           console.log('Error ', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Reservas',
+            timer: 2000,
+            text: 'Ha ocurrido un error al obtener las reservas',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
         }
       }
     }

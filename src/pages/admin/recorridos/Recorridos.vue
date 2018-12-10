@@ -224,6 +224,17 @@
             console.log('ya hizo DELETE', eliminando)
             this.confirmaAnular = false
             console.log(eliminando)
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'success',
+              title: 'Tramo',
+              timer: 2000,
+              text: 'Tramo eliminado exitosamente',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
             this.getTrips()
           }
         } catch (e) {
@@ -231,10 +242,20 @@
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error eliminando el tramo, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error eliminando el tramo, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al eliminar el tramo',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       close () {
@@ -265,6 +286,17 @@
             if (tramos.status >= 200 && tramos.status < 300) {
               console.log('ya hizo PUT', tramos)
               this.editedItem = Object.assign({}, '')
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Tramo',
+                timer: 2000,
+                text: 'Tramo actualizado exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.getTrips()
               this.dialog = false
             }
@@ -273,10 +305,20 @@
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         } else {
           console.log('ser a post', tramo)
@@ -284,6 +326,17 @@
             let tramos = await API.post('trips', tramo)
             if (tramos.status >= 200 && tramos.status < 300) {
               console.log('post ok', tramos)
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Tramo',
+                timer: 2000,
+                text: 'Tramo creado exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.getTrips()
               this.dialog = false
             }
@@ -292,10 +345,21 @@
             // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error creando el tramo, intente nuevamente.'
-            this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              customClass: '',
+              title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error creando el tramo, intente nuevamente.'
+            // this.modalInfoBtn1 = 'OK'
           }
         }
       }

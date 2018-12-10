@@ -375,10 +375,20 @@
         } catch (e) {
           console.log('error al cargar servicios', e.response)
           console.log('catch err', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al obtener los servicios, intente más tarde.',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       editItem (item) {
@@ -394,16 +404,37 @@
             console.log('ya hizo DELETE', eliminando)
             this.confirmaAnular = false
             console.log(eliminando)
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'success',
+              title: 'Servicio',
+              timer: 2000,
+              text: 'Servicio eliminado exitosamente',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
             this.getServices()
           } else {
             alert('Ha ocurrido un error al eliminar')
           }
         } catch (e) {
           console.log('catch error al eliminar el servicio', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al eliminar el servicio, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al eliminar el servicio, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'+
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al eliminar el servicio',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       close () {
@@ -434,16 +465,37 @@
               // this.services = servicios.data.data
               this.getServices()
               this.dialog = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Servicio',
+                timer: 2000,
+                text: 'Servicio actualizado exitosamente',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.editedItem = Object.assign({}, '')
             } else {
               alert('Ha ocurrido un error al editar el servicio')
             }
           } catch (e) {
             console.log('catch error al editar el servicio', e.response)
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Ha ocurrido un error al editar el servicio',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         } else {
           console.log('ser a post', ser)
@@ -453,16 +505,37 @@
               console.log(servicios)
               this.getServices()
               this.dialog = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Servicio',
+                text: 'Servicio creado exitosamente',
+                animation: true,
+                timer: 2000,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
               this.editedItem = Object.assign({}, '')
             } else {
               alert('Ha ocurrido un error al crear el servicio')
             }
           } catch (e) {
             console.log('catch error al crear el servicio', e.response)
-            this.showModal = true
-            this.modalInfoTitle = 'Ha ocurrido un error'
-            this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
-            this.modalInfoBtn1 = 'OK'
+            // this.showModal = true
+            // this.modalInfoTitle = 'Ha ocurrido un error'
+            // this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
+            // this.modalInfoBtn1 = 'OK'
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Ha ocurrido un error al crear el servicio, intente más tarde.',
+              text: e.response.data.error,
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           }
         }
       }

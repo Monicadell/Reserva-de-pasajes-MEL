@@ -121,7 +121,7 @@
         <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); border-left: 1px solid rgba(0, 0, 0, .12)">
           <!-- <v-list dense class="pt-0 user "> -->
             <v-toolbar-title class="title-list-custom white--text">
-              <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
+              <span class="hidden-sm-and-down ml-4">Servicios próximos</span>
             </v-toolbar-title>
             <v-progress-linear :indeterminate="true" v-if="loadingDerecha"></v-progress-linear>
             <!-- <v-divider></v-divider> -->
@@ -330,7 +330,6 @@
     mounted () {
       this.currenDate = moment().format('YYYY-MM-DD')
       this.tomorrowDate = moment().add('days', 1).format('YYYY-MM-DD')
-      console.log('HOOOOY', this.tomorrowDate)
       this.getReservas()
       this.getExpress()
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
@@ -368,10 +367,21 @@
           }
         } catch (e) {
           console.log('Error al obtener tickets del usuario', e.response)
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente nuevamente.'
-          this.modalInfoBtn1 = 'OK'
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente nuevamente.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: 'Ha ocurrido un error',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       async getExpress () {
@@ -380,18 +390,14 @@
           let servicios = await API.get('services', {'express': 1})
           if (servicios.status >= 200 && servicios.status < 300) {
             console.log('expres', servicios)
-            // let today = new Date()
-           
-            // setTimeout(() => {
+            setTimeout(() => {
               this.hoy = servicios.data.data.filter(service => service.date === this.currenDate)
-              this.manana = servicios.data.data.filter(service => service.date === this.tomorrowDate);
+              this.manana = servicios.data.data.filter(service => service.date === this.tomorrowDate)
               this.loadingDerecha = false
-            // }, 500)
+            }, 500)
           }
         } catch (e) {
-          console.log('error al cargar servicios', e.response)
-          console.log('catch err', e.response)
-
+          console.log('catch err, get express', e.response)
         }
       },
       volverMenu () {
@@ -400,7 +406,7 @@
         })
       },
       selectExpress (servicioExpress) {
-        console.log('servicio expres seleccionado', servicioExpress)
+        // console.log('servicio expres seleccionado', servicioExpress)
         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
       }
