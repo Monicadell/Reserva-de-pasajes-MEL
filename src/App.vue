@@ -12,6 +12,18 @@
 
 <style>
 
+  .swal2-popup {
+    border-radius: 0em;
+    font-family: helveticaNeuefont;
+  }
+
+  /*.swal2-title {
+  margin: 0px;
+  font-size: 16px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+  margin-bottom: 28px;
+} */
+
  .fadeinfwdfast {
 	-webkit-animation: fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 	        animation: fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;

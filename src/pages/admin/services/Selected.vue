@@ -31,7 +31,8 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="gris--text"> {{ruta.name.split('→')[0]}} </b>
+                   <!-- <b class="gris--text"> {{ruta.name.split('→')[0]}} </b> -->
+                   <b class="gris--text"> {{servicioSeleccionado.source}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
@@ -60,7 +61,9 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
-                    <b class="gris--text"> {{ruta.name.split('→')[1]}} </b>
+                   <!-- <b class="gris--text"> {{ruta.name.split('→')[1]}} </b> -->
+                    <b class="gris--text"> {{servicioSeleccionado.dest}} </b>
+
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
@@ -182,9 +185,14 @@
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
             })
-            this.$store.dispatch('Booking/select', { selected: false })
+            this.$store.dispatch('Booking/select', {selected: false})
+            this.$store.dispatch('Booking/set_ruta', {ruta: {}}) 
+            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: [],})
             this.$store.dispatch('Booking/set_e1', {
               e1: 3
+            })
+             this.$store.dispatch('Booking/set_limpiar', {
+              limpiar: true
             })
           }
         } catch (e) {
@@ -193,20 +201,21 @@
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = e.response.data.error
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
-            type: 'warning',
             customClass: 'modal-info',
-            timer: 2000,
-            title: 'Ha ocurrido un inconveniete!',
+            type: 'error',
+            customClass: '',
+            title: '¡Reserva no habilitada!',
             text: e.response.data.error,
             animation: true,
+            showCancelButton: true,
             showConfirmButton: false,
-            showCloseButton: false
+            cancelButtonText: 'Cerrar'
           })
+        /*  this.showModal = true
+          this.modalInfoTitle = 'Ha ocurrido un error'
+          this.modalInfoDetail = e.response.data.error
+          this.modalInfoBtn1 = 'OK' */
         }
      /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {

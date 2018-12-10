@@ -203,6 +203,11 @@
       </v-flex>
     </v-layout>
 
+    <v-layout row wrap fill-height class="">
+      <v-flex xs12 >
+        <ServiceExpress/>  
+      </v-flex>
+    </v-layout>
 
       <v-layout row wrap fill-height class="">
       <v-flex xs12 >
@@ -239,6 +244,8 @@
   import ServiceDate from '@c/DatePicker'
   import ServiceList from './List'
   import ServiceSelected from './Selected'
+  import ServiceExpress from './SelectedExpress'
+
   import MyBooking from './MyBooking'
   import modalAnular from './modalAnular'
   import modalConfirmar from './modalConfirmar'
@@ -261,6 +268,8 @@
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
         hoy: [
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+        /*  {from: 'ccs', to: 'mer', arrival: "16:45:00", avail_seats: 123, date: "2018-12-10", departure: "15:15:00", driver_id: null, duration: "01:30:00.000000", freq_id: 11,
+            hrs_left: 0, id: 26, name: "FRECUENCIA MEL", set: "15:00:00", trip_id: 1}, */
           {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
@@ -314,7 +323,8 @@
       modalConfirmar,
       modalDetalle,
       datePlaceContainer,
-      modal: Modal
+      modal: Modal,
+      ServiceExpress
     },
     computed: {
       ...mapGetters({
@@ -342,36 +352,18 @@
     },
     mounted () {
       this.getReservas()
-      this.$store.dispatch('Booking/set_ruta', {
-        ruta: {}
-      })
-      this.$store.dispatch('Booking/set_listaServicios', {
-        listaServicios: []
-      })
-      this.$store.dispatch('Booking/set_anular', {
-        anular: false
-      })
-      this.$store.dispatch('Booking/set_actualizarReservas', {
-        actualizarReservas: false
-      })
-      this.$store.dispatch('Booking/set_fechaSeleccionada', {
-        fechaSeleccionada: ''
-      })
-      this.$store.dispatch('Booking/set_confirmar', {
-        confirmar: false
-      })
-      this.$store.dispatch('Booking/set_e1', {
-        e1: 1
-      })
-      this.$store.dispatch('Booking/set_detalle', {
-        detalle: false
-      })
-      this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {
-        actualizarVistaConfirmacion: false
-      })
-      this.$store.dispatch('Booking/set_listaReservas', {
-        listaReservas: []
-      })
+      this.$store.dispatch('Booking/set_ruta', {ruta: {}})
+      this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
+      this.$store.dispatch('Booking/set_anular', {anular: false})
+      this.$store.dispatch('Booking/set_actualizarReservas', {actualizarReservas: false})
+      this.$store.dispatch('Booking/set_fechaSeleccionada', {fechaSeleccionada: ''})
+      this.$store.dispatch('Booking/set_confirmar', {confirmar: false})
+      this.$store.dispatch('Booking/set_e1', {e1: 1})
+      this.$store.dispatch('Booking/set_detalle', {detalle: false})
+      this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {actualizarVistaConfirmacion: false})
+      this.$store.dispatch('Booking/set_listaReservas', {listaReservas: []})
+      this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+
     },
     methods: {
       async getReservas () {  // obtener las reservas de un usuario
@@ -406,10 +398,10 @@
           e1: 1
         })
       },
-      selectExpress (servicioSeleccionado) {
-        alert('select')
-        // this.$store.dispatch('Booking/select', {selected: true})
-        // this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
+      selectExpress (servicioExpress) {
+       /*console.log(servicioExpress)
+         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})  */
       }
     }
   }

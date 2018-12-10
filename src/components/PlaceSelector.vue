@@ -102,7 +102,7 @@
     data: () => ({
       locations: [],
       destLocations: [],
-      origen: '',
+    //  origen: '',
       destino: '',
       seldestination: {
         status: true
@@ -123,7 +123,7 @@
       },
       placeDestiny: {
         get () {
-        //  return this.search[this.direction].place
+          return this.ruta
         },
         set (value) {
       //  console.log('usuario eligio destino, fijo ruta', value)
@@ -139,6 +139,9 @@
     //  console.log(stations.status)
       if (stations.status >= 200 && stations.status < 300) {
         this.locations = Object.assign([], stations.data.data)
+        this.$store.dispatch('Booking/set_origen', {
+            origen: stations.data.data,
+          })   
       }
     },
     methods: {

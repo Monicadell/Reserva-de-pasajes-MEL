@@ -87,6 +87,7 @@
               this.componentKeyDate++
               this.disabledBtn = true
               this.$swal({
+                customClass: 'modal-info',
                 type: 'error',
                 customClass: 'modal-info',
                 timer: 2000,

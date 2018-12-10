@@ -35,7 +35,12 @@ const state = {
   servicioDetalle: {}, // almaceno el servicio seleccionado para mostrar detalle
   estadoTickete: ' ', // almacena el estado del servicio seleccionado para mostrar el detalle -> no se guarda directamente en servicioDetalle para hacer la logica antes de que se muestre el componente
   actualizarVistaConfirmacion: false,
-  listaReservas: []
+  listaReservas: [],
+  limpiar: false,
+  origen: [],
+  selectedExpress: false,
+  servicioExpress: {}
+
 }
 
 const getters = {
@@ -60,7 +65,12 @@ const getters = {
   servicioDetalle: state => state.servicioDetalle,
   estadoTickete: state => state.estadoTickete,
   actualizarVistaConfirmacion: state => state.actualizarVistaConfirmacion,
-  listaReservas: state => state.listaReservas
+  listaReservas: state => state.listaReservas,
+  limpiar: state => state.limpiar,
+  origen: state => state.origen,
+  selectedExpress: state => state.selectedExpress,
+  servicioExpress: state => state.servicioExpress
+
 }
 
 const actions = {
@@ -129,6 +139,18 @@ const actions = {
   },
   set_listaReservas ({commit}, payload) {
     commit('SET_LISTARESERVAS', {listaReservas: payload.listaReservas})
+  },
+  set_limpiar({commit}, payload) {
+    commit('SET_LIMPIAR', {limpiar: payload.limpiar})
+  },
+  set_origen ({commit}, payload) {
+    commit('SET_ORIGEN', {origen: payload.origen})
+  },
+  set_selectedExpress({commit}, payload) {
+    commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress}) 
+  },
+  set_servicioExpress ({commit}, payload) {
+    commit ('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
   }
 
 }
@@ -202,6 +224,18 @@ const mutations = {
   },
   SET_LISTARESERVAS: (state, {listaReservas}) => {
     state.listaReservas = listaReservas
+  },
+  SET_LIMPIAR: (state, {limpiar}) => {
+    state.limpiar = limpiar
+  },
+  SET_ORIGEN: (state, {origen}) => {
+    state.origen = origen
+  },
+  SET_SELECTEDEXPRESS: (state, {selectedExpress}) => {
+    state.selectedExpress = selectedExpress
+  },
+  SET_SERVICIOEXPRESS: (state, {servicioExpress}) => {
+    state.servicioExpress = servicioExpress
   }
 }
 
