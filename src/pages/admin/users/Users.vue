@@ -314,7 +314,7 @@
               this.pagination.total_pages = usuarios.data.total_pages
               this.loading = false
               console.log('pagination', this.pagination)
-              }, 500)
+            }, 500)
           }
         } catch (e) {
           console.log('catch err', e.response)

@@ -9,7 +9,7 @@ import store  from '../../store'
  */
 const url = endpoints.app
 const base = `${url}/`
-let credential = store.getters['Auth/credential']
+// let credential = store.getters['Auth/credential']
 /**
  * Export
  */
@@ -26,7 +26,7 @@ export default {
     return axios.post(base + urlpost, {...params})
   },
   put (urlput, id, params) {
-    return axios.put(base + urlput + '/' + id , {...params})
+    return axios.put(base + urlput + '/' + id, {...params})
   },
   delete (urldel, id) {
     console.log('elimina', id, base)

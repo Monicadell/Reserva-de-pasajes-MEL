@@ -258,7 +258,7 @@
           {text: 'Origen', value: 'origen', sortable: false, align: 'left'},
           {text: 'Destino', value: 'destino', sortable: false, align: 'left'},
           {text: 'Salida', value: 'email', sortable: false, align: 'left'},
-          {text: 'Ir', value: '', sortable: false, align: 'left'}],
+          {text: 'Ir', value: '', sortable: false, align: 'center'}],
         hoy: [
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
@@ -269,7 +269,7 @@
           {text: 'Origen', value: 'origen', sortable: false},
           {text: 'Destino', value: 'destino', sortable: false},
           {text: 'Salida', value: 'salida', sortable: false},
-          {text: 'Ir', value: '', sortable: false, align: 'left'}],
+          {text: 'Ir', value: '', sortable: false, align: 'center'}],
         manana: [
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},

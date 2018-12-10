@@ -395,8 +395,7 @@
             alert('Se ha enviado la solicitud para crear su usuario')
             this.item = {}
             this.dialogregistro = false
-          }
-          else {
+          } else {
             console.log('error status', usuario)
           }
         } catch (e) {

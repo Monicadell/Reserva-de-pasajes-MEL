@@ -445,7 +445,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        } else{
+        } else {
           console.log('ser a post', ser)
           try {
             let servicios = await API.post('services', ser)

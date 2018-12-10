@@ -9,7 +9,6 @@ import i18n from './locales'
 var VueScrollTo = require('vue-scrollto')
 import moment from 'moment'
 import VueSweetalert2 from 'vue-sweetalert2'
- 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'

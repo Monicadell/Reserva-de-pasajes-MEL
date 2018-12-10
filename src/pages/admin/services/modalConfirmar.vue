@@ -116,11 +116,11 @@
       async confirmarReserva () {
         const idServicio = this.servicioConfirmar.id
         try {
-          let confirmacion = await API.patchNoRest('tickets', idServicio, 'confirm') 
+          let confirmacion = await API.patchNoRest('tickets', idServicio, 'confirm')
           console.log(confirmacion)
         //  this.modal.status = 'done'
           if (confirmacion.status >= 200 && confirmacion.status < 300) {
-            // confirmacion exitosa 
+            // confirmacion exitosa
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
             })
