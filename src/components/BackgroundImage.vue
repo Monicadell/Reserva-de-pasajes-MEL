@@ -20,16 +20,16 @@
     }),
     methods: {
       updateImg () {
-        if(this.imgnumber === 4){
+        if (this.imgnumber === 4) {
           this.imgnumber = 1
         }
-        else{
+        else {
           this.imgnumber++
         }
         this.imagen = '../../static/img/' + this.imgnumber + '.jpg'
       }
     },
-    beforeDestroy() {
+    beforeDestroy () {
       clearInterval(this.refreshInterval);
     },
     mounted () {

@@ -7,7 +7,7 @@
     <!-- <admin-bottom-navigation v-else/> -->
 
     <v-content>
-      <v-container fluid fill-height class="pa-0">
+      <v-container fluid class="pa-0">
         <v-layout justify-center align-center>
           <router-view/>
         </v-layout>

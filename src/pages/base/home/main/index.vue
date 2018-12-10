@@ -75,11 +75,12 @@
                       <v-spacer></v-spacer>
 
                     </v-card-actions> -->
-                      <v-divider></v-divider>
-                      <v-card-actions  class="justify-center pt-1">
-                        <v-spacer></v-spacer>
-                        <v-btn block color="primary" @click="">Recuperar contraseña</v-btn>
-                        <v-btn small flat color="primary" @click="dialogpass = false">Cerrar</v-btn>
+                      <!-- <v-divider></v-divider> -->
+                      <v-card-actions  class="justify-center py-3">
+                        <v-btn outline color="primary" class="mx-2 text-capitalize" @click="dialogpass = false">Cerrar</v-btn>
+                         <v-spacer></v-spacer>
+                         <v-btn color="primary" class="mx-2 text-capitalize" @click="dialogpass = false">Recuperar contraseña</v-btn>
+
                         <!-- <v-btn
                           color="primary"
                           flat
@@ -156,6 +157,7 @@
                                   <v-text-field
                                     label="RUT"
                                     v-model="item.rut"
+                                    @keyup="keymonitor"
                                   ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6>
@@ -210,19 +212,19 @@
 
                             </v-container>
                         </v-card-text>
-                        <v-divider></v-divider>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            block color="primary"
-                            @click="solicitarRegistro(item)"
-                          >Enviar solicitud
-                          </v-btn>
-                          <v-btn
+                        <!-- <v-divider></v-divider> -->
+                        <v-card-actions class="py-3">
+                           <v-btn
                             color="primary"
-                            flat
+                            outline class="mx-2"
                             @click="cerrarRegistro()"
                           >Cerrar
+                          </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                              block color="primary" class="mx-2"
+                              @click="solicitarRegistro(item)"
+                            >Enviar solicitud
                           </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -308,7 +310,7 @@
   import Modal from '@c/Modal'
 
   export default {
-     data () {
+    data () {
       return {
         dialogpass: false,
         dialogreserva: false,
@@ -351,10 +353,10 @@
             return pattern.test(value) || 'Email invalido'
           },
           password_confirmation: value => {
-            const coinciden = this.item.password === value ? true : false
+            const coinciden = this.item.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres',
+          min: value => value.length >= 8 || 'Min 8 caracteres'
         }
       }
     },
@@ -365,23 +367,24 @@
       goToLogin () {
         this.$store.dispatch('Home/set_menu', {menu: 0})
       },
-      cerrarRegistro(){
-        this.item = Object.assign({},'')
+      cerrarRegistro () {
+        this.item = Object.assign({}, '')
         this.dialogregistro = false
       },
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
+        let rut = guardar.rut ? guardar.rut.replace(/\./g, '') : ''
         let user = {
-          "user": {
-            "name": guardar.name ? guardar.name : '',
-            "rut": guardar.rut ? guardar.rut : '',
-            "passport": guardar.passport ? guardar.passport : '',
-            "email": guardar.email ? guardar.email : '',
-            "address": guardar.address ? guardar.address : '',
-            "phone_number": guardar.phone_number ? guardar.phone_number : '',
-            "active": false,
-            "password": guardar.password ? guardar.password : '',
-            "password_confirmation": guardar.password_confirmation ? guardar.password_confirmation : '',
+          'user': {
+            'name': guardar.name ? guardar.name : '',
+            'rut': rut,
+            'passport': guardar.passport ? guardar.passport : '',
+            'email': guardar.email ? guardar.email : '',
+            'address': guardar.address ? guardar.address : '',
+            'phone_number': guardar.phone_number ? guardar.phone_number : '',
+            'active': false,
+            'password': guardar.password ? guardar.password : '',
+            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : '',
           }
         }
         console.log('ser a post', user)
@@ -389,11 +392,10 @@
           let usuario = await API.post('users', user)
           if (usuario.status >= 200 && usuario.status < 300) {
             console.log(usuario)
-            alert("Se ha enviado la solicitud para crear su usuario")
+            alert('Se ha enviado la solicitud para crear su usuario')
             this.item = {}
             this.dialogregistro = false
-          }
-          else{
+          } else {
             console.log('error status', usuario)
           }
         } catch (e) {
@@ -406,6 +408,13 @@
           this.modalInfoDetail = 'Ha ocurrido un error, intente más tarde.'
           this.modalInfoBtn1 = 'OK'
         }
+      },
+      keymonitor (event) {
+        // console.log(event)
+        let value = event.target.value
+        if (!value) this.item.rut = ''
+        value = value.match(/[0-9Kk]+/g).join('')
+        this.item.rut = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
       }
     },
     computed: {

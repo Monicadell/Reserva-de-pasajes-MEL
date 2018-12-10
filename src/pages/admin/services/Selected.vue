@@ -31,11 +31,12 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="secondary--text"> {{ruta.name.split('→')[0]}} </b>
+                   <!-- <b class="gris--text"> {{ruta.name.split('→')[0]}} </b> -->
+                   <b class="gris--text"> {{servicioSeleccionado.source}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
-                    <b class="secondary--text">{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
+                    <b class="gris--text">{{moment(servicioSeleccionado.departure,'HH:mm:ss').format('HH:mm')}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class=" divider-custom mt-3"></v-divider>
@@ -48,7 +49,7 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                      <div class="grey--text"> <b>Día del trayecto</b></div>
-                    <b class="secondary--text"> {{moment(servicioSeleccionado.date).format('dddd D  MMMM YYYY')}}</b>
+                    <b class="gris--text"> {{moment(servicioSeleccionado.date).format('dddd D  MMMM YYYY')}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class="divider-custom mt-3"></v-divider>
@@ -60,11 +61,13 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
-                    <b class="secondary--text"> {{ruta.name.split('→')[1]}} </b>
+                   <!-- <b class="gris--text"> {{ruta.name.split('→')[1]}} </b> -->
+                    <b class="gris--text"> {{servicioSeleccionado.dest}} </b>
+
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
-                    <b class="secondary--text"> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
+                    <b class="gris--text"> {{  moment(servicioSeleccionado.arrival,'HH:mm:ss').format('HH:mm')  }} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -73,18 +76,18 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions >
+          <v-card-actions class="pb-4">
             <v-btn
-              color="error"
+              color="primary" outline
               @click="cancel"
-              class="ml-4 mb-1"
+              class="ml-4 mb-1 text-capitalize"
             >
               Cancelar
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              color="secondary"
-              class="mr-4 mb-1"              
+              color="primary"
+              class="mr-4 mb-1 text-capitalize"              
               @click="doBooking"
             >
               Reservar
@@ -130,7 +133,6 @@
   import API from '@pi/app'
   import {mapGetters} from 'vuex'
   import moment from 'moment'
-  import axios from 'axios'
   import Modal from '@c/Modal'
 
   export default {
@@ -145,9 +147,9 @@
         color: 'primary',
         text: 'Confirmar reserva',
         name: '',
-        moment: moment,
+        moment: moment
       },
-      ticket : {
+      ticket: {
         status: 'none'
       }
     }),
@@ -164,12 +166,12 @@
       cancel () {
         setTimeout(() => {
           this.ticket.status = 'none'
-        },2000)
+        }, 2000)
         this.$store.dispatch('Booking/select', {selected: false})
       },
       async doBooking () {
         this.loadingBooking = true
-        const hora = moment().toISOString();
+        const hora = moment().toISOString()
         const ticket = {
           status: 1,
           booked_at: hora,
@@ -178,7 +180,7 @@
         try {
           const booking = await API.postNoRest('services', ticket.service_id, 'book')
         // console.log(booking)
-          if (booking.status >= 200 && booking.status < 300){
+          if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
@@ -195,7 +197,7 @@
           }
         } catch (e) {
           console.log('error al reservar', e.response)
-          this.$store.dispatch('Booking/select', {selected: false})
+          this.$store.dispatch('Booking/select', { selected: false })
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })
@@ -226,27 +228,20 @@
           .then((response)=>{
           this.ticket.status = 'progress'
             setTimeout(() => {
-              
               this.booking.color = 'space'
               this.booking.text = 'Reserva realizada con exito'
-
               this.ticket.status = 'done'
               this.loadingBooking = false
                 this.$store.dispatch('Booking/set_reservaRealizada', {
                 reservaRealizada: true
-                });  
+                });
             }, 2000)
-
-          
-
-       
             console.log(response);
           })
           .catch(function (error) {
             console.log('****')
             console.log(error);
-          });     
- */
+          }); */
       }
     },
     computed: {

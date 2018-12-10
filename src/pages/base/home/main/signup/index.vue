@@ -113,28 +113,28 @@
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
         let user = {
-          "user": {
-            "name": guardar.name ? guardar.name : '',
-            "rut": guardar.rut ? guardar.rut : '',
-            "passport": guardar.passport ? guardar.passport : '',
-            "email": guardar.email ? guardar.email : '',
-            "address": guardar.address ? guardar.address : '',
-            "phone_number": guardar.phone_number ? guardar.phone_number : '',
-            "active": guardar.active ? guardar.active : false,
-            "password": guardar.password ? guardar.password : '',
-            "password_confirmation": guardar.password_confirmation ? guardar.password_confirmation : '',
+          'user': {
+            'name': guardar.name ? guardar.name : '',
+            'rut': guardar.rut ? guardar.rut : '',
+            'passport': guardar.passport ? guardar.passport : '',
+            'email': guardar.email ? guardar.email : '',
+            'address': guardar.address ? guardar.address : '',
+            'phone_number': guardar.phone_number ? guardar.phone_number : '',
+            'active': guardar.active ? guardar.active : false,
+            'password': guardar.password ? guardar.password : '',
+            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
           }
         }
         console.log('ser a post', user)
         let usuario = await API.post('users', user)
         if (usuario.status >= 200 && usuario.status < 300) {
           console.log(usuario)
-          alert("Se ha enviado la solicitud para crear su usuario")
+          alert('Se ha enviado la solicitud para crear su usuario')
           this.item = {}
           this.goToLogin()
         }
         else {
-          alert("Ha ocurrido un error, intente nuevamente")
+          alert('Ha ocurrido un error, intente nuevamente')
           console.log(usuario)
         }
       }

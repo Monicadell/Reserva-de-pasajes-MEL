@@ -9,7 +9,7 @@ import store  from '../../store'
  */
 const url = endpoints.app
 const base = `${url}/`
-let credential =  store.getters['Auth/credential']
+// let credential = store.getters['Auth/credential']
 /**
  * Export
  */
@@ -20,16 +20,15 @@ export default {
     return axios.get(base + urlget, {
       params: {...params}
     })
-
   },
-  post (urlpost,  params) {
+  post (urlpost, params) {
     console.log(base + urlpost, {...params})
     return axios.post(base + urlpost, {...params})
   },
   put (urlput, id, params) {
-    return axios.put(base + urlput + '/' + id , {...params})
+    return axios.put(base + urlput + '/' + id, {...params})
   },
-  delete (urldel,  id) {
+  delete (urldel, id) {
     console.log('elimina', id, base)
     return axios.delete(base + urldel + '/' + id)
   },
@@ -38,7 +37,7 @@ export default {
     console.log(request)
     return axios.post(request)
   },
-  deleteNoRest (url,id,url2) {
+  deleteNoRest (url, id, url2) {
     const request = `${base}${url}/${id}/${url2}`
     console.log(request)
     return axios.delete(request)

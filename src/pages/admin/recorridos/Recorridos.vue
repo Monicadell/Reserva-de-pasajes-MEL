@@ -51,6 +51,20 @@
       </v-card>
     </v-dialog>
 
+    <!-- dialogo confirmar eliminar -->
+    <v-dialog v-model="confirmaAnular" persistent max-width="450">
+      <v-card>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el tramo?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
+        <v-card-actions class="pb-3 px-3">
+          
+          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -114,17 +128,6 @@
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-            <v-dialog v-model="confirmaAnular" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar el tramo?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperar el tramo.</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="deleteItem(eliminaid)">Eliminar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </td>
         </template>
       </v-data-table>
@@ -197,6 +200,7 @@
           setTimeout(() => {
             // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
             // console.log(intersection)
+            console.log('trips', trips.data.data)
             this.recorridos = trips.data.data
             this.loading = false
           }, 500)
@@ -223,7 +227,7 @@
             this.getTrips()
           }
         } catch (e) {
-         console.log('catch err', e.response)
+          console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
           // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
@@ -235,7 +239,7 @@
       },
       close () {
         this.dialog = false
-        this.editedItem =  Object.assign({}, '')
+        this.editedItem = Object.assign({}, '')
       },
       editItem (item) {
         this.editedItem = item
@@ -259,7 +263,7 @@
           try {
             let tramos = await API.put('trips', id, tramo)
             if (tramos.status >= 200 && tramos.status < 300) {
-              console.log('ya hizo PUT',tramos)
+              console.log('ya hizo PUT', tramos)
               this.editedItem = Object.assign({}, '')
               this.getTrips()
               this.dialog = false
@@ -274,8 +278,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else {
+        } else {
           console.log('ser a post', tramo)
           try {
             let tramos = await API.post('trips', tramo)

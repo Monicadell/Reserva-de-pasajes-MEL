@@ -2,13 +2,11 @@
   <div  > 
     <div > 
     <v-card 
-    
    :class="{
     'elevation-1': !cargandoPeticion && listaServicios.length === 0,
     'elevation-10': listaServicios.length > 0,
     //disableList: disableList && servicesList.length === 0 
     }"
-    
     class="fadeinfwdfast"
     >
     <v-card-title style="height: 65px" class="barra-titulo-servicios">
@@ -21,7 +19,7 @@
         <span class="font-weight-medium"> Servicios disponibles </span>
          <v-spacer> </v-spacer>
     </v-card-title>   
-      <v-card-title style="height: 45px" class="barra-servicios">
+      <v-card-title class="barra-servicios">
 
         <v-spacer></v-spacer>
         <v-text-field
@@ -29,8 +27,8 @@
           label="Filtrar"
           single-line
           hide-details
-          dark
-          class="mb-4"
+          color="white"
+          class="pt-0 white--text"
         ></v-text-field>
       </v-card-title>
       <v-data-table
@@ -38,7 +36,6 @@
         :loading="cargandoPeticion"
         :headers="headers"
         :items="listaServicios"
-        
         class="elevation-1 list-th"
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
@@ -57,8 +54,8 @@
                   <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
 
           <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
-            <td> </td>
-            <td> </td>
+            <!-- <td> </td>
+            <td> </td> -->
 
           </tr>
         </template>
@@ -70,15 +67,15 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
+  // import axios from 'axios'
   import moment from 'moment'
 
   export default {
     watch: {
       cargandoPeticion () {
-       if(this.cargandoPeticion) {
+        if (this.cargandoPeticion) {
           this.listIsVisible = true
-       }
+        }
       }
     },
     mounted () {
@@ -118,25 +115,23 @@
         {text: 'Servicio', sortable: false},
         {text: 'Salida', value: 'from', sortable: false},
         {text: 'Llegada', value: 'to', sortable: false},
-        {text: 'Nºde Asientos Disponibles', value: 'asientos', sortable: false},
-        {text: '', value: 'action' , sortable: false},
-        {text: '', value: 'action' , sortable: false},
-        {text: '', value: 'action' , sortable: false}
+        {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: '', value: 'action', sortable: false}
       ],
-      mientras : [
+      mientras: [
         {
-          "arrival": "18:34:00",
-          "avail_seats": 10,
-          "car_id": null,
-          "date": "2018-11-24",
-          "departure": "15:20:00",
-          "driver_id": null,
-          "duration": null,
-          "freq_id": null,
-          "id": 61,
-          "name": "21",
-          "set": "15:00:00",
-          "trip_id": 1
+          'arrival': '18:34:00',
+          'avail_seats': 10,
+          'car_id': null,
+          'date': '2018-11-24',
+          'departure': '15:20:00',
+          'driver_id': null,
+          'duration': null,
+          'freq_id': null,
+          'id': 61,
+          'name': '21',
+          'set': '15:00:00',
+          'trip_id': 1
         }
       ]
     })
@@ -164,8 +159,27 @@
     background-color:#1565c0;
    
     }
-
-
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+    border-color: #fff;
+  }
+  .barra-servicios .theme--light.v-label {
+    color: #fff;
+  }
+  .barra-servicios .theme--light.v-icon {
+    color: #fff;
+  }
+  .barra-servicios .theme--light.v-input:not(.v-input--is-disabled) input{
+    color: rgba(255,255,255, 0.9);
+  }
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+      border-color: rgba(255,255,255,.42);
+  }
+  .barra-servicios .theme--light.v-text-field .v-input__slot:before {
+    border-color: rgba(255,255,255,.42);
+}
+.barra-servicios .theme--light.v-text-field:not(.v-input--has-state) .v-input__slot:hover:before {
+    border-color: rgba(255,255,255,.87);
+}
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
     color: #1565c0;

@@ -10,7 +10,7 @@
         <!-- <v-flex xs12 md10> -->
           <!-- <h3 class="mt-2 pl-5" style="margin-left: 24px;">Reserva pasajes TANDEM </h3> -->
           <!-- <div class="container py-0"> -->
-            <img src="/../../../static/img/logo_tandem.png" alt="tandem" class="logo-tandem pl-5 py-1">
+            <img src="/../../../static/img/logo_tandem.png" alt="tandem" class="logo-tandem pl-5">
           <!-- </div> -->
         <!-- </v-flex> -->
        

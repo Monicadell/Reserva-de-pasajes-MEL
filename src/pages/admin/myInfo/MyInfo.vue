@@ -100,8 +100,8 @@
 
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Editar</span>
+        <v-card-title class="primary">
+          <span class="headline white--text">Editar</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -133,12 +133,13 @@
 
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" flat @click.native="dialog = false">
+        <v-card-actions class="px-3 pb-3">
+          
+          <v-btn color="primary darken-1" outline @click.native="dialog = false">
             <span>Cancelar</span>
           </v-btn>
-          <v-btn color="primary darken-1" dark @click.native="save()"
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" dark @click.native="save(userEdited)"
                  :loading="loading"
                  :disabled="loading">
             <span>Guardar</span>
@@ -169,7 +170,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
   import Modal from '@c/Modal'
@@ -227,7 +227,8 @@
       this.getMyInfo()
     },
     methods: {
-      save () {
+      save (item) {
+        console.log(item)
       //   this.loading = true
       //   let auth = this.$store.getters.getAuth
       //   let config = {
@@ -256,27 +257,27 @@
       //   })
       },
       async getMyInfo () {
-        console.log('al getinfo cred', this.credential)
+        // console.log('al getinfo cred', this.credential)
         try {
           let info = await API.get('profile')
           if (info.status >= 200 && info.status < 300) {
-            console.log('profile',info)
+            console.log('profile', info)
             this.user = {
-                tipoUsuario: info.data.role_id ? info.data.role_id : '',
-                tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte' ,
-                tipoContrato: info.data.contract_type ? info.data.contract_type : '',
-                password: '***',
-                numeroContacto: info.data.phone_number ? info.data.phone_number : '',
-                nombre: info.data.name ? info.data.name : '',
-                nContrato: '---',
-                mensaje: 'mensaje',
-                estado: info.data.active ? 'Activo' : 'Inactivo',
-                empresaAsociada: info.data.company_name ? info.data.company_name : '',
-                email: info.data.email ? info.data.email : '',
-                documento: info.data.rut ? info.data.rut : info.data.passport,
-                direccion: info.data.address ? info.data.address : ''
-              }
-              this.userEdited = this.user
+              tipoUsuario: info.data.role_id ? info.data.role_id : '',
+              tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte',
+              tipoContrato: info.data.contract_type ? info.data.contract_type : '',
+              password: '***',
+              numeroContacto: info.data.phone_number ? info.data.phone_number : '',
+              nombre: info.data.name ? info.data.name : '',
+              nContrato: '---',
+              mensaje: 'mensaje',
+              estado: info.data.active ? 'Activo' : 'Inactivo',
+              empresaAsociada: info.data.company_name ? info.data.company_name : '',
+              email: info.data.email ? info.data.email : '',
+              documento: info.data.rut ? info.data.rut : info.data.passport,
+              direccion: info.data.address ? info.data.address : ''
+            }
+            this.userEdited = this.user
           } else {
             console.log('error profile', info)
           }
@@ -288,7 +289,6 @@
           this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
           this.modalInfoBtn1 = 'OK'
         }
-        
       }
     }
   }

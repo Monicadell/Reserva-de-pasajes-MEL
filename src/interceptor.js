@@ -25,7 +25,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(data => {
-   return data
+  return data
 }, error => {
   console.group('[Axios][Interceptor] Response Error')
   console.log(error)

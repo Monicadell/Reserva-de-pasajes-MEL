@@ -90,8 +90,8 @@
 
 
 <script>
-  import axios from 'axios'
-  import { mapGetters } from 'vuex'
+  // import axios from 'axios'
+  // import { mapGetters } from 'vuex'
   import API from '@pi/app'
   import Modal from '@c/Modal'
 
@@ -109,7 +109,7 @@
         modalInfoBtn1: ''
       }
     },
-     components: {
+    components: {
       modal: Modal
     },
     methods: {
@@ -121,17 +121,16 @@
       },
       async log () {
         let params = {}
-        if(this.documentType === '1'){
-          let usuario = this.user.replace(/\./g,'')
+        if (this.documentType === '1') {
+          let usuario = this.user.replace(/\./g, '')
           params = {
-              rut: usuario,
-              password: this.password
-            }
-        }
-        else{
+            rut: usuario,
+            password: this.password
+          }
+        } else {
           params = {
-              passport: this.user,
-              password: this.password
+            passport: this.user,
+            password: this.password
           }
         }
         try {
@@ -139,20 +138,20 @@
           console.log('log await', log)
           if (log.status >= 200 && log.status < 300) {
             console.log('login succes log', log.data)
-              this.$store.dispatch('Auth/login', {
-                pass: this.password,
-                user: this.user,
-                credential: log.data.jwt
-              })
-              this.getMyInfo()
-          }
-          else {
+            this.$store.dispatch('Auth/login', {
+              pass: this.password,
+              user: this.user,
+              credential: log.data.jwt
+            })
+            this.getMyInfo()
+          } else {
             this.showModal = true
             this.modalInfoTitle = 'Ha ocurrido un error'
             this.modalInfoDetail = 'Los datos son incorrectos, intente nuevamente.'
             this.modalInfoBtn1 = 'OK'
           }
         } catch (e) {
+          console.log(e)
           console.log('catch err', e.response)
           // alert('Datos incorrectos, intente nuevamente')
           this.showModal = true
@@ -165,7 +164,7 @@
         console.log('luego de login exitoso voy a montar datos user')
         let info = await API.get('profile')
         if (info.status >= 200 && info.status < 300) {
-          console.log('profile',info)
+          console.log('profile', info)
           this.$store.dispatch('Auth/setData', {
             role: info.data.role_id,
             username: info.data.name,
@@ -173,16 +172,16 @@
             userid: info.data.id
           })
         } else {
-          console.log('error profile', error)
+          console.log('error profile')
         }
       },
-      keymonitor(event) {
+      keymonitor (event) {
         console.log('doc tyme', this.documentType)
         if (this.documentType === '1') {
-          let value = event.target.value;
-          if(!value) this.user = ''
+          let value = event.target.value
+          if (!value) this.user = ''
           value = value.match(/[0-9Kk]+/g).join('')
-          this.user = value.slice(0,-1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+          this.user = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
         }
       }
     }

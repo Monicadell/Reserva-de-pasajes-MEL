@@ -61,15 +61,16 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions>
+          <v-card-actions class="justify-center">
          <!-- *********** CENTRA BOTON ***** -->
             <v-btn
               color="secondary"
-              class="btn-confirmar ml-4"
+              class="btn-confirmar-conf ml-4"
               @click="confirmarReserva"
             >
              Confirmar
             </v-btn>
+            <v-btn color="primary" class="btn-cerrar-conf ml-3" @click="cerrar()" >Cerrar</v-btn>
           </v-card-actions>
 
       </v-card>
@@ -77,8 +78,7 @@
         <v-card max-width="500"  v-if="modal.status == 'done'">
               <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">CHECK-IN</v-card-title>
             <v-card-text class="text-xs-center ">
-               
-            
+              
                <v-icon color="secondary" size=200>check</v-icon>                  
        
             
@@ -100,28 +100,29 @@
 <script>
   import API from '@pi/app'
   import {mapGetters} from 'vuex'
-  import moment from 'moment'
-  import axios from 'axios'
+  // import moment from 'moment'
+  // import axios from 'axios'
+
   export default {
-    name: 'modalConfirmar', 
+    name: 'modalConfirmar',
     data: () => ({
-      modal : {
-          status: 'none'
+      modal: {
+        status: 'none'
       }
     }),
     mounted () {
     },
     methods: {
-      async confirmarReserva() {
+      async confirmarReserva () {
         const idServicio = this.servicioConfirmar.id
         try {
-          let confirmacion = await API.patchNoRest('tickets', idServicio,'confirm') 
+          let confirmacion = await API.patchNoRest('tickets', idServicio, 'confirm')
           console.log(confirmacion)
         //  this.modal.status = 'done'
           if (confirmacion.status >= 200 && confirmacion.status < 300) {
-          //confirmacion exitosa 
+            // confirmacion exitosa
             this.$store.dispatch('Booking/set_actualizarReservas', {
-                actualizarReservas: true
+              actualizarReservas: true
             })
             this.modal.status = 'done'
           }
@@ -140,13 +141,13 @@
               })
         }
       },
-      cerrar() {
-        setTimeout(()=>{
+      cerrar () {
+        setTimeout(() => {
           this.modal.status = 'none'
         }, 2000)
         this.$store.dispatch('Booking/set_confirmar', {
           confirmar: false
-        }); 
+        })
       }
     },
     computed: {
@@ -168,10 +169,13 @@
       color: white;
       font-weight: lighter;
     }
-    .btn-confirmar {
-        width: 90%
+    .btn-confirmar-conf {
+      width: 40%;
+    }
+    .btn-cerrar-conf {
+      width: 40%;
     }
     .btn-cerrar {
-        width: 90%
+        width: 90%;
     }
 </style>

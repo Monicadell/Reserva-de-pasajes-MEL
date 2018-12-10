@@ -3,37 +3,36 @@
       <v-flex xs12>
           <v-card>
             <v-card-title primary-title class = "pb-1">
-             <p class="mb-0 title-ticket font-weight-black">Resumen de reserva</p>
+             <span class="mb-0 title-ticket font-weight-black">Resumen de reserva</span>
+             <v-spacer></v-spacer>
+             <a  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</a>
             </v-card-title>
              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-             <v-card-text class="ml-2"> 
+             <v-card-text class=""> 
               
                 <v-layout row> 
                   <v-flex xs6 class="font-weight-black">
                     SERVICIO 
                   </v-flex>
-                  <v-flex xs6 class="secondary--text font-weight-black"> 
+                  <v-flex xs6 class="gris--text font-weight-black"> 
                     {{item.id}}
                   </v-flex>
                 </v-layout>
                    
-                    <v-layout row mt-2> 
-                  <v-flex xs6 class="secondary--text font-weight-black" >
-                    {{item.service.from}}
-                   
+                <v-layout row mt-2> 
+                  <v-flex xs6 class="gris--text font-weight-black" >
+                    {{item.service.from}} 
                   </v-flex>
-                  <v-flex xs6 class="secondary--text font-weight-black"> 
+                  <v-flex xs6 class="gris--text font-weight-black"> 
                     {{item.service.to}}
-                
-
                   </v-flex>
                 </v-layout>
 
                   <v-layout row mt-2> 
-                    <v-flex xs5 >
+                    <v-flex xs6>
                       <div class="hora-ida white--text"> {{item.service.departure}} </div> 
                     </v-flex>
-                    <v-flex xs5 class="ml-2"> 
+                    <v-flex xs6 class="ml-2"> 
                       <div class="hora-regreso white--text"> {{item.service.arrival}} </div> 
                     </v-flex>
                 </v-layout>
@@ -43,7 +42,7 @@
                   <v-flex xs6 class=" font-weight-black">
                     FECHA DE VIAJE
                   </v-flex>
-                  <v-flex xs6 class="secondary--text font-weight-black"> 
+                  <v-flex xs6 class="gris--text font-weight-black"> 
                   {{item.service.date}}
                   </v-flex>
                 </v-layout>    
@@ -59,84 +58,80 @@
        
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
-               
-                <v-flex xs4> 
+                <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" disabled>Anular</v-btn> 
+                  </v-flex>
+                <v-flex xs6 text-xs-center> 
                   <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
                 </v-flex >
-                 <v-flex xs4> 
+                 <!-- <v-flex xs4> 
                   <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-                 </v-flex>
+                 </v-flex> -->
               </v-layout>
             </v-card-actions>
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='process'"> <!-- USUARIO PUEDE CONFIRMAR -->
-                 <v-layout justify-start row ml-4> 
+              <v-layout row ml-4> 
                 <v-flex xs1>  <v-icon color="primary">check</v-icon> </v-flex>
-           
-                <v-flex>   <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
+                <v-flex> <p> Ya puede realizar la confirmación de su pasaje. </p> </v-flex>
                 <v-spacer> </v-spacer>
               </v-layout>
 
-              <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
-                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
-                </v-flex>
-                <v-flex xs4> 
-                 <v-btn  color="orange" class="btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
-                </v-flex >
-                 <v-flex xs4> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
-                 </v-flex>
-              </v-layout>
-            </v-card-actions>
+                <v-card-actions>
+                <v-layout justify-space-around row wrap fill-height> 
+                  <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
+                  </v-flex>
+                  <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" @click="mostrarConfirmar(item)">Confirmar</v-btn>
+                  </v-flex >
+                  <!-- <v-flex xs4 text-xs-center> 
+                <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  </v-flex> -->
+                </v-layout>
+              </v-card-actions>
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
-            <v-flex> 
-              <v-layout justify-start row ml-4> 
-                <v-flex xs1>  <v-icon color="primary">timelapse</v-icon> </v-flex>
-           
-                <v-flex>   <p> {{item.service.hrs_left}}hrs para su confirmación</p> </v-flex>
-                <v-spacer> </v-spacer>
-              </v-layout>
-             
-
-            </v-flex>
+              <v-flex> 
+                <v-layout justify-start row ml-3> 
+                  <v-flex> <v-icon color="primary" class="pr-1" style="vertical-align: top">timelapse</v-icon>  <span style="padding: 0 16px 0 0; margin-bottom: 16px; display: inline-block; vertical-align: middle;"> {{item.service.hrs_left}}hrs para su confirmación</span> </v-flex>
+                  <v-spacer> </v-spacer>
+                </v-layout>
+              </v-flex>
             
-
               <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
-                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
-                </v-flex>
-                <v-flex xs4> 
-                 <v-btn  color="orange" class="btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
-                </v-flex >
-                 <v-flex xs4> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
-                 </v-flex>
-              </v-layout>
-            </v-card-actions>
+                <!-- <v-layout row wrap fill-height>  -->
+                  <v-flex xs6 text-xs-center> 
+                    <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
+                  </v-flex>
+                  <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                  </v-flex >
+                  <!-- <v-flex xs4 text-xs-center> 
+                    <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                  </v-flex> -->
+                <!-- </v-layout> -->
+              </v-card-actions>
             </v-layout>
 
-                  <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
-            <p> {{item.service.hrs_left}} para su viaje</p>
+            <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
+              <p style="padding: 0 16px;"> {{item.service.hrs_left}}hrs. para su viaje</p>
 
               <v-card-actions>
-              <v-layout justify-space-around row wrap fill-height> 
-                <v-flex xs4> 
-                  <v-btn  color="red" class="btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
+              <v-layout row wrap fill-height> 
+                <v-flex xs6 text-xs-center> 
+                  <v-btn  color="red" class="white--text btn-ticket" @click="mostrarAnular(item)">Anular</v-btn> 
                 </v-flex>
-               
-                 <v-flex xs4> 
-              <v-btn  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
-
-                 </v-flex>
+                
+                <v-flex xs6 text-xs-center> 
+                  <v-btn  color="orange" class="white--text btn-ticket" disabled @click="mostrarConfirmar(item) ">Confirmar</v-btn>
+                </v-flex >
+                 <!-- <v-flex xs6 text-xs-center> 
+                  <v-btn  color="primary" class="white--text btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</v-btn>
+                 </v-flex> -->
               </v-layout>
             </v-card-actions>
             </v-layout>
@@ -152,17 +147,17 @@
 <script>
   // <img :src="avatar + auth.name + '?font-size=0.45&length=2&background=F17B31&color=fff'">
   // avatar: 'https://ui-avatars.com/api/?name=',
-  import moment from 'moment'
+  // import moment from 'moment'
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
-  import API from '@pi/app'
+  // import axios from 'axios'
+  // import API from '@pi/app'
 
   export default {
     props: ['item'],
     name: 'tickets',
-    data() {
+    data () {
       return {
-        statusConfirmacion : {
+        statusConfirmacion: {
           status: ''
         }
       }
@@ -170,35 +165,35 @@
     mounted () {
       console.log(this.item)
       const tickete = this.item
-      if(tickete.confirmed_at != null) {
+      if (tickete.confirmed_at != null) {
         console.log('ya el usuario confirmo')
         this.statusConfirmacion.status = 'done'
       } else {
         console.log('aun no confirma')
-        if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+        if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
           console.log('usuario puede confirmar')
           this.statusConfirmacion.status = 'process'
-        }else if (tickete.service.hrs_left < 48) {
+        } else if (tickete.service.hrs_left < 48) {
           console.log('no necesita confirmacion porque es express')
-           this.statusConfirmacion.status = 'express'
+          this.statusConfirmacion.status = 'express'
         } else {
           console.log('aun no puede confirmar')
           this.statusConfirmacion.status = 'none'
         }
       }
     },
-    watch : {
+    watch: {
       item () {
         const tickete = this.item
-        if(tickete.confirmed_at != null) {
+        if (tickete.confirmed_at != null) {
           console.log('ya el usuario confirmo')
           this.statusConfirmacion.status = 'done'
-        }else {
+        } else {
           console.log('aun no confirma')
-          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
             console.log('usuario puede confirmar')
             this.statusConfirmacion.status = 'process'
-          }else if (tickete.service.hrs_left < 48) {
+          } else if (tickete.service.hrs_left < 48) {
             console.log('no necesita confirmacion porque es express')
             this.statusConfirmacion.status = 'express'
           } else {
@@ -239,17 +234,17 @@
       mostrarDetalle (item) {
         const tickete = this.item
         console.log(tickete)
-        if(tickete.confirmed_at != null) {
+        if (tickete.confirmed_at != null) {
           console.log('ya el usuario confirmo')
           this.$store.dispatch('Booking/set_estadoTickete', {
             estadoTickete: 'Confirmacion realizada'
           })
         } else {
           console.log('aun no confirma')
-          if(tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
+          if (tickete.service.hrs_left >= 48 && tickete.service.hrs_left <= 72) {
             this.$store.dispatch('Booking/set_estadoTickete', {
-            estadoTickete: 'Confirmacion Pendiente'
-          })
+              estadoTickete: 'Confirmacion Pendiente'
+            })
           } else if (tickete.service.hrs_left < 48) {
             console.log('no necesita confirmacion porque es express')
             this.$store.dispatch('Booking/set_estadoTickete', {
@@ -258,7 +253,7 @@
           } else {
             this.$store.dispatch('Booking/set_estadoTickete', {
               estadoTickete: 'Confirmacion Pendiente'
-            }) 
+            })
           }
         }
        // console.log(item)
@@ -280,9 +275,10 @@
    
 }
   .v-divider.divider-ticket {
-    border-style: dashed;
+    /* border-style: dashed;
     border-width: 1px;
-    border-color: #1565c0;
+    border-color: #1565c0; */
+    border-top: 1px dashed #1565c0;
     width:90%;
 }
 

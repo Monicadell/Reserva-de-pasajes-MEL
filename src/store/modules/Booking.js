@@ -1,8 +1,7 @@
 /**
  * Declare
  */
-import axios from 'axios'
-
+// import axios from 'axios'
 
 const state = {
   change: false,
@@ -23,7 +22,7 @@ const state = {
   listaServicios: [], // tiene los servicios disponibles en una ruta para una fecha especifica
   cargandoPeticion: false,
   reservaRealizada: false,
-  servicioSeleccionado: {}, // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle. 
+  servicioSeleccionado: {}, // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle.
   fechaSeleccionada: '',
   anular: false,    // maneja esta visible del modal anular
   servicioAnular: {}, // almaceno el servicio seleccionado para ser anulado
@@ -31,13 +30,16 @@ const state = {
   confirmar: false, //  maneja estado visible del modal confirmar ticket
   servicioConfirmar: {}, // almaceno el servicio seleccionado para ser confirmado
   e1: 1, // pasos del step
+  e1_prev: 0, // paso del step previo
   detalle: false,  //  maneja estado visible del modal confirmar ticket
   servicioDetalle: {}, // almaceno el servicio seleccionado para mostrar detalle
   estadoTickete: ' ', // almacena el estado del servicio seleccionado para mostrar el detalle -> no se guarda directamente en servicioDetalle para hacer la logica antes de que se muestre el componente
   actualizarVistaConfirmacion: false,
   listaReservas: [],
   limpiar: false,
-  origen: []
+  origen: [],
+  selectedExpress: false,
+  servicioExpress: {}
 
 }
 
@@ -58,13 +60,17 @@ const getters = {
   confirmar: state => state.confirmar,
   servicioConfirmar: state => state.servicioConfirmar,
   e1: state => state.e1,
+  e1_prev: state => state.e1_prev,
   detalle: state => state.detalle,
   servicioDetalle: state => state.servicioDetalle,
   estadoTickete: state => state.estadoTickete,
   actualizarVistaConfirmacion: state => state.actualizarVistaConfirmacion,
   listaReservas: state => state.listaReservas,
   limpiar: state => state.limpiar,
-  origen: state => state.origen
+  origen: state => state.origen,
+  selectedExpress: state => state.selectedExpress,
+  servicioExpress: state => state.servicioExpress
+
 }
 
 const actions = {
@@ -86,20 +92,20 @@ const actions = {
   set_listaServicios ({commit}, payload) {
     commit('SET_LISTASERVICIOS', {listaServicios: payload.listaServicios})
   },
-  set_cargandoPeticion({commit}, payload) {
+  set_cargandoPeticion ({commit}, payload) {
     commit('SET_CARGANDOPETICION', {cargandoPeticion: payload.cargandoPeticion})
   },
   set_reservaRealizada ({commit}, payload) {
-    commit ('SET_RESERVAREALIZADA', {reservaRealizada: payload.reservaRealizada})
-  }, 
+    commit('SET_RESERVAREALIZADA', {reservaRealizada: payload.reservaRealizada})
+  },
   set_servicioSeleccionado ({commit}, payload) {
    // console.log(`seleccionaron el servicio ${payload}`)
-    commit ('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
-  }, 
-  set_fechaSeleccionada({commit}, payload) {
-    commit ('SET_FECHASELECCIONADA', {fechaSeleccionada: payload.fechaSeleccionada})
+    commit('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
   },
-  set_anular({commit}, payload) {
+  set_fechaSeleccionada ({commit}, payload) {
+    commit('SET_FECHASELECCIONADA', {fechaSeleccionada: payload.fechaSeleccionada})
+  },
+  set_anular ({commit}, payload) {
     commit('SET_ANULAR', {anular: payload.anular})
   },
   set_servicioAnular ({commit}, payload) {
@@ -108,7 +114,7 @@ const actions = {
   set_actualizarReservas ({commit}, payload) {
     commit('SET_ACTUALIZARRESERVAS', {actualizarReservas: payload.actualizarReservas})
   },
-  set_confirmar({commit}, payload) {
+  set_confirmar ({commit}, payload) {
     console.log(payload)
     commit('SET_CONFIRMAR', {confirmar: payload.confirmar})
   },
@@ -116,6 +122,7 @@ const actions = {
     commit('SET_SERVICIOCONFIRMAR', {servicioConfirmar: payload.servicioConfirmar})
   },
   set_e1 ({commit}, payload) {
+    commit('SET_E1_prev')
     commit('SET_E1', {e1: payload.e1})
   },
   set_detalle ({commit}, payload) {
@@ -124,10 +131,10 @@ const actions = {
   set_servicioDetalle ({commit}, payload) {
     commit('SET_SERVICIODETALLE', {servicioDetalle: payload.servicioDetalle})
   },
-  set_estadoTickete({commit}, payload) {
+  set_estadoTickete ({commit}, payload) {
     commit('SET_ESTADOTICKETE', {estadoTickete: payload.estadoTickete})
   },
-  set_actualizarVistaConfirmacion ({commit},payload) {
+  set_actualizarVistaConfirmacion ({commit}, payload) {
     commit('SET_ACTUALIZARVISTACONFIRMACION', {actualizarVistaConfirmacion: payload.actualizarVistaConfirmacion})
   },
   set_listaReservas ({commit}, payload) {
@@ -138,6 +145,12 @@ const actions = {
   },
   set_origen ({commit}, payload) {
     commit('SET_ORIGEN', {origen: payload.origen})
+  },
+  set_selectedExpress({commit}, payload) {
+    commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress}) 
+  },
+  set_servicioExpress ({commit}, payload) {
+    commit ('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
   }
 
 }
@@ -161,10 +174,10 @@ const mutations = {
   SET_RUTA: (state, {ruta}) => {
     state.ruta = ruta
   },
-  SET_LISTASERVICIOS: (state, {listaServicios }) => {
+  SET_LISTASERVICIOS: (state, {listaServicios}) => {
     state.listaServicios = listaServicios
   },
-  SET_CARGANDOPETICION: (state, {cargandoPeticion }) => {
+  SET_CARGANDOPETICION: (state, {cargandoPeticion}) => {
     state.cargandoPeticion = cargandoPeticion
   },
   SET_RESERVAREALIZADA: (state, {reservaRealizada}) => {
@@ -191,6 +204,9 @@ const mutations = {
   SET_SERVICIOCONFIRMAR: (state, {servicioConfirmar}) => {
     state.servicioConfirmar = servicioConfirmar
   },
+  SET_E1_prev: (state) => {
+    state.e1_prev = state.e1
+  },
   SET_E1: (state, {e1}) => {
     state.e1 = e1
   },
@@ -214,9 +230,14 @@ const mutations = {
   },
   SET_ORIGEN: (state, {origen}) => {
     state.origen = origen
+  },
+  SET_SELECTEDEXPRESS: (state, {selectedExpress}) => {
+    state.selectedExpress = selectedExpress
+  },
+  SET_SERVICIOEXPRESS: (state, {servicioExpress}) => {
+    state.servicioExpress = servicioExpress
   }
 }
-
 
 /**
  * Export

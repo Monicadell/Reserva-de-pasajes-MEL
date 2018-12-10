@@ -51,7 +51,7 @@
 
 <script>
   // import axios from 'axios'
-  // import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import API from '@pi/app'
 
   export default {
@@ -64,10 +64,9 @@
       misreservaspath: '/misreservas',
       profilepath: '/myInfo'
     }),
-    // computed: mapGetters({
-    //   username: ['Auth/username'],
-    //   role: ['Auth/role']
-    // }),
+    computed: mapGetters({
+      hidesidebar: ['Auth/hidesidebar']
+    }),
     mounted () {
       this.getMyInfo()
     },
@@ -75,12 +74,12 @@
       async getMyInfo () {
         let info = await API.get('profile')
         if (info.status >= 200 && info.status < 300) {
-          console.log('profile',info)
-          this.role = info.data.role_id ? info.data.role_id : '',
+          console.log('profile', info)
+          this.role = info.data.role_id ? info.data.role_id : ''
           this.nombre = info.data.name ? info.data.name : ''
-          this.isAdmin = (this.role === 2 || this.role === 5) ? true : false
+          this.isAdmin = (this.role === 2 || this.role === 5)
         } else {
-          console.log('error profile', error)
+          console.log('error profile')
         }
       },
       changeDrawer () {
@@ -93,7 +92,23 @@
       showAdmin () {
         let env = !this.admin
         this.admin = env
+        if (this.admin) {
+          this.$store.dispatch('Auth/hide', {
+            hide: false
+          })
+        } else {
+          this.$store.dispatch('Auth/hide', {
+            hide: true
+          })
+        }
         this.$emit('showAdminBar', env)
+      }
+    },
+    watch: {
+      hidesidebar (val) {
+        // console.log('watch cambio hide', val)
+        this.$emit('showAdminBar', !val)
+        this.admin = !val
       }
     }
   }

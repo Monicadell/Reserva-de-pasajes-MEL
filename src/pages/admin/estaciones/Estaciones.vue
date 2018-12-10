@@ -29,24 +29,38 @@
                 <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 sm6>
+              <!-- <v-flex xs12 sm6>
                 <v-select :items="cities" v-model="editedItem.city_id"
                         label="Ciudad"
                         single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex>
+              </v-flex> -->
 
-              <v-flex xs12 sm6>
+              <!-- <v-flex xs12 sm6>
                 <v-text-field label="Descripción"
                               v-model="editedItem.desc"></v-text-field>
-              </v-flex>
+              </v-flex> -->
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- dialogo confirmar eliminar -->
+    <v-dialog v-model="confirmaAnular" persistent max-width="450">
+      <v-card>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar la Estación?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
+        <v-card-actions class="pb-3 px-3">
+          
+          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -79,8 +93,8 @@
           <td class="">{{ props.item.address }}</td>
           <td class="">{{ props.item.lat }}</td>
           <td class="">{{ props.item.lon }}</td>
-          <td class="">{{ props.item.city_id }}</td>
-          <td class="">{{ props.item.desc }}</td>
+          <!-- <td class="">{{ props.item.city_id }}</td> -->
+          <!-- <td class="">{{ props.item.desc }}</td> -->
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -100,23 +114,12 @@
                 small
                 slot="activator"
                 color="primary"
-                @click="deleteItem(props.item)"
+                @click="irEliminar(props.item.id)"
               >
                 delete
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-            <v-dialog v-model="confirmaAnular" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click.native="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click.native="confirmaAnular = false">Eliminar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </td>
         </template>
       </v-data-table>
@@ -159,8 +162,8 @@
           {text: 'Dirección', value: 'address'},
           {text: 'Latitud', value: 'lat'},
           {text: 'Longitud', value: 'lon'},
-          {text: 'Ciudad', value: 'city_id'},
-          {text: 'Descripción', value: 'desc'},
+          // {text: 'Ciudad', value: 'city_id'},
+          // {text: 'Descripción', value: 'desc'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -184,7 +187,7 @@
             setTimeout(() => {
               this.estaciones = stations.data.data
               this.loading = false
-              }, 500)
+            }, 500)
           }
         } catch (e) {
           console.log('catch err', e.response)
@@ -199,8 +202,26 @@
         this.editedItem = item
         this.dialog = true
       },
-      deleteItem () {
+      irEliminar (datoid) {
+        this.eliminaid = datoid
         this.confirmaAnular = true
+      },
+      async deleteItem (item) {
+        try {
+          let eliminando = await API.delete('stations', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE', eliminando)
+            this.confirmaAnular = false
+            console.log(eliminando)
+            this.getStations()
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.editedItem = Object.assign({}, '')
+          // alert('Ha ocurrido un error, intente más tarde!')
+          this.confirmaAnular = false
+          alert('Ha ocurrido un error al eliminar')
+        }
       },
       close () {
         this.dialog = false
@@ -219,28 +240,28 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         let esta = {
-            "station": 
-              {
-                  "name": guardar.arrival ? guardar.arrival : '',
-                  "address": guardar.address ? guardar.address : '',
-                  "let": guardar.lat ? guardar.lat : '',
-                  "lon": guardar.lon ? guardar.lon : '',
-                  "description": guardar.description ? guardar.description : '',
-                  "city_id": guardar.city_id ? guardar.city_id : ''
-              }
+          'station':
+          {
+            'name': guardar.name ? guardar.name : '',
+            'address': guardar.address ? guardar.address : '',
+            'lat': guardar.lat ? guardar.lat : '',
+            'lon': guardar.lon ? guardar.lon : ''
+            // 'description': guardar.desc ? guardar.desc : '',
+            // 'city_id': guardar.city_id ? guardar.city_id : ''
+          }
         }
-        if(guardar.id){
+        if (guardar.id) {
           console.log('ser a put', esta)
           let id = guardar.id
           try {
-            let station = await API.put('stations', id, esta )
+            let station = await API.put('stations', id, esta)
             if (station.status >= 200 && station.status < 300) {
-              // console.log('ya hizo PUT',station)
+              // console.log('ya hizo PUT', station)
+              this.getStations()
               this.dialog = false
               this.editedItem = Object.assign({}, '')
-            }
-            else {
-              alert ('Ha ocurrido un error al editar la estación')
+            } else {
+              alert('Ha ocurrido un error al editar la estación')
             }
           } catch (e) {
             console.log('catch error al editar la estación', e.response)
@@ -249,8 +270,7 @@
             this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else{
+        } else {
           console.log('ser a post', esta)
           try {
             let station = await API.post('stations', esta)
@@ -259,8 +279,7 @@
               this.getStations()
               this.dialog = false
               this.editedItem = Object.assign({}, '')
-            }
-            else {
+            } else {
               alert('Ha ocurrido un error al crear la estación')
             }
           } catch (e) {

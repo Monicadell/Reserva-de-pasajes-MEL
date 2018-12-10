@@ -6,22 +6,16 @@ import router from './router'
 import store from './store/index'
 import Vuetify from 'vuetify'
 import i18n from './locales'
-var VueScrollTo = require('vue-scrollto');
+var VueScrollTo = require('vue-scrollto')
 import moment from 'moment'
-//import VueSweetalert2 from 'vue-sweetalert2';
-import VueSweetAlert from 'vue-sweetalert'
- 
-Vue.use(VueSweetAlert)
-
-
+import VueSweetalert2 from 'vue-sweetalert2'
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 
 Vue.prototype.moment = moment
-//Vue.use(VueSweetalert2);
-
+Vue.use(VueSweetalert2)
 
 Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
@@ -34,7 +28,8 @@ Vue.use(Vuetify, {
     success: '#4CAF50',
     warning: '#FFC107',
     naranjo: '#E66732',
-    calendario: '#FFC107'
+    calendario: '#FFC107',
+    gris: '#646464'
   }
 })
 
@@ -62,4 +57,3 @@ new Vue({
   components: {App},
   template: '<App/>'
 })
-

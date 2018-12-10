@@ -6,24 +6,23 @@
       v-model="place"
       :items="locations"
       chips
-      
       box
       return-object
       hide-details
-      color="primary"
       label="Origen"
       item-text="name"
       item-value="name"
-      class="fadeinfwdfast mr-2" 
+      class="fadeinfwdfast mr-2 selector-azul white--text" 
       
     >
       <template
         slot="selection"
         slot-scope="data"
+        class="white--text"
       >
-          <v-avatar >
+        <v-avatar >
           <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
         </v-avatar>
         {{ data.item.name }}
       </template>
@@ -51,7 +50,6 @@
       :items="destLocations"
       no-data-text="No hay destinos disponibles"
       chips
-      
       box
       return-object
       hide-details
@@ -59,7 +57,7 @@
       label="Destino"
       item-text="name"
       item-value="name"
-      class="fadeinfwd"
+      class="fadeinfwd selector-azul"
       :disabled="seldestination.status" 
     >
       <template
@@ -68,7 +66,7 @@
       >
       <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
         </v-avatar>  
 
         {{ data.item.name.split('→')[1] }}
@@ -97,7 +95,6 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import axios from 'axios'
   import API from '@pi/app'
 
   export default {
@@ -107,24 +104,20 @@
       destLocations: [],
     //  origen: '',
       destino: '',
-      seldestination:{
+      seldestination: {
         status: true
-      } 
+      }
     }),
     computed: {
       ...mapGetters({
-      //  search: ['Booking/current']
-       limpiar: ['Booking/limpiar'],
-       ruta: ['Booking/ruta'],
-       origen: ['Booking/origen']
+        e1_prev: ['Booking/e1_prev']
       }),
       place: {
         get () {
         //  return this.search[this.direction].place
         },
         set (value) {
-         // console.log('usuario eligio origen')
-          this.findDestinations(value.id) 
+          this.findDestinations(value.id)
           this.seldestination.status = false
         }
       },
@@ -134,50 +127,69 @@
         },
         set (value) {
       //  console.log('usuario eligio destino, fijo ruta', value)
-        this.locationsId = Object.assign([], this.locations)
-        this.$store.dispatch('Booking/set_ruta', {
-            ruta: value,
-          })   
+          this.locationsId = Object.assign([], this.locations)
+          this.$store.dispatch('Booking/set_ruta', {
+            ruta: value
+          })
         }
       }
     },
     mounted: async function () {
       let stations = await API.get('stations')
     //  console.log(stations.status)
-      if (stations.status >= 200 && stations.status < 300){
+      if (stations.status >= 200 && stations.status < 300) {
         this.locations = Object.assign([], stations.data.data)
         this.$store.dispatch('Booking/set_origen', {
             origen: stations.data.data,
           })   
       }
-   
-    }, 
-    
+    },
     methods: {
       async findDestinations (id) {
         console.log(`preguntare por id ${id}`)
         const destinations = await API.get('trips')
         console.log(destinations)
-        if (destinations.status >= 200 && destinations.status < 300){
+        if (destinations.status >= 200 && destinations.status < 300) {
           console.log('actualizo valor de los destinos')
-           this.destLocations = destinations.data.data.filter(item=> item.source_id == id)
+          this.destLocations = destinations.data.data.filter(item => item.source_id === id)
         }
       //  console.log(this.destLocations)
-       
-      },
-    },
-       watch: {
-       limpiar () {
-          if(this.limpiar) {
-          //const porfis = []
-          console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
-        this.locations = Object.assign([], this.origen)
- 
-       
-         
-         }
-       },
-       
-     },  
+      }
+    }
   }
 </script>
+
+<style>
+  #principal-container .selector-azul{
+    background-color: #1565c0;
+    color: #fff !important;
+  }
+  #principal-container .selector-azul.v-text-field.v-text-field--box.v-text-field--enclosed.v-select.v-select--chips.v-autocomplete.v-input--hide-details.v-input--is-disabled.theme--light{
+    background-color: #ccc;
+  }
+  #principal-container .selector-azul .theme--light.v-text-field--box.v-input__slot {
+    color: #fff;
+  }
+  #principal-container .selector-azul .theme--light.v-icon {
+    color: rgba(255,255,255,.54);
+  }
+  #principal-container .selector-azul .v-select__selections .theme--light.v-icon.v-icon--disabled{
+    color: #fff !important;
+  }
+  .selector-azul .theme--light.v-input--is-disabled .v-label{
+    color: rgba(255,255,255,.87);
+  }
+
+  #principal-container .selector-azul .v-select__slot .v-select__selections {
+    color: rgba(255,255,255,.87) !important;
+  }
+  #principal-container .selector-azul .theme--light.v-label.v-label--active {
+      color: rgba(255,255,255,.94) !important;
+  }
+  #principal-container .selector-azul .theme--light.v-label {
+      color: rgba(255,255,255,.84);
+  }
+  #principal-container .selector-azul .v-text-field.v-label--active {
+    color: #fff;
+  }
+</style>

@@ -174,6 +174,20 @@
       </v-card>
     </v-dialog>
 
+    <!-- dialogo confirmar eliminar -->
+    <v-dialog v-model="confirmaAnular" persistent max-width="450">
+      <v-card>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el servicio?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
+        <v-card-actions class="pb-3 px-3">
+          
+          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -205,7 +219,8 @@
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="" v-if="props.item.set">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm')}}</td>
           <td class="" v-else></td>
-          <td class="">{{ props.item.duration }}</td>
+          <td class="" v-if="props.item.duration">{{ moment(props.item.duration, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="" v-else></td>
           <td class="">{{ props.item.trip_id }}</td>
 
           <td class="">{{ props.item.freq_id }}</td>
@@ -237,17 +252,6 @@
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-            <v-dialog v-model="confirmaAnular" persistent max-width="290">
-              <v-card>
-                <v-card-title class="headline">¿Esta seguro de eliminar el usuario?</v-card-title>
-                <v-card-text>Una vez realizada esta acción no podrá recuperar el servicio.</v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" flat @click="confirmaAnular = false">Volver</v-btn>
-                  <v-btn color="red darken-1" flat @click="deleteItem(eliminaid)">Eliminar</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </td>
         </template>
       </v-data-table>
@@ -265,7 +269,6 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  import axios from 'axios'
   import Modal from '@c/Modal'
   
   export default {
@@ -282,7 +285,7 @@
         modalInfoDetail: '',
         modalInfoBtn1: '',
         editedItem: {
-          date: new Date().toISOString().substr(0, 10),
+          date: new Date().toISOString().substr(0, 10)
         },
         datepicker: false,
         timepicker1: false,
@@ -341,7 +344,7 @@
           if (trips.status >= 200 && trips.status < 300) {
             console.log('Result load trips', trips)
             this.trips = trips.data.data
-            this.loading = false         
+            this.loading = false
           }
         } catch (e) {
           console.log('error al cargar tramos', e.response)
@@ -353,7 +356,6 @@
           if (frecs.status >= 200 && frecs.status < 300) {
             this.frequencies = frecs.data.data
             this.loading = false
-          
           }
         } catch (e) {
           console.log('error al cargar frecuencias', e.response)
@@ -368,7 +370,7 @@
             setTimeout(() => {
               this.services = servicios.data.data
               this.loading = false
-              }, 500)
+            }, 500)
           }
         } catch (e) {
           console.log('error al cargar servicios', e.response)
@@ -389,10 +391,10 @@
         try {
           let eliminando = await API.delete('services', item)
           if (eliminando.status >= 200 && eliminando.status < 300) {
-            console.log('ya hizo DELETE',eliminando)
+            console.log('ya hizo DELETE', eliminando)
             this.confirmaAnular = false
             console.log(eliminando)
-            this.getServices()   
+            this.getServices()
           } else {
             alert('Ha ocurrido un error al eliminar')
           }
@@ -411,31 +413,30 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         let ser = {
-            "service": 
-              {
-                  "arrival": guardar.arrival ? guardar.arrival : '',
-                  "avail_seats": guardar.avail_seats ? guardar.avail_seats : '',
-                  "date": guardar.date ? guardar.date : '',
-                  "departure": guardar.departure ? guardar.departure : '',
-                  "name": guardar.name ? guardar.name : '',
-                  "set": guardar.set ? guardar.set : '',
-                  "trip_id": guardar.trip_id ? guardar.trip_id : ''
-              }
+          'service':
+          {
+            'arrival': guardar.arrival ? guardar.arrival : '',
+            'avail_seats': guardar.avail_seats ? guardar.avail_seats : '',
+            'date': guardar.date ? guardar.date : '',
+            'departure': guardar.departure ? guardar.departure : '',
+            'name': guardar.name ? guardar.name : '',
+            'set': guardar.set ? guardar.set : '',
+            'trip_id': guardar.trip_id ? guardar.trip_id : ''
+          }
         }
-
-        if(guardar.id){
-          console.log('ser a put',ser)
+        if (guardar.id) {
+          console.log('ser a put', ser)
           let id = guardar.id
           try {
-            let servicios = await API.put('services', id, ser )
+            let servicios = await API.put('services', id, ser)
             if (servicios.status >= 200 && servicios.status < 300) {
               // console.log('ya hizo PUT',servicios)
-                this.services = servicios.data.data
-                this.dialog = false
-                this.editedItem = Object.assign({}, '')
-            }
-            else {
-              alert ('Ha ocurrido un error al editar el servicio')
+              // this.services = servicios.data.data
+              this.getServices()
+              this.dialog = false
+              this.editedItem = Object.assign({}, '')
+            } else {
+              alert('Ha ocurrido un error al editar el servicio')
             }
           } catch (e) {
             console.log('catch error al editar el servicio', e.response)
@@ -444,9 +445,8 @@
             this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
             this.modalInfoBtn1 = 'OK'
           }
-        }
-        else{
-          console.log('ser a post',ser)
+        } else {
+          console.log('ser a post', ser)
           try {
             let servicios = await API.post('services', ser)
             if (servicios.status >= 200 && servicios.status < 300) {
@@ -454,8 +454,7 @@
               this.getServices()
               this.dialog = false
               this.editedItem = Object.assign({}, '')
-            }
-            else {
+            } else {
               alert('Ha ocurrido un error al crear el servicio')
             }
           } catch (e) {

@@ -2,7 +2,7 @@
 
     <v-dialog v-model="anular" persistent max-width="500">
         <v-card v-if="modal.status == 'none'">
-              <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">¿Esta seguro de anular la reserva?</v-card-title>
+              <v-card-title class="headline titulo-detalle elevation-22 justify-center">¿Esta seguro de anular la reserva?</v-card-title>
               <v-layout row wrap ml-4 mt-3> 
               <v-flex xs3 class="mt-3 ml-2"> 
                 <v-icon color="red" size=80>warning</v-icon>
@@ -12,10 +12,11 @@
 
               </v-flex>
               </v-layout>
-              <v-card-actions>
+              <v-card-actions class="pb-3 px-4">
+                
+                <v-btn color="primary darken-1" outline @click="cerrar()" >Volver</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary darken-1" flat @click="cerrar()" >Volver</v-btn>
-               <v-btn color="red darken-1" flat @click="anularReserva()" >Anular</v-btn> 
+               <v-btn color="red darken-1" outline @click="anularReserva()" >Anular</v-btn> 
               </v-card-actions>
             </v-card>
 
@@ -43,30 +44,31 @@
 <script>
   import API from '@pi/app'
   import {mapGetters} from 'vuex'
-  import moment from 'moment'
-  import axios from 'axios'
+  // import moment from 'moment'
+  // import axios from 'axios'
+
   export default {
-    name: 'modalAnular', 
+    name: 'modalAnular',
     data: () => ({
-      modal : {
-          status: 'none'
+      modal: {
+        status: 'none'
       }
     }),
     mounted () {
     },
     methods: {
-      async anularReserva() {
+      async anularReserva () {
         const idServicio = this.servicioAnular.id
         try {
-          let eliminando = await API.deleteNoRest('tickets', idServicio,'cancel') 
+          let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
           if (eliminando.status >= 200 && eliminando.status < 300) {
-              //eliminado exitoso 
+              // eliminado exitoso
             this.$store.dispatch('Booking/set_actualizarReservas', {
               actualizarReservas: true
             })
-            this.modal.status = 'done' 
+            this.modal.status = 'done'
           }
-            /*   this.$store.dispatch('Booking/set_anular', {
+            /* this.$store.dispatch('Booking/set_anular', {
                   anular: false
               });  */
         } catch (e) {
@@ -84,7 +86,7 @@
               })
         }
       },
-      cerrar() {
+      cerrar () {
         setTimeout(() => {
           this.modal.status = 'none'
         }, 2000)
