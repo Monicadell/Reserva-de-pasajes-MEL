@@ -1,5 +1,5 @@
 <template>
-  <div  style="width: 100%;">
+  <div class="contiene" style="width: 100%; max-height: calc(100% - 0)">
     <v-toolbar card prominent>
       
       <v-toolbar-title class="body-3 primary--text ml-4">
@@ -20,23 +20,22 @@
 
     <v-divider></v-divider>
 
-    <v-layout>
+    <v-layout class="" style="max-height: calc(100% - 64px)">
       <v-flex xs3>
         <v-navigation-drawer style="width: 100%">
-          <v-list dense class="pt-0 user ">
+          <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Mis reservas</span>
             </v-toolbar-title>
-                <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-                <v-divider></v-divider>
-                <v-layout v-for="item in items" :key="item.id">
-                  
-                  <v-flex > 
-                    <v-list-tile-content  >
-                      <tickets v-bind:item="item" />
-                    </v-list-tile-content>
-                  </v-flex> 
-                </v-layout> 
+            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+            <v-divider></v-divider>
+            <v-layout v-for="item in items" :key="item.id">
+              <v-flex > 
+                <v-list-tile-content  >
+                  <tickets v-bind:item="item" />
+                </v-list-tile-content>
+              </v-flex> 
+            </v-layout> 
           </v-list>
         </v-navigation-drawer>
       </v-flex>
@@ -119,99 +118,100 @@
           
       </v-flex>  
       <v-flex xs2>
-        <v-navigation-drawer style="width: 100%">
-          <v-list dense class="pt-0 user ">
+        <v-navigation-drawer style="width: 100%; max-height: 100%;">
+          <!-- <v-list dense class="pt-0 user "> -->
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
             </v-toolbar-title>
-                <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-                <v-divider></v-divider>
-                <v-card style="min-height: 40vh">
-                  <v-card-title primary-title class = "pb-1">
-                  <span class="mb-0 title-ticket font-weight-black">Hoy</span>
-                  </v-card-title>
-                  <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-                      <v-data-table
-                        :headers="hoyHeaders"
-                        :items="hoy"
-                        hide-actions
-                        class="tabla-express pt-3"
-                        no-data-text="No hay viajes para hoy"
-                      >
-                      <template slot="items" slot-scope="props" >
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
-                        <td class="text-xs-center">
-                          <v-tooltip top>
-                            <v-icon
-                              small
-                              slot="activator"
-                              class="icono-select"
-                              @click="selectExpress(props.item)"
-                            >
-                              chevron_right
-                            </v-icon>
-                            <span>Eliminar</span>
-                          </v-tooltip>
-                        </td>
-                      </template>
-                    </v-data-table>
-                </v-card>
-
-                <v-divider></v-divider>
-                <v-card style="min-height: 45vh">
-                  <v-card-title primary-title class = "pb-1">
-                  <span class="mb-0 title-ticket font-weight-black">Mañana</span>
-                  </v-card-title>
-                  <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+            <!-- <v-divider></v-divider> -->
+            <v-card class="media-alt">
+              <v-card-title primary-title class="pb-1 pt-3">
+              <span class="mb-0 title-ticket font-weight-black">Hoy</span>
+              </v-card-title>
+              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
                   <v-data-table
-                        :headers="mananaHeaders"
-                        :items="manana"
-                        hide-actions
-                        class="tabla-express pt-3"
-                        no-data-text="No hay viajes para mañana"
-                      >
-                      <template slot="items" slot-scope="props" >
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
-                        <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
-                        <td class="text-xs-center">
-                          <v-tooltip top>
-                            <v-icon
-                              small
-                              slot="activator"
-                              class="icono-select"
-                              @click="selectExpress(props.item)"
-                            >
-                              chevron_right
-                            </v-icon>
-                            <span>Eliminar</span>
-                          </v-tooltip>
-                        </td>
-                      </template>
-                    </v-data-table>
-                </v-card>
-          </v-list>
+                    :headers="hoyHeaders"
+                    :items="hoy"
+                    hide-actions
+                    class="tabla-express pt-3"
+                    no-data-text="No hay viajes para hoy"
+                    style="overflow-y: scroll; max-height: 100%;"
+                  >
+                  <template slot="items" slot-scope="props" >
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                    <td class="text-xs-center">
+                      <v-tooltip top>
+                        <v-icon
+                          small
+                          slot="activator"
+                          class="icono-select"
+                          @click="selectExpress(props.item)"
+                        >
+                          chevron_right
+                        </v-icon>
+                        <span>Eliminar</span>
+                      </v-tooltip>
+                    </td>
+                  </template>
+                </v-data-table>
+            </v-card>
+            <!-- <v-divider></v-divider> -->
+            <v-card class="media-alt">
+              <v-card-title primary-title class="pb-1 pt-3">
+              <span class="mb-0 title-ticket font-weight-black">Mañana</span>
+              </v-card-title>
+              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+              <v-data-table
+                    :headers="mananaHeaders"
+                    :items="manana"
+                    hide-actions
+                    class="tabla-express pt-3"
+                    no-data-text="No hay viajes para mañana"
+                    style="max-height: 100%; overflow-y: scroll;"
+                  >
+                  <template slot="items" slot-scope="props" >
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                    <td class="text-xs-center">
+                      <v-tooltip top>
+                        <v-icon
+                          small
+                          slot="activator"
+                          class="icono-select"
+                          @click="selectExpress(props.item)"
+                        >
+                          chevron_right
+                        </v-icon>
+                        <span>Eliminar</span>
+                      </v-tooltip>
+                    </td>
+                  </template>
+                </v-data-table>
+            </v-card>
+          <!-- </v-list> -->
         </v-navigation-drawer>
       </v-flex>
     </v-layout>  
    
-    <v-layout row wrap fill-height class="mt-2">
+    <v-layout row wrap fill-height class="">
       <v-flex xs12 >
         <service-selected/>  
       </v-flex>
     </v-layout>
 
 
-      <v-layout row wrap fill-height class="mt-2">
+      <v-layout row wrap fill-height class="">
       <v-flex xs12 >
         <modal-anular/>  
       </v-flex>
     </v-layout>
 
 
-      <v-layout row wrap fill-height class="mt-2">
+      <v-layout row wrap fill-height class="">
       <v-flex xs12 >
         <modal-confirmar/>  
       </v-flex>
@@ -262,6 +262,15 @@
         hoy: [
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
         ],
@@ -272,6 +281,15 @@
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
         manana: [
           {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
+          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
+          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
+                    {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
           {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
           {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
@@ -401,6 +419,10 @@
   #principal-container {
     background: rgb(242, 245, 247);
   }
+  .media-alt{
+    height: calc(50vh - 79px);
+    /* max-height: calc(50% - 15px); */
+  }
   .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
     background: rgba(104, 104, 104, 0.1);
   }
@@ -449,7 +471,7 @@
   }
 
   .v-list.user {
-    height: calc(100vh - 24px);
+    height: calc(100vh - 128px);
     overflow-y: auto;
   }
 
