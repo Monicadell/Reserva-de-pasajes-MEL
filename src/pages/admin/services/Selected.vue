@@ -184,8 +184,13 @@
               actualizarReservas: true
             })
             this.$store.dispatch('Booking/select', {selected: false})
+            this.$store.dispatch('Booking/set_ruta', {ruta: {}}) 
+            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: [],})
             this.$store.dispatch('Booking/set_e1', {
               e1: 3
+            })
+             this.$store.dispatch('Booking/set_limpiar', {
+              limpiar: true
             })
           }
         } catch (e) {
@@ -194,10 +199,21 @@
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })
-          this.showModal = true
+ this.$swal({
+               customClass: 'modal-info',
+                type: 'error',
+                customClass: '',
+                title: '¡Reserva no habilitada!',
+                text: e.response.data.error,
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Cerrar'
+              })
+        /*  this.showModal = true
           this.modalInfoTitle = 'Ha ocurrido un error'
           this.modalInfoDetail = e.response.data.error
-          this.modalInfoBtn1 = 'OK'
+          this.modalInfoBtn1 = 'OK' */
         }
      /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
          ticket: {

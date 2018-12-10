@@ -71,7 +71,17 @@
               });  */
         } catch (e) {
           console.log('Error al anular reserva', e.response)
-          alert('Ha ocurrido un error al intentar anular reserva')
+           this.$swal({
+             customClass: 'modal-info',
+                type: 'error',
+                customClass: '',
+                title: '¡oops!',
+                text: 'Ha ocurrido un error por favor intenta de nuevo',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Cerrar'
+              })
         }
       },
       cerrar() {

@@ -35,7 +35,9 @@ const state = {
   servicioDetalle: {}, // almaceno el servicio seleccionado para mostrar detalle
   estadoTickete: ' ', // almacena el estado del servicio seleccionado para mostrar el detalle -> no se guarda directamente en servicioDetalle para hacer la logica antes de que se muestre el componente
   actualizarVistaConfirmacion: false,
-  listaReservas: []
+  listaReservas: [],
+  limpiar: false,
+  origen: []
 
 }
 
@@ -60,7 +62,9 @@ const getters = {
   servicioDetalle: state => state.servicioDetalle,
   estadoTickete: state => state.estadoTickete,
   actualizarVistaConfirmacion: state => state.actualizarVistaConfirmacion,
-  listaReservas: state => state.listaReservas
+  listaReservas: state => state.listaReservas,
+  limpiar: state => state.limpiar,
+  origen: state => state.origen
 }
 
 const actions = {
@@ -128,6 +132,12 @@ const actions = {
   },
   set_listaReservas ({commit}, payload) {
     commit('SET_LISTARESERVAS', {listaReservas: payload.listaReservas})
+  },
+  set_limpiar({commit}, payload) {
+    commit('SET_LIMPIAR', {limpiar: payload.limpiar})
+  },
+  set_origen ({commit}, payload) {
+    commit('SET_ORIGEN', {origen: payload.origen})
   }
 
 }
@@ -198,6 +208,12 @@ const mutations = {
   },
   SET_LISTARESERVAS: (state, {listaReservas}) => {
     state.listaReservas = listaReservas
+  },
+  SET_LIMPIAR: (state, {limpiar}) => {
+    state.limpiar = limpiar
+  },
+  SET_ORIGEN: (state, {origen}) => {
+    state.origen = origen
   }
 }
 

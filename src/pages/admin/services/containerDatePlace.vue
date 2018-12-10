@@ -86,6 +86,7 @@
             if (services.data.data.length == 0) {
               console.log('no hay pasajes')
               this.$swal({
+                customClass: 'modal-info',
                 type: 'error',
                 customClass: '',
                 timer: 2000,

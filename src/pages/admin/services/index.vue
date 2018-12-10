@@ -265,6 +265,10 @@
       this.$store.dispatch('Booking/set_listaReservas', {
         listaReservas: []
       })
+      ;
+      this.$store.dispatch('Booking/set_limpiar', {
+        limpiar: false
+      })
     },
     methods: {
       async getReservas () { //obtener las reservas de un usuario

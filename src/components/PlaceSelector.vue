@@ -105,7 +105,7 @@
     data: () => ({
       locations: [],
       destLocations: [],
-      origen: '',
+    //  origen: '',
       destino: '',
       seldestination:{
         status: true
@@ -114,6 +114,9 @@
     computed: {
       ...mapGetters({
       //  search: ['Booking/current']
+       limpiar: ['Booking/limpiar'],
+       ruta: ['Booking/ruta'],
+       origen: ['Booking/origen']
       }),
       place: {
         get () {
@@ -127,7 +130,7 @@
       },
       placeDestiny: {
         get () {
-        //  return this.search[this.direction].place
+          return this.ruta
         },
         set (value) {
       //  console.log('usuario eligio destino, fijo ruta', value)
@@ -143,6 +146,9 @@
     //  console.log(stations.status)
       if (stations.status >= 200 && stations.status < 300){
         this.locations = Object.assign([], stations.data.data)
+        this.$store.dispatch('Booking/set_origen', {
+            origen: stations.data.data,
+          })   
       }
    
     }, 
@@ -159,6 +165,19 @@
       //  console.log(this.destLocations)
        
       },
-    }
+    },
+       watch: {
+       limpiar () {
+          if(this.limpiar) {
+          //const porfis = []
+          console.log(`debo actaulizar vista reservas ${this.actualizarReservas}`)
+        this.locations = Object.assign([], this.origen)
+ 
+       
+         
+         }
+       },
+       
+     },  
   }
 </script>
