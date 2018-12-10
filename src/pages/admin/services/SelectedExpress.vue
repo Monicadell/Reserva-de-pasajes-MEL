@@ -15,11 +15,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="gris--text"> {{servicioExpress.origen}} </b>
+                    <b class="gris--text"> {{servicioExpress.dest}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
-                    <b class="gris--text">{{servicioExpress.salida}}</b>
+                    <b class="gris--text">{{servicioExpress.departure}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class=" divider-custom mt-3"></v-divider>
@@ -31,7 +31,7 @@
                     <b class="gris--text"> {{servicioExpress.date}}</b>
                   </v-flex>
                 </v-layout>
-                <v-divider class="divider-custom mt-3"></v-divider>,
+                <v-divider class="divider-custom mt-3"></v-divider>
               </v-timeline-item>
    
 
@@ -39,7 +39,7 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
-                    <b class="gris--text">{{servicioExpress.destino}}</b>
+                    <b class="gris--text">{{servicioExpress.dest}}</b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
@@ -114,57 +114,59 @@
       async doBooking () {
         this.loadingBooking = true
         const hora = moment().toISOString()
+        console.log('Express seleccionado', this.servicioExpress)
         const ticket = {
           status: 1,
           booked_at: hora,
-          service_id: this.servicioExpress.trip_id
+          service_id: this.servicioExpress.id
         }
         try {
+          console.log('ticket.service_id', ticket.service_id)
           const booking = await API.postNoRest('services', ticket.service_id, 'book')
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')
             this.$store.dispatch('Booking/set_actualizarReservas', {actualizarReservas: true})
-            this.$store.dispatch('Booking/select', {selected: false})
+            // this.$store.dispatch('Booking/select', {selected: false})
             //this.$store.dispatch('Booking/set_ruta', {ruta: {}}) 
             this.$store.dispatch('Booking/set_listaServicios', {listaServicios: [],})
-            this.$store.dispatch('Booking/set_e1', {e1: 3})
+            // this.$store.dispatch('Booking/set_e1', {e1: 3})
             /* MODAL RESERVA EXITOSA */
             this.$swal({
-               customClass: 'modal-info',
-                type: 'error',
-                customClass: '',
-                title: '¡Reserva no habilitada!',
-                text: e.response.data.error,
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'Cerrar',
-                timer: 3000
-              }).then (()=>{
-                this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+              customClass: 'modal-info',
+              type: 'success',
+              customClass: '',
+              title: '¡Reserva Realizada!',
+              text: 'Su reserva ha sido generada.',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar',
+              timer: 3000
+            }).then (() => {
+              this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
 
-              })
+            })
     
           }
         } catch (e) {
           console.log('error al reservar', e.response)
           this.$store.dispatch('Booking/select', { selected: false })
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 1
+          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+          // this.$store.dispatch('Booking/set_e1', {
+          //   e1: 1
+          // })
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            customClass: '',
+            title: '¡Reserva no habilitada!',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
           })
-            this.$swal({
-               customClass: 'modal-info',
-                type: 'error',
-                customClass: '',
-                title: '¡Reserva no habilitada!',
-                text: e.response.data.error,
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'Cerrar'
-              })
-        
         }
      
       }

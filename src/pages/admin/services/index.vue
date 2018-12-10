@@ -123,25 +123,25 @@
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Servicios más próximos</span>
             </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+            <v-progress-linear :indeterminate="true" v-if="loadingDerecha"></v-progress-linear>
             <!-- <v-divider></v-divider> -->
-            <v-card class="media-alt">
+            <v-card flat class="media-alt">
               <v-card-title primary-title class="pb-1 pt-3">
-              <span class="mb-0 title-ticket font-weight-black">Hoy</span>
+              <span class="mb-0 title-ticket font-weight-black">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
               <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
-                  <v-data-table
-                    :headers="hoyHeaders"
-                    :items="hoy"
-                    hide-actions
-                    class="tabla-express pt-3"
-                    no-data-text="No hay viajes para hoy"
-                    style="overflow-y: scroll; height: calc(100% - 40px); "
-                  >
+                <v-data-table
+                  :headers="hoyHeaders"
+                  :items="hoy"
+                  hide-actions
+                  class="tabla-express pt-3"
+                  no-data-text="No hay viajes para hoy"
+                  style="overflow-y: scroll; height: calc(100% - 40px); "
+                >
                   <template slot="items" slot-scope="props" >
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
                     <td class="text-xs-center">
                       <v-tooltip top>
                         <v-icon
@@ -159,9 +159,9 @@
                 </v-data-table>
             </v-card>
             <!-- <v-divider></v-divider> -->
-            <v-card class="media-alt">
+            <v-card flat class="media-alt">
               <v-card-title primary-title class="pb-1 pt-3">
-              <span class="mb-0 title-ticket font-weight-black">Mañana</span>
+              <span class="mb-0 title-ticket font-weight-black">Mañana {{ moment(tomorrowDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
               <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
               <v-data-table
@@ -173,9 +173,9 @@
                     style="height: calc(100% - 40px); overflow-y: scroll;"
                   >
                   <template slot="items" slot-scope="props" >
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.origen }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.destino }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.salida }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
+                    <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
                     <td class="text-xs-center">
                       <v-tooltip top>
                         <v-icon
@@ -245,7 +245,7 @@
   import ServiceList from './List'
   import ServiceSelected from './Selected'
   import ServiceExpress from './SelectedExpress'
-
+  import moment from 'moment'
   import MyBooking from './MyBooking'
   import modalAnular from './modalAnular'
   import modalConfirmar from './modalConfirmar'
@@ -261,27 +261,16 @@
       return {
       //  e1: 0,
         items: [],
+        currenDate: '',
+        tomorrowDate: '',
+        loadingDerecha: true,
         hoyHeaders: [
           {text: 'Origen', value: 'origen', sortable: false, align: 'left'},
           {text: 'Destino', value: 'destino', sortable: false, align: 'left'},
           {text: 'Salida', value: 'email', sortable: false, align: 'left'},
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
         hoy: [
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-        /*  {from: 'ccs', to: 'mer', arrival: "16:45:00", avail_seats: 123, date: "2018-12-10", departure: "15:15:00", driver_id: null, duration: "01:30:00.000000", freq_id: 11,
-            hrs_left: 0, id: 26, name: "FRECUENCIA MEL", set: "15:00:00", trip_id: 1}, */
-          {origen: 'Complejo Mel', destino: 'Mel', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
+
         ],
         mananaHeaders: [
           {text: 'Origen', value: 'origen', sortable: false},
@@ -289,19 +278,7 @@
           {text: 'Salida', value: 'salida', sortable: false},
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
         manana: [
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Mel', destino: 'Complejo Mel', salida: '16:00'},
-          {origen: 'Complejo Mel', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Aeropuerto ANF', destino: 'Aeropuerto ANF', salida: '18:30'},
-          {origen: 'Terminal de Buses ANF', destino: 'Aeropuerto ANF', salida: '18:30'}
+
         ],
         right: null,
         disabledBtn: true,
@@ -351,7 +328,11 @@
       }
     },
     mounted () {
+      this.currenDate = moment().format('YYYY-MM-DD')
+      this.tomorrowDate = moment().add('days', 1).format('YYYY-MM-DD')
+      console.log('HOOOOY', this.tomorrowDate)
       this.getReservas()
+      this.getExpress()
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
       this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
       this.$store.dispatch('Booking/set_anular', {anular: false})
@@ -393,15 +374,35 @@
           this.modalInfoBtn1 = 'OK'
         }
       },
+      async getExpress () {
+        console.log('get express')
+        try {
+          let servicios = await API.get('services', {'express': 1})
+          if (servicios.status >= 200 && servicios.status < 300) {
+            console.log('expres', servicios)
+            // let today = new Date()
+           
+            // setTimeout(() => {
+              this.hoy = servicios.data.data.filter(service => service.date === this.currenDate)
+              this.manana = servicios.data.data.filter(service => service.date === this.tomorrowDate);
+              this.loadingDerecha = false
+            // }, 500)
+          }
+        } catch (e) {
+          console.log('error al cargar servicios', e.response)
+          console.log('catch err', e.response)
+
+        }
+      },
       volverMenu () {
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
         })
       },
       selectExpress (servicioExpress) {
-       /*console.log(servicioExpress)
-         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
-         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})  */
+        console.log('servicio expres seleccionado', servicioExpress)
+        this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+        this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
       }
     }
   }

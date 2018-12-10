@@ -146,11 +146,11 @@ const actions = {
   set_origen ({commit}, payload) {
     commit('SET_ORIGEN', {origen: payload.origen})
   },
-  set_selectedExpress({commit}, payload) {
+  set_selectedExpress ({commit}, payload) {
     commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress}) 
   },
   set_servicioExpress ({commit}, payload) {
-    commit ('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
+    commit('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
   }
 
 }
