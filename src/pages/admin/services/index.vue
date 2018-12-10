@@ -446,7 +446,8 @@
   .tabla-express .theme--light.v-table tbody tr:not(:last-child){
     border: none;
   }
-  .tabla-express .theme--light.v-table tbody tr:hover{
+  .tabla-express .theme--light.v-table tbody tr:hover,
+  .tabla-express .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row){
     background: rgba(104, 104, 104, 0.4);
     cursor: pointer;
   }
