@@ -132,8 +132,7 @@
           alert('Se ha enviado la solicitud para crear su usuario')
           this.item = {}
           this.goToLogin()
-        }
-        else {
+        } else {
           alert('Ha ocurrido un error, intente nuevamente')
           console.log(usuario)
         }

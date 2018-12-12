@@ -2,7 +2,6 @@
   <div>
     <div class="py-3"><h2>Reservas</h2> </div>
 
-
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field

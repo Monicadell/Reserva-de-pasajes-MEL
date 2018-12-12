@@ -9,13 +9,13 @@
             </h3>
           </v-card-title>
         </v-card>
-          <v-card-text class="ml-3 mr-3"  >
+          <v-card-text class="px-3">
             <v-timeline align-top dense>
               <v-timeline-item color="#2B8DFC" large icon="fal fa-map-marked">
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="gris--text"> {{servicioExpress.dest}} </b>
+                    <b class="gris--text"> {{servicioExpress.source}} </b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
@@ -50,6 +50,19 @@
 
 
             </v-timeline>
+            <div>
+              <select-acercamiento @eventAcerca="eventAcerca"/>
+            </div>
+            <div v-if="vuelo">
+               <v-layout row wrap >
+                <v-flex offset-xs2 xs8 pt-2>
+                  <v-text-field
+                    label="Nº de vuelo"
+                    prepend-icon="airplanemode_active"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </div>
           </v-card-text>
 
           <v-card-actions class="pb-4">
@@ -82,6 +95,7 @@
   import {mapGetters} from 'vuex'
   import moment from 'moment'
   import Modal from '@c/Modal'
+  import SelectAcercamiento from '@c/SelectAcercamiento'
 
   export default {
     data: () => ({
@@ -90,6 +104,7 @@
       modalInfoTitle: '',
       modalInfoDetail: '',
       modalInfoBtn1: '',
+      acercamiento: '',
       booking: {
         state: 'booking', // booking, error, success
         color: 'primary',
@@ -99,17 +114,21 @@
       },
       ticket: {
         status: 'none'
-      }
+      },
+      vuelo: false
     }),
-    mounted () {
-    
-    },
     components: {
-      Modal: Modal
+      Modal: Modal,
+      SelectAcercamiento
     },
     methods: {
       cancel () {
         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+        this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
+      },
+      eventAcerca (lugar) {
+        this.acercamiento = lugar
+        // console.log('acercamiento expres', this.acercamiento)
       },
       async doBooking () {
         this.loadingBooking = true
@@ -128,14 +147,13 @@
             console.log('reserva exitosa')
             this.$store.dispatch('Booking/set_actualizarReservas', {actualizarReservas: true})
             // this.$store.dispatch('Booking/select', {selected: false})
-            //this.$store.dispatch('Booking/set_ruta', {ruta: {}}) 
-            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: [],})
+            // this.$store.dispatch('Booking/set_ruta', {ruta: {}})
+            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
             // this.$store.dispatch('Booking/set_e1', {e1: 3})
             /* MODAL RESERVA EXITOSA */
             this.$swal({
               customClass: 'modal-info',
               type: 'success',
-              customClass: '',
               title: '¡Reserva Realizada!',
               text: 'Su reserva ha sido generada.',
               animation: true,
@@ -143,11 +161,9 @@
               showConfirmButton: false,
               cancelButtonText: 'Cerrar',
               timer: 3000
-            }).then (() => {
+            }).then(() => {
               this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
-
             })
-    
           }
         } catch (e) {
           console.log('error al reservar', e.response)
@@ -159,7 +175,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: '¡Reserva no habilitada!',
             text: e.response.data.error,
             animation: true,
@@ -168,7 +183,12 @@
             cancelButtonText: 'Cerrar'
           })
         }
-     
+      }
+    },
+    watch: {
+      servicioExpress (val) {
+        console.log('change express', val)
+        this.vuelo = this.servicioExpress.dest.toLowerCase().includes('aeropuerto') || this.servicioExpress.source.toLowerCase().includes('aeropuerto')
       }
     },
     computed: {

@@ -156,7 +156,7 @@
       async confirmarReserva () {
         const idServicio = this.servicioConfirmar.id
         try {
-          let confirmacion = await API.patchNoRest('tickets', idServicio, 'confirm')
+          await API.patchNoRest('tickets', idServicio, 'confirm')
           //  this.modal.status = 'done'
         } catch (e) {
           console.log('error al confirmar reserva, modal detalle', e.response)

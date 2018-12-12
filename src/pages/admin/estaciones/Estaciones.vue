@@ -198,7 +198,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: 'Error',
             text: 'Ha ocurrido un error al cargar las estaciones, intente más tarde.',
             animation: true,
@@ -228,7 +227,6 @@
             this.$swal({
               customClass: 'modal-info',
               type: 'success',
-              customClass: '',
               title: 'Estación',
               timer: 2000,
               text: 'Estación eliminada exitosamente',
@@ -247,7 +245,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: 'Ha ocurrido un error al eliminar la estación',
             text: e.response.data.error,
             animation: true,
@@ -296,9 +293,8 @@
               this.$swal({
                 customClass: 'modal-info',
                 type: 'success',
-                customClass: '',
                 title: 'Estación',
-                timer: 2000,
+                // timer: 2000,
                 text: 'Estación actualizada exitosamente',
                 animation: true,
                 showCancelButton: true,
@@ -311,7 +307,6 @@
               this.$swal({
                 customClass: 'modal-info',
                 type: 'error',
-                customClass: '',
                 title: 'Error',
                 text: 'Ha ocurrido un error al editar la estación.',
                 animation: true,
@@ -329,7 +324,6 @@
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
-              customClass: '',
               title: 'Error',
               text: 'Ha ocurrido un error al editar la estación.',
               animation: true,
@@ -349,7 +343,6 @@
               this.$swal({
                 customClass: 'modal-info',
                 type: 'success',
-                customClass: '',
                 title: 'Estación',
                 timer: 2000,
                 text: 'Estación creada exitosamente',
@@ -371,7 +364,6 @@
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
-              customClass: '',
               title: 'Ha ocurrido un error al crear la estación.',
               text: e.response.data.error,
               animation: true,
@@ -385,3 +377,39 @@
     }
   }
 </script>
+
+<style>
+  .swal2-popup.modal-info {
+    font-family: Helvetica, sans-serif;
+  }
+  .swal2-popup.swal2-modal.modal-info{
+    border-radius: 0;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm {
+    border: 1px solid #1565c0;
+    border-radius: 0;
+    background: transparent;
+    background-color: transparent;
+    color: #1565c0;
+    font-size: 1.0625em;
+    outline: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-cancel:focus,
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm:focus {
+    box-shadow: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-cancel {
+    border-radius: 0;
+    border: none;
+    background-color: #1565c0;
+    outline: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm:hover {
+    border: 1px solid #1565c0;
+    border-radius: 0;
+    background: transparent;
+    background-color: rgba(21, 101, 192, 0.12);
+    color: #1565c0;
+    font-size: 1.0625em;
+  }
+</style>

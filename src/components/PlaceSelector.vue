@@ -140,8 +140,8 @@
       if (stations.status >= 200 && stations.status < 300) {
         this.locations = Object.assign([], stations.data.data)
         this.$store.dispatch('Booking/set_origen', {
-            origen: stations.data.data,
-          })   
+          origen: stations.data.data
+        })
       }
     },
     methods: {

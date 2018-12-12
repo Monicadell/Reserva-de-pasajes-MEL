@@ -3,7 +3,7 @@
  */
 import axios from '../../interceptor'
 import endpoints from '../../endpoints'
-import store  from '../../store'
+// import store from '../../store'
 /**
  * Declare Variable
  */

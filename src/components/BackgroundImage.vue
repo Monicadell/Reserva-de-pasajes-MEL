@@ -4,10 +4,6 @@
          class="kenburns-bottom"
          alt="">
   </div> 
-
-
-
-
 </template>
 
 <script>
@@ -22,15 +18,14 @@
       updateImg () {
         if (this.imgnumber === 4) {
           this.imgnumber = 1
-        }
-        else {
+        } else {
           this.imgnumber++
         }
         this.imagen = '../../static/img/' + this.imgnumber + '.jpg'
       }
     },
     beforeDestroy () {
-      clearInterval(this.refreshInterval);
+      clearInterval(this.refreshInterval)
     },
     mounted () {
       this.updateImg()

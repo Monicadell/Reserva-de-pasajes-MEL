@@ -12,18 +12,18 @@
             </v-card>
 
 
-          <v-card-text class="ml-3 mr-3"  >
-            <v-timeline align-top dense>
+          <v-card-text class="">
+            <v-timeline align-top dense class="ml-3">
 
               <v-timeline-item color="light-blue lighten-1" large icon="fal fa-map-marked">
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"><b>Salida desde:</b></div>
-                    <b class="secondary--text"> {{servicioConfirmar.service.from}}</b>
+                    <b class="gris--text"> {{servicioConfirmar.service.from}}</b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b> Horario salida</b></div>
-                    <b class="secondary--text">{{servicioConfirmar.service.departure}}</b>
+                    <b class="gris--text">{{servicioConfirmar.service.departure}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class=" divider-custom mt-3"></v-divider>
@@ -36,7 +36,7 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                      <div class="grey--text"> <b>Día del trayecto</b></div>
-                    <b class="secondary--text"> {{servicioConfirmar.service.date}}</b>
+                    <b class="gris--text"> {{servicioConfirmar.service.date}}</b>
                   </v-flex>
                 </v-layout>
                 <v-divider class="divider-custom mt-3"></v-divider>
@@ -48,11 +48,11 @@
                 <v-layout pt-3>
                   <v-flex xs6>
                     <div class="grey--text"> <b>Destino: </b></div>
-                    <b class="secondary--text"> {{servicioConfirmar.service.to}}</b>
+                    <b class="gris--text"> {{servicioConfirmar.service.to}}</b>
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
-                    <b class="secondary--text"> {{servicioConfirmar.service.arrival}} </b>
+                    <b class="gris--text"> {{servicioConfirmar.service.arrival}} </b>
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
@@ -61,16 +61,18 @@
             </v-timeline>
           </v-card-text>
 
-          <v-card-actions class="justify-center">
+          <v-card-actions class="pb-3 px-3">
          <!-- *********** CENTRA BOTON ***** -->
+            <v-btn color="primary" class="text-capitalize" outline @click="cerrar()" >Cerrar</v-btn>
+            <v-spacer></v-spacer>
             <v-btn
-              color="secondary"
-              class="btn-confirmar-conf ml-4"
+              color="primary"
+              class="text-capitalize"
               @click="confirmarReserva"
             >
              Confirmar
             </v-btn>
-            <v-btn color="primary" class="btn-cerrar-conf ml-3" @click="cerrar()" >Cerrar</v-btn>
+            
           </v-card-actions>
 
       </v-card>
@@ -128,17 +130,16 @@
           }
         } catch (e) {
           console.log('error al confirmar reserva', e.response)
-             this.$swal({
-               customClass: 'modal-info',
-                type: 'error',
-                customClass: '',
-                title: '¡oops!',
-                text: 'Ha ocurrido un error por favor intenta de nuevo',
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'Cerrar'
-              })
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: '¡oops!',
+            text: 'Ha ocurrido un error por favor intenta de nuevo',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
       },
       cerrar () {

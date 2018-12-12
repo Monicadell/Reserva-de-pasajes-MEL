@@ -384,7 +384,7 @@
             'phone_number': guardar.phone_number ? guardar.phone_number : '',
             'active': false,
             'password': guardar.password ? guardar.password : '',
-            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : '',
+            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
           }
         }
         console.log('ser a post', user)

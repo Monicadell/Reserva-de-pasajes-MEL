@@ -40,18 +40,17 @@
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
         :rows-per-page-items="rowsNumber"
-        
       >
-
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
             <td>{{ props.item.name }}</td>
             <td class="azul">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td> 
             <td class="azul">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>  
             <td>
-                <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
-              {{ props.item.avail_seats }} </td> 
-                  <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
+              <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
+              {{ props.item.avail_seats }}
+            </td> 
+            <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
 
           <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
             <!-- <td> </td>
@@ -147,18 +146,18 @@
 
 <style>
 
-   .v-btn.btn-list{
-    text-transform: none;
-    background-color:transparent;
-    border: #1565c0 1px solid;
-    }
+  .v-btn.btn-list{
+  text-transform: none;
+  background-color:transparent;
+  border: #1565c0 1px solid;
+  }
 
-    .v-btn.btn-list:hover{
-    text-transform: none;
-    color:white;
-    background-color:#1565c0;
-   
-    }
+  .v-btn.btn-list:hover{
+  text-transform: none;
+  color:white;
+  background-color:#1565c0;
+  
+  }
   .barra-servicios .theme--light.v-text-field .v-input__slot:before {
     border-color: #fff;
   }
@@ -177,9 +176,9 @@
   .barra-servicios .theme--light.v-text-field .v-input__slot:before {
     border-color: rgba(255,255,255,.42);
 }
-.barra-servicios .theme--light.v-text-field:not(.v-input--has-state) .v-input__slot:hover:before {
-    border-color: rgba(255,255,255,.87);
-}
+  .barra-servicios .theme--light.v-text-field:not(.v-input--has-state) .v-input__slot:hover:before {
+      border-color: rgba(255,255,255,.87);
+  }
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
     color: #1565c0;

@@ -71,6 +71,7 @@
         {subheader: true, text: 'Reservas'},
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }},
         {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }},
+        {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }},
         {subheader: true, text: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }},
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }},

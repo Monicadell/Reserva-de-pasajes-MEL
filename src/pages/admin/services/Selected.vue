@@ -71,9 +71,21 @@
                   </v-flex>
                 </v-layout>
               </v-timeline-item>
-
-
             </v-timeline>
+
+            <div>
+              <select-acercamiento @eventAcerca="eventAcerca"/>
+            </div>
+            <div v-if="vuelo">
+              <v-layout row wrap >
+                <v-flex offset-xs2 xs8 pt-2>
+                  <v-text-field
+                    label="Nº de vuelo"
+                    prepend-icon="airplanemode_active"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </div>
           </v-card-text>
 
           <v-card-actions class="pb-4">
@@ -134,6 +146,7 @@
   import {mapGetters} from 'vuex'
   import moment from 'moment'
   import Modal from '@c/Modal'
+  import SelectAcercamiento from '@c/SelectAcercamiento'
 
   export default {
     data: () => ({
@@ -151,7 +164,9 @@
       },
       ticket: {
         status: 'none'
-      }
+      },
+      acercamiento: '',
+      vuelo: false
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
@@ -160,7 +175,8 @@
       })
     },
     components: {
-      Modal: Modal
+      Modal: Modal,
+      SelectAcercamiento
     },
     methods: {
       cancel () {
@@ -168,6 +184,11 @@
           this.ticket.status = 'none'
         }, 2000)
         this.$store.dispatch('Booking/select', {selected: false})
+        this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: {}})
+      },
+      eventAcerca (lugar) {
+        this.acercamiento = lugar
+        // console.log('acercamiento en selected', this.acercamiento)
       },
       async doBooking () {
         this.loadingBooking = true
@@ -186,12 +207,12 @@
               actualizarReservas: true
             })
             this.$store.dispatch('Booking/select', {selected: false})
-            this.$store.dispatch('Booking/set_ruta', {ruta: {}}) 
-            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: [],})
+            this.$store.dispatch('Booking/set_ruta', {ruta: {}})
+            this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
             this.$store.dispatch('Booking/set_e1', {
               e1: 3
             })
-             this.$store.dispatch('Booking/set_limpiar', {
+            this.$store.dispatch('Booking/set_limpiar', {
               limpiar: true
             })
           }
@@ -204,7 +225,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: '¡Reserva no habilitada!',
             text: e.response.data.error,
             animation: true,
@@ -252,6 +272,12 @@
         ruta: ['Booking/ruta'],
         servicioSeleccionado: ['Booking/servicioSeleccionado']
       })
+    },
+    watch: {
+      servicioSeleccionado (val) {
+        console.log('change selected', val)
+        this.vuelo = this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto')
+      }
     }
   }
 </script>

@@ -79,10 +79,21 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <v-select :items="companies" v-model="editedItem.company_id"
+                <!-- <v-select :items="companies" v-model="editedItem.company_id"
                           label="Empresa asociada"
                           single-line item-text="name" item-value="id"
-                ></v-select>
+                ></v-select> -->
+                <v-autocomplete
+                  v-model="editedItem.company_id"
+                  :items="companies"
+                  :search-input.sync="search"
+                  color="primary"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="id"
+                  label="Empresa asociada"
+                ></v-autocomplete>
               </v-flex>
             </v-layout>
           </v-container>
@@ -143,7 +154,8 @@
           <td class="">{{ props.item.email }}</td>
           <td class="">{{ props.item.phone_number }}</td>
           <td class="">{{ props.item.company_name }}</td>
-          <td class="">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td>
+          <td class="" v-if="props.item.last_connection">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td>
+          <td v-else></td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -321,7 +333,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: 'Ha ocurrido un error',
             text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
             animation: true,
@@ -556,3 +567,39 @@
     }
   }
 </script>
+
+<style>
+  .swal2-popup.modal-info {
+    font-family: Helvetica, sans-serif;
+  }
+  .swal2-popup.swal2-modal.modal-info{
+    border-radius: 0;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm {
+    border: 1px solid #1565c0;
+    border-radius: 0;
+    background: transparent;
+    background-color: transparent;
+    color: #1565c0;
+    font-size: 1.0625em;
+    outline: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-cancel:focus,
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm:focus {
+    box-shadow: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-cancel {
+    border-radius: 0;
+    border: none;
+    background-color: #1565c0;
+    outline: none;
+  }
+  .swal2-popup.modal-info .swal2-styled.swal2-confirm:hover {
+    border: 1px solid #1565c0;
+    border-radius: 0;
+    background: transparent;
+    background-color: rgba(21, 101, 192, 0.12);
+    color: #1565c0;
+    font-size: 1.0625em;
+  }
+</style>

@@ -22,7 +22,7 @@
 
     <v-layout class="" style="max-height: calc(100% - 64px)">
       <v-flex xs3>
-        <v-navigation-drawer style="width: 100%">
+        <v-navigation-drawer style="width: 100%" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Mis reservas</span>
@@ -329,9 +329,11 @@
     },
     mounted () {
       this.currenDate = moment().format('YYYY-MM-DD')
-      this.tomorrowDate = moment().add('days', 1).format('YYYY-MM-DD')
+      this.tomorrowDate = moment().add(1, 'days').format('YYYY-MM-DD')
       this.getReservas()
       this.getExpress()
+      console.log('paath')
+      console.log('path', this.$route.path)
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
       this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
       this.$store.dispatch('Booking/set_anular', {anular: false})
@@ -343,7 +345,6 @@
       this.$store.dispatch('Booking/set_actualizarVistaConfirmacion', {actualizarVistaConfirmacion: false})
       this.$store.dispatch('Booking/set_listaReservas', {listaReservas: []})
       this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
-
     },
     methods: {
       async getReservas () {  // obtener las reservas de un usuario
@@ -374,7 +375,6 @@
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            customClass: '',
             title: 'Ha ocurrido un error',
             text: e.response.data.error,
             animation: true,
