@@ -35,7 +35,7 @@
       <v-data-table
         v-model="selected"
         :loading="cargandoPeticion"
-        :search="search"
+        :search="filter"
         :headers="headers"
         :items="listaServicios"
         class="elevation-1 list-th"
@@ -117,6 +117,8 @@
             listaServicios: [],
 
           }) */
+      console.log('servicios')
+      console.log(this.listaServicios)
     },
     methods: {
       resume (servicioSeleccionado) {
