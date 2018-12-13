@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="py-3"><h2>Reservas</h2> </div>
+    <div class="py-3" v-if="$route.path === '/misreservasaterceros'"><h2>Reservas a terceros</h2> </div>
+    <div class="py-3" v-else><h2>Reservas</h2> </div>
 
     <div class="elevation-1">
       <v-toolbar flat color="white">
@@ -25,6 +26,7 @@
           no-data-text="No tiene reservas registradas"
         >
         <template slot="items" slot-scope="props">
+          <!-- <td class="" v-if="$route.path === '/misreservasaterceros'">{{ props.item.service.name }}</td> -->
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>

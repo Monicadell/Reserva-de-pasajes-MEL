@@ -24,7 +24,7 @@
             </v-container>
           </v-img> -->
 
-          <v-card-text class="ml-3 mr-3"  >
+          <v-card-text class="pl-4 pr-3">
             <v-timeline align-top dense>
                 
               <v-timeline-item color="#2B8DFC" large icon="fal fa-map-marked">

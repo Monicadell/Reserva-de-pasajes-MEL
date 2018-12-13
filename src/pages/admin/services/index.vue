@@ -41,52 +41,56 @@
 
         <!-- reserva terceros -->
         <v-navigation-drawer style="width: 100%" v-if="$route.path === '/reservaterceros'">
-          <v-list dense class="pt-0 user">
+          <users-list />
+          <!-- <v-list dense class="py-0 user">
             <v-toolbar-title class="title-list-custom white--text">
               <span class="hidden-sm-and-down ml-4">Escoger usuario</span>
             </v-toolbar-title>
             <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
             <v-divider></v-divider>
-            <!-- <v-layout v-for="item in items" :key="item.id"> -->
               <v-flex> 
                 <v-card>
-                  <v-text-field class="px-3"
-                      flat label="Search"
+                  <v-text-field
+                      flat label="Buscar"
                       prepend-inner-icon="search"
                       solo
                       v-model="search"
                       clearable
-                      style="border-bottom: 1px solid #ccc;"
+                      class="input-buscar-user mb-0"
                       v-on:change="busca"
                       @click:clear="clearSearch">
                   </v-text-field>
           
-                  <v-list two-line>
+                  <v-list two-line class="lista-users pt-0">
                     <template v-for="(item, index) in users">
                       <v-list-tile
                         :key="item.name"
                         avatar
                         ripple
-                        @click="toggle(index)"
+                        @click="selectUser(item)"
                         style="border-bottom: 1px solid #ccc;"
                       >
                         <v-list-tile-content>
                           <v-list-tile-title class="primary--text text-capitalize">{{ item.name }}</v-list-tile-title>
                           <v-list-tile-sub-title class="text--primary">{{ item.rut }}</v-list-tile-sub-title>
-                          <!-- <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title> -->
                         </v-list-tile-content>
-
+                        <v-list-tile-action>
+                          <v-icon
+                            small
+                            slot="activator"
+                            class="icono-select"
+                            @click="selectUser(item)"
+                          >
+                            chevron_right
+                          </v-icon>
+                        </v-list-tile-action>
                       </v-list-tile>
-                      <!-- <v-divider
-                        v-if="index + 1 < items.length"
-                        :key="index"
-                      ></v-divider> -->
+       
                     </template>
                   </v-list>
                 </v-card>
               </v-flex> 
-            <!-- </v-layout>  -->
-          </v-list>
+          </v-list> -->
         </v-navigation-drawer>
       </v-flex>
 
@@ -278,14 +282,7 @@
         <modal-detalle/>  
       </v-flex>
     </v-layout>
-        
-    <!-- Modal error-->
-    <modal v-if="showModal"
-        @close="showModal = false"
-        v-bind:btn1="modalInfoBtn1">
-        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
-        <h3 slot="body">{{modalInfoDetail}}</h3>
-    </modal>
+
   </div>
 </template>
 
@@ -304,7 +301,7 @@
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
   import API from '@pi/app'
-  import Modal from '@c/Modal'
+  import UsersList from './UsersList'
 
   export default {
     data () {
@@ -328,10 +325,6 @@
         manana: [],
         right: null,
         disabledBtn: true,
-        showModal: false,
-        modalInfoTitle: '',
-        modalInfoDetail: '',
-        modalInfoBtn1: '',
         progres: true,
         users: [],
         selected: [2],
@@ -349,8 +342,8 @@
       modalConfirmar,
       modalDetalle,
       datePlaceContainer,
-      modal: Modal,
-      ServiceExpress
+      ServiceExpress,
+      UsersList
     },
     computed: {
       ...mapGetters({
@@ -381,7 +374,7 @@
       this.tomorrowDate = moment().add(1, 'days').format('YYYY-MM-DD')
       this.getReservas()
       this.getExpress()
-      this.getUsers()
+      // this.getUsers()
       console.log('paath')
       console.log('path', this.$route.path)
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
@@ -397,23 +390,16 @@
       this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
     },
     methods: {
-      clearSearch: function clearSearch () {
-        this.search = ''
-        this.getUsers()
-      },
-      // toggle: function toggle(index) {
-      //     var i = this.selected.indexOf(index)
-      //     if (i > -1) {
-      //         this.selected.splice(i, 1)
-      //     } else {
-      //         this.selected.push(index)
-      //     }
+      // clearSearch: function clearSearch () {
+      //   this.search = ''
+      //   this.getUsers()
       // },
-      busca () {
-        console.log('busca', this.search)
-        let buscar = {'q': this.search}
-        this.getUsers(buscar)
-      },
+
+      // busca () {
+      //   console.log('busca', this.search)
+      //   let buscar = {'q': this.search}
+      //   this.getUsers(buscar)
+      // },
       async getReservas () {  // obtener las reservas de un usuario
         // const userId = {
         //   'user_id': 113162
@@ -435,10 +421,6 @@
           }
         } catch (e) {
           console.log('Error al obtener tickets del usuario', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente nuevamente.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -467,34 +449,30 @@
           console.log('catch err, get express', e.response)
         }
       },
-      async getUsers (params) {
-        try {
-          let usuarios = await API.get('users', params)
-          if (usuarios.status >= 200 && usuarios.status < 300) {
-            console.log('usuarios', usuarios.data)
-            setTimeout(() => {
-              this.users = usuarios.data.data
-              // this.pagination.totalItems = usuarios.data.total_entries
-              // this.pagination.page = usuarios.data.page_number
-              // this.pagination.rowsPerPage = usuarios.data.page_size
-              // this.pagination.total_pages = usuarios.data.total_pages
-              this.progres = false
-            }, 500)
-          }
-        } catch (e) {
-          console.log('catch err', e.response)
-          this.$swal({
-            customClass: 'modal-info',
-            type: 'error',
-            title: 'Ha ocurrido un error',
-            text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
-            animation: true,
-            showCancelButton: true,
-            showConfirmButton: false,
-            cancelButtonText: 'Cerrar'
-          })
-        }
-      },
+      // async getUsers (params) {
+      //   try {
+      //     let usuarios = await API.get('users', params)
+      //     if (usuarios.status >= 200 && usuarios.status < 300) {
+      //       console.log('usuarios', usuarios.data)
+      //       setTimeout(() => {
+      //         this.users = usuarios.data.data
+      //         this.progres = false
+      //       }, 500)
+      //     }
+      //   } catch (e) {
+      //     console.log('catch err', e.response)
+      //     this.$swal({
+      //       customClass: 'modal-info',
+      //       type: 'error',
+      //       title: 'Ha ocurrido un error',
+      //       text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
+      //       animation: true,
+      //       showCancelButton: true,
+      //       showConfirmButton: false,
+      //       cancelButtonText: 'Cerrar'
+      //     })
+      //   }
+      // },
       volverMenu () {
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
@@ -514,6 +492,16 @@
     background: rgb(242, 245, 247);
     overflow-y: scroll;
   }
+  .input-buscar-user{
+    border-bottom: 1px solid #ccc;
+  }
+  .input-buscar-user.v-text-field.v-text-field--enclosed .v-text-field__details{
+    margin-bottom: 0;
+  }
+  .v-list--two-line.lista-users .v-list__tile {
+    height: auto;
+    padding: 5px 16px;
+  }
   .media-alt{
     height: calc(50vh - 85px);
     /* max-height: calc(50% - 15px); */
@@ -524,8 +512,7 @@
     border-color: #1565c0; */
     border-top: 1px dashed #1565c0;
     width:90%;
-}
-
+  }
   .title-ticket {
     color: #003e86;
     font-size: 16px;
@@ -562,6 +549,12 @@
     border-radius: 50%;
   }
   .tabla-express .theme--light.v-table tbody tr:hover .icono-select{
+    background-color: #1565c0;
+    border: 1px solid #1565c0;
+    color: #fff;
+    border-radius: 50%;
+  }
+  .v-list__tile.v-list__tile--link.v-list__tile--avatar.theme--light:hover .icono-select{
     background-color: #1565c0;
     border: 1px solid #1565c0;
     color: #fff;

@@ -159,6 +159,15 @@ const router = new Router({
             requiresAuth: true,
             adminAuth: true
           }
+        },
+        {
+          path: '/misreservasaterceros',
+          name: 'misreservasaterceros',
+          component: Reservas,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
         }
       ]
     }

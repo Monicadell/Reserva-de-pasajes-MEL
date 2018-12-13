@@ -39,7 +39,13 @@
               <v-flex xs12 md6>
                 <v-text-field type="number" v-model="editedItem.duration" label="Duración (minutos)"></v-text-field>
               </v-flex>
-
+              <v-flex xs12 sm6>
+                <v-switch
+                  class="justify-center"
+                  label="Incluye vuelo"
+                  v-model="editedItem.flight"
+                ></v-switch>
+              </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
@@ -275,11 +281,12 @@
             'source_id': guardar.source_id ? guardar.source_id : '',
             'name': guardar.name ? guardar.name : '',
             'public': guardar.public,
-            'duration': guardar.duration ? guardar.duration : ''
+            'duration': guardar.duration ? guardar.duration : '',
+            'flight': guardar.flight ? guardar.flight : false
           }
         }
         if (guardar.id) {
-          console.log('ser a put', tramo)
+          console.log('tramo a put', tramo)
           let id = guardar.id
           try {
             let tramos = await API.put('trips', id, tramo)
@@ -321,7 +328,7 @@
             })
           }
         } else {
-          console.log('ser a post', tramo)
+          console.log('tramo a post', tramo)
           try {
             let tramos = await API.post('trips', tramo)
             if (tramos.status >= 200 && tramos.status < 300) {
