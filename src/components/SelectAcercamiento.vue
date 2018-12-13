@@ -13,7 +13,7 @@
         item-text="name"
         item-value="name"
         label="Acercamiento"
-        placeholder="Ingrese lugar de acercamiento"
+        placeholder="Ingrese lugar de acercamiento de la lista o uno nuevo"
         return-object
       ></v-autocomplete>
     </v-flex>

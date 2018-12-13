@@ -1,5 +1,5 @@
 <template>
-  <div  > 
+  <div> 
     <div > 
     <v-card 
    :class="{
@@ -25,6 +25,7 @@
         <v-text-field
           append-icon="search"
           label="Filtrar"
+          v-model="filter"
           single-line
           hide-details
           color="white"
@@ -34,6 +35,7 @@
       <v-data-table
         v-model="selected"
         :loading="cargandoPeticion"
+        :search="search"
         :headers="headers"
         :items="listaServicios"
         class="elevation-1 list-th"
@@ -70,6 +72,38 @@
   import moment from 'moment'
 
   export default {
+    data: () => ({
+      listIsVisible: false,
+      rowsNumber: [6],
+      disableList: true,
+      selected: [],
+      filter: '',
+      moment: moment,
+      loading: false,
+      headers: [
+        {text: 'Servicio', value: 'name', sortable: false},
+        {text: 'Salida', value: 'from', sortable: false},
+        {text: 'Llegada', value: 'to', sortable: false},
+        {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: '', value: 'action', sortable: false}
+      ],
+      mientras: [
+        {
+          'arrival': '18:34:00',
+          'avail_seats': 10,
+          'car_id': null,
+          'date': '2018-11-24',
+          'departure': '15:20:00',
+          'driver_id': null,
+          'duration': null,
+          'freq_id': null,
+          'id': 61,
+          'name': '21',
+          'set': '15:00:00',
+          'trip_id': 1
+        }
+      ]
+    }),
     watch: {
       cargandoPeticion () {
         if (this.cargandoPeticion) {
@@ -102,38 +136,7 @@
         listaServicios: ['Booking/listaServicios'],
         cargandoPeticion: ['Booking/cargandoPeticion']
       })
-    },
-    data: () => ({
-      listIsVisible: false,
-      rowsNumber: [6],
-      disableList: true,
-      selected: [],
-      moment: moment,
-      loading: false,
-      headers: [
-        {text: 'Servicio', sortable: false},
-        {text: 'Salida', value: 'from', sortable: false},
-        {text: 'Llegada', value: 'to', sortable: false},
-        {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
-        {text: '', value: 'action', sortable: false}
-      ],
-      mientras: [
-        {
-          'arrival': '18:34:00',
-          'avail_seats': 10,
-          'car_id': null,
-          'date': '2018-11-24',
-          'departure': '15:20:00',
-          'driver_id': null,
-          'duration': null,
-          'freq_id': null,
-          'id': 61,
-          'name': '21',
-          'set': '15:00:00',
-          'trip_id': 1
-        }
-      ]
-    })
+    }
   }
 </script>
 

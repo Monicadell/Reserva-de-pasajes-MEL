@@ -211,20 +211,12 @@
         </template>
       </v-data-table>
     </div>
-    <!-- Modal error-->
-    <modal v-if="showModal"
-        @close="showModal = false"
-        v-bind:btn1="modalInfoBtn1">
-        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
-        <h3 slot="body">{{modalInfoDetail}}</h3>
-    </modal>
   </div>
 </template>
 
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  import Modal from '@c/Modal'
 
   export default {
     data () {
@@ -236,10 +228,6 @@
         moment: moment,
         eliminaid: '',
         page: 1,
-        showModal: false,
-        modalInfoTitle: '',
-        modalInfoDetail: '',
-        modalInfoBtn1: '',
         pagination: {
           page: 1,
           rowsPerPage: 40, // -1 for All
@@ -303,9 +291,6 @@
         }
       }
     },
-    components: {
-      modal: Modal
-    },
     mounted () {
       this.getUsers()
       this.getRoles()
@@ -325,7 +310,6 @@
               this.pagination.rowsPerPage = usuarios.data.page_size
               this.pagination.total_pages = usuarios.data.total_pages
               this.loading = false
-              console.log('pagination', this.pagination)
             }, 500)
           }
         } catch (e) {
@@ -363,8 +347,6 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
-        // console.log('trip', obj)
         if (guardar.tipoDocumento === '1') {
           console.log('es rut guarda')
           guardar.documento = guardar.documento.replace(/\./g, '')
@@ -409,13 +391,8 @@
             }
           } catch (e) {
             console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
             this.editedItem = Object.assign({}, '')
             this.dialog = false
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               type: 'error',
               customClass: 'modal-info',
@@ -450,12 +427,7 @@
           } catch (e) {
             console.log('catch err', e.response)
             this.editedItem = Object.assign({}, '')
-            // alert('Ha ocurrido un error, intente más tarde!')
             this.dialog = false
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error creando el usuario, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               type: 'error',
               customClass: 'modal-info',
@@ -491,12 +463,7 @@
         } catch (e) {
           console.log('catch err', e.response)
           this.editedItem = Object.assign({}, '')
-          // alert('Ha ocurrido un error, intente más tarde!')
           this.confirmaAnular = false
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error eliminando el usuario, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             type: 'error',
             customClass: 'modal-info',

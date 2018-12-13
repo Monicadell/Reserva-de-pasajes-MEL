@@ -83,6 +83,7 @@
             console.log(services.data.data)
             if (services.data.data.length === 0) {
               console.log('no hay pasajes')
+              this.$store.dispatch('Booking/set_fechaSeleccionada', {fechaSeleccionada: ''})
               this.componentKeySelect++
               this.componentKeyDate++
               this.disabledBtn = true
@@ -111,6 +112,9 @@
           console.log('catch error al obtener serivicios', e.response)
         }
       }
+    },
+    beforeDestroy () {
+      this.$store.dispatch('Booking/set_fechaSeleccionada', {fechaSeleccionada: ''})
     }
   }
 </script>

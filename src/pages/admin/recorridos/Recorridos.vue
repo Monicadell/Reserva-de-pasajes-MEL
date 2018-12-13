@@ -97,8 +97,8 @@
               readonly style="border-width: 0"
             >
           </td>
-          <td class="">{{ props.item.source_id }}</td>
-          <td class="">{{ props.item.dest_id }}</td>
+          <td class="">{{ lugar(props.item.source_id) }}</td>
+          <td class="">{{ lugar(props.item.dest_id) }}</td>
           <td class="">
             <span v-if="props.item.public">Activo</span>
             <span v-else>Inactivo</span>
@@ -361,6 +361,10 @@
             // this.modalInfoBtn1 = 'OK'
           }
         }
+      },
+      lugar (item) {
+        let estacion = this.stations.find(est => est.id === item)
+        return estacion ? estacion.name : ''
       }
     }
   }

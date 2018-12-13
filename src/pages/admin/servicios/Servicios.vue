@@ -222,7 +222,7 @@
           <td class="" v-if="props.item.duration">{{ moment(props.item.duration, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="" v-else></td>
           <td class="">{{ props.item.trip_name }}</td>
-          <td class="">{{ props.item.freq_id }}</td>
+          <td class="">{{ frecuencia(props.item.freq_id) }}</td>
           <!-- <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }}</td>
@@ -537,6 +537,10 @@
             })
           }
         }
+      },
+      frecuencia (item) {
+        let freq = this.frequencies.find(frec => frec.id === item)
+        return freq ? freq.name : ''
       }
     }
   }

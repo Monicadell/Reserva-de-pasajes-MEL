@@ -38,10 +38,60 @@
             </v-layout> 
           </v-list>
         </v-navigation-drawer>
+
+        <!-- reserva terceros -->
+        <v-navigation-drawer style="width: 100%" v-if="$route.path === '/reservaterceros'">
+          <v-list dense class="pt-0 user">
+            <v-toolbar-title class="title-list-custom white--text">
+              <span class="hidden-sm-and-down ml-4">Escoger usuario</span>
+            </v-toolbar-title>
+            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
+            <v-divider></v-divider>
+            <!-- <v-layout v-for="item in items" :key="item.id"> -->
+              <v-flex> 
+                <v-card>
+                  <v-text-field class="px-3"
+                      flat label="Search"
+                      prepend-inner-icon="search"
+                      solo
+                      v-model="search"
+                      clearable
+                      style="border-bottom: 1px solid #ccc;"
+                      v-on:change="busca"
+                      @click:clear="clearSearch">
+                  </v-text-field>
+          
+                  <v-list two-line>
+                    <template v-for="(item, index) in users">
+                      <v-list-tile
+                        :key="item.name"
+                        avatar
+                        ripple
+                        @click="toggle(index)"
+                        style="border-bottom: 1px solid #ccc;"
+                      >
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                          <v-list-tile-sub-title class="text--primary">{{ item.rut }}</v-list-tile-sub-title>
+                          <!-- <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title> -->
+                        </v-list-tile-content>
+
+                      </v-list-tile>
+                      <!-- <v-divider
+                        v-if="index + 1 < items.length"
+                        :key="index"
+                      ></v-divider> -->
+                    </template>
+                  </v-list>
+                </v-card>
+              </v-flex> 
+            <!-- </v-layout>  -->
+          </v-list>
+        </v-navigation-drawer>
       </v-flex>
 
       <v-flex xs7>
-        <v-layout  align-start justify-center row fill-height id="principal-container"> 
+        <v-layout align-start justify-center row fill-height id="principal-container"> 
           <v-flex xs12>   
             <v-stepper :value="e1"  class="elevation-0">
               <v-stepper-header >
@@ -127,9 +177,9 @@
             <!-- <v-divider></v-divider> -->
             <v-card flat class="media-alt">
               <v-card-title primary-title class="pb-1 pt-3">
-              <span class="mb-0 title-ticket font-weight-black">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
+                <span class="mb-0 title-ticket font-weight-black">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
-              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"></v-divider>
                 <v-data-table
                   :headers="hoyHeaders"
                   :items="hoy"
@@ -269,24 +319,23 @@
           {text: 'Destino', value: 'destino', sortable: false, align: 'left'},
           {text: 'Salida', value: 'email', sortable: false, align: 'left'},
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
-        hoy: [
-
-        ],
+        hoy: [],
         mananaHeaders: [
           {text: 'Origen', value: 'origen', sortable: false},
           {text: 'Destino', value: 'destino', sortable: false},
           {text: 'Salida', value: 'salida', sortable: false},
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
-        manana: [
-
-        ],
+        manana: [],
         right: null,
         disabledBtn: true,
         showModal: false,
         modalInfoTitle: '',
         modalInfoDetail: '',
         modalInfoBtn1: '',
-        progres: true
+        progres: true,
+        users: [],
+        selected: [2],
+        search: ''
       }
     },
     components: {
@@ -332,6 +381,7 @@
       this.tomorrowDate = moment().add(1, 'days').format('YYYY-MM-DD')
       this.getReservas()
       this.getExpress()
+      this.getUsers()
       console.log('paath')
       console.log('path', this.$route.path)
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
@@ -347,6 +397,23 @@
       this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
     },
     methods: {
+      clearSearch: function clearSearch () {
+        this.search = ''
+        this.getUsers()
+      },
+      // toggle: function toggle(index) {
+      //     var i = this.selected.indexOf(index)
+      //     if (i > -1) {
+      //         this.selected.splice(i, 1)
+      //     } else {
+      //         this.selected.push(index)
+      //     }
+      // },
+      busca () {
+        console.log('busca', this.search)
+        let buscar = {'q': this.search}
+        this.getUsers(buscar)
+      },
       async getReservas () {  // obtener las reservas de un usuario
         // const userId = {
         //   'user_id': 113162
@@ -400,6 +467,34 @@
           console.log('catch err, get express', e.response)
         }
       },
+      async getUsers (params) {
+        try {
+          let usuarios = await API.get('users', params)
+          if (usuarios.status >= 200 && usuarios.status < 300) {
+            console.log('usuarios', usuarios.data)
+            setTimeout(() => {
+              this.users = usuarios.data.data
+              // this.pagination.totalItems = usuarios.data.total_entries
+              // this.pagination.page = usuarios.data.page_number
+              // this.pagination.rowsPerPage = usuarios.data.page_size
+              // this.pagination.total_pages = usuarios.data.total_pages
+              this.progres = false
+            }, 500)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error',
+            text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
+        }
+      },
       volverMenu () {
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
@@ -422,7 +517,18 @@
   .media-alt{
     height: calc(50vh - 85px);
     /* max-height: calc(50% - 15px); */
+  }
+  .v-divider.divider-ticket {
+    /* border-style: dashed;
+    border-width: 1px;
+    border-color: #1565c0; */
+    border-top: 1px dashed #1565c0;
+    width:90%;
+}
 
+  .title-ticket {
+    color: #003e86;
+    font-size: 16px;
   }
   .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
     background: rgba(104, 104, 104, 0.1);

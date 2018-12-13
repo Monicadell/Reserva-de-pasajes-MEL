@@ -102,7 +102,7 @@
       },
       outside: function (e) {
         this.clickOutside = !this.clickOutside
-        console.log('clicked outside!')
+        // console.log('clicked outside!')
         this.$store.dispatch('Auth/hide', {
           hide: true
         })

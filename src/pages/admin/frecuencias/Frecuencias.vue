@@ -228,7 +228,7 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.trip_id }}</td>
+          <td class="">{{ trip(props.item.trip_id) }}</td>
           <!-- <td class="">{{ props.item.source_id }}</td>
           <td class="">{{ props.item.dest_id }}</td> -->
           <td class="">
@@ -565,6 +565,10 @@
         //   this.editedItem = Object.assign({}, this.defaultItem)
         //   this.editedIndex = -1
         // }, 300)
+      },
+      trip (item) {
+        let t = this.trips.find(tramo => tramo.id === item)
+        return t ? t.name : ''
       }
     }
   }
