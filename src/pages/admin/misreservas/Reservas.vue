@@ -2,7 +2,9 @@
   <div>
     <div class="py-3" v-if="$route.path === '/misreservasaterceros'"><h2>Reservas a terceros</h2> </div>
     <div class="py-3" v-else><h2>Reservas</h2> </div>
-
+    <div text-xs-right>
+        <export-option :fields="excelFields" :data="ticketsList"  :pdf="true"/>
+    </div>
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -45,6 +47,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import {mapGetters} from 'vuex'
+  import ExportOption from '@c/ExportOption'
 
   export default {
     data () {
@@ -63,8 +66,21 @@
           {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}
         ],
-        ticketsList: []
+        ticketsList: [],
+        excelFields: {
+          Servicio: 'servicename',
+          FechaServicio: 'servicedate',
+          FechaReserva: 'booked_at',
+          Fechacheckin: 'checkin_at',
+          Fechaconfirmación: 'confirmed_at',
+          Asiento: 'seat',
+          Estado: 'status',
+          FechaEmbarcacion: 'fechaEmbarcacion'
+        }
       }
+    },
+    components: {
+      ExportOption: ExportOption
     },
     computed: {
       ...mapGetters({
@@ -82,7 +98,10 @@
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas', tickets)
             // setTimeout(() => {
-            this.ticketsList = Object.assign([], tickets.data.data)
+            // this.ticketsList = Object.assign([], tickets.data.data)
+            this.ticketsList = tickets.data.data
+            this.ticketsList.forEach(element => { element.servicename = element.service.name })
+            this.ticketsList.forEach(element => { element.servicedate = element.service.date })
             // }, 500)
           } else {
             console.log('Error ', tickets.status)
