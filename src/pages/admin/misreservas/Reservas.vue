@@ -3,7 +3,7 @@
     <div class="py-3" v-if="$route.path === '/misreservasaterceros'"><h2>Reservas a terceros</h2> </div>
     <div class="py-3" v-else><h2>Reservas</h2> </div>
     <div text-xs-right>
-        <export-option :fields="excelFields" :data="ticketsList"  :pdf="true"/>
+        <export-option :fields="excelFields" :data="items"  :pdf="true"/>
     </div>
     <div class="elevation-1">
       <v-toolbar flat color="white">
@@ -72,11 +72,30 @@
           FechaServicio: 'servicedate',
           FechaReserva: 'booked_at',
           Fechacheckin: 'checkin_at',
-          Fechaconfirmación: 'confirmed_at',
+          Fechaconfirmacion: 'confirmed_at',
           Asiento: 'seat',
-          Estado: 'status',
-          FechaEmbarcacion: 'fechaEmbarcacion'
-        }
+          Estado: 'status'
+        },
+        items: [
+          { 'booked_at': '2018-12-14T09:47:21.965088',
+            'checkin_at': '',
+            'confirmed_at': '',
+            'id': 84,
+            'seat': '',
+            'servicedate': '2018-12-22',
+            'servicename': 'Prueba2',
+            'status': 'reservado' },
+          {
+            'booked_at': '2018-12-14T09:47:21.965088',
+            'checkin_at': '',
+            'confirmed_at': '',
+            'id': 84,
+            'seat': '',
+            'servicedate': '2018-12-22',
+            'servicename': 'Prueba2',
+            'status': 'reservado'
+          }
+        ]
       }
     },
     components: {
@@ -90,25 +109,45 @@
     mounted () {
       this.getReservas()
     },
+    watch: {
+      $route (to, from) {
+        this.getReservas()
+      }
+    },
     methods: {
       async getReservas () {
         console.log('user id', this.userId)
-        try {
-          const tickets = await API.get('tickets', this.userId)
-          if (tickets.status >= 200 && tickets.status < 300) {
-            console.log('reservas', tickets)
-            // setTimeout(() => {
-            // this.ticketsList = Object.assign([], tickets.data.data)
-            this.ticketsList = tickets.data.data
-            this.ticketsList.forEach(element => { element.servicename = element.service.name })
-            this.ticketsList.forEach(element => { element.servicedate = element.service.date })
-            // }, 500)
-          } else {
-            console.log('Error ', tickets.status)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
-            // this.modalInfoBtn1 = 'OK'
+        console.log('ruta', this.$route.path)
+        let params = {}
+        if (this.$route.path === '/misreservasaterceros') {
+          console.log('es a terceros')
+          params = {'booked_by_id': this.userId}
+          try {
+            const tickets = await API.get('tickets', params)
+            if (tickets.status >= 200 && tickets.status < 300) {
+              console.log('reservas a terceros', tickets)
+              // setTimeout(() => {
+              // this.ticketsList = Object.assign([], tickets.data.data)
+              this.ticketsList = tickets.data.data
+              this.ticketsList.forEach(element => { element.servicename = element.service.name })
+              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
+              // }, 500)
+            } else {
+              console.log('Error ', tickets.status)
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'error',
+                title: 'Reservas',
+                timer: 2000,
+                text: 'Ha ocurrido un error al obtener las reservas',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
+            }
+          } catch (e) {
+            console.log('Error ', e.response)
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -121,23 +160,46 @@
               cancelButtonText: 'OK'
             })
           }
-        } catch (e) {
-          console.log('Error ', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener las reservas.'
-          // this.modalInfoBtn1 = 'OK'
-          this.$swal({
-            customClass: 'modal-info',
-            type: 'error',
-            title: 'Reservas',
-            timer: 2000,
-            text: 'Ha ocurrido un error al obtener las reservas',
-            animation: true,
-            showCancelButton: true,
-            showConfirmButton: false,
-            cancelButtonText: 'OK'
-          })
+        } else {
+          console.log('reservas propias')
+          try {
+            const tickets = await API.get('my_tickets', this.userId)
+            if (tickets.status >= 200 && tickets.status < 300) {
+              console.log('reservas', tickets)
+              // setTimeout(() => {
+              // this.ticketsList = Object.assign([], tickets.data.data)
+              this.ticketsList = tickets.data.data
+              this.ticketsList.forEach(element => { element.servicename = element.service.name })
+              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
+              // }, 500)
+            } else {
+              console.log('Error ', tickets.status)
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'error',
+                title: 'Reservas',
+                timer: 2000,
+                text: 'Ha ocurrido un error al obtener las reservas',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'OK'
+              })
+            }
+          } catch (e) {
+            console.log('Error ', e.response)
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Reservas',
+              timer: 2000,
+              text: 'Ha ocurrido un error al obtener las reservas',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'OK'
+            })
+          }
         }
       }
     }

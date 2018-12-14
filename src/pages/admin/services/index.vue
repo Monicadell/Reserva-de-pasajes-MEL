@@ -94,7 +94,7 @@
         </v-navigation-drawer>
       </v-flex>
 
-      <v-flex xs7>
+      <v-flex xs7 style="background-color: #fff">
         <v-layout align-start justify-center row fill-height id="principal-container"> 
           <v-flex xs12>   
             <v-stepper :value="e1"  class="elevation-0">
@@ -489,7 +489,7 @@
 
 <style>
   #principal-container {
-    background: rgb(242, 245, 247);
+    background: #fff;
     overflow-y: scroll;
   }
   .input-buscar-user{

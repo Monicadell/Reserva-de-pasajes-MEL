@@ -51,7 +51,9 @@
 
             </v-timeline>
             <div>
-              <select-acercamiento @eventAcerca="eventAcerca"/>
+              <!-- <select-acercamiento @eventAcerca="eventAcerca"/> -->
+               <v-text-field label="Ingrese acercamiento"
+                              v-model="acercamiento"></v-text-field>
             </div>
             <div v-if="vuelo">
                <v-layout row wrap >
@@ -126,10 +128,9 @@
         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
       },
-      eventAcerca (lugar) {
-        this.acercamiento = lugar
-        // console.log('acercamiento expres', this.acercamiento)
-      },
+      // eventAcerca (lugar) {
+      //   this.acercamiento = lugar
+      // },
       async doBooking () {
         this.loadingBooking = true
         const hora = moment().toISOString()

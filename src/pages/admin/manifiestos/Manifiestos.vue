@@ -1,141 +1,91 @@
 <template>
   <div>
-    <div class="py-3"><h2>Manifiestos</h2> </div>
-    
-    <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
-      <v-card>
-        <v-card-title primary-title>
-            <h3 class="headline">Maniefiesto</h3>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 md4>
-                <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
-                          label="Tipo documento"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-
-              <v-flex xs12 md4>
-                <v-text-field label="Documento"
-                              v-model="editedItem.rut"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Direccion"
-                              v-model="editedItem.address"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Password" v-model="editedItem.password"
-                              type="password"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-select :items="userType" v-model="editedItem.role_id"
-                          label="Tipo de Usuario"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-
-            </v-layout>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" flat @click.native="close()">Cancelar</v-btn>
-          <v-btn color="primary" class='white--text' @click.native="save">Guardar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- dialogo confirmar eliminar -->
-    <v-dialog v-model="confirmaAnular" persistent max-width="450">
-      <v-card>
-        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el manifiesto?</v-card-title>
-        <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
-        <v-card-actions class="pb-3 px-3">
-          
-          <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
+    <v-layout wrap>
+      <v-flex xs12 md6 class="py-3"><h2>Manifiestos</h2> </v-flex>
+      <v-flex xs12 md6 class="text-xs-right">
+        <export-option :fields="excelFields" :data="items"  :pdf="true"/>
+      </v-flex>
+    </v-layout>
     <div class="elevation-1">
-      <v-toolbar flat color="white">
-        <v-text-field
+      <v-toolbar flat color="white" class="pt-2">
+        <!-- <v-text-field
           v-model="search"
           append-icon="search"
           label="Buscar"
           single-line
           hide-details
         ></v-text-field>
-        <v-spacer></v-spacer>
-        <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Manifiesto</v-btn>
-        </div>
+        <v-spacer></v-spacer> -->
+        <!-- <div class="text-xs-right"> -->
+          <v-layout wrap>
+            <v-flex xs12 md2>
+              <v-menu
+                v-model="datepicker"
+                :close-on-content-click="false"
+                full-width
+                max-width="290"
+              >
+                <v-text-field
+                  slot="activator"
+                  :value="computedDateFormattedMomentjs"
+                  clearable
+                  @click:clear="clearFecha"
+                  label="Fecha"
+                  readonly
+                ></v-text-field>
+                <v-date-picker
+                  v-model="dateSearch"
+                  @change="datepicker = false"
+                  locale="es-419"
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 md4>
+              <v-select :items="estaciones" v-model="origenSearch"
+                          label="Estación de origen" clearable
+                          single-line item-text="name" item-value="id"
+              ></v-select>
+            </v-flex>
+            <v-flex xs12 md4>
+              <!-- <v-select :items="services" v-model="servicioSearch"
+                          label="Servicio"
+                          single-line item-text="name" item-value="id"
+              ></v-select> -->
+              <v-autocomplete
+                v-model="servicioSearch"
+                :items="services"
+                :loading="isLoading"
+                :search-input.sync="search"
+                color="primary"
+                hide-no-data
+                hide-selected
+                item-text="name"
+                item-value="name"
+                label="Servicio"
+                return-object
+              ></v-autocomplete>
+            </v-flex>
+            <v-flex xs12 md2>
+              <v-btn color="primary" outline @click="getManifiestos()">Buscar</v-btn>
+            </v-flex>
+          </v-layout>
+        <!-- </div> -->
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
           :items="manifiestos"
-          :search="search"
           hide-actions
         >
         <template slot="items" slot-scope="props">
-          <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.rut }}</td>
-          <td class="">{{ props.item.role_id }}</td>
-          <td class="">
-            <span v-if="props.item.active">Activo</span>
-            <span v-else>Inactivo</span>
-          </td>
-          <td class="">{{ props.item.email }}</td>
-          <td class="">{{ props.item.last_connection }}</td>
-          <td class="justify-center">
-            <v-tooltip top>
-              <v-icon
-                small
-                slot="activator"
-                color="primary"
-                @click="editItem(props.item)"
-              >
-                edit
-              </v-icon>
-              <span>Editar</span>
-            </v-tooltip>
-          </td>
-          <td class="">
-            <v-tooltip top>
-              <v-icon
-                small
-                slot="activator"
-                color="primary"
-                @click="deleteItem(props.item)"
-              >
-                delete
-              </v-icon>
-              <span>Eliminar</span>
-            </v-tooltip>
-          </td>
+          <td class="">{{ props.item.service.name }}</td>
+          <td class="">{{ props.item.service.date }}</td>
+          <td class="">{{ props.item.car_number }}</td>
+          <td class="">{{ props.item.seat }}</td>
+          <td class="">{{ props.item.user.name }}</td>
+          <!-- <td class="">{{ props.item.user.rut }}</td> -->
+          <td class="">{{ props.item.ac }}</td>
+          <td class="justify-center">{{ props.item.vuelo }}</td>
         </template>
       </v-data-table>
     </div>
@@ -143,168 +93,193 @@
 </template>
 
 <script>
+  import API from '@pi/app'
+  import moment from 'moment'
+  import ExportOption from '@c/ExportOption'
+  
   export default {
     data () {
       return {
         confirmaAnular: false,
         dialog: false,
+        selectedUser: {},
+        datepicker: false,
+        dateSearch: '',
+        origenSearch: '',
+        isLoading: false,
+        servicioSearch: '',
         search: '',
-        editedItem: {
-          name: '',
-          rut: '',
-          role_id: '',
-          active: '',
-          email: '',
-          address: '',
-          last_connection: ''
-        },
-        selectedUser: {
-          name: 'Juan Perez',
-          rut: '113939483-5',
-          role_id: 'EST',
-          active: false,
-          email: 'juan@algo.com',
-          address: 'daushd dasu dau s23',
-          last_connection: '2018-10/2018 20:00'
-        },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero'},
-          // {text: 'Pasajero', value: 'pasajero'},
-          {text: 'Nombre', value: 'name'},
-          {text: 'Documento', value: 'rut'},
-          {text: 'Tipo usuario', value: 'role_id'},
-          {text: 'Estado', value: 'active'},
-          {text: 'Correo', value: 'email'},
-          {text: 'Última conexión', value: 'last_connection'},
-          {text: '', value: 'edit', sortable: false},
-          {text: '', value: 'delete', sortable: false}
+          {text: 'Servicio', value: 'service.name'},
+          {text: 'Fecha servicio', value: 'service.date'},
+          {text: 'Bus', value: 'car_number'},
+          {text: 'Asiento', value: 'seat'},
+          {text: 'Pasajero', value: 'user.name'},
+          {text: 'Acercamiento', value: 'ac'},
+          {text: 'Vuelo', value: 'vuelo'}
         ],
-        manifiestos: [
-          {
-            name: 'Juan Perez',
-            rut: '113939483-5',
-            role_id: 'EST',
-            active: false,
-            email: 'juan@algo.com',
-            address: 'daushd dasu dau s23',
-            last_connection: '2018-10/2018 20:00'
-          },
-          {
-            name: 'Andres Martinez',
-            rut: '138388383-5',
-            role_id: 'EST',
-            active: true,
-            email: 'andres@gmail.com',
-            address: 'daushd dasu dau s23',
-            last_connection: 'Sin conexion'
-          },
-          {
-            name: 'José Gomez',
-            rut: '15588383-5',
-            role_id: 'ADMIN',
-            active: true,
-            email: 'pepe@gmail.com',
-            address: 'daushd dasu dau s23',
-            last_connection: '2018-10/2018 20:00'
-          }
-        ],
+        manifiestos: [],
+        services: [],
+        estaciones: [],
         userDocumentType: [
           {text: 'RUT', id: 'RUT'},
           {text: 'PASAPORTE', id: 'PASAPORTE'}
         ],
-        userState: [
-          {text: 'ACTIVO', id: 'ACT'},
-          {text: 'INACTIVO', id: 'INA'}
-        ],
-        userType: [
-          {text: 'ESTANDAR', id: 'EST'},
-          {text: 'ADMINISTRADOR', id: 'ADM'},
-          {text: 'ASISTENTE', id: 'ASI'},
-          {text: 'CALL CENTER', id: 'CAL'},
-          {text: 'REDUCIDO', id: 'RED'},
-          {text: 'ADMINISTRATIVO', id: 'AD2'}
-        ],
-        userAgreement: [
-          {text: 'MEL', id: 'MEL'},
-          {text: 'CONTRATISTA', id: 'CONTRATISTA'}
+        excelFields: {
+          Servicio: 'servicename',
+          FechaServicio: 'servicedate',
+          Bus: 'car_number',
+          Asiento: 'seat',
+          Pasajero: 'user.name',
+          Acercamiento: 'ac',
+          Vuelo: 'vuelo'
+        },
+        items: [
+          { 'servicename': '2018-12-14T09:47:21.965088',
+            'servicedate': '',
+            'car_number': '',
+            'seat': 84,
+            'user.name': '',
+            'ac': '2018-12-22',
+            'vuelo': 'Prueba2' },
+          {
+            'servicename': '2018-12-14T09:47:21.965088',
+            'servicedate': '',
+            'car_number': '',
+            'seat': 84,
+            'user.name': '',
+            'ac': '2018-12-22',
+            'vuelo': 'Prueba2'
+          }
         ]
       }
     },
-    methods: {
-      // loadUserData () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.userList,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber,
-      //       tipoContrato: this.usersType
-      //     }
-      //   }
-      //   this.loading = true
-      //   this.items = []
-      //   axios(config).then((response) => {
-      //     this.loading = false
-      //     if (response.status === 200 && response.data.success) {
-      //       this.items = response.data.response
-      //     } else {
-      //       alert('Error al cargar la información')
-      //       console.warn(response)
-      //     }
-      //   }, (err) => {
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // },
-      editItem (item) {
-        console.log('item edit', item)
-        // delete item.mensaje
-        // this.editedIndex = this.items.indexOf(item)
-        // let edit = Object.assign({}, item)
-        // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-        // this.editedItem = edit
-        this.editedItem = item
-        this.dialog = true
-      },
-      deleteItem () {
-        this.confirmaAnular = true
-      },
-      close () {
-        this.dialog = false
-        this.editedItem = {}
-        // setTimeout(() => {
-        //   this.editedItem = Object.assign({}, this.defaultItem)
-        //   this.editedIndex = -1
-        // }, 300)
+    components: {
+      ExportOption: ExportOption
+    },
+    computed: {
+      computedDateFormattedMomentjs () {
+        return this.dateSearch ? moment(this.dateSearch).format('DD/MM/YYYY') : ''
       }
-
-      // save () {
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.editedItem)
-      //   axios(config).then((response) => {
-      //     this.close()
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadUserData()
-      //   }, (err) => {
-      //     this.close()
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
-      // }
+    },
+    watch: {
+      origenSearch () {
+        this.getServices()
+      },
+      dateSearch () {
+        this.getServices()
+      }
+    },
+    mounted () {
+      this.getServices()
+      this.getStations()
+    },
+    methods: {
+      clearFecha () {
+        this.dateSearch = ''
+        this.getServices()
+      },
+      async getStations () {
+        try {
+          let stations = await API.get('stations')
+          if (stations.status >= 200 && stations.status < 300) {
+            console.log(stations)
+            setTimeout(() => {
+              this.estaciones = stations.data.data
+              this.loading = false
+            }, 500)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar las estaciones, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
+        }
+      },
+      async getServices () {
+        let params = {
+          'source_id': this.origenSearch,
+          'date': this.dateSearch,
+          'active': 1
+        }
+        console.log('get services')
+        try {
+          let servicios = await API.get('services', params)
+          if (servicios.status >= 200 && servicios.status < 300) {
+            console.log('params', params)
+            console.log(servicios.data)
+            setTimeout(() => {
+              this.services = servicios.data.data
+              this.loading = false
+            }, 500)
+          }
+        } catch (e) {
+          console.log('error al cargar servicios', e.response)
+          console.log('catch err', e.response)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al obtener los servicios, intente más tarde.',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
+        }
+      },
+      async getManifiestos () {
+        let params = {
+          'source_id': this.origenSearch,
+          'date': this.dateSearch,
+          'service_id': this.servicioSearch.id
+        }
+        console.log('get tickets')
+        try {
+          let tickets = await API.get('tickets', params)
+          if (tickets.status >= 200 && tickets.status < 300) {
+            console.log('params', params)
+            console.log(tickets.data.data)
+            setTimeout(() => {
+              this.manifiestos = tickets.data.data
+              console.log('manifiestos', this.manifiestos)
+              this.loading = false
+            }, 500)
+          }
+        } catch (e) {
+          console.log('error al cargar tickets', e.response)
+          console.log('catch err', e.response)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al obtener los tickets, intente más tarde.',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
+        }
+      }
     }
   }
 </script>

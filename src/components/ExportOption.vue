@@ -1,7 +1,7 @@
 <template>
   <v-menu offset-y>
     
-    <v-btn slot="activator" color="orange darken-2" dark>
+    <v-btn slot="activator" color="primary darken-1" dark>
       <v-icon left dark>arrow_drop_down</v-icon>
       <span>Exportar</span>
     </v-btn>
@@ -71,15 +71,16 @@
           pages.forEach((row) => doc.addPage())
         }
         doc.setPage(1)
-        let valores = Object.entries(this.fields)
-        console.log('campos', this.fields)
-        console.log('value', this.valores)
-        valores.map(([key, value]) => {
+        Object.entries(this.fields).map(([key, value]) => {
           doc.setPage(1)
           y = 3
           currentColumnData = []
           y = 8
-          this.data.forEach((row) => currentColumnData.push(row[value]))
+          console.log(this.data)
+          this.data.forEach((row) => {
+            console.log('row', row)
+            currentColumnData.push(row[value])
+          })
           for (let field of currentColumnData) {
             if (counter > 65) {
               counter = 0
