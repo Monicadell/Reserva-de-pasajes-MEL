@@ -35,7 +35,7 @@ export default {
   postNoRest (url, id, url2) {
     const request = `${base}${url}/${id}/${url2}`
     console.log(request)
-    return axios.post(request)
+    return axios.post(request, {ac: '', vuelo: ''})
   },
   deleteNoRest (url, id, url2) {
     const request = `${base}${url}/${id}/${url2}`
