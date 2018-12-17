@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3"><h2>Reservas</h2> </div>
+    <div class="py-3"><h2>Reservas a terceros</h2> </div>
     <div text-xs-right>
         <export-option :fields="excelFields" :data="items"  :pdf="true"/>
     </div>
@@ -28,6 +28,7 @@
         >
         <template slot="items" slot-scope="props">
           <!-- <td class="" v-if="$route.path === '/misreservasaterceros'">{{ props.item.service.name }}</td> -->
+          <td class="">{{ props.item.user.name }}</td>
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
@@ -56,7 +57,7 @@
         moment: moment,
         headers: [
           // {text: 'Origen', value: 'source_id'},
-          // {text: 'Destino', value: 'dest_id'},
+          {text: 'Usuario', value: 'user.name'},
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha del servicio', value: 'service.date'},
           {text: 'Fecha reserva', value: 'booked_at'},
@@ -124,7 +125,7 @@
           try {
             const tickets = await API.get('tickets', params)
             if (tickets.status >= 200 && tickets.status < 300) {
-              console.log('mis reservas a terceros', tickets)
+              console.log('reservas a terceros', tickets)
               // setTimeout(() => {
               // this.ticketsList = Object.assign([], tickets.data.data)
               this.ticketsList = tickets.data.data

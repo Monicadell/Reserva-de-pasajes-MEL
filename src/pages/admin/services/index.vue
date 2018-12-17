@@ -22,6 +22,7 @@
 
     <v-layout class="" style="max-height: calc(100% - 64px)">
       <v-flex xs3>
+        <!-- Reservas propias -->
         <v-navigation-drawer style="width: 100%" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text">
@@ -42,55 +43,6 @@
         <!-- reserva terceros -->
         <v-navigation-drawer style="width: 100%" v-if="$route.path === '/reservaterceros'">
           <users-list />
-          <!-- <v-list dense class="py-0 user">
-            <v-toolbar-title class="title-list-custom white--text">
-              <span class="hidden-sm-and-down ml-4">Escoger usuario</span>
-            </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-            <v-divider></v-divider>
-              <v-flex> 
-                <v-card>
-                  <v-text-field
-                      flat label="Buscar"
-                      prepend-inner-icon="search"
-                      solo
-                      v-model="search"
-                      clearable
-                      class="input-buscar-user mb-0"
-                      v-on:change="busca"
-                      @click:clear="clearSearch">
-                  </v-text-field>
-          
-                  <v-list two-line class="lista-users pt-0">
-                    <template v-for="(item, index) in users">
-                      <v-list-tile
-                        :key="item.name"
-                        avatar
-                        ripple
-                        @click="selectUser(item)"
-                        style="border-bottom: 1px solid #ccc;"
-                      >
-                        <v-list-tile-content>
-                          <v-list-tile-title class="primary--text text-capitalize">{{ item.name }}</v-list-tile-title>
-                          <v-list-tile-sub-title class="text--primary">{{ item.rut }}</v-list-tile-sub-title>
-                        </v-list-tile-content>
-                        <v-list-tile-action>
-                          <v-icon
-                            small
-                            slot="activator"
-                            class="icono-select"
-                            @click="selectUser(item)"
-                          >
-                            chevron_right
-                          </v-icon>
-                        </v-list-tile-action>
-                      </v-list-tile>
-       
-                    </template>
-                  </v-list>
-                </v-card>
-              </v-flex> 
-          </v-list> -->
         </v-navigation-drawer>
       </v-flex>
 
@@ -375,7 +327,6 @@
       this.getReservas()
       this.getExpress()
       // this.getUsers()
-      console.log('paath')
       console.log('path', this.$route.path)
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
       this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
@@ -390,22 +341,12 @@
       this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
     },
     methods: {
-      // clearSearch: function clearSearch () {
-      //   this.search = ''
-      //   this.getUsers()
-      // },
-
-      // busca () {
-      //   console.log('busca', this.search)
-      //   let buscar = {'q': this.search}
-      //   this.getUsers(buscar)
-      // },
       async getReservas () {  // obtener las reservas de un usuario
         // const userId = {
         //   'user_id': 113162
         // }
         try {
-          const tickets = await API.get('tickets')
+          const tickets = await API.get('my_tickets')
           console.log(tickets)
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log(`los tickets del usuario son `)

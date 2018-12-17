@@ -226,15 +226,16 @@
     },
     methods: {
       async getReservas () {
-        const userId = {
-          'user_id': 113162
-        }
+        // const userId = {
+        //   'user_id': 113162
+        // }
         try {
-          const tickets = await API.get('tickets', userId)
-          console.log(tickets)
+          const tickets = await API.get('my_tickets')
+          // console.log('my tickets', tickets)
           if (tickets.status >= 200 && tickets.status < 300) {
             setTimeout(() => {
               this.ticketsList = Object.assign([], tickets.data.data)
+              // console.log('reservas', this.ticketsList)
               this.consulta = true
             }, 2000)
           }

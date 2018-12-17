@@ -19,7 +19,7 @@ import Recorridos from '@pages/admin/recorridos'
 import Estaciones from '@pages/admin/estaciones'
 import MyInfo from '@pages/admin/myInfo'
 import Reservas from '@pages/admin/misreservas'
-// import ReservasTerceros from '@pages/admin/reservaterceros'
+import ReservasTerceros from '@pages/admin/misreservasterceros'
 
 Vue.use(Router)
 const pageWhiteList = ['/login']
@@ -163,7 +163,7 @@ const router = new Router({
         {
           path: '/misreservasaterceros',
           name: 'misreservasaterceros',
-          component: Reservas,
+          component: ReservasTerceros,
           meta: {
             requiresAuth: true,
             adminAuth: true

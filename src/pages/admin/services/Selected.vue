@@ -73,9 +73,10 @@
               </v-timeline-item>
             </v-timeline>
 
-            <div>
+            <div class="mr-3 ml-2">
               <!-- <select-acercamiento @eventAcerca="eventAcerca"/> -->
                <v-text-field label="Ingrese acercamiento"
+                              prepend-icon="place"
                               v-model="acercamiento"></v-text-field>
             </div>
             <div v-if="vuelo">
@@ -83,6 +84,7 @@
                 <v-flex offset-xs2 xs8 pt-2>
                   <v-text-field
                     label="Nº de vuelo"
+                    v-model="flight"
                     prepend-icon="airplanemode_active"
                   ></v-text-field>
                 </v-flex>
@@ -168,7 +170,8 @@
         status: 'none'
       },
       acercamiento: '',
-      vuelo: false
+      vuelo: false, // si origen incluye vuelo
+      flight: '' // numero de vuelo ingresado
     }),
     mounted () {
       this.$store.dispatch('Booking/select', {selected: false})
@@ -199,8 +202,12 @@
           booked_at: hora,
           service_id: this.servicioSeleccionado.id
         }
+        const aterceros = {
+          'ac': this.acercamiento,
+          'vuelo': this.flight
+        }
         try {
-          const booking = await API.postNoRest('services', ticket.service_id, 'book')
+          const booking = await API.postNoRest('services', ticket.service_id, 'book', aterceros, this.usuariosBook)
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')
@@ -271,13 +278,19 @@
         selected: ['Booking/selected'],
         current: ['Booking/current'],
         ruta: ['Booking/ruta'],
-        servicioSeleccionado: ['Booking/servicioSeleccionado']
+        servicioSeleccionado: ['Booking/servicioSeleccionado'],
+        usuariosBook: ['Booking/usuariosBook']
       })
     },
     watch: {
       servicioSeleccionado (val) {
         console.log('change selected', val)
-        this.vuelo = this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto')
+        if (this.servicioSeleccionado.dest) {
+          this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
+        }
+      },
+      usuariosBook (val) {
+        console.log('usuarios a reserar', val)
       }
     }
   }

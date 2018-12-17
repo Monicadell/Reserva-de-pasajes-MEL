@@ -50,9 +50,10 @@
 
 
             </v-timeline>
-            <div>
+            <div class="ml-2 mr-3">
               <!-- <select-acercamiento @eventAcerca="eventAcerca"/> -->
                <v-text-field label="Ingrese acercamiento"
+                              prepend-icon="place"
                               v-model="acercamiento"></v-text-field>
             </div>
             <div v-if="vuelo">
@@ -60,6 +61,7 @@
                 <v-flex offset-xs2 xs8 pt-2>
                   <v-text-field
                     label="Nº de vuelo"
+                    v-model="flight"
                     prepend-icon="airplanemode_active"
                   ></v-text-field>
                 </v-flex>
@@ -117,7 +119,8 @@
       ticket: {
         status: 'none'
       },
-      vuelo: false
+      vuelo: false,
+      flight: ''
     }),
     components: {
       Modal: Modal,
@@ -140,9 +143,13 @@
           booked_at: hora,
           service_id: this.servicioExpress.id
         }
+        const aterceros = {
+          'ac': this.acercamiento,
+          'vuelo': this.flight
+        }
         try {
           console.log('ticket.service_id', ticket.service_id)
-          const booking = await API.postNoRest('services', ticket.service_id, 'book')
+          const booking = await API.postNoRest('services', ticket.service_id, 'book', aterceros, this.usuariosBook)
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')
@@ -198,7 +205,8 @@
         selectedExpress: ['Booking/selectedExpress'],
         current: ['Booking/current'],
         ruta: ['Booking/ruta'],
-        servicioExpress: ['Booking/servicioExpress']
+        servicioExpress: ['Booking/servicioExpress'],
+        usuariosBook: ['Booking/usuariosBook']
       })
     }
   }

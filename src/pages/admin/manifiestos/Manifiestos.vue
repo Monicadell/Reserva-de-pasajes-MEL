@@ -7,7 +7,7 @@
       </v-flex>
     </v-layout>
     <div class="elevation-1">
-      <v-toolbar flat color="white" class="pt-2">
+      <v-toolbar flat color="white" class="pt-2" v-if="!servicioSelected">
         <!-- <v-text-field
           v-model="search"
           append-icon="search"
@@ -18,7 +18,7 @@
         <v-spacer></v-spacer> -->
         <!-- <div class="text-xs-right"> -->
           <v-layout wrap>
-            <v-flex xs12 md2>
+            <v-flex xs12 md4>
               <v-menu
                 v-model="datepicker"
                 :close-on-content-click="false"
@@ -42,16 +42,12 @@
             </v-flex>
             <v-flex xs12 md4>
               <v-select :items="estaciones" v-model="origenSearch"
-                          label="Estación de origen" clearable
+                          label="Origen" clearable
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
             <v-flex xs12 md4>
-              <!-- <v-select :items="services" v-model="servicioSearch"
-                          label="Servicio"
-                          single-line item-text="name" item-value="id"
-              ></v-select> -->
-              <v-autocomplete
+              <!-- <v-autocomplete
                 v-model="servicioSearch"
                 :items="services"
                 :loading="isLoading"
@@ -63,18 +59,29 @@
                 item-value="name"
                 label="Servicio"
                 return-object
-              ></v-autocomplete>
+                clearable
+              ></v-autocomplete> -->
             </v-flex>
-            <v-flex xs12 md2>
+            <!-- <v-flex xs12 md2>
               <v-btn color="primary" outline @click="getManifiestos()">Buscar</v-btn>
-            </v-flex>
+            </v-flex> -->
           </v-layout>
         <!-- </div> -->
       </v-toolbar>
 
-      <v-data-table
-          :headers="headers"
+      <v-card-title v-if="servicioSelected">
+        Manifiestos
+        <v-spacer></v-spacer>
+        <div class="text-xs-right">
+            <v-btn dark color="primary" @click="volverServicios()">
+              <v-icon left dark class="mr-0">keyboard_arrow_left</v-icon>Volver
+            </v-btn>
+        </div>
+      </v-card-title>
+      <v-data-table v-if="servicioSelected"
+          :headers="headersMani"
           :items="manifiestos"
+          no-data-text="No existen manifiestos para el servicio"
           hide-actions
         >
         <template slot="items" slot-scope="props">
@@ -86,6 +93,37 @@
           <!-- <td class="">{{ props.item.user.rut }}</td> -->
           <td class="">{{ props.item.ac }}</td>
           <td class="justify-center">{{ props.item.vuelo }}</td>
+        </template>
+      </v-data-table>
+
+      <v-card-title v-if="!servicioSelected">
+        Servicios
+        <v-spacer></v-spacer>
+      </v-card-title>
+      <v-data-table v-if="!servicioSelected"
+          :headers="headersServ"
+          :items="services"
+          no-data-text="No existen servicios para fecha y origen ingresado"
+          hide-actions
+          :loading="loading"
+        >
+        <template slot="items" slot-scope="props">
+          <td class="">{{ props.item.name }}</td>
+          <td class="">{{ props.item.date }}</td>
+          <td class="">{{ props.item.departure }}</td>
+          <td class="">
+            <v-tooltip top>
+              <v-icon
+                small
+                slot="activator"
+                color="primary"
+                @click="seleccionarServicio(props.item)"
+              >
+                keyboard_arrow_right
+              </v-icon>
+              <span>Ver manifiesto</span>
+            </v-tooltip>
+          </td>
         </template>
       </v-data-table>
     </div>
@@ -108,8 +146,9 @@
         origenSearch: '',
         isLoading: false,
         servicioSearch: '',
+        servicioSelected: false,
         search: '',
-        headers: [
+        headersMani: [
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha servicio', value: 'service.date'},
           {text: 'Bus', value: 'car_number'},
@@ -117,6 +156,12 @@
           {text: 'Pasajero', value: 'user.name'},
           {text: 'Acercamiento', value: 'ac'},
           {text: 'Vuelo', value: 'vuelo'}
+        ],
+        headersServ: [
+          {text: 'Servicio', value: 'service.name'},
+          {text: 'Fecha servicio', value: 'service.date'},
+          {text: 'Hora salida', value: 'service.departure'},
+          {text: '', value: ''}
         ],
         manifiestos: [],
         services: [],
@@ -179,6 +224,9 @@
         this.dateSearch = ''
         this.getServices()
       },
+      volverServicios () {
+        this.servicioSelected = false
+      },
       async getStations () {
         try {
           let stations = await API.get('stations')
@@ -206,6 +254,10 @@
             cancelButtonText: 'OK'
           })
         }
+      },
+      seleccionarServicio (servicio) {
+        this.getManifiestos(servicio.id)
+        this.servicioSelected = true
       },
       async getServices () {
         let params = {
@@ -243,11 +295,11 @@
           })
         }
       },
-      async getManifiestos () {
+      async getManifiestos (ser) {
         let params = {
           'source_id': this.origenSearch,
           'date': this.dateSearch,
-          'service_id': this.servicioSearch.id
+          'service_id': ser ? ser : this.servicioSearch.id
         }
         console.log('get tickets')
         try {

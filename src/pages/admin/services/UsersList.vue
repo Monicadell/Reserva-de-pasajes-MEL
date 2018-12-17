@@ -73,7 +73,7 @@
           <v-list two-line class="lista-users pt-0" v-if="users.length > 0">
             <template v-for="(item, index) in users">
               <v-list-tile
-                :key="item.name"
+                :key="item.id"
                 avatar
                 ripple
                 @click="selectUser(item)"
@@ -132,6 +132,7 @@
           
 <script>
   import API from '@pi/app'
+  // import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -182,7 +183,12 @@
         console.log('select user->', item)
         let tam = this.selected.some(sel => sel.id === item.id)
         // console.log('select some->', tam)
-        if (!tam) this.selected.push(item)
+        if (!tam) {
+          this.selected.push(item)
+          this.$store.dispatch('Booking/set_usuariosBook', {
+            usuariosBook: this.selected.map(item => item.id)
+          })
+        }
       },
       remove (item) {
         const index = this.selected.indexOf(item)

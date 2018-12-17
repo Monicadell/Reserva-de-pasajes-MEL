@@ -39,7 +39,8 @@ const state = {
   limpiar: false,
   origen: [],
   selectedExpress: false,
-  servicioExpress: {}
+  servicioExpress: {},
+  usuariosBook: []
 
 }
 
@@ -69,8 +70,8 @@ const getters = {
   limpiar: state => state.limpiar,
   origen: state => state.origen,
   selectedExpress: state => state.selectedExpress,
-  servicioExpress: state => state.servicioExpress
-
+  servicioExpress: state => state.servicioExpress,
+  usuariosBook: state => state.usuariosBook
 }
 
 const actions = {
@@ -151,8 +152,11 @@ const actions = {
   },
   set_servicioExpress ({commit}, payload) {
     commit('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
+  },
+  set_usuariosBook ({commit}, payload) {
+    console.log(payload)
+    commit('SET_USUARIOSBOOK', {usuariosBook: payload.usuariosBook})
   }
-
 }
 
 const mutations = {
@@ -236,6 +240,9 @@ const mutations = {
   },
   SET_SERVICIOEXPRESS: (state, {servicioExpress}) => {
     state.servicioExpress = servicioExpress
+  },
+  SET_USUARIOSBOOK: (state, {usuariosBook}) => {
+    state.usuariosBook = usuariosBook
   }
 }
 
