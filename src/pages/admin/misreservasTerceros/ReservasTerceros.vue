@@ -23,7 +23,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
+          <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
         </div>
       </v-toolbar>
 
@@ -39,7 +39,9 @@
           <td class="">{{ props.item.user.name }}</td>
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
-          <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
+          <td class="">{{ props.item.booked_at }}</td>
+          <!-- <td class="" v-if="props.item.booked_at">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
+          <td v-else>hola</td> -->
           <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>

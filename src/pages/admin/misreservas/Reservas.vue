@@ -34,7 +34,7 @@
           <!-- <td class="" v-if="$route.path === '/misreservasaterceros'">{{ props.item.service.name }}</td> -->
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
-          <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
+          <td class="">{{ props.item.booked_at }}</td>
           <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
