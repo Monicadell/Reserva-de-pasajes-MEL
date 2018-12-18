@@ -139,26 +139,24 @@
                 ></v-select>
               </v-flex>
 
-              <v-flex xs12 md6>
+            <!--  <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
                           label="Frecuencia"
                           single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex>
+              </v-flex> -->
 
               <v-flex xs12 sm6>
-                <v-select :items="cars" v-model="editedItem.car_id"
-                          label="Bus"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
+                  <v-text-field label="Vehículos" type="number"
+                              v-model="editedItem.cars"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 sm6>
+            <!--  <v-flex xs12 sm6>
                 <v-select :items="drivers" v-model="editedItem.driver_id"
                           label="Conductor"
                           single-line item-text="text" item-value="id"
                 ></v-select>
-              </v-flex>
+              </v-flex>-->
               <v-flex xs12 md6>
                 <v-text-field label="Asientos disponibles"
                               v-model="editedItem.avail_seats"></v-text-field>
