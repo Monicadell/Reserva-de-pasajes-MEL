@@ -18,7 +18,7 @@
       </v-btn> -->
     </v-toolbar>
 
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
 
     <v-layout class="" style="max-height: calc(100% - 64px)">
       <v-flex xs3>
@@ -124,10 +124,10 @@
 
       </v-flex>
       <v-flex xs2>
-        <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); border-left: 1px solid rgba(0, 0, 0, .12)">
+        <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); background-color: #f5f5f5">
           <!-- <v-list dense class="pt-0 user "> -->
-            <v-toolbar-title class="title-list-custom white--text">
-              <span class="hidden-sm-and-down ml-4">Servicios próximos</span>
+            <v-toolbar-title class="primary--text">
+              <span class="hidden-sm-and-down ml-4 font-weight-black">Servicios próximos</span>
             </v-toolbar-title>
             <v-progress-linear :indeterminate="true" v-if="loadingDerecha"></v-progress-linear>
             <!-- <v-divider></v-divider> -->
@@ -443,9 +443,10 @@
     height: auto;
     padding: 5px 16px;
   }
-  .media-alt{
+  .theme--light.v-card.media-alt{
     height: calc(50vh - 85px);
     /* max-height: calc(50% - 15px); */
+    background-color: #f5f5f5;
   }
   .v-divider.divider-ticket {
     /* border-style: dashed;
@@ -455,12 +456,12 @@
     width:90%;
   }
   .title-ticket {
-    color: #003e86;
+    color: #1565c0;
     font-size: 16px;
   }
-  .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
+  /* .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
     background: rgba(104, 104, 104, 0.1);
-  }
+  } */
   .tabla-express .theme--light.v-table thead tr{
     height: auto;
   }
@@ -469,19 +470,31 @@
     padding: 5px;
     text-transform: uppercase;
     font-weight: 600;
-    color: #9e9e9e;
+    /* color: #9e9e9e; */
+  }
+  .tabla-express .theme--light.v-table thead{
+    font-size: 10px;
+    padding: 10px 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    /* color: #9e9e9e; */
+    background-color: #f5f5f5;
   }
   .tabla-express .theme--light.v-table tbody td{
     font-size: 10px;
-    padding: 5px;
+    padding: 7px 5px;
     height: auto;
   }
   .tabla-express .theme--light.v-table tbody tr:not(:last-child){
     border: none;
+    background-color: #f5f5f5;
+  }
+  .tabla-express .theme--light.v-table tbody tr {
+    background: #f5f5f5;
   }
   .tabla-express .theme--light.v-table tbody tr:hover,
   .tabla-express .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row){
-    background: rgba(104, 104, 104, 0.4);
+    background: rgba(255, 255, 255, 0.4);
     cursor: pointer;
   }
   .icono-select{
