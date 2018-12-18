@@ -32,7 +32,7 @@
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
-          <td class="">{{ props.item.checkin_at }}</td>
+          <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
           <td class="">{{ props.item.status }}</td>
@@ -61,7 +61,7 @@
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha del servicio', value: 'service.date'},
           {text: 'Fecha reserva', value: 'booked_at'},
-          {text: 'Fecha checkin', value: 'checkin_at'},
+          // {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
           {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}

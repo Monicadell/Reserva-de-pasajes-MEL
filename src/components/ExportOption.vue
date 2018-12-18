@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y>
-    
+
     <v-btn slot="activator" color="primary darken-1" dark>
       <v-icon left dark>arrow_drop_down</v-icon>
       <span>Exportar</span>
@@ -32,7 +32,7 @@
 
   export default {
 
-    props: ['fields', 'data', 'pdf'],
+    props: ['fields', 'data', 'name', 'pdf'],
 
     data: () => ({
       moment: moment,
@@ -76,7 +76,7 @@
           y = 3
           currentColumnData = []
           y = 8
-          console.log(this.data)
+          // console.log(this.data)
           this.data.forEach((row) => {
             console.log('row', row)
             currentColumnData.push(row[value])

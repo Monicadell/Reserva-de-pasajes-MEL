@@ -2,9 +2,9 @@
   <div>
     <v-layout wrap>
       <v-flex xs12 md6 class="py-3"><h2>Manifiestos</h2> </v-flex>
-      <v-flex xs12 md6 class="text-xs-right">
+      <!-- <v-flex xs12 md6 class="text-xs-right">
         <export-option :fields="excelFields" :data="items"  :pdf="true"/>
-      </v-flex>
+      </v-flex> -->
     </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white" class="pt-2" v-if="!servicioSelected">
@@ -72,15 +72,19 @@
       <v-card-title v-if="servicioSelected">
         Manifiestos
         <v-spacer></v-spacer>
-        <div class="text-xs-right">
+        <v-flex xs12 md4 class="text-xs-right">
             <v-btn dark color="primary" @click="volverServicios()">
               <v-icon left dark class="mr-0">keyboard_arrow_left</v-icon>Volver
             </v-btn>
-        </div>
+        </v-flex>
+        <v-flex xs12 md4 class="text-xs-right">
+          <export-option :fields="excelFields" :data="items" :name="'Manifiesto'" :pdf="true"/>
+        </v-flex>
       </v-card-title>
       <v-data-table v-if="servicioSelected"
           :headers="headersMani"
           :items="manifiestos"
+          :loading="loadingM"
           no-data-text="No existen manifiestos para el servicio"
           hide-actions
         >
@@ -99,17 +103,22 @@
       <v-card-title v-if="!servicioSelected">
         Servicios
         <v-spacer></v-spacer>
+        <v-flex xs12 md6 class="text-xs-right">
+          <export-option :fields="excelFieldsServ" :data="itemsServ" :name="'Servicios'" :pdf="true"/>
+        </v-flex>
       </v-card-title>
       <v-data-table v-if="!servicioSelected"
           :headers="headersServ"
           :items="services"
           no-data-text="No existen servicios para fecha y origen ingresado"
           hide-actions
-          :loading="loading"
+          :loading="loadingS"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.date }}</td>
+          <td class="">{{ props.item.source }}</td>
+          <td class="">{{ props.item.dest }}</td>
           <td class="">{{ props.item.departure }}</td>
           <td class="">
             <v-tooltip top>
@@ -134,7 +143,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import ExportOption from '@c/ExportOption'
-  
+
   export default {
     data () {
       return {
@@ -144,7 +153,8 @@
         datepicker: false,
         dateSearch: '',
         origenSearch: '',
-        isLoading: false,
+        loadigS: true,
+        loadigM: true,
         servicioSearch: '',
         servicioSelected: false,
         search: '',
@@ -160,8 +170,10 @@
         headersServ: [
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha servicio', value: 'service.date'},
+          {text: 'Origen', value: 'source'},
+          {text: 'Destino', value: 'dest'},
           {text: 'Hora salida', value: 'service.departure'},
-          {text: '', value: ''}
+          {text: 'Detalles', value: '', sortable: false}
         ],
         manifiestos: [],
         services: [],
@@ -175,28 +187,19 @@
           FechaServicio: 'servicedate',
           Bus: 'car_number',
           Asiento: 'seat',
-          Pasajero: 'user.name',
+          Pasajero: 'username',
           Acercamiento: 'ac',
           Vuelo: 'vuelo'
         },
-        items: [
-          { 'servicename': '2018-12-14T09:47:21.965088',
-            'servicedate': '',
-            'car_number': '',
-            'seat': 84,
-            'user.name': '',
-            'ac': '2018-12-22',
-            'vuelo': 'Prueba2' },
-          {
-            'servicename': '2018-12-14T09:47:21.965088',
-            'servicedate': '',
-            'car_number': '',
-            'seat': 84,
-            'user.name': '',
-            'ac': '2018-12-22',
-            'vuelo': 'Prueba2'
-          }
-        ]
+        items: [],
+        excelFieldsServ: {
+          Servicio: 'name',
+          FechaServicio: 'date',
+          Origen: 'source',
+          Destino: 'dest',
+          Salida: 'departure'
+        },
+        itemsServ: []
       }
     },
     components: {
@@ -271,10 +274,16 @@
           if (servicios.status >= 200 && servicios.status < 300) {
             console.log('params', params)
             console.log(servicios.data)
-            setTimeout(() => {
-              this.services = servicios.data.data
-              this.loading = false
-            }, 500)
+            // setTimeout(() => {
+            this.services = servicios.data.data
+            this.itemsServ = this.services.map(item => {
+              for (const prop in item) {
+                if (item[prop] == null) item[prop] = ''
+              }
+              return item
+            })
+            this.loadingS = false
+            // }, 500)
           }
         } catch (e) {
           console.log('error al cargar servicios', e.response)
@@ -307,11 +316,21 @@
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('params', params)
             console.log(tickets.data.data)
-            setTimeout(() => {
-              this.manifiestos = tickets.data.data
-              console.log('manifiestos', this.manifiestos)
-              this.loading = false
-            }, 500)
+            // setTimeout(() => {
+            this.manifiestos = tickets.data.data
+            this.items = this.manifiestos.map(item => {
+              for (const prop in item) {
+                if (item[prop] == null) item[prop] = ''
+              }
+              return item
+            })
+            this.items.forEach(element => { element.servicename = element.service.name })
+            this.items.forEach(element => { element.servicedate = element.service.date })
+            this.items.forEach(element => { element.username = element.user.name })
+            console.log('manifiestos', this.manifiestos)
+            console.log('items', this.items)
+            this.loadingM = false
+            // }, 500)
           }
         } catch (e) {
           console.log('error al cargar tickets', e.response)

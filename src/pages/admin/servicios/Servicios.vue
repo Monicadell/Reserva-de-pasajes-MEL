@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="py-3"><h2>Servicios</h2> </div>
-    
+
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
@@ -38,7 +38,7 @@
             </v-layout>
 
             <v-layout wrap>
-              
+
               <v-flex xs12 md6>
                 <!-- <v-text-field label="Salida"
                               v-model="editedItem.departure"></v-text-field> -->
@@ -131,20 +131,20 @@
                   ></v-time-picker>
                 </v-menu>
               </v-flex>
-                            
+
               <v-flex xs12 md6>
                 <v-select :items="trips" v-model="editedItem.trip_id"
                         label="Tramo"
                         single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex>       
+              </v-flex>
 
               <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
                           label="Frecuencia"
                           single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex>            
+              </v-flex>
 
               <v-flex xs12 sm6>
                 <v-select :items="cars" v-model="editedItem.car_id"
@@ -180,7 +180,7 @@
         <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el servicio?</v-card-title>
         <v-card-text>Una vez realizada esta acción no podrá recuperar los datos.</v-card-text>
         <v-card-actions class="pb-3 px-3">
-          
+
           <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
           <v-spacer></v-spacer>
           <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
@@ -215,8 +215,8 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.date }}</td>
-          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="" v-if="props.item.set">{{ moment(props.item.set, 'HH:mm:ss').format('HH:mm')}}</td>
           <td class="" v-else></td>
           <td class="" v-if="props.item.duration">{{ moment(props.item.duration, 'HH:mm:ss').format('HH:mm') }}</td>
@@ -269,7 +269,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import Modal from '@c/Modal'
-  
+
   export default {
     data () {
       return {
@@ -293,8 +293,8 @@
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
-          {text: 'Llegada', value: 'arrival'},
           {text: 'Salida', value: 'departure'},
+          {text: 'Llegada', value: 'arrival'},
           {text: 'Set', value: 'set'},
           {text: 'Duración (hrs)', value: 'duration'},
           {text: 'Tramo', value: 'trip_name'},
