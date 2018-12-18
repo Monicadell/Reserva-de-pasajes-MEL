@@ -46,7 +46,9 @@
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
           <td class="">{{ props.item.status }}</td>
-
+          <!--<td class="">
+            <v-btn outline color="red" class="white--text btn-ticket" v-if="props.item.service.date >= today" @click="mostrarAnular(item)">Anular</v-btn>
+          </td> -->
         </template>
       </v-data-table>
     </div>
@@ -75,6 +77,7 @@
           {text: 'Fecha confirmación', value: 'confirmed_at'},
           {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}
+          // {text: '', value: ''}
         ],
         ticketsList: [],
         excelFields: {
@@ -86,7 +89,8 @@
           Asiento: 'seat',
           Estado: 'status'
         },
-        items: []
+        items: [],
+        today: moment().format('YYYY-MM-DD')
       }
     },
     components: {

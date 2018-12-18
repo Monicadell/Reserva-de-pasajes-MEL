@@ -193,6 +193,9 @@
       remove (item) {
         const index = this.selected.indexOf(item)
         if (index >= 0) this.selected.splice(index, 1)
+        this.$store.dispatch('Booking/set_usuariosBook', {
+          usuariosBook: this.selected.map(item => item.id)
+        })
       },
       async getUsers (params) {
         try {

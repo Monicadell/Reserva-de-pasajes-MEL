@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div class="py-3"><h2>Servicios</h2> </div>
-
+    <v-layout row wrap>
+      <v-flex class="xs12 md6 text-xs-left">
+        <h2>Reservas</h2>
+      </v-flex>
+      <v-flex xs12 md6 class="text-xs-right">
+        <export-option :fields="excelFields" :data="items" :name="'Servicios'" :pdf="true"/>
+      </v-flex>
+    </v-layout>
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
@@ -139,12 +145,12 @@
                 ></v-select>
               </v-flex>
 
-            <!--  <v-flex xs12 md6>
+             <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
-                          label="Frecuencia"
+                          label="Frecuencia" disabled
                           single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex> -->
+              </v-flex>
 
               <v-flex xs12 sm6>
                   <v-text-field label="Vehículos" type="number"
@@ -157,10 +163,10 @@
                           single-line item-text="text" item-value="id"
                 ></v-select>
               </v-flex>-->
-              <v-flex xs12 md6>
+              <!-- <v-flex xs12 md6>
                 <v-text-field label="Asientos disponibles"
                               v-model="editedItem.avail_seats"></v-text-field>
-              </v-flex>
+              </v-flex> -->
             </v-layout>
           </v-container>
         </v-card-text>
@@ -223,7 +229,7 @@
           <td class="">{{ frecuencia(props.item.freq_id) }}</td>
           <!-- <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td> -->
-          <td class="">{{ props.item.avail_seats }}</td>
+          <td class="">{{ props.item.avail_seats }} / {{ props.item.total_seats }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -267,6 +273,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import Modal from '@c/Modal'
+  import ExportOption from '@c/ExportOption'
 
   export default {
     data () {
@@ -299,7 +306,7 @@
           {text: 'Frecuencia', value: 'freq_id'},
           // {text: 'Bus', value: 'car_id'},
           // {text: 'Conductor', value: 'driver_id'},
-          {text: 'Asientos disponibles', value: 'avail_seats'},
+          {text: 'Asientos disponibles/totales', value: 'avail_seats'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -314,11 +321,25 @@
         ],
         frequencies: [
         ],
-        trips: []
+        trips: [],
+        excelFields: {
+          Servicio: 'name',
+          FechaServicio: 'date',
+          Salida: 'departure',
+          Llegada: 'arrival',
+          Puesta: 'set',
+          Duracion: 'duration',
+          Tramo: 'trip_name',
+          AsientosDisponibles: 'avail_seats',
+          AsientosTotales: 'total_seats',
+          AsientosReservados: 'avail_reserved'
+        },
+        items: []
       }
     },
     components: {
-      Modal: Modal
+      Modal: Modal,
+      ExportOption: ExportOption
     },
     mounted () {
       this.getServices()
@@ -366,6 +387,14 @@
             console.log(servicios)
             setTimeout(() => {
               this.services = servicios.data.data
+              this.items = this.services.map(item => {
+                for (const prop in item) {
+                  if (item[prop] == null) item[prop] = ''
+                  if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
+                }
+                return item
+              })
+              console.log('items', this.items)
               this.loading = false
             }, 500)
           }
@@ -449,6 +478,7 @@
             'departure': guardar.departure ? guardar.departure : '',
             'name': guardar.name ? guardar.name : '',
             'set': guardar.set ? guardar.set : '',
+            'cars': guardar.cars ? guardar.cars : '',
             'trip_id': guardar.trip_id ? guardar.trip_id : ''
           }
         }

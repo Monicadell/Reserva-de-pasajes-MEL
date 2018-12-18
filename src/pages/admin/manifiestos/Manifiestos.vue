@@ -70,7 +70,7 @@
       </v-toolbar>
 
       <v-card-title v-if="servicioSelected">
-        Manifiestos
+        <h3>Manifiestos</h3>
         <v-spacer></v-spacer>
         <v-flex xs12 md4 class="text-xs-right">
             <v-btn dark color="primary" @click="volverServicios()">
@@ -89,11 +89,15 @@
           hide-actions
         >
         <template slot="items" slot-scope="props">
+          <td class="">{{ props.item.user.name }}</td>
+          <td class="">{{ props.item.user.rut }}</td>
+          <td class="">{{ props.item.user.phone_number }}</td>
+          <td class="" v-if="props.item.user.contract_type_id === 1">MEL</td>
+          <td class="" v-else>Contratista</td>
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ props.item.car_number }}</td>
           <td class="">{{ props.item.seat }}</td>
-          <td class="">{{ props.item.user.name }}</td>
           <!-- <td class="">{{ props.item.user.rut }}</td> -->
           <td class="">{{ props.item.ac }}</td>
           <td class="justify-center">{{ props.item.vuelo }}</td>
@@ -101,7 +105,7 @@
       </v-data-table>
 
       <v-card-title v-if="!servicioSelected">
-        Servicios
+        <h3>Servicios</h3>
         <v-spacer></v-spacer>
         <v-flex xs12 md6 class="text-xs-right">
           <export-option :fields="excelFieldsServ" :data="itemsServ" :name="'Servicios'" :pdf="true"/>
@@ -159,11 +163,14 @@
         servicioSelected: false,
         search: '',
         headersMani: [
+          {text: 'Pasajero', value: 'user.name'},
+          {text: 'Documento', value: 'user.rut'},
+          {text: 'Teléfono', value: 'user.phone_number'},
+          {text: 'Empresa', value: 'user.contract_type_id'},
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha servicio', value: 'service.date'},
           {text: 'Bus', value: 'car_number'},
           {text: 'Asiento', value: 'seat'},
-          {text: 'Pasajero', value: 'user.name'},
           {text: 'Acercamiento', value: 'ac'},
           {text: 'Vuelo', value: 'vuelo'}
         ],
@@ -183,11 +190,14 @@
           {text: 'PASAPORTE', id: 'PASAPORTE'}
         ],
         excelFields: {
+          Pasajero: 'username',
+          Documento: 'userdocument',
+          Telefono: 'userphone',
+          ContratistaMel: 'contract_type_name',
           Servicio: 'servicename',
           FechaServicio: 'servicedate',
           Bus: 'car_number',
           Asiento: 'seat',
-          Pasajero: 'username',
           Acercamiento: 'ac',
           Vuelo: 'vuelo'
         },
@@ -308,7 +318,7 @@
         let params = {
           'source_id': this.origenSearch,
           'date': this.dateSearch,
-          'service_id': ser ? ser : this.servicioSearch.id
+          'service_id': ser || this.servicioSearch.id
         }
         console.log('get tickets')
         try {
@@ -324,9 +334,14 @@
               }
               return item
             })
-            this.items.forEach(element => { element.servicename = element.service.name })
-            this.items.forEach(element => { element.servicedate = element.service.date })
-            this.items.forEach(element => { element.username = element.user.name })
+            this.items.forEach(element => {
+              element.servicename = element.service.name
+              element.servicedate = element.service.date
+              element.username = element.user.name
+              element.userphone = element.user.phone_number
+              element.userdocument = element.user.rut || element.user.passport
+              element.contract_type_name = element.user.contract_type_id === 1 ? 'MEL' : 'Contratista'
+            })
             console.log('manifiestos', this.manifiestos)
             console.log('items', this.items)
             this.loadingM = false

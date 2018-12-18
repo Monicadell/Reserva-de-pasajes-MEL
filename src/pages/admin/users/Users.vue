@@ -146,7 +146,14 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.rut || props.item.passport}}</td>
-          <td class="">{{ props.item.role_id }}</td>
+          <td class="">
+            <span v-if="props.item.role_id === 1">Estandar</span>
+            <span v-else-if="props.item.role_id === 2">Administrador</span>
+            <span v-else-if="props.item.role_id === 3">Asistente</span>
+            <span v-else-if="props.item.role_id === 4">Reducido</span>
+            <span v-else-if="props.item.role_id === 5">Callcenter</span>
+            <span v-else>{{ props.item.role_id }}</span>
+          </td>
           <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
@@ -280,7 +287,8 @@
           {text: 'ADMINISTRATIVO', id: 'AD2'}
         ],
         roles: [],
-        contracts: [],
+        contracts: [{name: 'MEL', id: 1},
+          {name: 'CONTRATISTA', id: 2}],
         companies: [],
         rules: {
           password_confirmation: value => {
@@ -295,7 +303,7 @@
       this.getUsers()
       this.getRoles()
       this.getCompanies()
-      this.getContracts()
+    //  this.getContracts()
     },
     methods: {
       async getUsers (params) {
