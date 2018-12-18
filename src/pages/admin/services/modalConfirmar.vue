@@ -90,7 +90,7 @@
               
           </v-card-text>
           <v-card-actions> 
-                <v-btn color ="grey" class="btn-cerrar" @click="cerrar()" style="margin: 0 auto">Cerrar</v-btn>
+                <v-btn color="primary" class="btn-cerrar" @click="cerrar()" style="margin: 0 auto">Cerrar</v-btn>
           </v-card-actions>
       </v-card> 
 
