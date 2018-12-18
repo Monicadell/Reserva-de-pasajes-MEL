@@ -1,7 +1,7 @@
 <template>
   <div class="contiene" style="width: 100%; max-height: calc(100% - 0)">
     <v-toolbar card prominent>
-      
+
       <v-toolbar-title class="body-3 primary--text ml-4">
         <!--{{$t(`lang.home.auth.${menuSelection.text}`)}}-->
         Busqueda de servicios
@@ -31,12 +31,12 @@
             <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
-              <v-flex > 
+              <v-flex >
                 <v-list-tile-content  >
                   <tickets v-bind:item="item" />
                 </v-list-tile-content>
-              </v-flex> 
-            </v-layout> 
+              </v-flex>
+            </v-layout>
           </v-list>
         </v-navigation-drawer>
 
@@ -47,9 +47,9 @@
       </v-flex>
 
       <v-flex xs7 style="background-color: #fff">
-        <v-layout align-start justify-center row fill-height id="principal-container"> 
-          <v-flex xs12>   
-            <v-stepper :value="e1"  class="elevation-0">
+        <v-layout align-start justify-center row fill-height id="principal-container">
+          <v-flex xs12>
+            <v-stepper :value="e1"  class="elevation-0" disabled="true">
               <v-stepper-header >
                 <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
 
@@ -61,11 +61,11 @@
 
                 <v-stepper-step   step="3">Confirmación</v-stepper-step>
               </v-stepper-header>
-        
+
 
               <v-stepper-items>
                 <v-stepper-content step="1">
-                  <v-layout align-center justify-center row fill-height> 
+                  <v-layout align-center justify-center row fill-height>
                     <v-flex xs9>
                       <date-place-container v-if="e1 === 1"/>
                     </v-flex>
@@ -87,20 +87,20 @@
                   <v-card
                     class="mb-5"
                     height="500px"
-                    
+
                     flat
                   >
                     <v-layout align-center justify-space-around column fill-height>
-                      <v-flex xs4> 
+                      <v-flex xs4>
                         <v-card-title >
                           <h3 class="headline primary--text text-lg-center">Tu reserva esta confirmada</h3>
                         </v-card-title>
-                      </v-flex> 
-                      <v-flex xs4 mb-5> 
+                      </v-flex>
+                      <v-flex xs4 mb-5>
                       <img src="../../../../static/img/Check-RESERVA.png" alt="Smiley face" height="290" width="290">
 
-                      </v-flex> 
-                      <v-flex xs4> 
+                      </v-flex>
+                      <v-flex xs4>
                         <h3 class="headline primary--text mb-2">Puedes revisar los datos en tu menú lateral izquierdo de reservas</h3>
                         <v-btn
                           color="secondary"
@@ -109,9 +109,9 @@
                         >
                           Volver al menú principal
                         </v-btn>
-                      </v-flex> 
+                      </v-flex>
                     </v-layout>
-                    
+
                   </v-card>
 
                 </v-stepper-content>
@@ -121,8 +121,8 @@
         </v-layout>
 
       <!--  -->
-          
-      </v-flex>  
+
+      </v-flex>
       <v-flex xs2>
         <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); border-left: 1px solid rgba(0, 0, 0, .12)">
           <!-- <v-list dense class="pt-0 user "> -->
@@ -201,37 +201,37 @@
           <!-- </v-list> -->
         </v-navigation-drawer>
       </v-flex>
-    </v-layout>  
-   
+    </v-layout>
+
     <v-layout row wrap fill-height class="">
       <v-flex xs12 >
-        <service-selected/>  
+        <service-selected/>
       </v-flex>
     </v-layout>
 
     <v-layout row wrap fill-height class="">
       <v-flex xs12 >
-        <ServiceExpress/>  
+        <ServiceExpress/>
       </v-flex>
     </v-layout>
 
       <v-layout row wrap fill-height class="">
       <v-flex xs12 >
-        <modal-anular/>  
+        <modal-anular/>
       </v-flex>
     </v-layout>
 
 
       <v-layout row wrap fill-height class="">
       <v-flex xs12 >
-        <modal-confirmar/>  
+        <modal-confirmar/>
       </v-flex>
     </v-layout>
 
 
       <v-layout row wrap fill-height >
       <v-flex xs12 >
-        <modal-detalle/>  
+        <modal-detalle/>
       </v-flex>
     </v-layout>
 

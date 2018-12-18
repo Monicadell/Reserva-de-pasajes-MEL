@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div class="py-3"><h2>Reservas</h2> </div>
-    <div text-xs-right>
-        <export-option :fields="excelFields" :data="items"  :pdf="true"/>
-    </div>
+    <v-layout row wrap>
+      <v-flex class="xs12 md6 text-xs-left">
+        <h2>Reservas</h2>
+      </v-flex>
+      <v-flex xs12 md6 class="text-xs-right">
+        <export-option :fields="excelFields" :data="items" :name="'Reservas'" :pdf="true"/>
+      </v-flex>
+    </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -168,9 +172,18 @@
               // setTimeout(() => {
               // this.ticketsList = Object.assign([], tickets.data.data)
               this.ticketsList = tickets.data.data
-              this.ticketsList.forEach(element => { element.servicename = element.service.name })
-              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
-              // }, 500)
+              this.items = this.ticketsList.map(item => {
+                for (const prop in item) {
+                  if (item[prop] == null) item[prop] = ''
+                }
+                return item
+              })
+              this.items.forEach(element => {
+                element.servicename = element.service.name
+                element.servicedate = element.service.date
+                element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
+                element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
+              })
             } else {
               console.log('Error ', tickets.status)
               this.$swal({

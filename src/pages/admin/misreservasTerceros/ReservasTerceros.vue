@@ -1,9 +1,17 @@
 <template>
   <div>
-    <div class="py-3"><h2>Reservas a terceros</h2> </div>
-    <div text-xs-right>
-        <export-option :fields="excelFields" :data="items"  :pdf="true"/>
-    </div>
+    <!-- <div class="py-3"><h2>Reservas a terceros</h2> </div>
+    <div class="text-xs-right pb-3">
+        <export-option :fields="excelFields" :data="items" :name="'ReservasTerceros'" :pdf="true"/>
+    </div> -->
+    <v-layout row wrap>
+    <v-flex class="xs12 md6 text-xs-left">
+      <h2>Reservas a terceros</h2>
+    </v-flex>
+    <v-flex xs12 md6 class="text-xs-right">
+      <export-option :fields="excelFields" :data="items" :name="'ReservasTerceros'" :pdf="true"/>
+    </v-flex>
+  </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-text-field
@@ -68,34 +76,15 @@
         ],
         ticketsList: [],
         excelFields: {
+          User: 'username',
           Servicio: 'servicename',
           FechaServicio: 'servicedate',
           FechaReserva: 'booked_at',
-          Fechacheckin: 'checkin_at',
           Fechaconfirmacion: 'confirmed_at',
           Asiento: 'seat',
           Estado: 'status'
         },
-        items: [
-          { 'booked_at': '2018-12-14T09:47:21.965088',
-            'checkin_at': '',
-            'confirmed_at': '',
-            'id': 84,
-            'seat': '',
-            'servicedate': '2018-12-22',
-            'servicename': 'Prueba2',
-            'status': 'reservado' },
-          {
-            'booked_at': '2018-12-14T09:47:21.965088',
-            'checkin_at': '',
-            'confirmed_at': '',
-            'id': 84,
-            'seat': '',
-            'servicedate': '2018-12-22',
-            'servicename': 'Prueba2',
-            'status': 'reservado'
-          }
-        ]
+        items: []
       }
     },
     components: {
@@ -129,8 +118,23 @@
               // setTimeout(() => {
               // this.ticketsList = Object.assign([], tickets.data.data)
               this.ticketsList = tickets.data.data
-              this.ticketsList.forEach(element => { element.servicename = element.service.name })
-              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
+              this.items = this.ticketsList.map(item => {
+                for (const prop in item) {
+                  if (item[prop] == null) item[prop] = ''
+                }
+                return item
+              })
+              this.items.forEach(element => {
+                element.servicename = element.service.name
+                element.servicedate = element.service.date
+                element.username = element.user.name
+                element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
+                element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
+              })
+              // this.items.forEach(element => { element.servicedate = element.service.date })
+              // this.items.forEach(element => { element.username = element.user.name })
+              // this.items.forEach(element => { element.booked_at = moment(element.booked_at).format('DD-MM-YYYY HH:mm')})
+              // this.items.forEach(element => { element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''})
               // }, 500)
             } else {
               console.log('Error ', tickets.status)

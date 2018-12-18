@@ -12,8 +12,8 @@
       label="Origen"
       item-text="name"
       item-value="name"
-      class="fadeinfwdfast mr-2 selector-azul white--text" 
-      
+      class="fadeinfwdfast mr-2 selector-azul white--text"
+
     >
       <template
         slot="selection"
@@ -43,7 +43,7 @@
     </v-autocomplete>
     </v-flex>
     <br>
-    <!-- SEGUNDO SELECTOR --> 
+    <!-- SEGUNDO SELECTOR -->
     <v-flex xs6  >
     <v-autocomplete
       v-model="placeDestiny"
@@ -58,7 +58,7 @@
       item-text="name"
       item-value="name"
       class="fadeinfwd selector-azul"
-      :disabled="seldestination.status" 
+      :disabled="seldestination.status"
     >
       <template
         slot="selection"
@@ -67,7 +67,7 @@
       <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
                :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
-        </v-avatar>  
+        </v-avatar>
 
         {{ data.item.name.split('→')[1] }}
 
@@ -89,7 +89,7 @@
       </template>
     </v-autocomplete>
     </v-flex>
-  
+
   </v-layout>
 </template>
 
