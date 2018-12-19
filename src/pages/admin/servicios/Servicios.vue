@@ -476,7 +476,6 @@
           'service':
           {
             'arrival': guardar.arrival ? guardar.arrival : '',
-            'avail_seats': guardar.avail_seats ? guardar.avail_seats : '',
             'date': guardar.date ? guardar.date : '',
             'departure': guardar.departure ? guardar.departure : '',
             'name': guardar.name ? guardar.name : '',

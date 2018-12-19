@@ -53,7 +53,7 @@
     watch: {
       fecha () {
         console.log('aqui si seleccionaron fecha')
-       //  console.log(`seleccionaron fecha ${this.fecha}`)
+        console.log(`seleccionaron fecha ${this.fecha}`)
         if (this.fecha !== '') {
           // Habilito boton de buscar
           this.disabledBtn = false

@@ -5,7 +5,7 @@
         <h2>Reservas</h2>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-right">
-        <export-option :fields="excelFields" :data="items" :name="'Reservas'" :pdf="true"/>
+        <!-- <export-option :fields="excelFields" :data="items" :name="'Reservas'" :pdf="true"/> -->
       </v-flex>
     </v-layout>
     <div class="elevation-1">

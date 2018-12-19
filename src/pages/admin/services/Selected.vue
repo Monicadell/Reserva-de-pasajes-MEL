@@ -169,6 +169,7 @@
       ticket: {
         status: 'none'
       },
+      tramos: [],
       acercamiento: '',
       vuelo: false, // si origen incluye vuelo
       flight: '' // numero de vuelo ingresado
@@ -271,6 +272,13 @@
             console.log('****')
             console.log(error);
           }); */
+      },
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          console.log('trips', trips.data.data)
+          this.tramos = trips.data.data
+        }
       }
     },
     computed: {
@@ -286,8 +294,11 @@
     watch: {
       servicioSeleccionado (val) {
         console.log('change selected', val)
-        if (this.servicioSeleccionado.dest) {
-          this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
+        let trip = this.tramos.find(tr => tr.id === val.trip_id)
+        if (trip.vuelo) {
+          console.log('es vuelo')
+          // this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
+          this.vuelo = true
         }
       },
       usuariosBook (val) {

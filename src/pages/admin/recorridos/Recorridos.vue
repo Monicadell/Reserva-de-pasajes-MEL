@@ -103,8 +103,8 @@
               readonly style="border-width: 0"
             >
           </td>
-          <td class="">{{ lugar(props.item.source_id) }}</td>
-          <td class="">{{ lugar(props.item.dest_id) }}</td>
+          <td class="">{{ props.item.source_name }}</td>
+          <td class="">{{ props.item.dest_name }}</td>
           <td class="">
             <span v-if="props.item.public">Activo</span>
             <span v-else>Inactivo</span>
@@ -175,8 +175,8 @@
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Duración (horas)', value: 'duration'},
-          {text: 'Origen', value: 'source_id'},
-          {text: 'Destino', value: 'dest_id'},
+          {text: 'Origen', value: 'source_name'},
+          {text: 'Destino', value: 'dest_dest'},
           {text: 'Público', value: 'public'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
@@ -271,6 +271,7 @@
       editItem (item) {
         this.editedItem = item
         this.dialog = true
+        console.log('a editar', item)
       },
       async save (guardar) {
         console.log('a guardar', guardar)
@@ -368,10 +369,6 @@
             // this.modalInfoBtn1 = 'OK'
           }
         }
-      },
-      lugar (item) {
-        let estacion = this.stations.find(est => est.id === item)
-        return estacion ? estacion.name : ''
       }
     }
   }

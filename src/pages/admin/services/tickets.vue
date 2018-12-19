@@ -59,7 +59,7 @@
                <v-card-actions>
               <v-layout justify-space-around row wrap fill-height> 
                 <v-flex xs6 text-xs-center> 
-                    <v-btn  color="red" class="white--text btn-ticket" disabled>Anular</v-btn> 
+                    <v-btn  color="red" class="white--text btn-ticket"  @click="mostrarAnular(item)">Anular</v-btn> 
                   </v-flex>
                 <v-flex xs6 text-xs-center> 
                   <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>

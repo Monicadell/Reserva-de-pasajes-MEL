@@ -93,24 +93,30 @@
                   </v-flex>
                   <v-flex xs6 py-0>
                     <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p> -->
-                    <!-- <v-dialog
+                    <v-dialog
                       v-model="dialogreserva"
-                      width="500"
-                    > -->
+                      height="60%"
+                    >
                       <v-btn
                         slot="activator"
                         flat class="white--text"
                       >
                         <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje
                       </v-btn>
-                      <!-- <v-card>
+                      <v-card>
                         <v-card-title
                           class="headline naranjo white--text"
                           primary-title
                         >Reservar Pasaje
                         </v-card-title>
-                        <v-card-text>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        <v-card-text class="text-xs-center">
+                          <!-- <video width="100%" controls>
+                            <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                          </video> -->
+                          <iframe width="70%" height="600"
+                          src="/../../../static/videos/reservar.mp4">
+                          </iframe>
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
@@ -119,11 +125,11 @@
                             color="primary"
                             flat
                             @click="dialogreserva = false"
-                          >OK
+                          >Cerrar
                           </v-btn>
                         </v-card-actions>
                       </v-card>
-                    </v-dialog> -->
+                    </v-dialog>
                   </v-flex>
                   <v-flex xs6 py-0>
                     <!-- <p><v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí</p> -->
@@ -243,25 +249,31 @@
 
                 <v-flex xs6 py-0 class="">
                    <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p> -->
-                  <!-- <v-dialog
+                  <v-dialog
                     v-model="dialogimprime"
                     width="500"
-                  > -->
+                  >
                     <v-btn
                       slot="activator"
                       flat class="white--text mb-0"
                     >
                       <v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket
                     </v-btn>
-                    <!-- <v-card>
+                    <v-card>
                       <v-card-title
                         class="headline naranjo white--text"
                         primary-title
                       >Impresión de ticket
                       </v-card-title>
-                      <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </v-card-text>
+                      <v-card-text class="text-xs-center">
+                          <!-- <video width="100%" controls>
+                            <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                          </video> -->
+                          <iframe width="70%" height="700"
+                          src="/../../../static/videos/totem.mp4">
+                          </iframe>
+                        </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
                         <v-spacer></v-spacer>
@@ -269,11 +281,11 @@
                           color="primary"
                           flat
                           @click="dialogimprime = false"
-                        >I accept
+                        >Cerrar
                         </v-btn>
                       </v-card-actions>
                     </v-card>
-                  </v-dialog> -->
+                  </v-dialog>
                 </v-flex>
                   <v-flex xs6 py-0 class="">
                   <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->

@@ -66,10 +66,10 @@
       >
       <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
         </v-avatar>
 
-        {{ data.item.name.split('→')[1] }}
+        {{ data.item.dest_name }}
 
       </template>
       <template
@@ -79,10 +79,10 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.name.split('→')[1]}?font-size=0.45&length=2&background=1565c0&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=1565c0&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title v-html="data.item.name.split('→')[1]"></v-list-tile-title>
+            <v-list-tile-title v-html="data.item.dest_name"></v-list-tile-title>
             <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
           </v-list-tile-content>
         </template>
@@ -113,7 +113,7 @@
         e1_prev: ['Booking/e1_prev']
       }),
       place: {
-        get () {
+        get (val) {
         //  return this.search[this.direction].place
         },
         set (value) {
@@ -122,11 +122,10 @@
         }
       },
       placeDestiny: {
-        get () {
+        get (val) {
           return this.ruta
         },
         set (value) {
-      //  console.log('usuario eligio destino, fijo ruta', value)
           this.locationsId = Object.assign([], this.locations)
           this.$store.dispatch('Booking/set_ruta', {
             ruta: value
@@ -152,6 +151,7 @@
         if (destinations.status >= 200 && destinations.status < 300) {
           console.log('actualizo valor de los destinos')
           this.destLocations = destinations.data.data.filter(item => item.source_id === id)
+          console.log('dest', this.destLocations)
         }
       //  console.log(this.destLocations)
       }
