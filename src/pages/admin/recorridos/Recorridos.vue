@@ -43,7 +43,7 @@
                 <v-switch
                   class="justify-center"
                   label="Incluye vuelo"
-                  v-model="editedItem.flight"
+                  v-model="editedItem.vuelo"
                 ></v-switch>
               </v-flex>
             </v-layout>
@@ -282,7 +282,7 @@
             'name': guardar.name ? guardar.name : '',
             'public': guardar.public,
             'duration': guardar.duration ? guardar.duration : '',
-            'flight': guardar.flight ? guardar.flight : false
+            'vuelo': guardar.vuelo ? guardar.vuelo : false
           }
         }
         if (guardar.id) {

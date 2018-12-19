@@ -2,7 +2,7 @@
   <div>
     <v-layout row wrap>
       <v-flex class="xs12 md6 text-xs-left">
-        <h2>Reservas</h2>
+        <h2>Servicios</h2>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-right">
         <export-option :fields="excelFields" :data="items" :name="'Servicios'" :pdf="true"/>
@@ -230,6 +230,7 @@
           <!-- <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }} / {{ props.item.total_seats }}</td>
+           <td class="">{{ props.item.cars }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -307,6 +308,7 @@
           // {text: 'Bus', value: 'car_id'},
           // {text: 'Conductor', value: 'driver_id'},
           {text: 'Asientos disponibles/totales', value: 'avail_seats'},
+          {text: 'Buses', value: 'cars'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -332,7 +334,8 @@
           Tramo: 'trip_name',
           AsientosDisponibles: 'avail_seats',
           AsientosTotales: 'total_seats',
-          AsientosReservados: 'avail_reserved'
+          // AsientosReservados: 'avail_reserved',
+          Buses: 'cars'
         },
         items: []
       }

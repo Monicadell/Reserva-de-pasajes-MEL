@@ -32,9 +32,9 @@ export default {
     console.log('elimina', id, base)
     return axios.delete(base + urldel + '/' + id)
   },
-  postNoRest (url, id, url2, params, users) {
+  postNoRest (url, id, url2, params) {
     const request = `${base}${url}/${id}/${url2}`
-    console.log(request, users, {...params})
+    console.log(request, {...params})
     return axios.post(request, {...params})
   },
   deleteNoRest (url, id, url2) {

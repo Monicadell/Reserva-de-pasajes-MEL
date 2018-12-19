@@ -203,11 +203,12 @@
           service_id: this.servicioSeleccionado.id
         }
         const aterceros = {
+          'users': this.usuariosBook,
           'ac': this.acercamiento,
           'vuelo': this.flight
         }
         try {
-          const booking = await API.postNoRest('services', ticket.service_id, 'book', aterceros, this.usuariosBook)
+          const booking = await API.postNoRest('services', ticket.service_id, 'book', aterceros)
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')

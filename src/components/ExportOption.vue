@@ -78,7 +78,6 @@
           y = 8
           // console.log(this.data)
           this.data.forEach((row) => {
-            console.log('row', row)
             currentColumnData.push(row[value])
           })
           for (let field of currentColumnData) {
