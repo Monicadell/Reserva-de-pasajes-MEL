@@ -95,7 +95,7 @@
                     <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p> -->
                     <v-dialog
                       v-model="dialogreserva"
-                      height="60%"
+                      width="100%"
                     >
                       <v-btn
                         slot="activator"
@@ -114,7 +114,7 @@
                             <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
                             Your browser does not support HTML5 video.
                           </video> -->
-                          <iframe width="70%" height="600"
+                          <iframe width="100%" height="700"
                           src="/../../../static/videos/reservar.mp4">
                           </iframe>
                         </v-card-text>
@@ -251,7 +251,7 @@
                    <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p> -->
                   <v-dialog
                     v-model="dialogimprime"
-                    width="500"
+                    width="100%"
                   >
                     <v-btn
                       slot="activator"
@@ -270,7 +270,7 @@
                             <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
                             Your browser does not support HTML5 video.
                           </video> -->
-                          <iframe width="70%" height="700"
+                          <iframe width="100%" height="700"
                           src="/../../../static/videos/totem.mp4">
                           </iframe>
                         </v-card-text>
