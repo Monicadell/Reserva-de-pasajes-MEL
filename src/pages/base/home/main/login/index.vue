@@ -223,6 +223,9 @@
   .login-input.theme--light.v-text-field .v-input__slot:hover:before {
     border-color: rgba(255, 255, 255,.42);
   }
+  .login-input.theme--light.v-text-field > .v-input__control > .v-input__slot::before {
+      border-color: rgba(255, 255, 255,.42);
+  }
   .login-input .theme--light.v-messages {
     color: rgba(255,255,255,.54);
   }
