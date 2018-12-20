@@ -203,13 +203,24 @@
           booked_at: hora,
           service_id: this.servicioSeleccionado.id
         }
-        const aterceros = {
-          'users': this.usuariosBook,
+        // let aterceros = {
+        //   'users': this.usuariosBook,
+        //   'ac': this.acercamiento,
+        //   'vuelo': this.flight
+        // }
+        let extras = {
           'ac': this.acercamiento,
           'vuelo': this.flight
         }
         try {
-          const booking = await API.postNoRest('services', ticket.service_id, 'book', aterceros)
+          let booking = {}
+          console.log('route', this.$router.currentRoute)
+          if (this.$router.currentRoute.name === 'ServiceReserve') {
+            booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
+          } else {
+            extras.users = this.usuariosBook
+            booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
+          }
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
             console.log('reserva exitosa')

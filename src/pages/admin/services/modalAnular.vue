@@ -58,6 +58,7 @@
     },
     methods: {
       async anularReserva () {
+        console.log('Anular reserva', this.servicioAnular)
         const idServicio = this.servicioAnular.id
         try {
           let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
