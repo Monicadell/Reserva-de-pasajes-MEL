@@ -209,7 +209,6 @@
         //   'vuelo': this.flight
         // }
         let extras = {
-          'users': [],
           'ac': this.acercamiento,
           'vuelo': this.flight
         }

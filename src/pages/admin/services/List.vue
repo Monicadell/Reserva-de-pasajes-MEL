@@ -61,6 +61,13 @@
           </tr>
         </template>
       </v-data-table>
+      <!-- <v-tab-item v-for="(floor, i) in busGrid" :key="i">
+        <v-card flat>
+          <template v-if="floor">
+            <grid :floor="floor"></grid>
+          </template>
+        </v-card>
+      </v-tab-item> -->
     </v-card>
     </div>
   </div>

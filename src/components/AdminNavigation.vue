@@ -73,7 +73,7 @@
         {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'A terceros', path: { path: '/reservaterceros' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reservas a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
-        {subheader: true, text: 'Call', type: 'All'},
+        {subheader: true, text: 'Admin', type: 'Call'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'},
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'All'},
         {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'All'},
