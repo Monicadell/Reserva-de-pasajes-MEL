@@ -8,5 +8,5 @@ export default {
   media: `${base}:${port}/${media}/`,
   weather: 'https://api.openweathermap.org/data/2.5/weather',
   app: 'https://mel-2-backend.gestsol.cl/api'
-  // app: 'http://192.168.12.137:4000/api'
+  // app: 'http://192.168.11.146:4000/api'
 }

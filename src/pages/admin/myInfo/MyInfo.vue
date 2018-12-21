@@ -13,7 +13,7 @@
         </v-breadcrumbs>
       </v-layout> -->
 
-      <v-layout wrap align-center v-if="user.nombre !== ''">
+      <v-layout wrap align-center v-if="user.name !== ''">
         <v-flex xs12>
           <v-card class="elevation-5">
             <v-responsive color="grey">
@@ -25,10 +25,10 @@
                     <v-list>
                       <v-list-tile avatar>
                         <v-list-tile-avatar>
-                          <img :src="avatar + user.nombre + '?font-size=0.45&length=2&background=F17B31&color=fff'">
+                          <img :src="avatar + user.name + '?font-size=0.45&length=2&background=F17B31&color=fff'">
                         </v-list-tile-avatar>
                         <v-list-tile-content>
-                          <v-list-tile-title>{{user.nombre}}</v-list-tile-title>
+                          <v-list-tile-title>{{user.name}}</v-list-tile-title>
                           <!-- <v-list-tile-sub-title>{{ user.nContrato }}</v-list-tile-sub-title> -->
                         </v-list-tile-content>
                       </v-list-tile>
@@ -50,7 +50,7 @@
                     <v-text-field
                       color="primary"
                       class="input-group--focused" readonly label="Nombre:"
-                      v-model="user.nombre"></v-text-field>
+                      v-model="user.name"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
                     <v-text-field
@@ -59,34 +59,46 @@
                       v-model="user.email"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
-                    <v-text-field
+                    <!-- <v-text-field
                       color="primary"
                       class="input-group--focused" readonly label="RUT:"
-                      v-model="user.documento"></v-text-field>
+                      v-model="user.documento"></v-text-field> -->
+                    <v-text-field v-if="user.rut"
+                      color="primary"
+                      class="input-group--focused" readonly label="RUT:"
+                      v-model="user.rut"></v-text-field>
+                    <v-text-field v-else
+                      color="primary"
+                      class="input-group--focused" readonly label="Pasaporte:"
+                      v-model="user.passport"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
                     <v-text-field
                       color="primary"
                       class="input-group--focused" readonly label="Numero contacto:"
-                      v-model="user.numeroContacto"></v-text-field>
+                      v-model="user.phone_number"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
                     <v-text-field
                       color="primary"
                       class="input-group--focused" readonly label="Dirección:"
-                      v-model="user.direccion"></v-text-field>
+                      v-model="user.address"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
                     <v-text-field
                       color="primary"
                       class="input-group--focused" readonly label="Empresa asociada:"
-                      v-model="user.empresaAsociada"></v-text-field>
+                      v-model="user.company_name"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
-                    <v-text-field
+                    <v-text-field v-if="user.contract_type_id === 1"
                       color="primary"
                       class="input-group--focused" readonly label="Tipo Contrato:"
-                      v-model="user.tipoContrato"></v-text-field>
+                      value="MEL"></v-text-field>
+                      <v-text-field v-else
+                      color="primary"
+                      class="input-group--focused" readonly label="Tipo Contrato:"
+                      value="CONTRATISTA"></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -108,17 +120,17 @@
 
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field color="primary" label="Nombre:" v-model="userEdited.nombre"></v-text-field>
+                <v-text-field color="primary" label="Nombre:" v-model="userEdited.name"></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field color="primary" label="Email:" v-model="userEdited.email"></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field color="primary" label="Numero contacto:"
-                              v-model="userEdited.numeroContacto"></v-text-field>
+                              v-model="userEdited.phone_number"></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field color="primary" label="Direccion:" v-model="userEdited.direccion"></v-text-field>
+                <v-text-field color="primary" label="Direccion:" v-model="userEdited.address"></v-text-field>
               </v-flex>
               <v-divider></v-divider>
               <small>Credenciales</small>
@@ -127,7 +139,16 @@
                               type="password"
                               v-model="userEdited.password">
                 </v-text-field>
+              </v-flex>
+              
+              <!-- <v-flex xs12 sm6>
+                <v-text-field label="Password" v-model="userEdited.password"
+                              type="password" :rules="[rules.min]"></v-text-field>
+              </v-flex> -->
 
+              <v-flex xs12>
+                <v-text-field label="Confirme Password" v-model="userEdited.password_confirmation"
+                              :rules="[rules.password_confirmation]" type="password"></v-text-field>
               </v-flex>
             </v-layout>
 
@@ -159,20 +180,13 @@
       {{msgReponse}}
       <v-btn flat color="white" @click.native="showMsg = false">Cerrar</v-btn>
     </v-snackbar>
-    <!-- Modal error-->
-    <modal v-if="showModal"
-        @close="showModal = false"
-        v-bind:btn1="modalInfoBtn1">
-        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
-        <h3 slot="body">{{modalInfoDetail}}</h3>
-    </modal>
+
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
-  import Modal from '@c/Modal'
 
   export default {
     data: () => ({
@@ -180,45 +194,23 @@
       msgReponse: '',
       showMsg: false,
       loading: false,
-      showModal: false,
-      modalInfoTitle: '',
-      modalInfoDetail: '',
-      modalInfoBtn1: '',
       avatar: 'https://ui-avatars.com/api/?name=',
-      user: {
-        tipoUsuario: '',
-        tipoDocumento: '',
-        tipoContrato: '',
-        password: '',
-        numeroContacto: '',
-        nombre: '',
-        nContrato: '',
-        mensaje: '',
-        estado: '',
-        empresaAsociada: '',
-        email: '',
-        documento: '',
-        direccion: ''
-      },
+      user: {},
       userEdited: {
-        tipoUsuario: '',
-        tipoDocumento: '',
-        tipoContrato: '',
+        name: '',
+        address: '',
+        password_confirmation: '',
         password: '',
-        numeroContacto: '',
-        nombre: '',
-        nContrato: '',
-        mensaje: '',
-        estado: '',
-        empresaAsociada: '',
-        email: '',
-        documento: '',
-        direccion: ''
+        email: ''
+      },
+      rules: {
+        password_confirmation: value => {
+          const coinciden = this.editedItem.password === value
+          return coinciden || 'Contraseñas no coinciden'
+        },
+        min: value => value.length >= 8 || 'Min 8 caracteres'
       }
     }),
-    components: {
-      Modal: Modal
-    },
     computed: mapGetters({
       authentication: ['Auth/isAuthorized'],
       credential: ['Auth/credential']
@@ -227,34 +219,47 @@
       this.getMyInfo()
     },
     methods: {
-      save (item) {
-        console.log(item)
-      //   this.loading = true
-      //   let auth = this.$store.getters.getAuth
-      //   let config = {
-      //     method: 'POST',
-      //     url: endPoints.createUser,
-      //     params: {
-      //       rut: auth.user,
-      //       ncontrato: auth.agreementNumber
-      //     }
-      //   }
-      //   this.loading = true
-      //   Object.assign(config.params, this.userEdited)
-      //   axios(config).then((response) => {
-      //     this.loading = false
-      //     this.dialog = false
-      //     this.loading = false
-      //     this.msgReponse = 'Guardado'
-      //     this.showMsg = true
-      //     this.loadMyInfo()
-      //   }, (err) => {
-      //     this.loading = false
-      //     this.msgReponse = 'Error al guardar'
-      //     this.showMsg = true
-      //     this.loading = false
-      //     console.warn(err)
-      //   })
+      async save () {
+        console.log(this.userEdited)
+        let us = {
+          'name': this.userEdited.name,
+          'email': this.userEdited.email,
+          'phone_number': this.userEdited.phone_number,
+          'address': this.userEdited.address,
+          'password': this.userEdited.password
+        }
+        try {
+          let putuser = await API.patch('profile', us)
+          if (putuser.status >= 200 && putuser.status < 300) {
+            this.getUsers()
+            this.dialog = false
+            this.$swal({
+              type: 'success',
+              customClass: 'modal-info',
+              timer: 2000,
+              title: 'Usuario',
+              text: 'Usuario actualizado exitosamente!',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
+            this.editedItem = Object.assign({}, '')
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.editedItem = Object.assign({}, '')
+          this.dialog = false
+          this.$swal({
+            type: 'error',
+            customClass: 'modal-info',
+            timer: 2000,
+            title: 'Ha ocurrido un error',
+            text: 'Ha ocurrido un error editando el usuario, intente más tarde.',
+            animation: true,
+            showConfirmButton: false,
+            showCloseButton: false
+          })
+        }
       },
       async getMyInfo () {
         // console.log('al getinfo cred', this.credential)
@@ -262,32 +267,28 @@
           let info = await API.get('profile')
           if (info.status >= 200 && info.status < 300) {
             console.log('profile', info)
-            this.user = {
-              tipoUsuario: info.data.role_id ? info.data.role_id : '',
-              tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte',
-              tipoContrato: info.data.contract_type ? info.data.contract_type : '',
-              password: '***',
-              numeroContacto: info.data.phone_number ? info.data.phone_number : '',
-              nombre: info.data.name ? info.data.name : '',
-              nContrato: '---',
-              mensaje: 'mensaje',
-              estado: info.data.active ? 'Activo' : 'Inactivo',
-              empresaAsociada: info.data.company_name ? info.data.company_name : '',
-              email: info.data.email ? info.data.email : '',
-              documento: info.data.rut ? info.data.rut : info.data.passport,
-              direccion: info.data.address ? info.data.address : ''
-            }
+            this.user = info.data
+            // this.user = {
+            //   tipoUsuario: info.data.role_id ? info.data.role_id : '',
+            //   tipoDocumento: info.data.rut ? 'RUT' : 'Pasaporte',
+            //   tipoContrato: info.data.contract_type ? info.data.contract_type : '',
+            //   password: '***',
+            //   numeroContacto: info.data.phone_number ? info.data.phone_number : '',
+            //   nombre: info.data.name ? info.data.name : '',
+            //   nContrato: '---',
+            //   mensaje: 'mensaje',
+            //   estado: info.data.active ? 'Activo' : 'Inactivo',
+            //   empresaAsociada: info.data.company_name ? info.data.company_name : '',
+            //   email: info.data.email ? info.data.email : '',
+            //   documento: info.data.rut ? info.data.rut : info.data.passport,
+            //   direccion: info.data.address ? info.data.address : ''
+            // }
             this.userEdited = this.user
           } else {
             console.log('error profile', info)
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // alert('Ha ocurrido un error, intente más tarde!')
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar los datos del perfil, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',

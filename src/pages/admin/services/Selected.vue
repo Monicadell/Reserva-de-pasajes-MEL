@@ -209,6 +209,7 @@
         //   'vuelo': this.flight
         // }
         let extras = {
+          'users': [],
           'ac': this.acercamiento,
           'vuelo': this.flight
         }
@@ -216,9 +217,11 @@
           let booking = {}
           console.log('route', this.$router.currentRoute)
           if (this.$router.currentRoute.name === 'ServiceReserve') {
+            console.log('es a mi', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           } else {
             extras.users = this.usuariosBook
+            console.log('es a terceros', this.usuariosBook)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           }
         // console.log(booking)
@@ -287,7 +290,7 @@
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
-          console.log('trips', trips.data.data)
+          // console.log('trips', trips.data.data)
           this.tramos = trips.data.data
         }
       }
@@ -307,7 +310,7 @@
         console.log('change selected', val)
         let trip = this.tramos.find(tr => tr.id === val.trip_id)
         if (trip.vuelo) {
-          console.log('es vuelo')
+          // console.log('es vuelo')
           // this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
           this.vuelo = true
         }

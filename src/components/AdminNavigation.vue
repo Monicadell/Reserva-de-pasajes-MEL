@@ -33,11 +33,11 @@
     <v-list dense>
       <template v-for="item in items">
 
-        <v-subheader v-if="item.subheader" class="grey--text text--darken-1">
+        <v-subheader v-if="item.subheader && item.show" class="grey--text text--darken-1">
           {{item.text}}
         </v-subheader>
 
-        <v-list-tile v-else :to="item.path" @click="outside()">
+        <v-list-tile v-if="!item.subheader && item.show" :to="item.path" @click="outside()">
           <v-list-tile-action>
             <img :src="item.icon">
             
@@ -95,6 +95,7 @@
     }),
     mounted () {
       this.info()
+      this.getItems()
     },
     methods: {
       info () {
@@ -107,6 +108,23 @@
         this.$store.dispatch('Auth/hide', {
           hide: true
         })
+      },
+      getItems () {
+        if (this.role === 5) {
+          this.items.forEach(item => {
+            if (['Reservas', 'Reservar', 'Mis reservas', 'Reservar a terceros', 'Mis Reservas terceros', 'Perfil', 'Mi información'].includes(item.text)) {
+              item.show = true
+            } else {
+              item.show = false
+            }
+          })
+        }
+        if (this.role === 2) {
+          this.items.forEach(item => {
+            item.show = true
+          })
+        }
+        console.log('items sidebar', this.items)
       }
     },
     directives: {

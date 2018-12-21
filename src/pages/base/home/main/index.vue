@@ -110,13 +110,12 @@
                         >Reservar Pasaje
                         </v-card-title>
                         <v-card-text class="text-xs-center">
-                          <!-- <video width="100%" controls>
+                          <video width="100%" height="700" controls>
                             <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
-                            Your browser does not support HTML5 video.
-                          </video> -->
-                          <iframe width="100%" height="700"
+                          </video>
+                          <!-- <iframe width="100%" height="700"
                           src="/../../../static/videos/reservar.mp4">
-                          </iframe>
+                          </iframe> -->
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
@@ -266,13 +265,13 @@
                       >Impresión de ticket
                       </v-card-title>
                       <v-card-text class="text-xs-center">
-                          <!-- <video width="100%" controls>
-                            <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
+                          <video width="100%" height="700" controls>
+                            <source src="/../../../static/videos/totem.mp4" type="video/mp4">
                             Your browser does not support HTML5 video.
-                          </video> -->
-                          <iframe width="100%" height="700"
+                          </video>
+                          <!-- <iframe width="100%" height="700"
                           src="/../../../static/videos/totem.mp4">
-                          </iframe>
+                          </iframe> -->
                         </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>

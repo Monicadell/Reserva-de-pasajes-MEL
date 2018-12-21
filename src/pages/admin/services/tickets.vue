@@ -2,12 +2,12 @@
   <v-layout id ="card-container">
       <v-flex xs12>
           <v-card>
-            <v-card-title primary-title class = "pb-1">
+            <v-card-title primary-title class="pb-1 px-3">
              <span class="mb-0 title-ticket font-weight-black">Resumen de reserva</span>
              <v-spacer></v-spacer>
              <a  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</a>
             </v-card-title>
-             <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+             <v-divider class="divider-ticket mx-3" style=" width: auto; border-color: #1565c0"> </v-divider>
              <v-card-text class=""> 
               
                 <v-layout row> 

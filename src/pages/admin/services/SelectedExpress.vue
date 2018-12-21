@@ -120,16 +120,21 @@
         status: 'none'
       },
       vuelo: false,
-      flight: ''
+      flight: '',
+      tramos: []
     }),
     components: {
       Modal: Modal,
       SelectAcercamiento
     },
+    mounted () {
+      this.getTrips()
+    },
     methods: {
       cancel () {
         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
+        this.vuelo = false
       },
       // eventAcerca (lugar) {
       //   this.acercamiento = lugar
@@ -152,9 +157,11 @@
           let booking = {}
           // console.log('route', this.$router.currentRoute)
           if (this.$router.currentRoute.name === 'ServiceReserve') {
+            console.log('es a a mi', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           } else {
             extras.users = this.usuariosBook
+            console.log('es a terceros', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           }
         // console.log(booking)
@@ -178,6 +185,7 @@
               timer: 3000
             }).then(() => {
               this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+              this.vuelo = true
             })
           }
         } catch (e) {
@@ -198,12 +206,25 @@
             cancelButtonText: 'Cerrar'
           })
         }
+      },
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          // console.log('trips', trips.data.data)
+          this.tramos = trips.data.data
+        }
       }
     },
     watch: {
       servicioExpress (val) {
         console.log('change express', val)
-        this.vuelo = this.servicioExpress.dest.toLowerCase().includes('aeropuerto') || this.servicioExpress.source.toLowerCase().includes('aeropuerto')
+        // this.vuelo = this.servicioExpress.dest.toLowerCase().includes('aeropuerto') || this.servicioExpress.source.toLowerCase().includes('aeropuerto')
+        let trip = this.tramos.find(tr => tr.id === val.trip_id)
+        // console.log('tiene vuelo', trip)
+        if (trip.vuelo) {
+          // this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
+          this.vuelo = true
+        }
       },
       usuariosBook (val) {
         console.log('usuarios a reserar', val)
@@ -228,7 +249,6 @@
     background-color: #fff;
     color: #000;
   }
-
   .v-divider.divider-custom {
     max-width: 350px;
   }

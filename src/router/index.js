@@ -157,7 +157,8 @@ const router = new Router({
           component: ServiceReserve,
           meta: {
             requiresAuth: true,
-            adminAuth: true
+            adminAuth: true,
+            callcenterAuth: true
           }
         },
         {
@@ -166,7 +167,8 @@ const router = new Router({
           component: ReservasTerceros,
           meta: {
             requiresAuth: true,
-            adminAuth: true
+            adminAuth: true,
+            callcenterAuth: true
           }
         }
       ]
@@ -179,8 +181,20 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   let isAuthorized = store.state.Auth.isAuthorized || false
-  let isAdmin = (store.state.Auth.role === 5 || store.state.Auth.role === 2)
-  if (to.matched.some(record => record.meta.adminAuth)) {
+  let isAdmin = (store.state.Auth.role === 2)
+  let isCallCenter = (store.state.Auth.role === 5)
+  if (to.matched.some(record => record.meta.callcenterAuth)) { // verifica que es Administrador
+    if (isAdmin && isAuthorized) {
+      next()
+    } else if (isCallCenter) {
+      next()
+    } else {
+      next({
+        path: '/',
+        query: {error: 'noAuthorized'}
+      })
+    }
+  } else if (to.matched.some(record => record.meta.adminAuth)) { // verifica que es Call Center
     if (isAdmin && isAuthorized) {
       next()
     } else {
@@ -189,7 +203,7 @@ router.beforeEach((to, from, next) => {
         query: {error: 'noAuthorized'}
       })
     }
-  } else if (to.matched.some(record => record.meta.requiresAuth)) {
+  } else if (to.matched.some(record => record.meta.requiresAuth)) { // verifica que es Usuario Registrado
     if (isAuthorized) {
       next()
     } else {
