@@ -110,7 +110,7 @@
                         >Reservar Pasaje
                         </v-card-title>
                         <v-card-text class="text-xs-center">
-                          <video width="100%" height="700" controls>
+                          <video width="100%" height="700" controls id="videoReservar">
                             <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
                           </video>
                           <!-- <iframe width="100%" height="700"
@@ -123,7 +123,7 @@
                           <v-btn
                             color="primary"
                             flat
-                            @click="dialogreserva = false"
+                            @click="closeVideo('videoReservar')"
                           >Cerrar
                           </v-btn>
                         </v-card-actions>
@@ -265,9 +265,8 @@
                       >Impresión de ticket
                       </v-card-title>
                       <v-card-text class="text-xs-center">
-                          <video width="100%" height="700" controls>
+                          <video width="100%" height="700" controls id="videoTotem">
                             <source src="/../../../static/videos/totem.mp4" type="video/mp4">
-                            Your browser does not support HTML5 video.
                           </video>
                           <!-- <iframe width="100%" height="700"
                           src="/../../../static/videos/totem.mp4">
@@ -279,7 +278,7 @@
                         <v-btn
                           color="primary"
                           flat
-                          @click="dialogimprime = false"
+                          @click="closeVideo('videoTotem')"
                         >Cerrar
                         </v-btn>
                       </v-card-actions>
@@ -374,6 +373,12 @@
     methods: {
       goToSingUp () {
         this.$store.dispatch('Home/set_menu', {menu: 1})
+      },
+      closeVideo (id) {
+        let vid = document.getElementById(id)
+        vid.pause()
+        this.dialogimprime = false
+        this.dialogreserva = false
       },
       goToLogin () {
         this.$store.dispatch('Home/set_menu', {menu: 0})
