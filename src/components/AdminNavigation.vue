@@ -68,22 +68,22 @@
       show: true,
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
-        {subheader: true, text: 'Reservas'},
-        {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }},
-        {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }},
-        {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }},
-        {icon: '../../static/icons/06.png', text: 'Mis Reservas terceros', path: { path: '/misreservasaterceros' }},
-        {subheader: true, text: 'Admin'},
-        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }},
-        {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }},
-        {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }},
-        {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }},
-        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }},
-        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }},
-        // {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }},
-        // {icon: '../../static/icons/08.png', text: 'Conductores', path: { path: '/conductores' }},
-        {subheader: true, text: 'Perfil'},
-        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }}
+        {subheader: true, text: 'Reservas', type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'A terceros', path: { path: '/reservaterceros' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Reservas a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
+        {subheader: true, text: 'Call', type: 'All'},
+        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'},
+        {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'All'},
+        {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'All'},
+        {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'All'},
+        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'All'},
+        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'All'},
+        // {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'All'},
+        // {icon: '../../static/icons/08.png', text: 'Conductores', path: { path: '/conductores' }, type: 'All'},
+        {subheader: true, text: 'Perfil', type: 'Call'},
+        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
         // {subheader: true, text: ''},
         // {icon: 'phonelink', text: 'Cerrar sesión'}
@@ -110,16 +110,16 @@
         })
       },
       getItems () {
-        if (this.role === 5) {
+        if (this.role === 5) { // Rol callcenter
           this.items.forEach(item => {
-            if (['Reservas', 'Reservar', 'Mis reservas', 'Reservar a terceros', 'Mis Reservas terceros', 'Perfil', 'Mi información'].includes(item.text)) {
+            if (['Call'].includes(item.type)) {
               item.show = true
             } else {
               item.show = false
             }
           })
         }
-        if (this.role === 2) {
+        if (this.role === 2) { // Rol admin
           this.items.forEach(item => {
             item.show = true
           })
