@@ -10,6 +10,7 @@ import Home from '@pages/base/home'
 import Admin from '@pages/admin/'
 import ServiceReserve from '@pages/admin/services'
 import Users from '@pages/admin/users'
+import Solicitudes from '@pages/admin/solicitudes'
 import Frecuencias from '@pages/admin/frecuencias'
 import Manifiestos from '@pages/admin/manifiestos'
 import Conductores from '@pages/admin/conductores'
@@ -67,6 +68,15 @@ const router = new Router({
           path: '/users',
           name: 'Users',
           component: Users,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
+        },
+        {
+          path: '/solicitudes',
+          name: 'Solicitudes',
+          component: Solicitudes,
           meta: {
             requiresAuth: true,
             adminAuth: true

@@ -287,10 +287,21 @@
     font-size: 16px;
   }
   #prueba {
-    background: green;
-    color: white;
+    /* border: 1px solid green; */
+    background: rgba(0, 0, 0, 0.12);
+    color: green;
+    box-shadow: none;
   }
-
+  #prueba:hover {
+    /* border: 1px solid green; */
+    background-color: rgba(0, 0, 0, 0.12);
+    color: green;
+    box-shadow: none;
+    outline: none;
+  }
+  .v-btn--active#prueba:before, #prueba.v-btn:focus:before, #prueba.v-btn:hover:before {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
   #card-container {
     width: 100%;
     opacity: 0.8;

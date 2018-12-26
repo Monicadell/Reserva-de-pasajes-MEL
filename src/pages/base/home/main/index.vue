@@ -405,7 +405,7 @@
         }
         console.log('ser a post', user)
         try {
-          let usuario = await API.post('users', user)
+          let usuario = await API.post('sign_up', user)
           if (usuario.status >= 200 && usuario.status < 300) {
             console.log(usuario)
             alert('Se ha enviado la solicitud para crear su usuario')

@@ -68,14 +68,15 @@
       show: true,
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
-        {subheader: true, text: 'Reservas', type: 'Call'},
+        {subheader: true, text: 'Reservas', type: 'Call'}, // Call es callcenter y admin
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }, type: 'Call'},
         {subheader: true, text: 'Reservas a Terceros', type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Historial a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Admin', type: 'Call'},
-        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'},
+        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'}, // All es solo admin
+        {icon: '../../static/icons/01.png', text: 'Solicitudes', path: { path: '/solicitudes' }, type: 'All'},
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'All'},
         {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'All'},
         {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'All'},

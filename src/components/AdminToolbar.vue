@@ -42,9 +42,37 @@
         <v-icon right dark>keyboard_backspace</v-icon>
         Salir
       </v-btn>
-      <v-btn icon>
-        <v-icon>notifications</v-icon>
+      <v-btn icon slot="activator" @click="dialog = true">
+        <v-icon>help_outline</v-icon>
       </v-btn>
+      <v-dialog
+          v-model="dialog"
+          width="500"
+        >
+        <v-card>
+          <v-card-title
+            class="headline primary white--text"
+            primary-title
+          >
+            Contacto
+          </v-card-title>
+
+          <v-card-text>
+            Mesa de ayuda transporte +56 9 4091 8409 - +56 2 2907 2690
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              flat
+              @click="dialog = false"
+            >
+              Cerrar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -62,7 +90,8 @@
       isAdmin: false,
       reservarpath: '/service_reserve',
       misreservaspath: '/misreservas',
-      profilepath: '/myInfo'
+      profilepath: '/myInfo',
+      dialog: false
     }),
     computed: mapGetters({
       hidesidebar: ['Auth/hidesidebar']

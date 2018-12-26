@@ -376,6 +376,7 @@
           let frecs = await API.get('frequencies')
           if (frecs.status >= 200 && frecs.status < 300) {
             this.frequencies = frecs.data.data
+            console.log('frecuencias', this.frequencies)
             this.loading = false
           }
         } catch (e) {
@@ -569,7 +570,8 @@
         }
       },
       frecuencia (item) {
-        let freq = this.frequencies.find(frec => frec.id === item)
+        let freq = this.frequencies.find(frec => frec.id == item)
+        // console.log('encuentra', freq)
         return freq ? freq.name : ''
       }
     }
