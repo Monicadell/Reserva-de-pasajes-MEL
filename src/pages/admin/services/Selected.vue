@@ -179,6 +179,7 @@
       this.$store.dispatch('Booking/set_reservaRealizada', {
         reservaRealizada: false
       })
+      this.getTrips()
     },
     components: {
       Modal: Modal,
@@ -291,6 +292,7 @@
         if (trips.status >= 200 && trips.status < 300) {
           // console.log('trips', trips.data.data)
           this.tramos = trips.data.data
+          // console.log(this.tramos)
         }
       }
     },
@@ -308,6 +310,8 @@
       servicioSeleccionado (val) {
         console.log('change selected', val)
         let trip = this.tramos.find(tr => tr.id === val.trip_id)
+        console.log('trips', this.tramos)
+        console.log('trip selec', trip)
         if (trip.vuelo) {
           // console.log('es vuelo')
           // this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))

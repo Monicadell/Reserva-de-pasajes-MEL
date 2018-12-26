@@ -37,6 +37,9 @@
                 </v-list-tile-content>
               </v-flex>
             </v-layout>
+            <div v-if="items.length === 0 && !progres" class=" text-xs-center pt-5">
+              <span class="font-weight-bold" style="color: rgba(0, 0, 0, .54)">No tienes Reservas</span>
+            </div>
           </v-list>
         </v-navigation-drawer>
 
@@ -319,6 +322,20 @@
       },
       e1 () {
         // console.log('cambio el step')
+      },
+      $route (to, from) {
+        this.$store.dispatch('Booking/set_actualizarReservas', {
+          actualizarReservas: true
+        })
+        this.$store.dispatch('Booking/select', {selected: false})
+        this.$store.dispatch('Booking/set_ruta', {ruta: {}})
+        this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
+        this.$store.dispatch('Booking/set_e1', {
+          e1: 1
+        })
+        this.$store.dispatch('Booking/set_limpiar', {
+          limpiar: true
+        })
       }
     },
     mounted () {
