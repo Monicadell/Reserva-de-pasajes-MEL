@@ -71,8 +71,9 @@
         {subheader: true, text: 'Reservas', type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'A terceros', path: { path: '/reservaterceros' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Reservas a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
+        {subheader: true, text: 'Reservas a Terceros', type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Historial a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Admin', type: 'Call'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'},
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'All'},
@@ -124,7 +125,6 @@
             item.show = true
           })
         }
-        console.log('items sidebar', this.items)
       }
     },
     directives: {

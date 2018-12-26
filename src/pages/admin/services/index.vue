@@ -351,14 +351,17 @@
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log(`los tickets del usuario son `)
             console.log(tickets.data.data)
+
+            let serviciosactivos = tickets.data.data.filter(tick => tick.status !== 'anulado')
+            // console.log(serviciosactivos)
             this.$store.dispatch('Booking/set_listaReservas', {
-              listaReservas: tickets.data.data
+              listaReservas: serviciosactivos
             })
             setTimeout(() => {
-              this.items = Object.assign([], tickets.data.data)
+              this.items = Object.assign([], serviciosactivos)
               this.progres = false
       //      this.consulta = true
-            }, 2000)
+            }, 1000)
           }
         } catch (e) {
           console.log('Error al obtener tickets del usuario', e.response)

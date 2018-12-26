@@ -38,7 +38,7 @@
           <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
-          <td class="">{{ props.item.status }}</td>
+          <td class="text-capitalize">{{ props.item.status }}</td>
 
         </template>
       </v-data-table>
