@@ -408,9 +408,19 @@
           let usuario = await API.post('sign_up', user)
           if (usuario.status >= 200 && usuario.status < 300) {
             console.log(usuario)
-            alert('Se ha enviado la solicitud para crear su usuario')
+            // alert('Se ha enviado la solicitud para crear su usuario')
             this.item = {}
             this.dialogregistro = false
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'success',
+              title: 'Se ha enviado su solicitud de registro',
+              text: 'Debe esperar hasta que un administrador apruebe su solicitud.',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'Cerrar'
+            })
           } else {
             console.log('error status', usuario)
           }

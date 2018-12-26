@@ -140,7 +140,7 @@
           :headers="headers"
           :items="users"
           :loading="loading"
-          no-data-text="No hay usuarios registradas"
+          no-data-text="No hay usuarios registrados"
           hide-actions
         >
         <template slot="items" slot-scope="props">

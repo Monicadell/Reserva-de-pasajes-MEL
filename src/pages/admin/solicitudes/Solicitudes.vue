@@ -1,7 +1,109 @@
 <template>
   <div>
     <div class="py-3"><h2>Usuarios</h2> </div>
+    <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
+      <v-card>
 
+        <v-card-title primary-title class="primary white--text">
+            <h3 class="headline">Usuario</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 md4>
+                <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
+                          label="Tipo documento"
+                          single-line item-text="text" item-value="id"
+                ></v-select>
+              </v-flex>
+
+              <v-flex xs12 md4>
+                <v-text-field label="Documento"
+                              @keyup="keymonitor(editedItem.tipoDocumento)"
+                              v-model="editedItem.documento"></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-layout wrap>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Direccion"
+                              v-model="editedItem.address"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                          single-line item-text="text" item-value="id"
+                ></v-select> -->
+                <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Password" v-model="editedItem.password"
+                              type="password" :rules="[rules.min]"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4 v-if="!editedItem.id">
+                <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
+                              :rules="[rules.password_confirmation]" type="password"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-select :items="roles" v-model="editedItem.role_id"
+                          label="Tipo de Usuario"
+                          single-line item-text="name" item-value="id"
+                ></v-select>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-select :items="contracts" v-model="editedItem.contract_type_id"
+                          label="Tipo de contrato"
+                          single-line item-text="name" item-value="id"
+                ></v-select>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Numero Contacto"
+                              v-model="editedItem.phone_number"></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6 md4>
+                <!-- <v-select :items="companies" v-model="editedItem.company_id"
+                          label="Empresa asociada"
+                          single-line item-text="name" item-value="id"
+                ></v-select> -->
+                <v-autocomplete
+                  v-model="editedItem.company_id"
+                  :items="companies"
+                  :search-input.sync="search"
+                  color="primary"
+                  hide-no-data
+                  hide-selected
+                  item-text="name"
+                  item-value="id"
+                  label="Empresa asociada"
+                ></v-autocomplete>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" outline @click.native="close()">Cancelar</v-btn>
+          <v-btn color="primary" class='white--text' @click.native="save(editedItem)">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- dialogo confirmar eliminar -->
     <v-dialog v-model="confirmaAnular" persistent max-width="450">
       <v-card>
@@ -27,64 +129,72 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
-        <div class="text-xs-right">
+        <!-- <div class="text-xs-right">
           <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Usuario</v-btn>
-        </div>
+        </div> -->
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
           :items="users"
           :loading="loading"
+          item-key="id"
           no-data-text="No hay usuarios registradas"
           hide-actions
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.rut || props.item.passport}}</td>
-          <td class="">
+          <!-- <td class="">
             <span v-if="props.item.role_id === 1">Estandar</span>
             <span v-else-if="props.item.role_id === 2">Administrador</span>
             <span v-else-if="props.item.role_id === 3">Asistente</span>
             <span v-else-if="props.item.role_id === 4">Reducido</span>
             <span v-else-if="props.item.role_id === 5">Callcenter</span>
             <span v-else>{{ props.item.role_id }}</span>
-          </td>
-          <td class="">
+          </td> -->
+          <!-- <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
-          </td>
+          </td> -->
           <td class="">{{ props.item.email }}</td>
           <td class="">{{ props.item.phone_number }}</td>
           <td class="">{{ props.item.company_name }}</td>
-          <td class="" v-if="props.item.last_connection">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td>
-          <td v-else></td>
+          <!-- <td class="" v-if="props.item.last_connection">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td> -->
+          
           <td class="justify-center">
-            <v-tooltip top>
-              <v-icon
+            <!-- <v-tooltip top> -->
+                 <v-btn
+                    small outline
+                    color="green darken-2"
+                    class="white--text text-capitalize"
+                    @click="editItem(props.item)"
+                  >
+                    Aceptar
+                    <v-icon right dark>thumb_up</v-icon>
+                  </v-btn>
+              <!-- <v-icon
                 small
                 slot="activator"
-                color="primary"
+                color="green"
                 @click="editItem(props.item)"
               >
-                edit
-              </v-icon>
-              <span>Editar</span>
-            </v-tooltip>
+                thumb_up
+              </v-icon> -->
+              <!-- <span>Aceptar</span>
+            </v-tooltip> -->
           </td>
           <td class="">
             
-            <v-tooltip top>
-              <v-icon
-                small
-                slot="activator"
-                color="primary"
-                @click="irEliminar(props.item.id)"
-              >
-                delete
-              </v-icon>
-              <span>Eliminar</span>
-            </v-tooltip>
+            <v-btn
+              small outline
+              color="red darken-2"
+              class="white--text text-capitalize"
+              @click=""
+            >
+              Eliminar
+              <v-icon right dark>thumb_down</v-icon>
+            </v-btn>
            
           </td>
         </template>
@@ -99,14 +209,12 @@
                   ></v-select>
                 </v-flex>
                 <v-flex xs12 sm10 class="text-xs-center justify-center">
-                  <!-- <div class="text-xs-center"> -->
                     <v-pagination
                       v-model="pagination.page"
                       @input="changePageNumber"
                       :length="pagination.total_pages"
                       :total-visible="10"
                     ></v-pagination>
-                  <!-- </div> -->
                 </v-flex>
               </v-layout>
             </v-container>  
@@ -155,14 +263,13 @@
           // {text: 'Pasajero', value: 'pasajero', sortable: false},
           {text: 'Nombre', value: 'name', sortable: false},
           {text: 'Documento', value: 'rut', sortable: false},
-          {text: 'Tipo usuario', value: 'role_id', sortable: false},
-          {text: 'Estado', value: 'active', sortable: false},
+          // {text: 'Tipo usuario', value: 'role_id', sortable: false},
+          // {text: 'Estado', value: 'active', sortable: false},
           {text: 'Correo', value: 'email', sortable: false},
           {text: 'Número de teléfono', value: 'phone_number', sortable: false},
           {text: 'Empresa asoc.', value: 'company_name', sortable: false},
-          {text: 'Última conexión', value: 'last_connection', sortable: false},
-          {text: '', value: 'edit', sortable: false},
-          {text: '', value: 'delete', sortable: false}
+          {text: '', value: 'aceptar', sortable: false},
+          {text: '', value: 'eliminar', sortable: false}
         ],
         users: [],
         totalUsers: 0,
@@ -203,6 +310,9 @@
     },
     methods: {
       async getUsers (params) {
+        if (!params) {
+          params = {'active': 0}
+        }
         try {
           let usuarios = await API.get('users', params)
           if (usuarios.status >= 200 && usuarios.status < 300) {
@@ -232,7 +342,10 @@
       },
       busca () {
         console.log('busca', this.search)
-        let buscar = {'q': this.search}
+        let buscar = {
+          'active': 0,
+          'q': this.search
+        }
         this.getUsers(buscar)
       },
       editItem (item) {
@@ -243,7 +356,7 @@
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
         // this.editedItem = edit
         this.editedItem = item
-        this.userDocumentType.id = item.rut ? '1' : '2'
+        this.userDocumentType.id = item.rut ? 1 : 2
         this.editedItem.documento = item.rut ? item.rut : item.passport
         // this.editedItem.rut = item.rut ? item.rut : ''
         // this.editedItem.passport = item.passport ? item.passport : ''
@@ -263,14 +376,11 @@
             'company_id': guardar.company_id ? guardar.company_id : '',
             'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
             'email': guardar.email ? guardar.email : '',
-            'last_connection': guardar.last_connection ? guardar.last_connection : '',
             'name': guardar.name ? guardar.name : '',
             'passport': guardar.tipoDocumento === '2' ? guardar.documento : '',
             'rut': guardar.tipoDocumento === '1' ? guardar.documento : '',
             'phone_number': guardar.phone_number ? guardar.phone_number : '',
-            'role_id': guardar.role_id ? guardar.role_id : '',
-            'password': guardar.password ? guardar.password : '',
-            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
+            'role_id': guardar.role_id ? guardar.role_id : ''
           }
         }
         if (guardar.id) {
@@ -394,13 +504,13 @@
       },
       changePageNumber () {
         console.log(this.pagination.page)
-        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
+        let newpage = {'active': 0, 'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
         console.log(newpage)
         this.getUsers(newpage)
       },
       changeRowsPage () {
         // console.log(this.pagination.rowsPerPage)
-        let pagesize = {'page_size': this.pagination.rowsPerPage}
+        let pagesize = {'active': 0, 'page_size': this.pagination.rowsPerPage}
         this.getUsers(pagesize)
       },
       async getRoles () {
