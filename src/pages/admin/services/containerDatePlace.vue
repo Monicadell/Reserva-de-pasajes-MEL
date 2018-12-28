@@ -59,12 +59,16 @@
           this.disabledBtn = false
         }
       }
+      // users (us) {
+      //   console.log('cambio users', us)
+      // }
     },
     computed: {
       ...mapGetters({
         search: ['Booking/current'],
         fecha: ['Booking/fechaSeleccionada'],
         ruta: ['Booking/ruta']
+        // users: ['Booking/usuariosBook']
       })
     },
     methods: {

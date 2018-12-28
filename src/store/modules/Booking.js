@@ -40,8 +40,9 @@ const state = {
   origen: [],
   selectedExpress: false,
   servicioExpress: {},
-  usuariosBook: []
-
+  usuariosBook: [],
+  grid: [],
+  seat: false
 }
 
 const getters = {
@@ -71,7 +72,9 @@ const getters = {
   origen: state => state.origen,
   selectedExpress: state => state.selectedExpress,
   servicioExpress: state => state.servicioExpress,
-  usuariosBook: state => state.usuariosBook
+  usuariosBook: state => state.usuariosBook,
+  grid: state => state.grid,
+  seat: state => state.seat
 }
 
 const actions = {
@@ -156,6 +159,14 @@ const actions = {
   set_usuariosBook ({commit}, payload) {
     console.log(payload)
     commit('SET_USUARIOSBOOK', {usuariosBook: payload.usuariosBook})
+  },
+  set_grid ({commit}, payload) {
+    console.log('set grid', payload)
+    commit('SET_GRID', {grid: payload.grid})
+  },
+  set_seat ({commit}, payload) {
+    console.log('set seat', payload)
+    commit('SET_SEAT', {seat: payload.seat})
   }
 }
 
@@ -243,6 +254,12 @@ const mutations = {
   },
   SET_USUARIOSBOOK: (state, {usuariosBook}) => {
     state.usuariosBook = usuariosBook
+  },
+  SET_GRID: (state, {grid}) => {
+    state.grid = grid
+  },
+  SET_SEAT: (state, {seat}) => {
+    state.seat = seat
   }
 }
 

@@ -50,7 +50,7 @@
                               type="password" :rules="[rules.min]"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 sm6 md4 v-if="!editedItem.id">
+              <v-flex xs12 sm6 md4 v-if="role === 2">
                 <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
                               :rules="[rules.password_confirmation]" type="password"></v-text-field>
               </v-flex>
@@ -224,6 +224,7 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
+  import {mapGetters} from 'vuex'
 
   export default {
     data () {
@@ -305,6 +306,9 @@
       this.getCompanies()
     //  this.getContracts()
     },
+    computed: mapGetters({
+      role: ['Auth/role']
+    }),
     methods: {
       async getUsers (params) {
         try {
@@ -345,12 +349,10 @@
         // this.editedIndex = this.items.indexOf(item)
         // let edit = Object.assign({}, item)
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-        // this.editedItem = edit
-        this.editedItem = item
-        this.userDocumentType.id = item.rut ? '1' : '2'
+        this.editedItem = Object.assign({}, item)
+        this.editedItem.tipoDocumento = item.rut ? '1' : '2'
+        // this.userDocumentType.id = item.rut ? 1 : 2
         this.editedItem.documento = item.rut ? item.rut : item.passport
-        // this.editedItem.rut = item.rut ? item.rut : ''
-        // this.editedItem.passport = item.passport ? item.passport : ''
         this.dialog = true
       },
       async save (guardar) {

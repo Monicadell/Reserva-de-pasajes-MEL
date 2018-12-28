@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3"><h2>Usuarios</h2> </div>
+    <div class="py-3"><h2>Solicitudes de Usuarios</h2> </div>
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
 
@@ -33,13 +33,15 @@
                               v-model="editedItem.address"></v-text-field>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 sm6 md4 class="text-xs-center">
                 <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
                           single-line item-text="text" item-value="id"
                 ></v-select> -->
+                <label class="font-weight-bold" for="active" v-if="editedItem.active">Activo</label>
+                <label class="font-weight-bold" for="active" v-else>Inactivo</label>
                 <v-switch
                   class="justify-center"
-                  label="Activo"
+                  name="active"
                   v-model="editedItem.active"
                 ></v-switch>
               </v-flex>
@@ -107,8 +109,8 @@
     <!-- dialogo confirmar eliminar -->
     <v-dialog v-model="confirmaAnular" persistent max-width="450">
       <v-card>
-        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el usuario?</v-card-title>
-        <v-card-text>Una vez realizada esta acción no podrá recuperar el usuario.</v-card-text>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar la solicitud?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar la solicitud de usuario.</v-card-text>
         <v-card-actions class="pb-3 px-3">
           
           <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
@@ -145,23 +147,10 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.rut || props.item.passport}}</td>
-          <!-- <td class="">
-            <span v-if="props.item.role_id === 1">Estandar</span>
-            <span v-else-if="props.item.role_id === 2">Administrador</span>
-            <span v-else-if="props.item.role_id === 3">Asistente</span>
-            <span v-else-if="props.item.role_id === 4">Reducido</span>
-            <span v-else-if="props.item.role_id === 5">Callcenter</span>
-            <span v-else>{{ props.item.role_id }}</span>
-          </td> -->
-          <!-- <td class="">
-            <span v-if="props.item.active">Activo</span>
-            <span v-else>Inactivo</span>
-          </td> -->
           <td class="">{{ props.item.email }}</td>
           <td class="">{{ props.item.phone_number }}</td>
           <td class="">{{ props.item.company_name }}</td>
-          <!-- <td class="" v-if="props.item.last_connection">{{ moment(props.item.last_connection).format('DD/MM/YYYY hh:mm')}}</td> -->
-          
+
           <td class="justify-center">
             <!-- <v-tooltip top> -->
                  <v-btn
@@ -190,9 +179,9 @@
               small outline
               color="red darken-2"
               class="white--text text-capitalize"
-              @click=""
+               @click="irEliminar(props.item.id)"
             >
-              Eliminar
+              Rechazar
               <v-icon right dark>thumb_down</v-icon>
             </v-btn>
            
@@ -354,12 +343,11 @@
         // this.editedIndex = this.items.indexOf(item)
         // let edit = Object.assign({}, item)
         // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-        // this.editedItem = edit
-        this.editedItem = item
-        this.userDocumentType.id = item.rut ? 1 : 2
+
+        this.editedItem = Object.assign({}, item)
+        this.editedItem.tipoDocumento = item.rut ? '1' : '2'
+        // this.userDocumentType.id = item.rut ? 1 : 2
         this.editedItem.documento = item.rut ? item.rut : item.passport
-        // this.editedItem.rut = item.rut ? item.rut : ''
-        // this.editedItem.passport = item.passport ? item.passport : ''
         this.dialog = true
       },
       async save (guardar) {

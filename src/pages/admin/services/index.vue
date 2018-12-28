@@ -55,14 +55,15 @@
             <v-stepper :value="e1"  class="elevation-0" disabled="true">
               <v-stepper-header >
                 <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
-
                 <v-divider></v-divider>
 
                 <v-stepper-step   :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
-
                 <v-divider></v-divider>
-
-                <v-stepper-step   step="3">Confirmación</v-stepper-step>
+                <span v-if="role === 2 && $router.currentRoute.name === 'ServiceReserve'">
+                  <v-stepper-step  :complete="e1 > 3" step="3">Selección de asiento</v-stepper-step>
+                  <v-divider></v-divider>
+                </span>
+                <v-stepper-step  step="Ok">Confirmación</v-stepper-step>
               </v-stepper-header>
 
 
@@ -86,7 +87,35 @@
                   </v-card>
                 </v-stepper-content>
 
-                <v-stepper-content step="3">
+                <v-stepper-content step="3" v-if="role === 2 && $router.currentRoute.name === 'ServiceReserve'">
+                  <v-card
+                    class="mb-5"
+                 
+                    flat
+                  >
+                    <!-- Grilla asientos -->
+                    <grid :floor="grilla"/>
+                      <v-card-actions class="text-xs-center">
+                        <v-btn
+                          color="primary" outline
+                          @click="volverMenu"
+                          class="ml-5"
+                        >
+                          Volver
+                        </v-btn> 
+                        <v-spacer> </v-spacer>
+                        <v-btn
+                          color="primary"
+                          @click="goConfirma"
+                          class="ml-5"
+                        >
+                          Continuar
+                        </v-btn> 
+                      </v-card-actions>
+                  </v-card>
+                </v-stepper-content>
+
+                <v-stepper-content step="4">
                   <v-card
                     class="mb-5"
                     height="500px"
@@ -253,6 +282,7 @@
   import modalConfirmar from './modalConfirmar'
   import modalDetalle from './modalDetalle'
   import datePlaceContainer from './containerDatePlace'
+  import Grid from './Grid'
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
   import API from '@pi/app'
@@ -282,7 +312,6 @@
         disabledBtn: true,
         progres: true,
         users: [],
-        selected: [2],
         search: ''
       }
     },
@@ -298,14 +327,18 @@
       modalDetalle,
       datePlaceContainer,
       ServiceExpress,
-      UsersList
+      UsersList,
+      Grid
     },
     computed: {
       ...mapGetters({
         fecha: ['Booking/fechaSeleccionada'],
         ruta: ['Booking/ruta'],
         actualizarReservas: ['Booking/actualizarReservas'],
-        e1: ['Booking/e1']
+        select: ['Booking/select'],
+        e1: ['Booking/e1'],
+        role: ['Auth/role'],
+        grilla: ['Booking/grid']
       })
     },
     watch: {
@@ -320,8 +353,8 @@
           })
         }
       },
-      e1 () {
-        // console.log('cambio el step')
+      e1 (val) {
+        console.log('cambio el step', val)
       },
       $route (to, from) {
         this.$store.dispatch('Booking/set_actualizarReservas', {
@@ -332,6 +365,12 @@
         this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
+        })
+        this.$store.dispatch('Booking/set_grid', {
+          grid: {}
+        })
+        this.$store.dispatch('Booking/set_seat', {
+          seat: false
         })
         this.$store.dispatch('Booking/set_limpiar', {
           limpiar: true
@@ -410,34 +449,19 @@
           console.log('catch err, get express', e.response)
         }
       },
-      // async getUsers (params) {
-      //   try {
-      //     let usuarios = await API.get('users', params)
-      //     if (usuarios.status >= 200 && usuarios.status < 300) {
-      //       console.log('usuarios', usuarios.data)
-      //       setTimeout(() => {
-      //         this.users = usuarios.data.data
-      //         this.progres = false
-      //       }, 500)
-      //     }
-      //   } catch (e) {
-      //     console.log('catch err', e.response)
-      //     this.$swal({
-      //       customClass: 'modal-info',
-      //       type: 'error',
-      //       title: 'Ha ocurrido un error',
-      //       text: 'Ha ocurrido un inconveniente al obtener los usuarios del sistema, intente nuevamente.',
-      //       animation: true,
-      //       showCancelButton: true,
-      //       showConfirmButton: false,
-      //       cancelButtonText: 'Cerrar'
-      //     })
-      //   }
-      // },
       volverMenu () {
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
         })
+        this.$store.dispatch('Booking/set_grid', {
+          grid: {}
+        })
+        this.$store.dispatch('Booking/set_seat', {
+          seat: false
+        })
+      },
+      goConfirma () {
+        this.$store.dispatch('Booking/select', {selected: true})
       },
       selectExpress (servicioExpress) {
         // console.log('servicio expres seleccionado', servicioExpress)

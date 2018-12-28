@@ -23,7 +23,12 @@
 
 <script>
   export default {
-    props: ['seatNumber', 'selectedNumber', 'type']
+    props: ['seatNumber', 'selectedNumber', 'type'],
+    mounted () {
+      // console.log('MOnto seat')
+      // console.log('seatNumber', this.seatNumber)
+      // console.log('selectedNumber', this.selectedNumber)
+    },
   }
 </script>
 
@@ -33,7 +38,11 @@
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
-
+  .v-btn--floating .v-btn__content :not(:only-child):last-child {
+    opacity: 1;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
   svg.selectedSeat {
     fill: #fff
   }
@@ -54,7 +63,7 @@
 
   .seatSizeDesktop {
     width: 40px;
-    margin-top: 14px;
+    // margin-top: 14px;
     fill: grey
   }
 

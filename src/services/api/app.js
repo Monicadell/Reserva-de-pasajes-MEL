@@ -21,6 +21,11 @@ export default {
       params: {...params}
     })
   },
+  getgrid (urlget, id, param) {
+    console.log('getgrid')
+    console.log('get grid', base + urlget + '/' + id + param)
+    return axios.get(base + urlget + '/' + id + param)
+  },
   post (urlpost, params) {
     console.log(base + urlpost, {...params})
     return axios.post(base + urlpost, {...params})

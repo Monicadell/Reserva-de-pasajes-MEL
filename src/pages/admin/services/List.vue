@@ -33,7 +33,7 @@
         ></v-text-field>
       </v-card-title>
       <v-data-table
-        v-model="selected"
+        v-model="seleccionado"
         :loading="cargandoPeticion"
         :search="filter"
         :headers="headers"
@@ -77,14 +77,16 @@
   import {mapGetters} from 'vuex'
   // import axios from 'axios'
   import moment from 'moment'
+  import API from '@pi/app'
 
   export default {
     data: () => ({
       listIsVisible: false,
       rowsNumber: [6],
       disableList: true,
-      selected: [],
+      seleccionado: [],
       filter: '',
+      gridService: [],
       moment: moment,
       loading: false,
       headers: [
@@ -129,12 +131,34 @@
     },
     methods: {
       resume (servicioSeleccionado) {
-        console.log(servicioSeleccionado)
-        this.$store.dispatch('Booking/select', {selected: true})
+        console.log('servicio selecci9onado', servicioSeleccionado)
+        if (this.role === 2 && this.$router.currentRoute.name === 'ServiceReserve') {
+          this.getGrid(servicioSeleccionado.id)
+          this.$store.dispatch('Booking/select', {selected: false})
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 3
+          })
+        } else {
+          this.$store.dispatch('Booking/select', {selected: true})
+          // this.$store.dispatch('Booking/set_e1', {
+          //   e1: 4
+          // })
+        }
         this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
       selectService (service) {
         this.$store.dispatch('Booking/set_service', {service: service})
+      },
+      async getGrid (serv) {
+        let g = '?grid'
+        let grilla = await API.getgrid('services', serv, g)
+        if (grilla.status >= 200 && grilla.status < 300) {
+          this.gridService = grilla.data.data.grid
+          console.log('result grilla', this.gridService)
+          this.$store.dispatch('Booking/set_grid', {
+            grid: this.gridService
+          })
+        }
       }
     },
     computed: {
@@ -143,7 +167,9 @@
         search: ['Booking/current'],
         booking: ['Booking/service'],
         listaServicios: ['Booking/listaServicios'],
-        cargandoPeticion: ['Booking/cargandoPeticion']
+        cargandoPeticion: ['Booking/cargandoPeticion'],
+        selected: ['Booking/select'],
+        role: ['Auth/role']
       })
     }
   }
