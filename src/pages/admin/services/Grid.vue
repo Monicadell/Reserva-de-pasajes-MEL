@@ -4,8 +4,9 @@
     <v-progress-circular
       :size="70"
       :width="7"
-      color="purple"
+      color="primary"
       indeterminate
+      class="text-xs-center"
       v-if="load"
     ></v-progress-circular>
 
