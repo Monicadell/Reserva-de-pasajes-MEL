@@ -39,9 +39,9 @@
     transform: rotate(0deg);
   }
   .v-btn--floating .v-btn__content :not(:only-child):last-child {
-    opacity: 1;
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
+    opacity: 1 !important;
+    -webkit-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important;
   }
   svg.selectedSeat {
     fill: #fff
