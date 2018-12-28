@@ -57,9 +57,9 @@
                 <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
                 <v-divider></v-divider>
 
-                <v-stepper-step   :complete="e1 > 2" step="2">Selección de itirenario</v-stepper-step>
+                <v-stepper-step   :complete="e1 > 2" step="2">Selección de itinenario</v-stepper-step>
                 <v-divider></v-divider>
-                <span v-if="role === 2 && $router.currentRoute.name === 'ServiceReserve'">
+                <span v-if="role === 2">
                   <v-stepper-step  :complete="e1 > 3" step="3">Selección de asiento</v-stepper-step>
                   <v-divider></v-divider>
                 </span>
@@ -87,7 +87,7 @@
                   </v-card>
                 </v-stepper-content>
 
-                <v-stepper-content step="3" v-if="role === 2 && $router.currentRoute.name === 'ServiceReserve'">
+                <v-stepper-content step="3" v-if="role === 2">
                   <v-card
                     class="mb-5"
 

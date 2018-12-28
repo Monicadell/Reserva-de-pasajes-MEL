@@ -1,24 +1,24 @@
 <template>
-  <div> 
-    <div > 
-    <v-card 
+  <div>
+    <div >
+    <v-card
    :class="{
     'elevation-1': !cargandoPeticion && listaServicios.length === 0,
     'elevation-10': listaServicios.length > 0,
-    //disableList: disableList && servicesList.length === 0 
+    //disableList: disableList && servicesList.length === 0
     }"
     class="fadeinfwdfast"
     >
     <v-card-title style="height: 65px" class="barra-titulo-servicios">
-         
+
     <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
       <v-icon >keyboard_arrow_left</v-icon>
-     
+
     </v-btn>
      <v-spacer> </v-spacer>
         <span class="font-weight-medium"> Servicios disponibles </span>
          <v-spacer> </v-spacer>
-    </v-card-title>   
+    </v-card-title>
       <v-card-title class="barra-servicios">
 
         <v-spacer></v-spacer>
@@ -46,12 +46,12 @@
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
             <td>{{ props.item.name }}</td>
-            <td class="azul">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td> 
-            <td class="azul">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>  
+            <td class="azul">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td>
+            <td class="azul">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>
             <td>
               <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }}
-            </td> 
+            </td>
             <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
 
           <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
@@ -132,7 +132,7 @@
     methods: {
       resume (servicioSeleccionado) {
         console.log('servicio selecci9onado', servicioSeleccionado)
-        if (this.role === 2 && this.$router.currentRoute.name === 'ServiceReserve') {
+        if (this.role === 2) {
           this.getGrid(servicioSeleccionado.id)
           this.$store.dispatch('Booking/select', {selected: false})
           this.$store.dispatch('Booking/set_e1', {
@@ -194,7 +194,7 @@
   text-transform: none;
   color:white;
   background-color:#1565c0;
-  
+
   }
   .barra-servicios .theme--light.v-text-field .v-input__slot:before {
     border-color: #fff;

@@ -259,6 +259,7 @@ const mutations = {
     state.grid = grid
   },
   SET_SEAT: (state, {seat}) => {
+    console.log('asiento ', seat)
     state.seat = seat
   }
 }

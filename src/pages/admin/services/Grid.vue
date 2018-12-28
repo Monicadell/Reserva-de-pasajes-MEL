@@ -9,7 +9,7 @@
             <v-flex xs1  class="text-xs-center pr-5" v-if="col !== 'pasillo'" v-for="(seat, j) in col.slice()" :key="j">
               <!-- Acà voy a ir obteniendo los asientos de atras hacia adelante de una de las 5 columnas-->
               <!-- <template > -->
-                
+
                 <template v-if="seat[0] !== 0"> <!-- si es distinto de 0 es asiento y es el nª de asiento -->
                <!--   {{seat[0]-seat[1]}}-->
                   <v-btn v-if="seat[1] === 0 && selected[2] === f" :flat="seat[0] !== selected[0]" fab class="mx-0 my-2 seatBtn"
@@ -42,18 +42,18 @@
               <!-- </template> -->
             </v-flex>
             <v-flex xs12 sm12 md12 lg12 xl4 v-else style="min-height: 30px;">
-              
+
             </v-flex>
           </v-layout>
         </v-flex>
-       
+
         <!-- Responsive -->
         <!-- <v-flex xs12 class="text-xs-center hidden-sm-and-up">
           <v-layout class="pl-3 pr-3 maxHeightLayout" row justify-center>
             <v-flex xs4 v-for="i in [0,1,2,3,4,5,6,7,8,9,10]" class="text-xs-center" :key="i">
               <template v-for="(row, j) in floor[0].grid">
                 <template v-if="row[i]">
-            
+
                   <template v-if="row[i][0] !== 0">
                     <v-btn v-if="row[i][1] === 0" :flat="row[i][0] !== selected[0]" fab class="ma-0 seatBtn"
                            color="blue darken-2"

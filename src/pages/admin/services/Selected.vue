@@ -216,10 +216,30 @@
         try {
           let booking = {}
           console.log('route', this.$router.currentRoute)
-          if (this.$router.currentRoute.name === 'ServiceReserve') {
+          console.log('asiento ->', (this.seat[2] + 1))
+          if (this.$router.currentRoute.name === 'ServiceReserve' && this.role === 2) {
+            let datos = {
+              ac: this.acercamiento,
+              vuelo: this.flight,
+              seat: this.seat[0],
+              bus: this.seat[2] + 1,
+              user_id: this.userid
+            }
+            booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
+          } else if (this.$router.currentRoute.name === 'ServiceReserve') {
             console.log('es a mi', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
-          } else {
+          } else if (this.$router.currentRoute.name === 'reservaterceros') {
+            let datos = {
+              ac: this.acercamiento,
+              vuelo: this.flight,
+              seat: this.seat[0],
+              bus: this.seat[2] + 1,
+              user_id: this.usuariosBook[0]
+            }
+            booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
+          }
+          else {
             extras.users = this.usuariosBook
             console.log('es a terceros', this.usuariosBook)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
@@ -303,7 +323,10 @@
         current: ['Booking/current'],
         ruta: ['Booking/ruta'],
         servicioSeleccionado: ['Booking/servicioSeleccionado'],
-        usuariosBook: ['Booking/usuariosBook']
+        usuariosBook: ['Booking/usuariosBook'],
+        role: ['Auth/role'],
+        userid: ['Auth/userid'],
+        seat: ['Booking/seat']
       })
     },
     watch: {
