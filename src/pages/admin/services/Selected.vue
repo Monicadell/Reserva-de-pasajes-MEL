@@ -26,7 +26,7 @@
 
           <v-card-text class="pl-4 pr-3">
             <v-timeline align-top dense>
-                
+
               <v-timeline-item color="#2B8DFC" large icon="fal fa-map-marked">
                 <v-layout pt-3>
                   <v-flex xs6>
@@ -53,9 +53,9 @@
                   </v-flex>
                 </v-layout>
                 <v-divider class="divider-custom mt-3"></v-divider>
-                  
+
               </v-timeline-item>
-   
+
 
               <v-timeline-item color="#2269BA" large icon="fal fa-map-marker-check">
                 <v-layout pt-3>
@@ -103,7 +103,7 @@
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              class="mr-4 mb-1 text-capitalize"              
+              class="mr-4 mb-1 text-capitalize"
               @click="doBooking"
             >
               Reservar
@@ -234,7 +234,7 @@
             this.$store.dispatch('Booking/set_ruta', {ruta: {}})
             this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
             this.$store.dispatch('Booking/set_e1', {
-              e1: 3
+              e1: 4
             })
             this.$store.dispatch('Booking/set_limpiar', {
               limpiar: true

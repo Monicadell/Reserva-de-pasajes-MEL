@@ -13,6 +13,7 @@
       item-text="name"
       item-value="name"
       class="fadeinfwdfast mr-2 selector-azul white--text"
+
     >
       <template
         slot="selection"
@@ -105,13 +106,28 @@
       destino: '',
       seldestination: {
         status: true
-      }
+      },
+      ispathTerceros: false,
+      hasusers: false
     }),
     watch: {
       users (us) {
         console.log('cambio users', us)
+        this.hasusers = us.lenght > 0
+        console.log('ussss', this.hasusers)
+      },
+      $route (to, from) {
+        console.log('a ruta', to)
+        this.ispathTerceros = to.name === 'reservaterceros'
+        console.log('terc', this.ispathTerceros)
       }
     },
+    // beforeDestroy () {
+    //   console.log('DESTROYYYY!!! jusers a terceros')
+    //   this.$store.dispatch('Booking/set_usuariosBook', {
+    //     usuariosBook: []
+    //   })
+    // },
     computed: {
       ...mapGetters({
         e1_prev: ['Booking/e1_prev'],
@@ -140,7 +156,9 @@
     },
     mounted: async function () {
       let stations = await API.get('stations')
-    //  console.log(stations.status)
+      console.log('us', this.users)
+      // this.ispathTerceros = to.name === 'reservaterceros'
+
       if (stations.status >= 200 && stations.status < 300) {
         this.locations = Object.assign([], stations.data.data)
         this.$store.dispatch('Booking/set_origen', {

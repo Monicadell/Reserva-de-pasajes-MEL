@@ -28,7 +28,7 @@
       // console.log('MOnto seat')
       // console.log('seatNumber', this.seatNumber)
       // console.log('selectedNumber', this.selectedNumber)
-    },
+    }
   }
 </script>
 

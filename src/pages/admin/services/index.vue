@@ -90,7 +90,7 @@
                 <v-stepper-content step="3" v-if="role === 2 && $router.currentRoute.name === 'ServiceReserve'">
                   <v-card
                     class="mb-5"
-                 
+
                     flat
                   >
                     <!-- Grilla asientos -->
@@ -102,7 +102,7 @@
                           class="ml-5"
                         >
                           Volver
-                        </v-btn> 
+                        </v-btn>
                         <v-spacer> </v-spacer>
                         <v-btn
                           color="primary"
@@ -110,7 +110,7 @@
                           class="ml-5"
                         >
                           Continuar
-                        </v-btn> 
+                        </v-btn>
                       </v-card-actions>
                   </v-card>
                 </v-stepper-content>
@@ -357,6 +357,7 @@
         console.log('cambio el step', val)
       },
       $route (to, from) {
+        console.log('cambia ruta')
         this.$store.dispatch('Booking/set_actualizarReservas', {
           actualizarReservas: true
         })
