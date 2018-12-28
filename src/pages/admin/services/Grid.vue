@@ -12,6 +12,7 @@
     <v-card-text>
       <!-- <v-layout row justify-center v-if="floor"> -->
       <v-layout row justify-center v-if="floor"  v-for="(bus, f) in floor" :key="f">
+        Bus{{f + 1}}
         <v-flex xs12 sm12 md12 lg10 class="text-xs-center mb-5" style="border-bottom: 1px solid gray; border-top: 1px solid gray">
           <v-layout class="" row justify-center v-for="(col, i) in bus.grid" :key="i">
             <!-- acá tengo las columnas del bus (son 5)-->
