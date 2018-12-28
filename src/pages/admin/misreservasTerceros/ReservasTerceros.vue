@@ -46,11 +46,28 @@
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
           <td class="">{{ props.item.status }}</td>
+          <td class="">
+            <v-btn color="red" v-if="props.item.status != 'anulado'" outline class="white--text btn-ticket"  @click="irEliminar(props.item.id)">Anular</v-btn> 
+          </td>
           <!--<td class="">
             <v-btn outline color="red" class="white--text btn-ticket" v-if="props.item.service.date >= today" @click="mostrarAnular(item)">Anular</v-btn>
           </td> -->
         </template>
       </v-data-table>
+      <!-- dialogo confirmar eliminar -->
+      <v-dialog v-model="confirmaAnular" persistent max-width="450">
+        <v-card>
+          <v-card-title class="headline primary white--text">¿Esta seguro de eliminar la reserva?</v-card-title>
+          <v-card-text>Una vez realizada esta acción no podrá recuperarla.</v-card-text>
+          <v-card-actions class="pb-3 px-3">
+            
+            <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </div>
   </div>
 </template>
@@ -76,8 +93,8 @@
           // {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
           {text: 'Asiento', value: 'seat'},
-          {text: 'Estado', value: 'status'}
-          // {text: '', value: ''}
+          {text: 'Estado', value: 'status'},
+          {text: '', value: ''}
         ],
         ticketsList: [],
         excelFields: {
@@ -90,7 +107,8 @@
           Estado: 'status'
         },
         items: [],
-        today: moment().format('YYYY-MM-DD')
+        today: moment().format('YYYY-MM-DD'),
+        confirmaAnular: false
       }
     },
     components: {
@@ -211,6 +229,46 @@
             })
           }
         }
+      },
+      async deleteItem (item) {
+        console.log('voy a eliminar user', item)
+        try {
+          let eliminando = await API.delete('ticket', item)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('ya hizo DELETE user', eliminando)
+            this.getUsers()
+            this.confirmaAnular = false
+            this.$swal({
+              type: 'success',
+              customClass: 'modal-info',
+              timer: 2000,
+              title: 'Usuario',
+              text: 'Usuario eliminado exitosamente!',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
+            console.log(eliminando)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.editedItem = Object.assign({}, '')
+          this.confirmaAnular = false
+          this.$swal({
+            type: 'error',
+            customClass: 'modal-info',
+            timer: 2000,
+            title: 'Ha ocurrido un error',
+            text: 'Ha ocurrido un error eliminando el usuario, intente más tarde.',
+            animation: true,
+            showConfirmButton: false,
+            showCloseButton: false
+          })
+        }
+      },
+      irEliminar (datoid) {
+        this.eliminaid = datoid
+        this.confirmaAnular = true
       }
     }
   }

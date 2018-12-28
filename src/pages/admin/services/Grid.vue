@@ -1,18 +1,20 @@
 <template>
   <v-card flat>
 
-    <!-- <v-progress-circular
+    <v-progress-circular
       :size="70"
       :width="7"
       color="purple"
-        indeterminate
-      v-model="load"
-    ></v-progress-circular> -->
+      indeterminate
+      v-if="load"
+    ></v-progress-circular>
 
     <v-card-text>
       <!-- <v-layout row justify-center v-if="floor"> -->
-      <v-layout row justify-center v-if="floor"  v-for="(bus, f) in floor" :key="f">
-        Bus{{f + 1}}
+        <div v-if="floor"  v-for="(bus, f) in floor" :key="f">
+           <p class="text-xs-center"> Bus{{f + 1}}</p>
+      <v-layout row wrap justify-center >
+      
         <v-flex xs12 sm12 md12 lg10 class="text-xs-center mb-5" style="border-bottom: 1px solid gray; border-top: 1px solid gray">
           <v-layout class="" row justify-center v-for="(col, i) in bus.grid" :key="i">
             <!-- acá tengo las columnas del bus (son 5)-->
@@ -92,7 +94,7 @@
           </v-layout>
         </v-flex> -->
       </v-layout>
-
+</div>
     </v-card-text>
   </v-card>
 </template>
@@ -116,8 +118,9 @@
       console.log('MOnto grid')
       console.log('grilla', this.floor)
       setTimeout(() => {
+        console.log('apaga load')
         this.load = false
-      }, 100)
+      }, 1000)
     },
     computed: mapGetters({
       selected: ['Booking/seat']

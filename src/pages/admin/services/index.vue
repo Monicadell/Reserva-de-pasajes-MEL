@@ -87,7 +87,7 @@
                   </v-card>
                 </v-stepper-content>
 
-                <v-stepper-content step="3" v-if="role === 2">
+                <v-stepper-content step="3" v-if="role === 2 && e1 === 3">
                   <v-card
                     class="mb-5"
 

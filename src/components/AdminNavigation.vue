@@ -31,7 +31,7 @@
 
 
     <v-list dense>
-      <template v-for="item in items">
+      <template v-for="(item, i) in items">
 
         <v-subheader v-if="item.subheader && item.show" class="grey--text text--darken-1">
           {{item.text}}
@@ -126,6 +126,7 @@
             item.show = true
           })
         }
+        console.log('items list', this.items)
       }
     },
     directives: {
