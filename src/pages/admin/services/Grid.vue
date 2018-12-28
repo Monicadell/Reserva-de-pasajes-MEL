@@ -1,5 +1,14 @@
 <template>
   <v-card flat>
+
+    <!-- <v-progress-circular
+      :size="70"
+      :width="7"
+      color="purple"
+        indeterminate
+      v-model="load"
+    ></v-progress-circular> -->
+
     <v-card-text>
       <!-- <v-layout row justify-center v-if="floor"> -->
       <v-layout row justify-center v-if="floor"  v-for="(bus, f) in floor" :key="f">
@@ -95,7 +104,8 @@
     props: ['floor'],
     data () {
       return {
-        corridor: false
+        corridor: false,
+        load: true
       }
     },
     components: {
@@ -104,6 +114,9 @@
     mounted () {
       console.log('MOnto grid')
       console.log('grilla', this.floor)
+      setTimeout(() => {
+        this.load = false
+      }, 100)
     },
     computed: mapGetters({
       selected: ['Booking/seat']

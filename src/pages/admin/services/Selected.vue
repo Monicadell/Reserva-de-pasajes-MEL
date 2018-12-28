@@ -238,8 +238,7 @@
               user_id: this.usuariosBook[0]
             }
             booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
-          }
-          else {
+          } else {
             extras.users = this.usuariosBook
             console.log('es a terceros', this.usuariosBook)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
@@ -281,31 +280,6 @@
           this.modalInfoDetail = e.response.data.error
           this.modalInfoBtn1 = 'OK' */
         }
-     /* axios.post('https://mel-2-backend.gestsol.cl/api/tickets', {
-         ticket: {
-            status: 1,
-            booked_at: hora,
-            user_id: 113162,
-            service_id: this.servicioSeleccionado.id
-            }
-          })
-          .then((response)=>{
-          this.ticket.status = 'progress'
-            setTimeout(() => {
-              this.booking.color = 'space'
-              this.booking.text = 'Reserva realizada con exito'
-              this.ticket.status = 'done'
-              this.loadingBooking = false
-                this.$store.dispatch('Booking/set_reservaRealizada', {
-                reservaRealizada: true
-                });
-            }, 2000)
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log('****')
-            console.log(error);
-          }); */
       },
       async getTrips () {
         let trips = await API.get('trips')
