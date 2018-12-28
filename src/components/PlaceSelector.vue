@@ -13,7 +13,6 @@
       item-text="name"
       item-value="name"
       class="fadeinfwdfast mr-2 selector-azul white--text"
-
     >
       <template
         slot="selection"
@@ -108,9 +107,15 @@
         status: true
       }
     }),
+    watch: {
+      users (us) {
+        console.log('cambio users', us)
+      }
+    },
     computed: {
       ...mapGetters({
-        e1_prev: ['Booking/e1_prev']
+        e1_prev: ['Booking/e1_prev'],
+        users: ['Booking/usuariosBook']
       }),
       place: {
         get (val) {
