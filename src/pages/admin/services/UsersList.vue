@@ -1,6 +1,6 @@
 <template>
   <v-list dense class="py-0 user">
-    <v-toolbar-title class="title-list-custom white--text">
+    <v-toolbar-title class="title-list-custom primary white--text">
       <span class="hidden-sm-and-down ml-4">Escoger usuario</span>
     </v-toolbar-title>
     <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>

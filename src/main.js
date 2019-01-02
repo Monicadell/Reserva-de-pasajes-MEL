@@ -20,14 +20,14 @@ Vue.use(VueSweetalert2)
 Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
   theme: {
-    primary: '#1565c0',
-    secondary: '#ff9800',
+    primary: '#E66732',
+    secondary: '#1565c0',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
-    naranjo: '#E66732',
+    naranjo: '#ff9800',
     calendario: '#FFC107',
     gris: '#646464'
   }

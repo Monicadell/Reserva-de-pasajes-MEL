@@ -22,7 +22,7 @@
       >
         <v-avatar >
           <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
         </v-avatar>
         {{ data.item.name }}
       </template>
@@ -33,7 +33,7 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=1565c0&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=E66732&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
@@ -66,7 +66,7 @@
       >
       <v-avatar class ="ma-0 pa-0">
          <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=1565c0`"/>
+               :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
         </v-avatar>
 
         {{ data.item.dest_name }}
@@ -79,7 +79,7 @@
         <template>
           <v-list-tile-avatar>
             <img
-              :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=1565c0&color=fff`">
+              :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=E66732&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title v-html="data.item.dest_name"></v-list-tile-title>
@@ -184,7 +184,7 @@
 
 <style>
   #principal-container .selector-azul{
-    background-color: #1565c0;
+    background-color: #E66732;
     color: #fff !important;
   }
   #principal-container .selector-azul.v-text-field.v-text-field--box.v-text-field--enclosed.v-select.v-select--chips.v-autocomplete.v-input--hide-details.v-input--is-disabled.theme--light{

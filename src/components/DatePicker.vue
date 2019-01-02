@@ -127,7 +127,7 @@
     opacity: 0;
   }
   .v-card__title.custom-header-active {
-    background: #1565c0;
+    background: #E66732;
     /* height: 30px */
     padding: 10px;
         min-height: 40px;

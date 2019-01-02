@@ -19,7 +19,7 @@
         <span class="font-weight-medium"> Servicios disponibles </span>
          <v-spacer> </v-spacer>
     </v-card-title>
-      <v-card-title class="barra-servicios">
+      <v-card-title class="barra-servicios primary">
 
         <v-spacer></v-spacer>
         <v-text-field
@@ -46,14 +46,14 @@
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
             <td>{{ props.item.name }}</td>
-            <td class="azul">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td>
-            <td class="azul">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>
+            <td class="item-naranja">{{ moment(props.item.departure,'HH:mm:ss').format('HH:mm') }}</td>
+            <td class="item-naranja">{{ moment(props.item.arrival,'HH:mm:ss').format('HH:mm')}}</td>
             <td>
               <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }}
             </td>
-            <button type="button" class="v-btn btn-list elevation-0"  @click="resume(props.item)">Seleccionar</button>
-
+            <!-- <button type="button" class="v-btn elevation-0 primary" @click="resume(props.item)">Seleccionar</button> -->
+              <v-btn outline color="primary" class="elevation-0 text-capitalize"  @click="resume(props.item)">Seleccionar</v-btn>
           <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
             <!-- <td> </td>
             <td> </td> -->
@@ -184,18 +184,17 @@
 
 <style>
 
-  .v-btn.btn-list{
+  /* .v-btn.btn-list{
   text-transform: none;
   background-color:transparent;
   border: #1565c0 1px solid;
   }
 
   .v-btn.btn-list:hover{
-  text-transform: none;
-  color:white;
-  background-color:#1565c0;
-
-  }
+    text-transform: none;
+    color:white;
+    background-color:#1565c0;
+  } */
   .barra-servicios .theme--light.v-text-field .v-input__slot:before {
     border-color: #fff;
   }
@@ -219,11 +218,11 @@
   }
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
-    color: #1565c0;
+    /* color: #1565c0; */
   }
 
   .v-card__title.barra-servicios {
-    background: #1565c0;
+    /* background: #1565c0; */
     color: white;
     font-size: 18px
   }
@@ -241,12 +240,13 @@
   }
 
   .list-th .v-table.theme--light thead th{
-    color: #1565c0;
+    color: #353535;
+    font-weight: bold;
     font-size: 1em;
     font-weight: 500;
   }
 
-    .list-th .v-table.theme--light tbody td.azul{
-    color: #1565c0;
+  .list-th .v-table.theme--light tbody td.item-naranja{
+    color: #E66732;
   }
 </style>

@@ -25,7 +25,7 @@
         <!-- Reservas propias -->
         <v-navigation-drawer style="width: 100%" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
-            <v-toolbar-title class="title-list-custom white--text">
+            <v-toolbar-title class="title-list-custom white--text primary">
               <span class="hidden-sm-and-down ml-4">Mis reservas</span>
             </v-toolbar-title>
             <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
@@ -49,7 +49,7 @@
         </v-navigation-drawer>
       </v-flex>
 
-      <v-flex xs7 style="background-color: #fff">
+      <v-flex xs7>
         <v-layout align-start justify-center row fill-height id="principal-container">
           <v-flex xs12>
             <v-stepper :value="e1"  class="elevation-0" disabled="true">
@@ -497,11 +497,11 @@
     /* border-style: dashed;
     border-width: 1px;
     border-color: #1565c0; */
-    border-top: 1px dashed #1565c0;
+    border-top: 1px dashed #ff9800;
     width:90%;
   }
   .title-ticket {
-    color: #1565c0;
+    /* color: #1565c0; */
     font-size: 16px;
   }
   /* .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
@@ -559,7 +559,7 @@
     color: #fff;
     border-radius: 50%;
   }
-  .v-btn.botonmenu {
+  /* .v-btn.botonmenu {
       background: transparent ;
     border: 1px solid #1565c0 ;
     color: #1565c0;
@@ -568,16 +568,16 @@
   .v-btn.botonmenu:hover {
     background: #1565c0;
     color: white;
-  }
+  } */
 
   .v-list.user {
     height: calc(100vh - 128px);
     overflow-y: auto;
   }
 
-  .v-toolbar__title.title-list-custom {
+  /* .v-toolbar__title.title-list-custom {
     background: #1565c0;
-  }
+  } */
 
   .v-navigation-drawer>.v-list .v-list__tile .prueba {
     height: 300px;
@@ -591,6 +591,6 @@
     width: 85%
   }
   .theme--light.v-stepper .v-stepper__step--active .v-stepper__label {
-    text-shadow: 0 0 0 #1565c0;
+    text-shadow: 0 0 0 #E66732;
   }
 </style>

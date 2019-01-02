@@ -62,7 +62,7 @@
                     <v-btn  color="red" class="white--text btn-ticket"  @click="mostrarAnular(item)">Anular</v-btn> 
                   </v-flex>
                 <v-flex xs6 text-xs-center> 
-                  <button type="button" class="v-btn btn-ticket" id="prueba" disabled>Confirmado</button>
+                  <button type="button" class="v-btn btn-ticket primary--text" id="prueba" disabled>Confirmado</button>
                 <!-- <v-btn  color="green" @click="mostrarConfirmar(item)" >Confirmar</v-btn> -->
                 </v-flex >
                  <!-- <v-flex xs4> 
@@ -289,13 +289,13 @@
   #prueba {
     /* border: 1px solid green; */
     background: rgba(0, 0, 0, 0.12);
-    color: green;
+    /* color: green; */
     box-shadow: none;
   }
   #prueba:hover {
     /* border: 1px solid green; */
     background-color: rgba(0, 0, 0, 0.12);
-    color: green;
+    /* color: green; */
     box-shadow: none;
     outline: none;
   }
