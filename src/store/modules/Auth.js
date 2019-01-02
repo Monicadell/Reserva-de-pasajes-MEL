@@ -19,6 +19,7 @@ const getters = {
   useremail: state => state.useremail,
   role: state => state.role,
   userid: state => state.userid,
+  connection: state => state.connection,
   hidesidebar: state => state.hidesidebar
 }
 const actions = {
@@ -35,7 +36,8 @@ const actions = {
       role: payload.role,
       username: payload.username,
       useremail: payload.useremail,
-      userid: payload.userid
+      userid: payload.userid,
+      connection: payload.connection
     })
   },
   logout ({commit}) {
@@ -55,11 +57,12 @@ const mutations = {
     state.user = user
     state.credential = credential
   },
-  SET_USER_ADDONS: (state, {role, username, useremail, userid}) => {
+  SET_USER_ADDONS: (state, {role, username, useremail, userid, connection}) => {
     state.role = role
     state.username = username
     state.useremail = useremail
     state.userid = userid
+    state.connection = connection
   },
   LOGOUT (state) {
     state.isAuthorized = false

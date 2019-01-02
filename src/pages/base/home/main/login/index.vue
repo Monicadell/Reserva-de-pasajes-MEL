@@ -60,7 +60,7 @@
         <!-- Modal Error login -->
         <v-dialog v-model="errorDialog" max-width="290">
           <v-card>
-            <v-card-title class="headline">Ha ocurrido un error!</v-card-title>
+            <v-card-title class="headline primary white--text">Ha ocurrido un error!</v-card-title>
             <v-card-text>Ingrese datos correctos!</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -169,7 +169,8 @@
             role: info.data.role_id,
             username: info.data.name,
             useremail: info.data.email,
-            userid: info.data.id
+            userid: info.data.id,
+            conection: info.data.last_connection || ''
           })
         } else {
           console.log('error profile')

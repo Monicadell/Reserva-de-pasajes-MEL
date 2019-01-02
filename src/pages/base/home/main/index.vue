@@ -47,7 +47,7 @@
                     </v-btn>
                     <v-card>
                       <v-card-title
-                        class="headline naranjo white--text"
+                        class="headline primary white--text"
                         primary-title
                       >Recupera tu contraseña
                       </v-card-title>
@@ -105,7 +105,7 @@
                       </v-btn>
                       <v-card>
                         <v-card-title
-                          class="headline naranjo white--text"
+                          class="headline primary white--text"
                           primary-title
                         >Reservar Pasaje
                         </v-card-title>
@@ -144,7 +144,7 @@
                       </v-btn>
                       <v-card>
                         <v-card-title
-                          class="headline naranjo white--text"
+                          class="headline primary white--text"
                           primary-title
                         >Solicita tu registro
                         </v-card-title>
@@ -285,7 +285,7 @@
                     </v-btn>
                     <v-card>
                       <v-card-title
-                        class="headline naranjo white--text"
+                        class="headline primary white--text"
                         primary-title
                       >Impresión de ticket
                       </v-card-title>

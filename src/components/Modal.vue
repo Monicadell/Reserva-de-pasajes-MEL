@@ -4,7 +4,7 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div class="modal-header naranjo white--text">
+          <div class="modal-header primary white--text">
             <slot name="title">
             </slot>
           </div>
