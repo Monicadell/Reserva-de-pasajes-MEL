@@ -165,7 +165,7 @@
             <!-- <v-divider></v-divider> -->
             <v-card flat class="media-alt">
               <v-card-title primary-title class="pb-1 pt-3">
-                <span class="mb-0 title-ticket font-weight-black">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
+                <span class="mb-0 title-ticket font-weight-black secondary--text darken-3">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
               <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"></v-divider>
                 <v-data-table
@@ -199,7 +199,7 @@
             <!-- <v-divider></v-divider> -->
             <v-card flat class="media-alt">
               <v-card-title primary-title class="pb-1 pt-3">
-              <span class="mb-0 title-ticket font-weight-black">Mañana {{ moment(tomorrowDate).format('DD-MM-YYYY')}}</span>
+              <span class="mb-0 title-ticket font-weight-black  secondary--text darken-3">Mañana {{ moment(tomorrowDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
               <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
               <v-data-table

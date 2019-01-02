@@ -42,7 +42,7 @@
         </v-layout>
         <v-layout align-center justify-end row fill-height class="contiene-btn-login mt-3 pr-5">
           <v-flex xs12 md6>
-            <v-btn block class="btn-login naranjo" @click="log()">Iniciar sesión</v-btn>
+            <v-btn block class="btn-login primary" @click="log()">Iniciar sesión</v-btn>
           </v-flex>
         </v-layout>
         <!-- <v-layout align-center justify-center row fill-height class="mt-3">

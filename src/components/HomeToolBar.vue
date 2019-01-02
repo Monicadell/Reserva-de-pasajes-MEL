@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar
-      color="naranjo"
+      color="primary"
       dark
       height="40"
       

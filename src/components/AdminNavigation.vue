@@ -74,16 +74,16 @@
         {subheader: true, text: 'Reservas a Terceros', type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Historial a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
-        {subheader: true, text: 'Admin', type: 'Call'},
-        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'All'}, // All es solo admin
-        {icon: '../../static/icons/01.png', text: 'Solicitudes', path: { path: '/solicitudes' }, type: 'All'},
-        {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'All'},
-        {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'All'},
-        {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'All'},
-        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'All'},
-        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'All'},
-        // {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'All'},
-        // {icon: '../../static/icons/08.png', text: 'Conductores', path: { path: '/conductores' }, type: 'All'},
+        {subheader: true, text: 'Admin', type: 'Admin'},
+        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'Admin'}, // Admin es solo admin
+        {icon: '../../static/icons/01.png', text: 'Solicitudes', path: { path: '/solicitudes' }, type: 'Admin'},
+        {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'Admin'},
+        {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'Admin'},
+        {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'Admin'},
+        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'Admin'},
+        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'Admin'},
+        {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'Admin'},
+        {icon: '../../static/icons/08.png', text: 'Conductores', path: { path: '/conductores' }, type: 'Admin'},
         {subheader: true, text: 'Perfil', type: 'Call'},
         {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'}
         // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
