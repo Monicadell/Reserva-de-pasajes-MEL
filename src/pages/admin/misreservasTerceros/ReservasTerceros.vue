@@ -47,7 +47,7 @@
           <td class="">{{ props.item.seat }}</td>
           <td class="">{{ props.item.status }}</td>
           <td class="">
-            <v-btn color="red" v-if="props.item.status != 'anulado'" outline class="white--text btn-ticket"  @click="irEliminar(props.item.id)">Anular</v-btn> 
+            <v-btn color="red" v-if="props.item.status != 'anulado' && props.item.service.date >= today" outline class="white--text btn-ticket"  @click="irEliminar(props.item.id)">Anular</v-btn> 
           </td>
           <!--<td class="">
             <v-btn outline color="red" class="white--text btn-ticket" v-if="props.item.service.date >= today" @click="mostrarAnular(item)">Anular</v-btn>

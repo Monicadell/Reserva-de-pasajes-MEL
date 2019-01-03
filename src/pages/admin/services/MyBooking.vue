@@ -1,10 +1,10 @@
 <template>
-  <div >
-      <v-card >
-           <v-card-title style="height: 45px" class="barra-reservas">
-  Mis reservas
-           </v-card-title>
-    <v-data-table
+  <div>
+    <v-card >
+      <v-card-title style="height: 45px" class="barra-reservas">
+        Mis reservas
+      </v-card-title>
+      <v-data-table
         :headers="headers"
         :items="ticketsList"
         class="elevation-1 "

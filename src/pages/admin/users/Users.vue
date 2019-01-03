@@ -539,21 +539,18 @@
         if (roles.status >= 200 && roles.status < 300) {
           console.log('roles', roles)
           this.roles = roles.data.data
-          this.loading = false
         }
       },
       async getCompanies () {
         let companies = await API.get('companies')
         if (companies.status >= 200 && companies.status < 300) {
           this.companies = companies.data.data
-          this.loading = false
         }
       },
       async getContracts () {
         let contracts = await API.get('contracts')
         if (contracts.status >= 200 && contracts.status < 300) {
           this.contracts = contracts.data.data
-          this.loading = false
         }
       },
       keymonitor (doctype) {

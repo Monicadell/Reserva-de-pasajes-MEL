@@ -18,20 +18,27 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
+        <v-select v-if="role === 2"
+                  :items="filtros" v-model="filtro"
+                  label="Filtros" clearable
+                  single-line item-text="text" item-value="id"
+        ></v-select>
+        <v-spacer></v-spacer>
         <div class="text-xs-right">
           <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
-        </div>
+        </div>        
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
           :items="ticketsList"
           :search="search"
+          :loading="loading"
           hide-actions
           no-data-text="No tiene reservas registradas"
         >
         <template slot="items" slot-scope="props">
-          <!-- <td class="" v-if="$route.path === '/misreservasaterceros'">{{ props.item.service.name }}</td> -->
+          <td class="">{{ props.item.user.name }}</td>
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ props.item.booked_at }}</td>
@@ -60,7 +67,7 @@
         moment: moment,
         headers: [
           // {text: 'Origen', value: 'source_id'},
-          // {text: 'Destino', value: 'dest_id'},
+          {text: 'user', value: 'user.name'},
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha del servicio', value: 'service.date'},
           {text: 'Fecha reserva', value: 'booked_at'},
@@ -79,6 +86,12 @@
           Asiento: 'seat',
           Estado: 'status'
         },
+        filtro: 3,
+        filtros: [
+          {text: 'Reservas actuales', id: 1},
+          {text: 'Reservas perdidas', id: 2},
+          {text: 'Todas mis reservas', id: 3}
+        ],
         items: [
           { 'booked_at': '2018-12-14T09:47:21.965088',
             'checkin_at': '',
@@ -106,18 +119,84 @@
     },
     computed: {
       ...mapGetters({
-        userId: ['Auth/userid']
+        userId: ['Auth/userid'],
+        role: ['Auth/role']
       })
     },
     mounted () {
-      this.getReservas()
+      if (this.role === 2) {
+        this.getReservas()
+      } else {
+        this.getReservasActivas()
+      }
     },
     watch: {
       $route (to, from) {
         this.getReservas()
+      },
+      filtro (val) {
+        if (val === 1) {
+          this.getReservasActivas()
+        } else {
+          this.getReservas()
+        }
       }
     },
     methods: {
+      async getReservasActivas () {
+        try {
+          const tickets = await API.get('my_tickets', this.userId)
+          if (tickets.status >= 200 && tickets.status < 300) {
+            console.log('reservas', tickets)
+            setTimeout(() => {
+              // this.ticketsList = Object.assign([], tickets.data.data)
+              this.ticketsList = tickets.data.data
+              this.items = this.ticketsList.map(item => {
+                for (const prop in item) {
+                  if (item[prop] == null) item[prop] = ''
+                }
+                return item
+              })
+              this.items.forEach(element => {
+                element.servicename = element.service.name
+                element.servicedate = element.service.date
+                element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
+                element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
+              })
+              this.loading = false
+            }, 500)
+          } else {
+            console.log('Error ', tickets.status)
+            this.$swal({
+              customClass: 'modal-info',
+              type: 'error',
+              title: 'Reservas',
+              timer: 2000,
+              text: 'Ha ocurrido un error al obtener las reservas',
+              animation: true,
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonText: 'OK'
+            })
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar las estaciones, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
+        }
+      },
       async getReservas () {
         console.log('user id', this.userId)
         console.log('ruta', this.$route.path)
@@ -129,12 +208,13 @@
             const tickets = await API.get('tickets', params)
             if (tickets.status >= 200 && tickets.status < 300) {
               console.log('mis reservas a terceros', tickets)
-              // setTimeout(() => {
-              // this.ticketsList = Object.assign([], tickets.data.data)
-              this.ticketsList = tickets.data.data
-              this.ticketsList.forEach(element => { element.servicename = element.service.name })
-              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
-              // }, 500)
+              setTimeout(() => {
+                // this.ticketsList = Object.assign([], tickets.data.data)
+                this.ticketsList = tickets.data.data
+                this.ticketsList.forEach(element => { element.servicename = element.service.name })
+                this.ticketsList.forEach(element => { element.servicedate = element.service.date })
+                this.loading = false
+              }, 500)
             } else {
               console.log('Error ', tickets.status)
               this.$swal({
@@ -165,25 +245,34 @@
           }
         } else {
           console.log('reservas propias')
+          params = {'user_id': this.userId}
           try {
-            const tickets = await API.get('my_tickets', this.userId)
+            const tickets = await API.get('tickets', params)
             if (tickets.status >= 200 && tickets.status < 300) {
               console.log('reservas', tickets)
-              // setTimeout(() => {
-              // this.ticketsList = Object.assign([], tickets.data.data)
-              this.ticketsList = tickets.data.data
-              this.items = this.ticketsList.map(item => {
-                for (const prop in item) {
-                  if (item[prop] == null) item[prop] = ''
+              setTimeout(() => {
+                // this.ticketsList = Object.assign([], tickets.data.data)
+                this.ticketsList = tickets.data.data
+                if (this.filtro === 2) {
+                  console.log('Filtro perdidos')
+                  this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
+                } else {
+                  console.log('toodos filtros')
                 }
-                return item
-              })
-              this.items.forEach(element => {
-                element.servicename = element.service.name
-                element.servicedate = element.service.date
-                element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
-                element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
-              })
+                this.items = this.ticketsList.map(item => {
+                  for (const prop in item) {
+                    if (item[prop] == null) item[prop] = ''
+                  }
+                  return item
+                })
+                this.items.forEach(element => {
+                  element.servicename = element.service.name
+                  element.servicedate = element.service.date
+                  element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
+                  element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
+                })
+                this.loading = false
+              }, 500)
             } else {
               console.log('Error ', tickets.status)
               this.$swal({

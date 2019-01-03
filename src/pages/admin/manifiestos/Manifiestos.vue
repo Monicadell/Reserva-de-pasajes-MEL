@@ -169,8 +169,8 @@
         origenSearch: '',
         busSearch: '',
         conductorSearch: '',
-        loadigS: true,
-        loadigM: true,
+        loadingS: true,
+        loadingM: true,
         servicioSearch: '',
         servicioSelected: false,
         search: '',
@@ -261,7 +261,6 @@
             console.log(stations)
             setTimeout(() => {
               this.estaciones = stations.data.data
-              this.loading = false
             }, 500)
           }
         } catch (e) {

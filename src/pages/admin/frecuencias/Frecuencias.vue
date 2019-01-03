@@ -390,7 +390,6 @@
           let trips = await API.get('trips')
           if (trips.status >= 200 && trips.status < 300) {
             this.trips = trips.data.data
-            this.loading = false
             // console.log(trips)
           } else {
             alert('Ha ocurrido un error al cargar tramos, intente nuevamente')

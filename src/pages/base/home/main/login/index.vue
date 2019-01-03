@@ -173,10 +173,10 @@
               userid: info.data.id,
               conection: info.data.last_connection || ''
             })
-            if (info.data.last_connection === null) {
-              console.log('no tiene ultima conexion y voy a push')
-              this.$router.push({path: 'myInfo'})
-            }
+            // if (info.data.last_connection === null) {
+            //   console.log('no tiene ultima conexion y voy a push')
+            //   this.$router.push({path: 'myInfo'})
+            // }
           } else {
             console.log('error profile')
           }

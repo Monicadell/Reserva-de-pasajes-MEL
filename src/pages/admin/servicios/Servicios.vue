@@ -365,7 +365,6 @@
           if (trips.status >= 200 && trips.status < 300) {
             console.log('Result load trips', trips)
             this.trips = trips.data.data
-            this.loading = false
           }
         } catch (e) {
           console.log('error al cargar tramos', e.response)
@@ -377,7 +376,6 @@
           if (frecs.status >= 200 && frecs.status < 300) {
             this.frequencies = frecs.data.data
             console.log('frecuencias', this.frequencies)
-            this.loading = false
           }
         } catch (e) {
           console.log('error al cargar frecuencias', e.response)
