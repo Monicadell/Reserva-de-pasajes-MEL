@@ -18,7 +18,7 @@
         <v-spacer></v-spacer> -->
         <!-- <div class="text-xs-right"> -->
           <v-layout wrap>
-            <v-flex xs12 md4>
+            <v-flex xs12 md3>
               <v-menu
                 v-model="datepicker"
                 :close-on-content-click="false"
@@ -40,13 +40,23 @@
                 ></v-date-picker>
               </v-menu>
             </v-flex>
-            <v-flex xs12 md4>
+            <v-flex xs12 md3>
               <v-select :items="estaciones" v-model="origenSearch"
                           label="Origen" clearable
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
-            <v-flex xs12 md4>
+            <v-flex xs12 md3>
+              <v-select :items="buses" v-model="busSearch"
+                          label="Buses" clearable
+                          single-line item-text="name" item-value="id"
+              ></v-select>
+            </v-flex>
+            <v-flex xs12 md3>
+              <v-select :items="conductores" v-model="conductorSearch"
+                label="Conductores" clearable
+                single-line item-text="name" item-value="id"
+              ></v-select>
               <!-- <v-autocomplete
                 v-model="servicioSearch"
                 :items="services"
@@ -157,6 +167,8 @@
         datepicker: false,
         dateSearch: '',
         origenSearch: '',
+        busSearch: '',
+        conductorSearch: '',
         loadigS: true,
         loadigM: true,
         servicioSearch: '',
@@ -185,6 +197,8 @@
         manifiestos: [],
         services: [],
         estaciones: [],
+        conductores: [],
+        buses: [],
         userDocumentType: [
           {text: 'RUT', id: 'RUT'},
           {text: 'PASAPORTE', id: 'PASAPORTE'}

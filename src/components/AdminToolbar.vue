@@ -103,7 +103,7 @@
       async getMyInfo () {
         let info = await API.get('profile')
         if (info.status >= 200 && info.status < 300) {
-          console.log('profile', info)
+          console.log('profile toolbar', info)
           this.role = info.data.role_id ? info.data.role_id : ''
           this.nombre = info.data.name ? info.data.name : ''
           this.isAdmin = (this.role === 2 || this.role === 5)

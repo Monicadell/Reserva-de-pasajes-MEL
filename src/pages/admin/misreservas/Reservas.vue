@@ -37,7 +37,7 @@
           <td class="">{{ props.item.booked_at }}</td>
           <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
-          <td class="">{{ props.item.seat }}</td>
+          <!-- <td class="">{{ props.item.seat }}</td> -->
           <td class="text-capitalize">{{ props.item.status }}</td>
 
         </template>
@@ -66,7 +66,7 @@
           {text: 'Fecha reserva', value: 'booked_at'},
           // {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
-          {text: 'Asiento', value: 'seat'},
+          // {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}
         ],
         ticketsList: [],

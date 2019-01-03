@@ -162,18 +162,28 @@
       },
       async getMyInfo () {
         console.log('luego de login exitoso voy a montar datos user')
-        let info = await API.get('profile')
-        if (info.status >= 200 && info.status < 300) {
-          console.log('profile', info)
-          this.$store.dispatch('Auth/setData', {
-            role: info.data.role_id,
-            username: info.data.name,
-            useremail: info.data.email,
-            userid: info.data.id,
-            conection: info.data.last_connection || ''
-          })
-        } else {
-          console.log('error profile')
+        try {
+          let info = await API.get('profile')
+          if (info.status >= 200 && info.status < 300) {
+            console.log('profile index login', info)
+            this.$store.dispatch('Auth/setData', {
+              role: info.data.role_id,
+              username: info.data.name,
+              useremail: info.data.email,
+              userid: info.data.id,
+              conection: info.data.last_connection || ''
+            })
+            if (info.data.last_connection === null) {
+              console.log('no tiene ultima conexion y voy a push')
+              this.$router.push({path: 'myInfo'})
+            }
+          } else {
+            console.log('error profile')
+          }
+        } catch (e) {
+          console.log(e)
+          console.log('catch err', e.response)
+          alert('Catch error, get profile')
         }
       },
       keymonitor (event) {

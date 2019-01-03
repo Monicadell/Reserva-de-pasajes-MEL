@@ -96,6 +96,28 @@
                   label="Empresa asociada"
                 ></v-autocomplete>
               </v-flex>
+
+            <v-flex xs12 sm6 md4>
+              <v-menu
+                v-model="datepicker"
+                :close-on-content-click="false"
+                full-width
+                max-width="290"
+              >
+                <v-text-field
+                  slot="activator"
+                  :value="computedDateFormattedMomentjs(editedItem.expiration)"
+                  clearable
+                  label="Fecha de expiración"
+                  readonly
+                ></v-text-field>
+                <v-date-picker
+                  v-model="editedItem.expiration"
+                  @change="datepicker = false"
+                  locale="es-419"
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
@@ -227,6 +249,8 @@
         loading: true,
         moment: moment,
         eliminaid: '',
+        datepicker: false,
+        dateSearch: '',
         page: 1,
         pagination: {
           page: 1,
@@ -298,6 +322,9 @@
     //  this.getContracts()
     },
     methods: {
+      computedDateFormattedMomentjs (data) {
+        return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
+      },
       async getUsers (params) {
         if (!params) {
           params = {'active': 0}

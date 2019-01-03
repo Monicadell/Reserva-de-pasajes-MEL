@@ -15,7 +15,7 @@
                     SERVICIO 
                   </v-flex>
                   <v-flex xs6 class="gris--text font-weight-black"> 
-                    {{item.id}}
+                    {{item.name}}
                   </v-flex>
                 </v-layout>
                    

@@ -135,6 +135,8 @@
         this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
         this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
         this.vuelo = false
+        this.acercamiento = ''
+        this.flight = ''
       },
       // eventAcerca (lugar) {
       //   this.acercamiento = lugar
@@ -192,6 +194,10 @@
           console.log('error al reservar', e.response)
           this.$store.dispatch('Booking/select', { selected: false })
           this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
+          this.vuelo = false
+          this.acercamiento = ''
+          this.flight = ''
           // this.$store.dispatch('Booking/set_e1', {
           //   e1: 1
           // })

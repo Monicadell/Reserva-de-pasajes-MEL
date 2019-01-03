@@ -93,7 +93,7 @@
         {text: 'Servicio', value: 'name', sortable: false},
         {text: 'Salida', value: 'from', sortable: false},
         {text: 'Llegada', value: 'to', sortable: false},
-        {text: 'Nº de Asientos Disponibles', value: 'asientos', sortable: false},
+        {text: 'Cupos disponibles', value: 'asientos', sortable: false},
         {text: '', value: 'action', sortable: false}
       ],
       mientras: [

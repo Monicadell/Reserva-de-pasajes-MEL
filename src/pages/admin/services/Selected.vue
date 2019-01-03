@@ -192,6 +192,9 @@
         }, 2000)
         this.$store.dispatch('Booking/select', {selected: false})
         this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: {}})
+        this.acercamiento = ''
+        this.flight = ''
+        this.vuelo = false
       },
       // eventAcerca (lugar) {
       //   this.acercamiento = lugar
@@ -265,6 +268,9 @@
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })
+          this.acercamiento = ''
+          this.flight = ''
+          this.vuelo = false
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
