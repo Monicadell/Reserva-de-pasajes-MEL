@@ -95,7 +95,7 @@
                   label="Empresa asociada"
                 ></v-autocomplete>
               </v-flex>
-               <v-flex xs12 sm6 md4>
+            <v-flex xs12 sm6 md4>
               <v-menu
                 v-model="datepicker"
                 :close-on-content-click="false"

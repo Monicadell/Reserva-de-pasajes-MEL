@@ -13,7 +13,7 @@ import Users from '@pages/admin/users'
 import Solicitudes from '@pages/admin/solicitudes'
 import Frecuencias from '@pages/admin/frecuencias'
 import Manifiestos from '@pages/admin/manifiestos'
-import Conductores from '@pages/admin/conductores'
+import Empleados from '@pages/admin/empleados'
 import Buses from '@pages/admin/buses'
 import Servicios from '@pages/admin/servicios'
 import Recorridos from '@pages/admin/recorridos'
@@ -101,9 +101,9 @@ const router = new Router({
           }
         },
         {
-          path: '/conductores',
-          name: 'Conductores',
-          component: Conductores,
+          path: '/empleados',
+          name: 'Empleados',
+          component: Empleados,
           meta: {
             requiresAuth: true,
             adminAuth: true

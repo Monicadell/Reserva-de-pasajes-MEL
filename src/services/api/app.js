@@ -34,7 +34,7 @@ export default {
     return axios.put(base + urlput + '/' + id, {...params})
   },
   patch (urlpatch, params) {
-    return axios.put(base + urlpatch, {...params})
+    return axios.patch(base + urlpatch, {...params})
   },
   delete (urldel, id) {
     console.log('elimina', id, base)

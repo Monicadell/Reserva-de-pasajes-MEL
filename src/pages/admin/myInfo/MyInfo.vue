@@ -225,8 +225,8 @@
           'name': this.userEdited.name,
           'email': this.userEdited.email,
           'phone_number': this.userEdited.phone_number,
-          'address': this.userEdited.address,
-          'password': this.userEdited.password
+          'address': this.userEdited.address
+          // 'password': this.userEdited.password
         }
         try {
           let putuser = await API.patch('profile', us)
@@ -288,7 +288,7 @@
             console.log('error profile', info)
           }
         } catch (e) {
-          console.log('catch err', e.response)
+          console.log('catch err', e)
           this.$swal({
             customClass: 'modal-info',
             type: 'error',

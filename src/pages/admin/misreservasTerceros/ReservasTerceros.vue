@@ -22,8 +22,14 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
+        <v-select v-if="role === 2"
+                  :items="filtros" v-model="filtro"
+                  label="Filtros" clearable
+                  single-line item-text="text" item-value="id"
+        ></v-select>
+        <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
+          <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
         </div>
       </v-toolbar>
 
@@ -96,6 +102,12 @@
           {text: 'Estado', value: 'status'},
           {text: '', value: ''}
         ],
+        filtro: 3,
+        filtros: [
+          {text: 'Reservas actuales', id: 1},
+          {text: 'Reservas perdidas', id: 2},
+          {text: 'Todas mis reservas a terceros', id: 3}
+        ],
         ticketsList: [],
         excelFields: {
           User: 'username',
@@ -116,15 +128,24 @@
     },
     computed: {
       ...mapGetters({
-        userId: ['Auth/userid']
+        userId: ['Auth/userid'],
+        role: ['Auth/role']
       })
     },
     mounted () {
+      console.log('reservas a terceros')
       this.getReservas()
     },
     watch: {
       $route (to, from) {
         this.getReservas()
+      },
+      filtro (val) {
+        // if (val === 1) {
+        //   this.getReservasActivas()
+        // } else {
+        this.getReservas()
+        // }
       }
     },
     methods: {
@@ -132,50 +153,42 @@
         console.log('user id', this.userId)
         console.log('ruta', this.$route.path)
         let params = {}
-        if (this.$route.path === '/misreservasaterceros') {
-          console.log('es a terceros')
-          params = {'booked_by_id': this.userId}
-          try {
-            const tickets = await API.get('tickets', params)
-            if (tickets.status >= 200 && tickets.status < 300) {
-              console.log('reservas a terceros', tickets)
-              // setTimeout(() => {
-              // this.ticketsList = Object.assign([], tickets.data.data)
-              this.ticketsList = tickets.data.data
-              this.items = this.ticketsList.map(item => {
-                for (const prop in item) {
-                  if (item[prop] == null) item[prop] = ''
-                }
-                return item
-              })
-              this.items.forEach(element => {
-                element.servicename = element.service.name
-                element.servicedate = element.service.date
-                element.username = element.user.name
-                element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
-                element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
-              })
-              // this.items.forEach(element => { element.servicedate = element.service.date })
-              // this.items.forEach(element => { element.username = element.user.name })
-              // this.items.forEach(element => { element.booked_at = moment(element.booked_at).format('DD-MM-YYYY HH:mm')})
-              // this.items.forEach(element => { element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''})
-              // }, 500)
+        // if (this.$route.path === '/misreservasaterceros') {
+        console.log('es a terceros')
+        params = {'booked_by_id': this.userId}
+        try {
+          const tickets = await API.get('tickets', params)
+          if (tickets.status >= 200 && tickets.status < 300) {
+            console.log('reservas a terceros', tickets)
+            // setTimeout(() => {
+            // this.ticketsList = Object.assign([], tickets.data.data)
+            // this.ticketsList = tickets.data.data
+            if (this.filtro === 2) {
+              console.log('Filtro perdidos terceros')
+              this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
+            } else if (this.filtro === 1) {
+              console.log('Filtro activas a terceros')
+              this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left > 0))
             } else {
-              console.log('Error ', tickets.status)
-              this.$swal({
-                customClass: 'modal-info',
-                type: 'error',
-                title: 'Reservas',
-                timer: 2000,
-                text: 'Ha ocurrido un error al obtener las reservas',
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'OK'
-              })
+              console.log('Filtro todas a terceros')
+              this.ticketsList = tickets.data.data
             }
-          } catch (e) {
-            console.log('Error ', e.response)
+            this.items = this.ticketsList.map(item => {
+              for (const prop in item) {
+                if (item[prop] == null) item[prop] = ''
+              }
+              return item
+            })
+            this.items.forEach(element => {
+              element.servicename = element.service.name
+              element.servicedate = element.service.date
+              element.username = element.user.name
+              element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
+              element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
+            })
+            // }, 500)
+          } else {
+            console.log('Error ', tickets.status)
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -188,47 +201,61 @@
               cancelButtonText: 'OK'
             })
           }
-        } else {
-          console.log('reservas propias')
-          try {
-            const tickets = await API.get('my_tickets', this.userId)
-            if (tickets.status >= 200 && tickets.status < 300) {
-              console.log('reservas', tickets)
-              // setTimeout(() => {
-              // this.ticketsList = Object.assign([], tickets.data.data)
-              this.ticketsList = tickets.data.data
-              this.ticketsList.forEach(element => { element.servicename = element.service.name })
-              this.ticketsList.forEach(element => { element.servicedate = element.service.date })
-              // }, 500)
-            } else {
-              console.log('Error ', tickets.status)
-              this.$swal({
-                customClass: 'modal-info',
-                type: 'error',
-                title: 'Reservas',
-                timer: 2000,
-                text: 'Ha ocurrido un error al obtener las reservas',
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'OK'
-              })
-            }
-          } catch (e) {
-            console.log('Error ', e.response)
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Reservas',
-              timer: 2000,
-              text: 'Ha ocurrido un error al obtener las reservas',
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'OK'
-            })
-          }
+        } catch (e) {
+          console.log('Error ', e.response)
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Reservas',
+            timer: 2000,
+            text: 'Ha ocurrido un error al obtener las reservas',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
         }
+        // } else {
+        //   console.log('reservas propias')
+        //   try {
+        //     const tickets = await API.get('my_tickets', this.userId)
+        //     if (tickets.status >= 200 && tickets.status < 300) {
+        //       console.log('reservas', tickets)
+        //       // setTimeout(() => {
+        //       // this.ticketsList = Object.assign([], tickets.data.data)
+        //       this.ticketsList = tickets.data.data
+        //       this.ticketsList.forEach(element => { element.servicename = element.service.name })
+        //       this.ticketsList.forEach(element => { element.servicedate = element.service.date })
+        //       // }, 500)
+        //     } else {
+        //       console.log('Error ', tickets.status)
+        //       this.$swal({
+        //         customClass: 'modal-info',
+        //         type: 'error',
+        //         title: 'Reservas',
+        //         timer: 2000,
+        //         text: 'Ha ocurrido un error al obtener las reservas',
+        //         animation: true,
+        //         showCancelButton: true,
+        //         showConfirmButton: false,
+        //         cancelButtonText: 'OK'
+        //       })
+        //     }
+        //   } catch (e) {
+        //     console.log('Error ', e.response)
+        //     this.$swal({
+        //       customClass: 'modal-info',
+        //       type: 'error',
+        //       title: 'Reservas',
+        //       timer: 2000,
+        //       text: 'Ha ocurrido un error al obtener las reservas',
+        //       animation: true,
+        //       showCancelButton: true,
+        //       showConfirmButton: false,
+        //       cancelButtonText: 'OK'
+        //     })
+        //   }
+        // }
       },
       async deleteItem (item) {
         console.log('voy a eliminar user', item)
