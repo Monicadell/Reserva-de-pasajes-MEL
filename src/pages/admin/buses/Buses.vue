@@ -63,6 +63,7 @@
           :headers="headers"
           :items="cars"
           :search="search"
+          :loading="loading"
           hide-actions
           no-data-text="No hay buses registrados"
         >

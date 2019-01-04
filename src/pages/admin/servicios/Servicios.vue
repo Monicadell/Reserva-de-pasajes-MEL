@@ -157,15 +157,17 @@
                               v-model="editedItem.cars"></v-text-field>
               </v-flex>
 
-            <!--  <v-flex xs12 sm6>
+             <!-- <v-flex xs12 sm6>
                 <v-select :items="drivers" v-model="editedItem.driver_id"
                           label="Conductor"
-                          single-line item-text="text" item-value="id"
+                          single-line item-text="name" item-value="id"
                 ></v-select>
-              </v-flex>-->
+              </v-flex> -->
               <!-- <v-flex xs12 md6>
-                <v-text-field label="Asientos disponibles"
-                              v-model="editedItem.avail_seats"></v-text-field>
+                <v-select :items="cars" v-model="editedItem.car_id"
+                          label="Bus"
+                          single-line item-text="name" item-value="id"
+                ></v-select>
               </v-flex> -->
             </v-layout>
           </v-container>
@@ -230,7 +232,9 @@
           <!-- <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }} / {{ props.item.total_seats }}</td>
-           <td class="">{{ props.item.cars }}</td>
+          <td class="">{{ props.item.cars }}
+            <!-- <a>Asignar</a> -->
+          </td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -313,14 +317,8 @@
           {text: '', value: 'delete', sortable: false}
         ],
         services: [],
-        drivers: [
-          {text: 'Martin Rihdas', id: '1'},
-          {text: 'Pepe Rodriguez', id: '2'}
-        ],
-        cars: [
-          {text: 'bus 1', id: '1'},
-          {text: 'Sprinter 3', id: '2'}
-        ],
+        // drivers: [],
+        // cars: [],
         frequencies: [
         ],
         trips: [],
@@ -348,6 +346,8 @@
       this.getServices()
       this.getTrips()
       this.getFrequencies()
+      this.getCars()
+      this.getDrivers()
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -571,7 +571,29 @@
         let freq = this.frequencies.find(frec => frec.id == item)
         // console.log('encuentra', freq)
         return freq ? freq.name : ''
-      }
+      },
+      // async getCars () {
+      //   try {
+      //     let cars = await API.get('cars')
+      //     if (cars.status >= 200 && cars.status < 300) {
+      //       console.log('Result load cars in services', cars)
+      //       this.cars = cars.data.data
+      //     }
+      //   } catch (e) {
+      //     console.log('error al cargar cars en servicios', e)
+      //   }
+      // },
+      // async getDrivers () {
+      //   try {
+      //     let drivers = await API.get('employees')
+      //     if (drivers.status >= 200 && drivers.status < 300) {
+      //       this.drivers = drivers.data.data.filter(dri => dri.position === 1)
+      //       console.log('conductores', this.drivers)
+      //     }
+      //   } catch (e) {
+      //     console.log('error al cargar frecuencias', e.response)
+      //   }
+      // }
     }
   }
 </script>

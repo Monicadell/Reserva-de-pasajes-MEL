@@ -21,10 +21,10 @@
                           type="number"
                          v-model="editedItem.seats"></v-text-field>
               </v-flex>
-              <v-flex xs12 sm6 md4>
+              <!-- <v-flex xs12 sm6 md4>
                 <v-text-field label="Alto" type="number"
                           v-model="editedItem.height"></v-text-field>
-              </v-flex>
+              </v-flex> -->
               <v-flex xs12 md4>
                 <v-text-field label="Ancho" type="number"
                           v-model="editedItem.width"></v-text-field>
@@ -34,7 +34,7 @@
                           v-model="editedItem.length"></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
-                <v-text-field label="Peso" type="number"
+                <v-text-field label="Tara" type="number"
                           v-model="editedItem.weight"></v-text-field>
               </v-flex>
             </v-layout>
@@ -79,6 +79,7 @@
           :headers="headers"
           :items="formats"
           :search="search"
+          :loading="loading"
           hide-actions
           no-data-text="No hay formatos registrados"
         >
@@ -86,7 +87,7 @@
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.levels }}</td>
           <td class="">{{ props.item.seats }}</td>
-          <td class="">{{ props.item.height }}</td>
+          <!-- <td class="">{{ props.item.height }}</td> -->
           <td class="">{{ props.item.width }}</td>
           <td class="">{{ props.item.length }}</td>
           <td class="">{{ props.item.weight }}</td>
@@ -140,7 +141,7 @@
           length: '',
           name: '',
           seats: '',
-          height: '',
+          // height: '',
           width: '',
           levels: '',
           weight: ''
@@ -150,10 +151,10 @@
           {text: 'Nombre', value: 'name'},
           {text: 'Niveles', value: 'levels'},
           {text: 'Asientos', value: 'seats'},
-          {text: 'Alto', value: 'height'},
+          // {text: 'Alto', value: 'height'},
           {text: 'Ancho', value: 'width'},
           {text: 'Largo', value: 'length'},
-          {text: 'Peso', value: 'weight'},
+          {text: 'Tara', value: 'weight'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
