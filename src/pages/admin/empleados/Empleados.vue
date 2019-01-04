@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="py-3"><h2>Buses</h2> </div>
+    <div class="py-3"><h2>Empleados</h2> </div>
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
-          <h3 class="headline">Buses</h3>
+          <h3 class="headline">Empleados</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -12,14 +12,55 @@
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
               </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Patente" v-model="editedItem.plate"></v-text-field>
+              <v-flex xs12 md4>
+                <v-text-field label="Rut"
+                          @keyup="keymonitor()"
+                          v-model="editedItem.rut"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-select :items="formats" v-model="editedItem.format_id"
-                          label="Formato"
-                          single-line item-text="name" item-value="id"
+                <v-select :items="positions" v-model="editedItem.position"
+                          label="Tipo de empleado"
+                          single-line item-text="text" item-value="id"
                 ></v-select>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-menu
+                  v-model="datepicker"
+                  :close-on-content-click="false"
+                  full-width
+                  max-width="290"
+                >
+                  <v-text-field
+                    slot="activator"
+                    :value="computedDateFormattedMomentjs(editedItem.dob)"
+                    clearable
+                    label="Fecha de nacimiento"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker
+                    v-model="editedItem.dob"
+                    @change="datepicker = false"
+                    locale="es-419"
+                    min="1910-12-12"
+                  ></v-date-picker>
+                </v-menu>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-switch
+                  class="justify-center"
+                  label="Activo"
+                  v-model="editedItem.active"
+                ></v-switch>
+                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                          single-line item-text="text" item-value="id"
+                ></v-select> -->
+              </v-flex>
+              <v-flex xs12 md4>
+                <v-text-field label="Teléfono"
+                          v-model="editedItem.mobile_no"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -35,8 +76,8 @@
     <!-- dialogo confirmar eliminar -->
     <v-dialog v-model="confirmaAnular" persistent max-width="450">
       <v-card>
-        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el bus?</v-card-title>
-        <v-card-text>Una vez realizada esta acción no podrá recuperar el bus.</v-card-text>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el empleado?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar el empleado.</v-card-text>
         <v-card-actions class="pb-3 px-3">
           <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
           <v-spacer></v-spacer>
@@ -55,16 +96,16 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Bus</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Empleado</v-btn>
         </div>
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
-          :items="cars"
+          :items="employees"
           :search="search"
           hide-actions
-          no-data-text="No hay buses registrados"
+          no-data-text="No hay empleados registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
@@ -127,32 +168,42 @@
         loading: true,
         editedItem: {
           name: '',
-          plate: '',
-          format_id: ''
+          rut: '',
+          active: '',
+          email: '',
+          mobile_no: '',
+          dob: ''
         },
         datepicker: false,
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Patente', value: 'plate'},
-          {text: 'Formato', value: 'format_id'},
+          {text: 'Rut', value: 'rut'},
+          {text: 'Active', value: 'active'},
+          {text: 'Email', value: 'email'},
+          {text: 'Número de teléfono', value: 'phone_number'},
+          {text: 'Fecha nacimiento', value: 'dob'},
+          {text: 'Tipo', value: 'position'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        cars: [],
-        formats: []
+        employees: [],
+        positions: [
+          {text: 'Conductor', id: 1},
+          {text: 'Auxiliar', id: 2}
+        ]
       }
     },
     mounted () {
-      this.getCars()
+      this.getEmployees()
     },
     methods: {
-      async getCars () {
+      async getEmployees () {
         try {
-          let cars = await API.get('cars')
-          if (cars.status >= 200 && cars.status < 300) {
-            console.log('buses', cars)
+          let employees = await API.get('employees')
+          if (employees.status >= 200 && employees.status < 300) {
+            console.log('empleados', employees)
             setTimeout(() => {
-              this.cars = cars.data.data
+              this.employees = employees.data.data
               this.loading = false
             }, 500)
           }
@@ -166,7 +217,7 @@
             customClass: 'modal-info',
             type: 'error',
             title: 'Error',
-            text: 'Ha ocurrido un error al cargar los buses, intente más tarde.',
+            text: 'Ha ocurrido un error al cargar los empleados, intente más tarde.',
             animation: true,
             showCancelButton: true,
             showConfirmButton: false,
@@ -183,27 +234,31 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         let em = {
-          'car':
+          'employee':
           {
             'name': guardar.name ? guardar.name : '',
-            'plate': guardar.plate ? guardar.plate : false,
-            'format_id': guardar.format_id ? guardar.format_id : ''
+            'active': guardar.active ? guardar.active : false,
+            'rut': guardar.rut ? guardar.rut : '',
+            'dob': guardar.dob ? guardar.dob : '',
+            'email': guardar.email ? guardar.email : '',
+            'mobile_no': guardar.mobile_no ? guardar.mobile_no : '',
+            'position': guardar.position ? guardar.position : ''
           }
         }
         let id = guardar.id
         if (id) {
           console.log('emplado a put', em)
           try {
-            let putbus = await API.put('cars', id, em)
-            if (putbus.status >= 200 && putbus.status < 300) {
-              this.getCars()
+            let putempleado = await API.put('employees', id, em)
+            if (putempleado.status >= 200 && putempleado.status < 300) {
+              this.getEmployees()
               this.dialog = false
               this.$swal({
                 type: 'success',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Bus',
-                text: 'Bus actualizado exitosamente!',
+                title: 'Empleado',
+                text: 'Empleado actualizado exitosamente!',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
@@ -219,27 +274,27 @@
               customClass: 'modal-info',
               timer: 2000,
               title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el bus, intente más tarde.',
+              text: 'Ha ocurrido un error editando el empleado, intente más tarde.',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
             })
           }
         } else {
-          console.log('bus a post', em)
+          console.log('empleado a post', em)
           try {
-            let postbus = await API.post('cars', em)
-            if (postbus.status >= 200 && postbus.status < 300) {
-              console.log('result post bus', postbus)
+            let postempleado = await API.post('employees', em)
+            if (postempleado.status >= 200 && postempleado.status < 300) {
+              console.log('result post empleado', postempleado)
               this.editedItem = Object.assign({}, '')
-              this.getCars()
+              this.getEmployees()
               this.dialog = false
               this.$swal({
                 type: 'success',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Bus',
-                text: 'Bus creado exitosamente!',
+                title: 'Empleado',
+                text: 'Empleado creado exitosamente!',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
@@ -253,7 +308,7 @@
               type: 'error',
               customClass: 'modal-info',
               title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el bus, intente más tarde.',
+              text: 'Ha ocurrido un error creando el empleado, intente más tarde.',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
@@ -262,19 +317,19 @@
         }
       },
       async deleteItem (item) {
-        console.log('voy a eliminar bus', item)
+        console.log('voy a eliminar empleado', item)
         try {
-          let eliminando = await API.delete('cars', item)
+          let eliminando = await API.delete('employees', item)
           if (eliminando.status >= 200 && eliminando.status < 300) {
-            console.log('ya hizo DELETE car', eliminando)
-            this.getCars()
+            console.log('ya hizo DELETE employee', eliminando)
+            this.getEmployees()
             this.confirmaAnular = false
             this.$swal({
               type: 'success',
               customClass: 'modal-info',
               timer: 2000,
-              title: 'Bus',
-              text: 'Bus eliminado exitosamente!',
+              title: 'Empleado',
+              text: 'Empleado eliminado exitosamente!',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
@@ -290,7 +345,7 @@
             customClass: 'modal-info',
             timer: 2000,
             title: 'Ha ocurrido un error',
-            text: 'Ha ocurrido un error eliminando el bus, intente más tarde.',
+            text: 'Ha ocurrido un error eliminando el empleado, intente más tarde.',
             animation: true,
             showConfirmButton: false,
             showCloseButton: false

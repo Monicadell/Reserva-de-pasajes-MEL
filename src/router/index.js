@@ -15,6 +15,7 @@ import Frecuencias from '@pages/admin/frecuencias'
 import Manifiestos from '@pages/admin/manifiestos'
 import Empleados from '@pages/admin/empleados'
 import Buses from '@pages/admin/buses'
+import Formatos from '@pages/admin/formatosBus'
 import Servicios from '@pages/admin/servicios'
 import Recorridos from '@pages/admin/recorridos'
 import Estaciones from '@pages/admin/estaciones'
@@ -113,6 +114,15 @@ const router = new Router({
           path: '/buses',
           name: 'Buses',
           component: Buses,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true
+          }
+        },
+        {
+          path: '/formatos',
+          name: 'Formatos',
+          component: Formatos,
           meta: {
             requiresAuth: true,
             adminAuth: true

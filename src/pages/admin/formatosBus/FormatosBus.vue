@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="py-3"><h2>Buses</h2> </div>
+    <div class="py-3"><h2>Formatos de Buses</h2> </div>
     <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
-          <h3 class="headline">Buses</h3>
+          <h3 class="headline">Formatos</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -13,13 +13,29 @@
                 <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Patente" v-model="editedItem.plate"></v-text-field>
+                <v-text-field label="Niveles" type="number" 
+                          v-model="editedItem.levels"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-select :items="formats" v-model="editedItem.format_id"
-                          label="Formato"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
+                <v-text-field label="Nº de asientos"
+                          type="number"
+                         v-model="editedItem.seats"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Alto" type="number"
+                          v-model="editedItem.height"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md4>
+                <v-text-field label="Ancho" type="number"
+                          v-model="editedItem.width"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md4>
+                <v-text-field label="Largo" type="number"
+                          v-model="editedItem.length"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md4>
+                <v-text-field label="Peso" type="number"
+                          v-model="editedItem.weight"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -35,8 +51,8 @@
     <!-- dialogo confirmar eliminar -->
     <v-dialog v-model="confirmaAnular" persistent max-width="450">
       <v-card>
-        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el bus?</v-card-title>
-        <v-card-text>Una vez realizada esta acción no podrá recuperar el bus.</v-card-text>
+        <v-card-title class="headline primary white--text">¿Esta seguro de eliminar el empleado?</v-card-title>
+        <v-card-text>Una vez realizada esta acción no podrá recuperar el empleado.</v-card-text>
         <v-card-actions class="pb-3 px-3">
           <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
           <v-spacer></v-spacer>
@@ -55,30 +71,25 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Bus</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Formato</v-btn>
         </div>
       </v-toolbar>
 
       <v-data-table
           :headers="headers"
-          :items="cars"
+          :items="formats"
           :search="search"
           hide-actions
-          no-data-text="No hay buses registrados"
+          no-data-text="No hay formatos registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.rut }}</td>
-          <td class="">
-            <span v-if="props.item.active">Activo</span>
-            <span v-else>Inactivo</span>
-          </td>
-          <td class="">{{ props.item.email }}</td>
-          <td class="">{{ props.item.mobile_no }}</td>
-          <td class="">{{ props.item.dob }}</td>
-          <td class="">
-            <span v-if="props.item.position === 1">Conductor</span>
-            <span v-if="props.item.position === 2">Auxiliar</span></td>
+          <td class="">{{ props.item.levels }}</td>
+          <td class="">{{ props.item.seats }}</td>
+          <td class="">{{ props.item.height }}</td>
+          <td class="">{{ props.item.width }}</td>
+          <td class="">{{ props.item.length }}</td>
+          <td class="">{{ props.item.weight }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -126,33 +137,44 @@
         eliminaid: '',
         loading: true,
         editedItem: {
+          length: '',
           name: '',
-          plate: '',
-          format_id: ''
+          seats: '',
+          height: '',
+          width: '',
+          levels: '',
+          weight: ''
         },
         datepicker: false,
         headers: [
           {text: 'Nombre', value: 'name'},
-          {text: 'Patente', value: 'plate'},
-          {text: 'Formato', value: 'format_id'},
+          {text: 'Niveles', value: 'levels'},
+          {text: 'Asientos', value: 'seats'},
+          {text: 'Alto', value: 'height'},
+          {text: 'Ancho', value: 'width'},
+          {text: 'Largo', value: 'length'},
+          {text: 'Peso', value: 'weight'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
-        cars: [],
-        formats: []
+        formats: [],
+        positions: [
+          {text: 'Conductor', id: 1},
+          {text: 'Auxiliar', id: 2}
+        ]
       }
     },
     mounted () {
-      this.getCars()
+      this.getEmployees()
     },
     methods: {
-      async getCars () {
+      async getEmployees () {
         try {
-          let cars = await API.get('cars')
-          if (cars.status >= 200 && cars.status < 300) {
-            console.log('buses', cars)
+          let formats = await API.get('formats')
+          if (formats.status >= 200 && formats.status < 300) {
+            console.log('formatos', formats)
             setTimeout(() => {
-              this.cars = cars.data.data
+              this.formats = formats.data.data
               this.loading = false
             }, 500)
           }
@@ -166,7 +188,7 @@
             customClass: 'modal-info',
             type: 'error',
             title: 'Error',
-            text: 'Ha ocurrido un error al cargar los buses, intente más tarde.',
+            text: 'Ha ocurrido un error al cargar los formatos, intente más tarde.',
             animation: true,
             showCancelButton: true,
             showConfirmButton: false,
@@ -183,27 +205,32 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         let em = {
-          'car':
+          'format':
           {
             'name': guardar.name ? guardar.name : '',
-            'plate': guardar.plate ? guardar.plate : false,
-            'format_id': guardar.format_id ? guardar.format_id : ''
+            'seats': guardar.seats ? guardar.seats : '',
+            'levels': guardar.levels ? guardar.levels : '',
+            'width': guardar.width ? guardar.width : '',
+            'height': guardar.height ? guardar.height : '',
+            'length': guardar.length ? guardar.length : '',
+            'grid': {'a': 1},
+            'weight': guardar.weight ? guardar.weight : ''
           }
         }
         let id = guardar.id
         if (id) {
-          console.log('emplado a put', em)
+          console.log('format a put', em)
           try {
-            let putbus = await API.put('cars', id, em)
-            if (putbus.status >= 200 && putbus.status < 300) {
-              this.getCars()
+            let putformato = await API.put('formats', id, em)
+            if (putformato.status >= 200 && putformato.status < 300) {
+              this.getEmployees()
               this.dialog = false
               this.$swal({
                 type: 'success',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Bus',
-                text: 'Bus actualizado exitosamente!',
+                title: 'Formato',
+                text: 'Formato actualizado exitosamente!',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
@@ -219,27 +246,27 @@
               customClass: 'modal-info',
               timer: 2000,
               title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el bus, intente más tarde.',
+              text: 'Ha ocurrido un error editando el formato, intente más tarde.',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
             })
           }
         } else {
-          console.log('bus a post', em)
+          console.log('formato a post', em)
           try {
-            let postbus = await API.post('cars', em)
-            if (postbus.status >= 200 && postbus.status < 300) {
-              console.log('result post bus', postbus)
+            let postformato = await API.post('formats', em)
+            if (postformato.status >= 200 && postformato.status < 300) {
+              console.log('result post formato', postformato)
               this.editedItem = Object.assign({}, '')
-              this.getCars()
+              this.getEmployees()
               this.dialog = false
               this.$swal({
                 type: 'success',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Bus',
-                text: 'Bus creado exitosamente!',
+                title: 'Formato',
+                text: 'Formato creado exitosamente!',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
@@ -253,7 +280,7 @@
               type: 'error',
               customClass: 'modal-info',
               title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el bus, intente más tarde.',
+              text: 'Ha ocurrido un error creando el formato, intente más tarde.',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
@@ -262,19 +289,19 @@
         }
       },
       async deleteItem (item) {
-        console.log('voy a eliminar bus', item)
+        console.log('voy a eliminar formato', item)
         try {
-          let eliminando = await API.delete('cars', item)
+          let eliminando = await API.delete('formats', item)
           if (eliminando.status >= 200 && eliminando.status < 300) {
-            console.log('ya hizo DELETE car', eliminando)
-            this.getCars()
+            console.log('ya hizo DELETE format', eliminando)
+            this.getEmployees()
             this.confirmaAnular = false
             this.$swal({
               type: 'success',
               customClass: 'modal-info',
               timer: 2000,
-              title: 'Bus',
-              text: 'Bus eliminado exitosamente!',
+              title: 'Formato',
+              text: 'Formato eliminado exitosamente!',
               animation: true,
               showConfirmButton: false,
               showCloseButton: false
@@ -290,7 +317,7 @@
             customClass: 'modal-info',
             timer: 2000,
             title: 'Ha ocurrido un error',
-            text: 'Ha ocurrido un error eliminando el bus, intente más tarde.',
+            text: 'Ha ocurrido un error eliminando el formato, intente más tarde.',
             animation: true,
             showConfirmButton: false,
             showCloseButton: false
