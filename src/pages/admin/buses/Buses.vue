@@ -68,17 +68,8 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.rut }}</td>
-          <td class="">
-            <span v-if="props.item.active">Activo</span>
-            <span v-else>Inactivo</span>
-          </td>
-          <td class="">{{ props.item.email }}</td>
-          <td class="">{{ props.item.mobile_no }}</td>
-          <td class="">{{ props.item.dob }}</td>
-          <td class="">
-            <span v-if="props.item.position === 1">Conductor</span>
-            <span v-if="props.item.position === 2">Auxiliar</span></td>
+          <td class="">{{ props.item.plate }}</td>
+          <td class="">{{ props.item.format_id }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -144,6 +135,7 @@
     },
     mounted () {
       this.getCars()
+      this.getFormats()
     },
     methods: {
       async getCars () {
@@ -167,6 +159,34 @@
             type: 'error',
             title: 'Error',
             text: 'Ha ocurrido un error al cargar los buses, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
+        }
+      },
+      async getFormats () {
+        try {
+          let formats = await API.get('formats')
+          if (formats.status >= 200 && formats.status < 300) {
+            console.log('formatos', formats)
+            // setTimeout(() => {
+            this.formats = formats.data.data
+            //   this.loading = false
+            // }, 500)
+          }
+        } catch (e) {
+          console.log('catch err formatos en buses', e)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar los formatos de buses, intente más tarde.',
             animation: true,
             showCancelButton: true,
             showConfirmButton: false,
