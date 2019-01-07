@@ -15,6 +15,7 @@ import Frecuencias from '@pages/admin/frecuencias'
 import Manifiestos from '@pages/admin/manifiestos'
 import Empleados from '@pages/admin/empleados'
 import Buses from '@pages/admin/buses'
+import Asignacion from '@pages/admin/asignacion'
 import Formatos from '@pages/admin/formatosBus'
 import Servicios from '@pages/admin/servicios'
 import Recorridos from '@pages/admin/recorridos'
@@ -185,6 +186,16 @@ const router = new Router({
           path: '/misreservasaterceros',
           name: 'misreservasaterceros',
           component: ReservasTerceros,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true,
+            callcenterAuth: true
+          }
+        },
+        {
+          path: '/asignacion',
+          name: 'asignacion',
+          component: Asignacion,
           meta: {
             requiresAuth: true,
             adminAuth: true,

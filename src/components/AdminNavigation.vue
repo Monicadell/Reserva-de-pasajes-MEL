@@ -9,7 +9,7 @@
     :width="220"
   >
 
-    <v-list two-line class="primary" dark>
+    <v-list two-line class="primary py-0" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
@@ -82,6 +82,7 @@
         {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'Admin'},
         {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'Admin'},
         {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'Admin'},
+        {icon: '../../static/icons/08.png', text: 'Asignación', path: { path: '/asignacion' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Formatos Bus', path: { path: '/formatos' }, type: 'Admin'},
         {icon: '../../static/icons/08.png', text: 'Empleados', path: { path: '/empleados' }, type: 'Admin'},

@@ -179,7 +179,7 @@
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Rut', value: 'rut'},
-          {text: 'Active', value: 'active'},
+          {text: 'Activo', value: 'active'},
           {text: 'Email', value: 'email'},
           {text: 'Número de teléfono', value: 'phone_number'},
           {text: 'Fecha nacimiento', value: 'dob'},
@@ -234,6 +234,7 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
+        guardar.rut = guardar.rut.replace(/\./g, '')
         let em = {
           'employee':
           {

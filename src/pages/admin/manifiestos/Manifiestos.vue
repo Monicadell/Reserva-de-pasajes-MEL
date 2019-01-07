@@ -134,6 +134,8 @@
           <td class="">{{ props.item.source }}</td>
           <td class="">{{ props.item.dest }}</td>
           <td class="">{{ props.item.departure }}</td>
+          <td class="">{{ props.item.employee_name }}</td>
+          <td class="">{{ props.item.car_name }}</td>
           <td class="">
             <v-tooltip top>
               <v-icon
@@ -192,6 +194,8 @@
           {text: 'Origen', value: 'source'},
           {text: 'Destino', value: 'dest'},
           {text: 'Hora salida', value: 'service.departure'},
+          {text: 'Conductor', value: 'conductor'},
+          {text: 'Bus', value: 'bus'},
           {text: 'Detalles', value: '', sortable: false}
         ],
         manifiestos: [],
