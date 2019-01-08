@@ -1,5 +1,5 @@
 <template>
-  <div class="contiene" style="width: 100%; max-height: calc(100% - 0)">
+  <div class="contiene">
     <v-toolbar card prominent>
 
       <v-toolbar-title class="body-3 primary--text ml-4">
@@ -20,10 +20,10 @@
 
     <!-- <v-divider></v-divider> -->
 
-    <v-layout class="" style="max-height: calc(100% - 64px)">
+    <v-layout class="layout-reservas">
       <v-flex xs3>
         <!-- Reservas propias -->
-        <v-navigation-drawer style="width: 100%" v-if="$route.path !== '/reservaterceros'">
+        <v-navigation-drawer class="width100" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text primary">
               <span class="hidden-sm-and-down ml-4">Mis reservas</span>
@@ -38,13 +38,13 @@
               </v-flex>
             </v-layout>
             <div v-if="items.length === 0 && !progres" class=" text-xs-center pt-5">
-              <span class="font-weight-bold" style="color: rgba(0, 0, 0, .54)">No tienes Reservas</span>
+              <span class="font-weight-bold gris054">No tienes Reservas</span>
             </div>
           </v-list>
         </v-navigation-drawer>
 
         <!-- reserva terceros -->
-        <v-navigation-drawer style="width: 100%" v-if="$route.path === '/reservaterceros'">
+        <v-navigation-drawer class="width100" v-if="$route.path === '/reservaterceros'">
           <users-list />
         </v-navigation-drawer>
       </v-flex>
@@ -156,7 +156,7 @@
 
       </v-flex>
       <v-flex xs2>
-        <v-navigation-drawer style="width: 100%; height: calc(100vh - 120px); background-color: #f5f5f5">
+        <v-navigation-drawer class="barra-express">
           <!-- <v-list dense class="pt-0 user "> -->
             <v-toolbar-title class="primary--text">
               <span class="hidden-sm-and-down ml-4 font-weight-black">Servicios próximos</span>
@@ -167,14 +167,13 @@
               <v-card-title primary-title class="pb-1 pt-3">
                 <span class="mb-0 title-ticket font-weight-black secondary--text darken-3">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
-              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"></v-divider>
+              <v-divider class="divider-ticket ml-3"></v-divider>
                 <v-data-table
                   :headers="hoyHeaders"
                   :items="hoy"
                   hide-actions
                   class="tabla-express pt-3"
                   no-data-text="No hay viajes para hoy"
-                  style="overflow-y: scroll; height: calc(100% - 40px); "
                 >
                   <template slot="items" slot-scope="props" >
                     <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
@@ -201,14 +200,13 @@
               <v-card-title primary-title class="pb-1 pt-3">
               <span class="mb-0 title-ticket font-weight-black  secondary--text darken-3">Mañana {{ moment(tomorrowDate).format('DD-MM-YYYY')}}</span>
               </v-card-title>
-              <v-divider class="divider-ticket ml-3" style="border-color: #1565c0"> </v-divider>
+              <v-divider class="divider-ticket ml-3"> </v-divider>
               <v-data-table
                     :headers="mananaHeaders"
                     :items="manana"
                     hide-actions
                     class="tabla-express pt-3"
                     no-data-text="No hay viajes para mañana"
-                    style="height: calc(100% - 40px); overflow-y: scroll;"
                   >
                   <template slot="items" slot-scope="props" >
                     <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
@@ -478,6 +476,25 @@
     background: #fff;
     overflow-y: scroll;
   }
+  .contiene {
+    width: 100%;
+    max-height: calc(100% - 0);
+  }
+  .layout-reservas {
+    width: 100%;
+    max-height: calc(100% - 0);
+  }
+  .width100 {
+    width: 100% !important;
+  }
+  .gris054 {
+    color: rgba(0, 0, 0, .54);
+  }
+  aside.v-navigation-drawer.barra-express {
+    width: 100%;
+    height: calc(100vh - 120px);
+    background-color: #f5f5f5;
+  }
   .input-buscar-user{
     border-bottom: 1px solid #ccc;
   }
@@ -495,8 +512,8 @@
   }
   .v-divider.divider-ticket {
     /* border-style: dashed;
-    border-width: 1px;
-    border-color: #1565c0; */
+    border-width: 1px;*/
+    border-color: #1565c0;
     border-top: 1px dashed #ff9800;
     width:90%;
   }
@@ -504,8 +521,13 @@
     /* color: #1565c0; */
     font-size: 16px;
   }
-  /* .tabla-express .v-table.theme--light tbody tr:nth-child(odd) {
-    background: rgba(104, 104, 104, 0.1);
+  .tabla-express{
+    overflow-y: scroll;
+    height: calc(100% - 40px);
+  }
+  /* .tabla-express.manana {
+    height: calc(100% - 40px);
+    overflow-y: scroll;
   } */
   .tabla-express .theme--light.v-table thead tr{
     height: auto;

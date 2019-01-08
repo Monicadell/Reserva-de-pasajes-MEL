@@ -7,7 +7,7 @@
              <v-spacer></v-spacer>
              <a  color="primary" class="btn-ticket" @click="mostrarDetalle(item)">Ver Detalles</a>
             </v-card-title>
-             <v-divider class="divider-ticket mx-3" style=" width: auto; border-color: #1565c0"> </v-divider>
+             <v-divider class="divider-ticket mx-3"> </v-divider>
              <v-card-text class=""> 
               
                 <v-layout row> 
@@ -97,7 +97,9 @@
             <v-layout column v-if="statusConfirmacion.status =='none'"> <!-- USUARIO NO PUEDE CONFIRMAR -->
               <v-flex> 
                 <v-layout justify-start row ml-3> 
-                  <v-flex> <v-icon color="primary" class="pr-1" style="vertical-align: top">timelapse</v-icon>  <span style="padding: 0 16px 0 0; margin-bottom: 16px; display: inline-block; vertical-align: middle;"> {{item.service.hrs_left}}hrs para su confirmación</span> </v-flex>
+                  <v-flex> <v-icon color="primary" class="pr-1 icono-reloj">timelapse</v-icon>
+                        <span class="texto-confirmacion"> {{item.service.hrs_left}}hrs para su confirmación</span>
+                  </v-flex>
                   <v-spacer> </v-spacer>
                 </v-layout>
               </v-flex>
@@ -118,7 +120,7 @@
             </v-layout>
 
             <v-layout column v-if="statusConfirmacion.status =='express'"> <!-- USUARIO PASAJE EXPRESS -->
-              <p style="padding: 0 16px;"> {{item.service.hrs_left}}hrs. para su viaje</p>
+              <p class="texto-viaje"> {{item.service.hrs_left}}hrs. para su viaje</p>
 
               <v-card-actions>
               <v-layout row wrap fill-height> 
@@ -269,15 +271,25 @@
 </script>
 
 <style>
-
+  .icono-reloj {
+    vertical-align: top;
+  }
+  .texto-confirmacion {
+    padding: 0 16px 0 0;
+    margin-bottom: 16px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .texto-viaje {
+    padding: 0 16px;
+  }
   .v-btn.btn-ticket{
-    text-transform: none;
-   
-}
-  .v-divider.divider-ticket {
+    text-transform: none;  
+  }
+  .theme--light.v-divider.divider-ticket {
     /* border-style: dashed;
-    border-width: 1px;
-    border-color: #1565c0; */
+    border-width: 1px;*/
+    border-color: #1565c0;
     border-top: 1px dashed #1565c0;
     width:90%;
 }

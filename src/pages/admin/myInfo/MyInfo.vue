@@ -231,7 +231,7 @@
         try {
           let putuser = await API.patch('profile', us)
           if (putuser.status >= 200 && putuser.status < 300) {
-            this.getUsers()
+            this.getMyInfo()
             this.dialog = false
             this.$swal({
               type: 'success',
@@ -246,7 +246,7 @@
             this.editedItem = Object.assign({}, '')
           }
         } catch (e) {
-          console.log('catch err', e.response)
+          console.log('catch err', e)
           this.editedItem = Object.assign({}, '')
           this.dialog = false
           this.$swal({

@@ -11,10 +11,10 @@
 
     <v-dialog v-model="dialog" max-width="70%">
       <v-card>
-        <v-card-title class="headline">Asignar {{editedItem.cars}}</v-card-title>
+        <v-card-title class="headline primary white--text">Asignar</v-card-title>
         <v-card-text>
           <!-- <template > -->
-            <v-layout wrap v-for="car in editedItem.cars">
+            <v-layout wrap v-for="car in editedItem.cars" :key="car">
               <v-flex xs12>
                 Bus {{car}}
                 <!-- <v-text-field
@@ -52,8 +52,8 @@
     </v-dialog>
 
     <div class="elevation-1">
-      <v-toolbar flat color="white">
-        <v-text-field
+      <v-toolbar flat color="white" class="pt-2">
+        <!-- <v-text-field
           v-model="search"
           append-icon="search"
           label="Buscar"
@@ -61,6 +61,51 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
+         <v-select
+                  :items="filtros" v-model="filtro"
+                  label="Filtros" clearable
+                  single-line item-text="text" item-value="id"
+        ></v-select> -->
+          <v-layout wrap>
+            <v-flex xs12 md4>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Buscar"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 md4>
+              <v-menu
+                v-model="datepicker"
+                :close-on-content-click="false"
+                full-width
+                max-width="290"
+              >
+                <v-text-field
+                  slot="activator"
+                  :value="computedDateFormattedMomentjs"
+                  clearable
+                  @click:clear="clearFecha"
+                  label="Fecha"
+                  readonly
+                ></v-text-field>
+                <v-date-picker
+                  v-model="dateSearch"
+                  @change="datepicker = false"
+                  locale="es-419"
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 md4>
+              <v-select
+                  :items="filtros" v-model="filtro"
+                  label="Filtros" clearable
+                  single-line item-text="text" item-value="id"
+              ></v-select> 
+            </v-flex>
+          </v-layout>
       </v-toolbar>
 
       <v-data-table
@@ -98,8 +143,8 @@
                       single-line item-text="name" item-value="id"
             ></v-select>   
           </td> -->
-          <td class="justify-center">
-            <v-tooltip top>
+          <td class="text-xs-center">
+            <!-- <v-tooltip top>
               <v-icon
                 small
                 slot="activator"
@@ -108,8 +153,10 @@
               >
                 >
               </v-icon>
-              <span>Editar</span>
-            </v-tooltip>
+              <span>Asignar</span>
+            </v-tooltip> -->
+            <v-btn v-if="props.item.cars > 1" flat small class="primary--text text-capitalize" @click="editItem(props.item)">Asignar</v-btn>
+            <v-btn v-else flat small class="primary--text text-capitalize" @click="editItem(props.item)">Modificar</v-btn>
           </td>
         </template>
       </v-data-table>
@@ -136,21 +183,14 @@
         confirmaAnular: false,
         dialog: false,
         search: '',
+        editedItem: {},
         loading: true,
         moment: moment,
         eliminaid: '',
         showModal: false,
-        numero: 5,
         modalInfoTitle: '',
         modalInfoDetail: '',
         modalInfoBtn1: '',
-        editedItem: {
-          date: new Date().toISOString().substr(0, 10)
-        },
-        datepicker: false,
-        timepicker1: false,
-        timepicker2: false,
-        timepicker3: false,
         headers: [
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
@@ -162,7 +202,7 @@
           // {text: 'Conductor', value: 'driver_id'},
           // {text: 'Asientos disponibles/totales', value: 'avail_seats'},
           {text: 'Buses', value: 'cars'},
-          {text: 'Asignar', value: '', sortable: false}
+          {text: 'Asignar', value: '', sortable: false, align: 'center'}
         ],
         services: [],
         employees: [],
@@ -185,7 +225,11 @@
           // AsientosReservados: 'avail_reserved',
           Buses: 'cars'
         },
-        items: []
+        items: [],
+        filtros: [{text: 'Asignados', id: 1}, {text: 'No asignado', id: 2}, {text: 'Todos', id: 3}],
+        filtro: 3,
+        datepicker: false,
+        dateSearch: ''
       }
     },
     components: {
@@ -201,10 +245,19 @@
     },
     computed: {
       computedDateFormattedMomentjs () {
-        return this.editedItem.date ? moment(this.editedItem.date).format('DD/MM/YYYY') : ''
+        return this.dateSearch ? moment(this.dateSearch).format('DD/MM/YYYY') : ''
+      }
+    },
+    watch: {
+      filtro (val) {
+        this.getServices(val)
       }
     },
     methods: {
+      clearFecha () {
+        this.dateSearch = ''
+        this.getServices()
+      },
       async getCars () {
         try {
           let cars = await API.get('cars')
@@ -252,14 +305,15 @@
         }
       },
       async getServices () {
-        console.log('get services')
+        // console.log('get services')
         try {
           let servicios = await API.get('services')
           if (servicios.status >= 200 && servicios.status < 300) {
             console.log(servicios)
             setTimeout(() => {
               this.services = servicios.data.data
-              console.log('serv', this.services)
+              // console.log('serv', this.services)
+              // Duplicar filas de servicios segun cantidad de buses
               // let nuevo = []
               // this.services.forEach(servicio => {
               //   for (let i = 1; i <= servicio.cars; i++) {
@@ -269,14 +323,15 @@
               //   }
               // })
               // this.services = nuevo
-              this.items = this.services.map(item => {
-                for (const prop in item) {
-                  if (item[prop] == null) item[prop] = ''
-                  if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
-                }
-                return item
-              })
-              console.log('items', this.items)
+              // esto elimina los null para exportar a pdf
+              // this.items = this.services.map(item => {
+              //   for (const prop in item) {
+              //     if (item[prop] == null) item[prop] = ''
+              //     if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
+              //   }
+              //   return item
+              // })
+              // console.log('items', this.items)
               this.loading = false
             }, 500)
           }
@@ -302,7 +357,7 @@
       editItem (item) {
         console.log('item->', item)
         this.editedItem = item
-        this.editedItem.cars =  Number(item.cars)
+        this.editedItem.cars = Number(item.cars)
         this.dialog = true
       },
       close () {
@@ -408,7 +463,7 @@
         }
       },
       frecuencia (item) {
-        let freq = this.frequencies.find(frec => frec.id == item)
+        let freq = this.frequencies.find(frec => frec.id === item)
         // console.log('encuentra', freq)
         return freq ? freq.name : ''
       }

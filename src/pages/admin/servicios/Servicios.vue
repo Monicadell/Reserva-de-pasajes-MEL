@@ -346,8 +346,6 @@
       this.getServices()
       this.getTrips()
       this.getFrequencies()
-      this.getCars()
-      this.getDrivers()
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -403,10 +401,6 @@
         } catch (e) {
           console.log('error al cargar servicios', e.response)
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -449,10 +443,6 @@
           }
         } catch (e) {
           console.log('catch error al eliminar el servicio', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al eliminar el servicio, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'+
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -510,10 +500,6 @@
             }
           } catch (e) {
             console.log('catch error al editar el servicio', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -550,10 +536,6 @@
             }
           } catch (e) {
             console.log('catch error al crear el servicio', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -571,29 +553,7 @@
         let freq = this.frequencies.find(frec => frec.id == item)
         // console.log('encuentra', freq)
         return freq ? freq.name : ''
-      },
-      // async getCars () {
-      //   try {
-      //     let cars = await API.get('cars')
-      //     if (cars.status >= 200 && cars.status < 300) {
-      //       console.log('Result load cars in services', cars)
-      //       this.cars = cars.data.data
-      //     }
-      //   } catch (e) {
-      //     console.log('error al cargar cars en servicios', e)
-      //   }
-      // },
-      // async getDrivers () {
-      //   try {
-      //     let drivers = await API.get('employees')
-      //     if (drivers.status >= 200 && drivers.status < 300) {
-      //       this.drivers = drivers.data.data.filter(dri => dri.position === 1)
-      //       console.log('conductores', this.drivers)
-      //     }
-      //   } catch (e) {
-      //     console.log('error al cargar frecuencias', e.response)
-      //   }
-      // }
+      }
     }
   }
 </script>

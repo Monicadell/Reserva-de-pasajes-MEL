@@ -19,7 +19,7 @@
         <v-layout align-center justify-center row fill-height>
           <v-flex xs12 pl-5>
             <v-text-field
-              label="Usuario" style="max-width: 60%"
+              label="Usuario"
               v-model="user"
               @keyup="keymonitor"
               color="white"
@@ -32,7 +32,7 @@
         <v-layout align-center justify-center row fill-height class="mt-3">
           <v-flex xs12 pl-5>
             <v-text-field
-              color="white" style="max-width: 60%"
+              color="white"
               label="Contraseña"
               v-model="password"
               class="login-input"
@@ -218,7 +218,9 @@
   .login-input .theme--light.v-label {
     color: #fff;
   }
-
+  .login-input {
+    width: 60%;
+  }
   .login-input .theme--light.v-input input{
     color: #fff;
   }
