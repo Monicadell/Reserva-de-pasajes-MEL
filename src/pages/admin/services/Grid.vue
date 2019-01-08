@@ -15,7 +15,7 @@
     <div v-if="floor"  v-for="(bus, f) in floor" :key="f">
         <p class="text-xs-center mb-1 font-weight-bold"> Bus {{f + 1}}</p>
           <v-layout row wrap justify-center >
-            <v-flex xs12 sm12 md12 lg10 class="text-xs-center mb-4" style="border-bottom: 1px solid gray; border-top: 1px solid gray">
+            <v-flex xs12 sm12 md12 lg10 class="text-xs-center mb-4 border-bus">
               <v-layout class="" row justify-center v-for="(col, i) in bus.grid" :key="i">
                 <!-- acá tengo las columnas del bus (son 5)-->
                 <v-flex xs1  class="text-xs-center pr-5" v-if="col !== 'pasillo'" v-for="(seat, j) in col.slice()" :key="j">
@@ -53,7 +53,7 @@
 
                   <!-- </template> -->
                 </v-flex>
-                <v-flex xs12 sm12 md12 lg12 xl4 v-else style="min-height: 30px;">
+                <v-flex xs12 sm12 md12 lg12 xl4 v-else class="min-h-30">
 
                 </v-flex>
               </v-layout>
@@ -153,6 +153,13 @@
 </script>
 
 <style lang="stylus">
+  .border-bus {
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray
+  }
+  .min-h-30{
+    min-height: 30px
+  }
   .wcSize {
     width: 30px;
     margin-top: 2px;

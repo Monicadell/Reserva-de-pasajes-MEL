@@ -9,7 +9,7 @@
     }"
     class="fadeinfwdfast"
     >
-    <v-card-title style="height: 65px" class="barra-titulo-servicios">
+    <v-card-title class="barra-titulo-servicios">
 
     <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
       <v-icon >keyboard_arrow_left</v-icon>
@@ -219,6 +219,7 @@
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
     /* color: #1565c0; */
+    height: 65px;
   }
 
   .v-card__title.barra-servicios {

@@ -4,7 +4,7 @@
          <v-card>
                 <v-card-title class="titulo-detalle justify-center elevation-22">
                  <div class="text-xs-center">
-                        <h3 class="headline ml-3" style="font-weight: lighter;" >Detalles reserva</h3>
+                    <h3 class="headline ml-3">Detalles reserva</h3>
                 </div>
                 </v-card-title>
                 <v-card-text class="pb-0">
@@ -88,7 +88,7 @@
                                 </v-list>
                             </v-flex>
 
-                            <v-flex xs4 style="align-self: center;"> 
+                            <v-flex xs4 class="align-self-center"> 
                                <!-- <div text-xs-center>
                                             <img src="../../../../static/img/Logo-tandem-azul-mediano.png" class= "" style="max-width: 70%; margin: 0 auto;">
                                             
@@ -103,7 +103,7 @@
                                         </v-list-tile-avatar> -->
                         
                                          <v-list-tile-content class="text-xs-left">
-                                            <img src="../../../../static/img/Logo-tandem-azul-mediano.png" class= "" style="max-width: 60%;">
+                                            <img src="../../../../static/img/Logo-tandem-azul-mediano.png" width="60%">
                                             
                                             <v-list-tile-sub-title class="black--text dtl-subtitulo pl-2">BOLETO</v-list-tile-sub-title>
                                             <v-list-tile-sub-title class="gris--text pl-2">{{servicioDetalle.id}}</v-list-tile-sub-title>
@@ -187,6 +187,9 @@
 </script>
 
 <style>
+    .align-self {
+        align-self: center;
+    }
     .v-card__title.titulo-detalle {
       background: #1565c0;
       color: white;

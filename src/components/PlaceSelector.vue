@@ -21,7 +21,7 @@
         class="white--text"
       >
         <v-avatar >
-          <img style="width: 30px; height: 30px;"
+          <img class="size-avatar"
                :src="`https://ui-avatars.com/api/?name=${data.item.name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
         </v-avatar>
         {{ data.item.name }}
@@ -65,8 +65,8 @@
         slot-scope="data"
       >
       <v-avatar class ="ma-0 pa-0">
-         <img style="width: 30px; height: 30px;"
-               :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
+         <img class="size-avatar"
+            :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
         </v-avatar>
 
         {{ data.item.dest_name }}
@@ -78,7 +78,7 @@
       >
         <template>
           <v-list-tile-avatar>
-            <img
+            <img 
               :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=E66732&color=fff`">
           </v-list-tile-avatar>
           <v-list-tile-content>
@@ -183,6 +183,10 @@
 </script>
 
 <style>
+  .size-avatar {
+    height: 30px !important;
+    width: 30px !important; 
+  }
   #principal-container .selector-azul{
     background-color: #E66732;
     color: #fff !important;

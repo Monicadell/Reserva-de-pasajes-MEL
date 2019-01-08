@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card >
-      <v-card-title style="height: 45px" class="barra-reservas">
+      <v-card-title class="barra-reservas">
         Mis reservas
       </v-card-title>
       <v-data-table
@@ -21,7 +21,7 @@
             <v-card>
                 <v-card-title class="titulo-detalle  elevation-22">
                     <div>
-                        <h3 class="headline ml-3 " style="font-weight: lighter;" >Detalles reserva</h3>
+                        <h3 class="headline ml-3">Detalles reserva</h3>
                     </div>
                 </v-card-title>
                 <v-card-text>
@@ -101,7 +101,7 @@
                                 </v-list>
                             </v-flex>
 
-                            <v-flex xs4 style="align-self: center;"> 
+                            <v-flex xs4 class="align-self"> 
                                 <v-list   >
                                     <v-list-tile  >
                                         <v-list-tile-avatar tile>
@@ -298,7 +298,9 @@
         line-height: 1.2;
     }
     
-
+    .align-self {
+        align-self: center;
+    }
   
     .v-card__title.titulo-detalle {
         background: #1565c0;
@@ -310,6 +312,7 @@
         background: #1565c0;
         color: white;
         font-size: 18px;
+        height: 45px;
     }
 
 

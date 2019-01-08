@@ -4,7 +4,7 @@
       <v-layout row fill-height wrap align-center justify-space-around>
         <v-flex class="ml-5 text-xs-left container-titulo-vuelos">
           <div class="contiene-avion pl-4">
-            <v-card-text class="px-1 py-1 contiene-icono naranjo">
+            <v-card-text class="px-1 py-1 contiene-icono primary">
               <v-icon large class="icon-avion" color="white">flight</v-icon>
             </v-card-text>
           </div>
@@ -20,8 +20,8 @@
 
         <v-flex xs6 md6 pb-3 pl-5 pr-3>
           <v-card-text class="py-0 px-0 card-vuelos">
-              <h2 class="uppercase py-2 pl-3 light naranjo--text">
-                <v-icon large color="naranjo">flight_land</v-icon>
+              <h2 class="uppercase py-2 pl-3 light primary--text">
+                <v-icon large color="primary">flight_land</v-icon>
                 Llegadas
               </h2>
               <v-data-table
@@ -46,8 +46,8 @@
         </v-flex>
         <v-flex xs6 md6 pb-3 pl-3 pr-5>
           <v-card-text class="py-0 px-0 card-vuelos">
-             <h2 class="uppercase py-2 pl-3 light naranjo--text">
-              <v-icon large right color="naranjo">flight_takeoff</v-icon>
+             <h2 class="uppercase py-2 pl-3 light primary--text">
+              <v-icon large right color="primary">flight_takeoff</v-icon>
               Salidas
             </h2>
             <v-data-table
@@ -72,8 +72,8 @@
           </v-card-text>
         </v-flex>
         <v-flex xs10 text-xs-center>
-          <v-btn fab flat large icon color="naranjo" v-scroll-to="'#img3'" style="position: absolute; bottom: 40px; left: calc(50% - 25px)">
-            <v-icon style="font-size: 80px">expand_more</v-icon>
+          <v-btn fab flat large icon color="primary" v-scroll-to="'#img3'" class="flecha-baja">
+            <v-icon class="font80">expand_more</v-icon>
           </v-btn>
         </v-flex>
         <v-flex xs12 class="py-4">
@@ -239,5 +239,12 @@
     font-size: 50px;
     color: #fff;
   }
- 
+  .flecha-baja {
+    position: absolute !important;
+    bottom: 40px !important;
+    left: calc(50% - 25px) !important;
+  }
+  .flecha-baja .font80 {
+    font-size: 80px !important;
+  }
 </style>

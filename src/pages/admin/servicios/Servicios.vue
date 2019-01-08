@@ -8,7 +8,7 @@
         <export-option :fields="excelFields" :data="items" :name="'Servicios'" :pdf="true"/>
       </v-flex>
     </v-layout>
-    <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
+    <v-dialog v-model="dialog" persistent max-width="900px" class="text-xs-right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
             <h3 class="headline">Servicio</h3>

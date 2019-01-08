@@ -2,7 +2,7 @@
   <div>
     <div class="py-3"><h2>Usuarios</h2> </div>
     
-    <v-dialog v-model="dialog" persistent max-width="900px" style="text-align: right">
+    <v-dialog v-model="dialog" persistent max-width="900px" class="text-xs-right">
       <v-card>
 
         <v-card-title primary-title class="primary white--text">

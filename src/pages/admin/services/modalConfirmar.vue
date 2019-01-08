@@ -78,19 +78,15 @@
       </v-card>
 
         <v-card max-width="500"  v-if="modal.status == 'done'">
-              <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">CHECK-IN</v-card-title>
-            <v-card-text class="text-xs-center ">
-              
-               <v-icon color="secondary" size=200>check</v-icon>                  
-       
-            
-                <h2 class=" font-weight-light">CONFIRMACION REALIZADA CON EXITO</h2>
-                <p>Debes imprimir tu ticket en los totems habilitados en cada punto antes de subir a tu bus.  </p>
-                <p> En caso de emergencia se ha enviado una copia a tu correo </p>
-              
+          <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">CHECK-IN</v-card-title>
+          <v-card-text class="text-xs-center ">  
+            <v-icon color="secondary" size=200>check</v-icon>                  
+            <h2 class=" font-weight-light">CONFIRMACION REALIZADA CON EXITO</h2>
+            <p>Debes imprimir tu ticket en los totems habilitados en cada punto antes de subir a tu bus.  </p>
+            <p> En caso de emergencia se ha enviado una copia a tu correo </p>
           </v-card-text>
           <v-card-actions> 
-                <v-btn color="primary" class="btn-cerrar" @click="cerrar()" style="margin: 0 auto">Cerrar</v-btn>
+            <v-btn color="primary" class="btn-cerrar centrar" @click="cerrar()">Cerrar</v-btn>
           </v-card-actions>
       </v-card> 
 
@@ -178,5 +174,8 @@
     }
     .btn-cerrar {
         width: 90%;
+    }
+    .btn-cerrar.centrar {
+      margin: 0 auto;
     }
 </style>

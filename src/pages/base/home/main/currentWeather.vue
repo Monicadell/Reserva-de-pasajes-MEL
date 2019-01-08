@@ -1,12 +1,12 @@
 <template>
-  <v-container fill-height fluid  style="padding: 10px; align-self: center">
-    <v-layout fill-height style="">
-      <v-flex xs6  style="align-self: center">
+  <v-container fill-height fluid class="pa-10 align-self-center">
+    <v-layout fill-height>
+      <v-flex xs6  class="align-self-center">
         <span class="headline">{{name}}</span>
       </v-flex>
-      <v-flex xs6 class="text-xs-right"  style="">
-        <span class="headline"  style="vertical-align: sub">{{temp}} </span>
-        <img :src="icon" alt="" style="vertical-align: middle">
+      <v-flex xs6 class="text-xs-right">
+        <span class="headline vertical-sub">{{temp}} </span>
+        <img :src="icon" alt="" class="vertical-middle">
       </v-flex>
     </v-layout>
   </v-container>
@@ -37,5 +37,13 @@
 </script>
 
 <style scoped>
-
+  .align-self-center {
+    align-self: center;
+  }
+  .vertical-sub {
+    vertical-align: sub;
+  }
+  .vertical-middle {
+    vertical-align: middle;
+  }
 </style>
