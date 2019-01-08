@@ -303,7 +303,7 @@
             console.log(servicios.data)
             // setTimeout(() => {
             this.services = servicios.data.data
-            this.itemsServ = this.services.map(item => {
+            this.itemsServ = this.services.map(item => { // limpia los null para exportar pdf
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
               }
@@ -345,6 +345,7 @@
             console.log(tickets.data.data)
             // setTimeout(() => {
             this.manifiestos = tickets.data.data.filter(tick => tick.status !== 'anulado')
+            
             this.items = this.manifiestos.map(item => {
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
@@ -352,12 +353,14 @@
               return item
             })
             this.items.forEach(element => {
-              element.servicename = element.service.name
-              element.servicedate = element.service.date
-              element.username = element.user.name
-              element.userphone = element.user.phone_number
-              element.userdocument = element.user.rut || element.user.passport
+              element.servicename = element.service.name || ''
+              element.servicedate = element.service.date || ''
+              element.username = element.user.name || ''
+              element.userphone = element.user.phone_number || ''
+              element.userdocument = element.user.rut || element.user.passport || ''
               element.contract_type_name = element.user.contract_type_id === 1 ? 'MEL' : 'Contratista'
+              element.car_number = element.car_number ? element.car_number.toString() : ''
+              element.seat = element.seat ? element.seat.toString() : ''
             })
             console.log('manifiestos', this.manifiestos)
             console.log('items', this.items)
@@ -367,10 +370,6 @@
         } catch (e) {
           console.log('error al cargar tickets', e.response)
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los tickets, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',

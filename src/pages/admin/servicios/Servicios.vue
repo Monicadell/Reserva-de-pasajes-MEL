@@ -415,7 +415,8 @@
       },
       editItem (item) {
         console.log('item->', item)
-        this.editedItem = item
+        this.editedItem = Object.assign(item, '')
+        // this.editedItem = item
         this.dialog = true
       },
       async deleteItem (item) {
