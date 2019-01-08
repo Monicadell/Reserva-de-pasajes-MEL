@@ -36,7 +36,7 @@
               </v-flex>
               <v-flex s12 sm5 md4 px-1>
                 <v-select :items="cars" v-model="editedItem.car_id"
-                          label="Bus"
+                          label="Patente"
                           single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
