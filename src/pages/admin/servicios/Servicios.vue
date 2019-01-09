@@ -153,8 +153,25 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                  <v-text-field label="Vehículos" type="number"
-                              v-model="editedItem.cars"></v-text-field>
+                  <!-- <v-text-field label="Vehículos" type="number"
+                              v-model="editedItem.cars"></v-text-field> -->
+
+                <v-layout wrap justify-center>
+                  <v-flex xs12 sm3 text-xs-center>
+                    <v-btn fab dark small color="primary" @click="menos()">
+                      <v-icon dark>remove</v-icon>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex xs12 sm2 align-center>
+                    <v-text-field type="number" style="" readonly
+                                  v-model="editedItem.cars"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm3 text-xs-center>
+                    <v-btn fab dark small color="primary"  @click="mas()">
+                      <v-icon dark>add</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
               </v-flex>
 
              <!-- <v-flex xs12 sm6>
@@ -294,7 +311,8 @@
         modalInfoDetail: '',
         modalInfoBtn1: '',
         editedItem: {
-          date: new Date().toISOString().substr(0, 10)
+          date: new Date().toISOString().substr(0, 10),
+          cars: 0
         },
         datepicker: false,
         timepicker1: false,
@@ -356,6 +374,18 @@
       irEliminar (datoid) {
         this.eliminaid = datoid
         this.confirmaAnular = true
+      },
+      menos () {
+        if (this.editedItem.cars > 0) {
+          this.editedItem.cars--
+        }
+      },
+      mas () {
+        // if (!this.editedItem.cars) {
+        //   console.log('no existe cars')
+        //   this.editedItem.cars = 0
+        // }
+        this.editedItem.cars++
       },
       async getTrips () {
         try {
@@ -458,7 +488,7 @@
       },
       close () {
         this.dialog = false
-        this.editedItem = Object.assign({}, '')
+        this.editedItem = Object.assign({date: new Date().toISOString().substr(0, 10), cars: 0}, '')
       },
       async save (guardar) {
         console.log('a guardar', guardar)
@@ -495,7 +525,7 @@
                 showConfirmButton: false,
                 cancelButtonText: 'OK'
               })
-              this.editedItem = Object.assign({}, '')
+              this.editedItem = Object.assign({date: new Date().toISOString().substr(0, 10), cars: 0}, '')
             } else {
               alert('Ha ocurrido un error al editar el servicio')
             }
@@ -531,7 +561,7 @@
                 showConfirmButton: false,
                 cancelButtonText: 'OK'
               })
-              this.editedItem = Object.assign({}, '')
+              this.editedItem = Object.assign({date: new Date().toISOString().substr(0, 10), cars: 0}, '')
             } else {
               alert('Ha ocurrido un error al crear el servicio')
             }
