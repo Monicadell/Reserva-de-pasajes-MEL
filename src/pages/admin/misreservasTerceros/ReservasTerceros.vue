@@ -14,23 +14,32 @@
   </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white">
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-select v-if="role === 2"
+        <v-layout wrap>
+          <v-flex xs12 sm4>
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Buscar"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-flex>
+
+          <v-flex xs12 sm4>
+            <v-select v-if="role === 2"
                   :items="filtros" v-model="filtro"
                   label="Filtros" clearable
                   single-line item-text="text" item-value="id"
-        ></v-select>
-        <v-spacer></v-spacer>
-        <div class="text-xs-right">
-          <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
-        </div>
+            ></v-select>
+          </v-flex>
+
+          <v-flex xs12 sm4>
+            <div class="text-xs-right">
+              <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
+            </div>    
+          </v-flex>
+            
+        </v-layout>
       </v-toolbar>
 
       <v-data-table

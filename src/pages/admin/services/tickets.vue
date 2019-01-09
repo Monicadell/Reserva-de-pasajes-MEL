@@ -50,9 +50,9 @@
               </v-card-text>
             
             <v-layout column v-if="statusConfirmacion.status =='done'"> <!-- USUARIO YA CONFIRMO -->
-              <v-layout justify-start row ml-4> 
+              <v-layout justify-start row mx-3> 
                 <v-flex xs1>  <v-icon color="primary">check_circle_outline</v-icon> </v-flex>
-                <v-flex>   <p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus.  </p> </v-flex>
+                <v-flex xs11><p> Su pasaje está confirmado, solo debe imprimir su ticket en los totems habilitados antes de abordar su bus.  </p> </v-flex>
                 <v-spacer> </v-spacer>
               </v-layout>
        

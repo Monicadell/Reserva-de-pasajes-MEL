@@ -490,15 +490,17 @@
   .gris054 {
     color: rgba(0, 0, 0, .54);
   }
-  aside.navegacion1 {
+  aside.v-navigation-drawer.navegacion1 {
     width: 100% !important;
     transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
+    z-index: 2;
   }
   aside.v-navigation-drawer.barra-express {
     width: 100% !important;
     height: calc(100vh - 120px) !important;
     background-color: #f5f5f5;
     transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
+    z-index: 2;
   }
   .input-buscar-user{
     border-bottom: 1px solid #ccc;
