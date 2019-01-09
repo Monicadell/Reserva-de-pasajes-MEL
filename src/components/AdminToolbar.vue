@@ -81,6 +81,7 @@
   // import axios from 'axios'
   import { mapGetters } from 'vuex'
   import API from '@pi/app'
+  import moment from 'moment'
 
   export default {
     data: () => ({
@@ -107,6 +108,14 @@
           this.role = info.data.role_id ? info.data.role_id : ''
           this.nombre = info.data.name ? info.data.name : ''
           this.isAdmin = (this.role === 2 || this.role === 5)
+          let currentTime = moment().toISOString()
+          let dife = moment(currentTime).diff(moment(info.data.last_connection))
+          console.log('current time', currentTime)
+          console.log('diferencia', dife)
+          // if (info.data.last_connection <= currentTime) {
+          //   console.log('no tiene ultima conexion y voy a push')
+          //   this.$router.push({name: 'MyInfo'})
+          // }
         } else {
           console.log('error profile')
         }

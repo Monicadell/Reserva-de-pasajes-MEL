@@ -23,7 +23,7 @@
     <v-layout class="layout-reservas">
       <v-flex xs3>
         <!-- Reservas propias -->
-        <v-navigation-drawer class="width100" v-if="$route.path !== '/reservaterceros'">
+        <v-navigation-drawer class="navegacion1" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text primary">
               <span class="hidden-sm-and-down ml-4">Mis reservas</span>
@@ -44,7 +44,7 @@
         </v-navigation-drawer>
 
         <!-- reserva terceros -->
-        <v-navigation-drawer class="width100" v-if="$route.path === '/reservaterceros'">
+        <v-navigation-drawer class="navegacion1" v-if="$route.path === '/reservaterceros'">
           <users-list />
         </v-navigation-drawer>
       </v-flex>
@@ -490,10 +490,15 @@
   .gris054 {
     color: rgba(0, 0, 0, .54);
   }
+  aside.navegacion1 {
+    width: 100% !important;
+    transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
+  }
   aside.v-navigation-drawer.barra-express {
-    width: 100%;
-    height: calc(100vh - 120px);
+    width: 100% !important;
+    height: calc(100vh - 120px) !important;
     background-color: #f5f5f5;
+    transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
   }
   .input-buscar-user{
     border-bottom: 1px solid #ccc;

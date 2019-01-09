@@ -345,7 +345,6 @@
             console.log(tickets.data.data)
             // setTimeout(() => {
             this.manifiestos = tickets.data.data.filter(tick => tick.status !== 'anulado')
-            
             this.items = this.manifiestos.map(item => {
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
@@ -363,7 +362,6 @@
               element.seat = element.seat ? element.seat.toString() : ''
             })
             console.log('manifiestos', this.manifiestos)
-            console.log('items', this.items)
             this.loadingM = false
             // }, 500)
           }
