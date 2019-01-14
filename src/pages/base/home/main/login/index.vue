@@ -25,6 +25,7 @@
               color="white"
               persistent-hint
               class="login-input"
+              v-rut
               hint="Puede ser su RUT o su numero de pasaporte"
             ></v-text-field>
           </v-flex>
@@ -175,11 +176,13 @@
             })
           } else {
             console.log('error profile')
+            this.$router.push({name: 'MyInfo'})
           }
         } catch (e) {
           console.log(e)
-          console.log('catch err', e.response)
+          console.log('catch err profile login', e.response)
           // alert('Catch error, get profile')
+          this.$router.push({name: 'MyInfo'})
         }
       },
       keymonitor (event) {

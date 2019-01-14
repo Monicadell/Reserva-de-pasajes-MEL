@@ -12,7 +12,6 @@
             class="carusel-item"
             style="height: 100%"
           >
-            <!-- <h1 style="position: absolute; right: 20%; top: 20%; color: #fff; max-width: 50%; font-size: 4em; font-weight: bold; text-align: right; text-shadow: 1px 1px rgba(0,0,0, 0.5)">{{item.text}}</h1> -->
           </v-carousel-item>
         </v-carousel>
       <!-- <v-flex xs12 md5 sm7 lg4 xl4 fill-height> -->
@@ -92,7 +91,6 @@
                   </v-dialog>
                   </v-flex>
                   <v-flex xs6 py-0>
-                    <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a reservar tu pasaje</p> -->
                     <v-dialog
                       v-model="dialogreserva"
                       width="100%"
@@ -113,9 +111,6 @@
                           <video width="100%" height="700" controls id="videoReservar">
                             <source src="/../../../static/videos/reservar.mp4" type="video/mp4">
                           </video>
-                          <!-- <iframe width="100%" height="700"
-                          src="/../../../static/videos/reservar.mp4">
-                          </iframe> -->
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
@@ -131,7 +126,6 @@
                     </v-dialog>
                   </v-flex>
                   <v-flex xs6 py-0>
-                    <!-- <p><v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí</p> -->
                     <v-dialog
                       v-model="dialogregistro"
                       width="500"
@@ -220,10 +214,6 @@
                                 </v-flex>
 
                                 <v-flex xs12 sm6>
-                                  <!-- <v-select :items="companies" v-model="editedItem.company_id"
-                                            label="Empresa asociada"
-                                            single-line item-text="name" item-value="id"
-                                  ></v-select> -->
                                   <v-autocomplete
                                     v-model="item.company_id"
                                     :items="companies"
@@ -272,7 +262,6 @@
                   </v-flex>
 
                 <v-flex xs6 py-0 class="">
-                   <!-- <p><v-icon small color="white" class="pr-2">play_circle_filled</v-icon> Aprende a imprimir tu ticket</p> -->
                   <v-dialog
                     v-model="dialogimprime"
                     width="100%"
@@ -293,9 +282,6 @@
                           <video width="100%" height="700" controls id="videoTotem">
                             <source src="/../../../static/videos/totem.mp4" type="video/mp4">
                           </video>
-                          <!-- <iframe width="100%" height="700"
-                          src="/../../../static/videos/totem.mp4">
-                          </iframe> -->
                         </v-card-text>
                       <v-divider></v-divider>
                       <v-card-actions>
@@ -311,7 +297,6 @@
                   </v-dialog>
                 </v-flex>
                   <v-flex xs6 py-0 class="">
-                  <!-- <p><v-icon small color="white" class="pr-2">video_library</v-icon> Entretención a bordo</p> -->
                     <v-btn
                       slot="activator"
                       flat class="white--text mb-0"
@@ -436,7 +421,6 @@
           let usuario = await API.post('sign_up', user)
           if (usuario.status >= 200 && usuario.status < 300) {
             console.log(usuario)
-            // alert('Se ha enviado la solicitud para crear su usuario')
             this.item = {}
             this.dialogregistro = false
             this.$swal({
@@ -454,7 +438,6 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // alert('Ha ocurrido un error, intente más tarde!')
           this.item = {}
           this.dialogregistro = false
           this.showModal = true

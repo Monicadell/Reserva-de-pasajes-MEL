@@ -214,8 +214,6 @@ router.beforeEach((to, from, next) => {
   let isAuthorized = store.state.Auth.isAuthorized || false
   let isAdmin = (store.state.Auth.role === 2) // ampliar a admin y maestro
   let isCallCenter = (store.state.Auth.role === 5)
-  let isFirstTime = (store.state.Auth.connection === '')
-  console.log('primera vez', isFirstTime)
   if (to.matched.some(record => record.meta.callcenterAuth)) { // verifica que es Administrador
     if (isAdmin && isAuthorized) {
       next()

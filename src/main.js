@@ -13,10 +13,11 @@ import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 var VueScrollTo = require('vue-scrollto')
+var vueRut = require('vue-rut')
 
 Vue.prototype.moment = moment
 Vue.use(VueSweetalert2)
-
+Vue.use(vueRut)
 Vue.use(VueScrollTo)
 Vue.use(Vuetify, {
   theme: {
