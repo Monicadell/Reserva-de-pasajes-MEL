@@ -163,7 +163,7 @@
                     </v-btn>
                   </v-flex>
                   <v-flex xs12 sm2 align-center>
-                    <v-text-field type="number" style="" readonly
+                    <v-text-field type="number" style="" readonly label="Buses"
                                   v-model="editedItem.cars"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm3 text-xs-center>
@@ -296,6 +296,7 @@
   import moment from 'moment'
   import Modal from '@c/Modal'
   import ExportOption from '@c/ExportOption'
+  import {mapGetters} from 'vuex'
 
   export default {
     data () {
@@ -312,7 +313,8 @@
         modalInfoBtn1: '',
         editedItem: {
           date: new Date().toISOString().substr(0, 10),
-          cars: 0
+          cars: 0,
+          trip_id: 1
         },
         datepicker: false,
         timepicker1: false,
@@ -361,11 +363,14 @@
       ExportOption: ExportOption
     },
     mounted () {
-      this.getServices()
       this.getTrips()
       this.getFrequencies()
+      this.getServices()
     },
     computed: {
+      ...mapGetters({
+        role: ['Auth/role']
+      }),
       computedDateFormattedMomentjs () {
         return this.editedItem.date ? moment(this.editedItem.date).format('DD/MM/YYYY') : ''
       }
@@ -391,7 +396,7 @@
         try {
           let trips = await API.get('trips')
           if (trips.status >= 200 && trips.status < 300) {
-            console.log('Result load trips', trips)
+            console.log('Result load trips', trips.data.data)
             this.trips = trips.data.data
           }
         } catch (e) {
@@ -414,9 +419,9 @@
         try {
           let servicios = await API.get('services')
           if (servicios.status >= 200 && servicios.status < 300) {
-            console.log(servicios)
             setTimeout(() => {
               this.services = servicios.data.data
+              console.log('servicios', this.services)
               this.items = this.services.map(item => {
                 for (const prop in item) {
                   if (item[prop] == null) item[prop] = ''
@@ -446,6 +451,9 @@
       editItem (item) {
         console.log('item->', item)
         this.editedItem = Object.assign(item, '')
+        this.editedItem.trip_id = Number(this.editedItem.trip_id)
+        this.editedItem.freq_id = Number(this.editedItem.freq_id)
+        // console.log('edited', this.editedItem)
         // this.editedItem = item
         this.dialog = true
       },
@@ -581,7 +589,7 @@
         }
       },
       frecuencia (item) {
-        let freq = this.frequencies.find(frec => frec.id == item)
+        let freq = this.frequencies.find(frec => frec.id === Number(item))
         // console.log('encuentra', freq)
         return freq ? freq.name : ''
       }

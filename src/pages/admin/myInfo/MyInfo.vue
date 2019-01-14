@@ -151,11 +151,9 @@
                               :rules="[rules.password_confirmation]" type="password"></v-text-field>
               </v-flex>
             </v-layout>
-
           </v-container>
         </v-card-text>
         <v-card-actions class="px-3 pb-3">
-          
           <v-btn color="primary darken-1" outline @click.native="dialog = false">
             <span>Cancelar</span>
           </v-btn>
@@ -180,7 +178,6 @@
       {{msgReponse}}
       <v-btn flat color="white" @click.native="showMsg = false">Cerrar</v-btn>
     </v-snackbar>
-
   </div>
 </template>
 
