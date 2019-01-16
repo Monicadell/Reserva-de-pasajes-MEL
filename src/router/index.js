@@ -23,6 +23,7 @@ import Estaciones from '@pages/admin/estaciones'
 import MyInfo from '@pages/admin/myInfo'
 import Reservas from '@pages/admin/misreservas'
 import ReservasTerceros from '@pages/admin/misreservasTerceros'
+import Dashboard from '@pages/admin/dashboard'
 
 Vue.use(Router)
 const pageWhiteList = ['/login']
@@ -196,6 +197,16 @@ const router = new Router({
           path: '/asignacion',
           name: 'asignacion',
           component: Asignacion,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true,
+            callcenterAuth: true
+          }
+        },
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: Dashboard,
           meta: {
             requiresAuth: true,
             adminAuth: true,
