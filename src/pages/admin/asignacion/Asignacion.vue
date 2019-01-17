@@ -121,43 +121,34 @@
           <td class="">{{ props.item.service_name }}</td>
           <td class="">{{ props.item.service_date }}</td>
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
-          <!-- <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td> -->
           <td class="">{{ props.item.trip_name }}</td>
-          <td class="">{{ frecuencia(props.item.freq_id) }}</td>
           <td class="">{{ props.item.bus }}</td>
-          <!-- <td class="">
-            <v-select :items="cars" v-model="props.item.car_id"
-                          label="Bus"
-                          single-line item-text="name" item-value="id"
-            ></v-select>  
-          </td>
+          <!-- <td class="">{{ props.item.driver_name }}</td>
+          <td class="">{{ props.item.associate_name }}</td>
+          <td class="">{{ props.item.car_name }}</td> -->
+          
           <td class="">
-             <v-select :items="employees" v-model="props.item.driver_id"
-                          label="Conductor"
-                          single-line item-text="name" item-value="id"
+             <v-select :items="conductores" v-model="props.item.driver_id"
+                        label="Conductor" @change="save(props.item)" class="body-1"
+                        single-line item-text="name" item-value="id"
             ></v-select>    
           </td>
           <td class="">
-            <v-select :items="employees" v-model="props.item.driver_id"
-                      label="Auxiliar"
+            <v-select :items="auxiliares" v-model="props.item.associate_id"
+                      label="Auxiliar" @change="save(props.item)" class="body-1"
                       single-line item-text="name" item-value="id"
             ></v-select>   
-          </td> -->
-          <td class="text-xs-center">
-            <!-- <v-tooltip top>
-              <v-icon
-                small
-                slot="activator"
-                color="primary"
-                @click="editItem(props.item)"
-              >
-                >
-              </v-icon>
-              <span>Asignar</span>
-            </v-tooltip> -->
+          </td>
+          <td class="">
+            <v-select :items="cars" v-model="props.item.car_id"
+                          label="Bus" @change="save(props.item)" class="body-1"
+                          single-line item-text="name" item-value="id"
+            ></v-select>  
+          </td>
+          <!-- <td class="text-xs-center">
             <v-btn v-if="props.item.cars > 1" flat small class="primary--text text-capitalize" @click="editItem(props.item)">Asignar</v-btn>
             <v-btn v-else flat small class="primary--text text-capitalize" @click="editItem(props.item)">Modificar</v-btn>
-          </td>
+          </td> -->
         </template>
       </v-data-table>
     </div>
@@ -195,14 +186,11 @@
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
           {text: 'Salida', value: 'departure'},
-          // {text: 'Llegada', value: 'arrival'},
           {text: 'Tramo', value: 'trip_name'},
-          {text: 'Frecuencia', value: 'freq_id'},
-          // {text: 'Bus', value: 'car_id'},
-          // {text: 'Conductor', value: 'driver_id'},
-          // {text: 'Asientos disponibles/totales', value: 'avail_seats'},
           {text: 'Bus', value: 'bus'},
-          {text: 'Asignar', value: '', sortable: false, align: 'center'}
+          {text: 'Conductor', value: 'driver_id'},
+          {text: 'Auxiliar', value: 'driver_id'},
+          {text: 'Patente', value: 'driver_id'}
         ],
         manifests: [],
         employees: [],
@@ -241,7 +229,7 @@
       this.getTrips()
       this.getFrequencies()
       this.getCars()
-      this.getDrivers()
+      this.getEmployees()
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -250,13 +238,23 @@
     },
     watch: {
       filtro (val) {
-        this.getManifests(val)
+        // this.getManifests(val)
+        if (val === 1) {
+          this.manifests = this.manifests.filter(item => item.driver_id && item.associate_id && item.car_id)
+        } else if (val === 2) {
+          this.manifests = this.manifests.filter(item => !item.driver_id || !item.associate_id || item.car_id)
+        } else {
+          this.getManifests()
+        }
       }
     },
     methods: {
       clearFecha () {
         this.dateSearch = ''
         this.getManifests()
+      },
+      changeDriver (val) {
+        console.log(val)
       },
       async getCars () {
         try {
@@ -269,7 +267,7 @@
           console.log('error al cargar cars', e.response)
         }
       },
-      async getDrivers () {
+      async getEmployees () {
         try {
           let emplo = await API.get('employees')
           if (emplo.status >= 200 && emplo.status < 300) {
@@ -357,7 +355,7 @@
       editItem (item) {
         console.log('item->', item)
         this.editedItem = item
-        this.editedItem.cars = Number(item.cars)
+        // this.editedItem.cars = Number(item.cars)
         this.dialog = true
       },
       close () {
@@ -385,13 +383,13 @@
           if (servicios.status >= 200 && servicios.status < 300) {
             // console.log('ya hizo PUT',servicios)
             // this.manifests = servicios.data.data
-            this.getManifests()
+            // this.getManifests()
             this.dialog = false
             this.$swal({
               customClass: 'modal-info',
               type: 'success',
               title: 'Servicio',
-              timer: 2000,
+              timer: 1000,
               text: 'Servicio actualizado exitosamente',
               animation: true,
               showCancelButton: true,
