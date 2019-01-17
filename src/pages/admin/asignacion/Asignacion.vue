@@ -14,9 +14,9 @@
         <v-card-title class="headline primary white--text">Asignar</v-card-title>
         <v-card-text>
           <!-- <template > -->
-            <v-layout wrap v-for="car in editedItem.cars" :key="car">
+            <v-layout wrap >
               <v-flex xs12>
-                Bus {{car}}
+                <!-- Bus {{car}} -->
                 <!-- <v-text-field
                   color="primary"
                   class="input-group--focused" readonly label="Nombre:"
@@ -29,7 +29,7 @@
                 ></v-select>
               </v-flex>
               <v-flex s12 sm5 md4 px-1>
-                <v-select :items="auxiliares" v-model="editedItem.aux_id"
+                <v-select :items="auxiliares" v-model="editedItem.associate_id"
                           label="Auxiliar"
                           single-line item-text="name" item-value="id"
                 ></v-select>
@@ -46,7 +46,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" flat="flat" @click.native="dialog = false">Cerrar</v-btn>
-          <v-btn color="primary darken-1" flat="flat" @click.native="dialog = false">Ok</v-btn>
+          <v-btn color="primary darken-1" flat="flat" @click.native="save(editedItem)">Guardar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -110,7 +110,7 @@
 
       <v-data-table
           :headers="headers"
-          :items="services"
+          :items="manifests"
           :search="search"
           :loading="loading"
           :rows-per-page-items="[20, 40, 100]"
@@ -118,13 +118,13 @@
           no-data-text="No hay servicios registrados"
         >
         <template slot="items" slot-scope="props">
-          <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.date }}</td>
+          <td class="">{{ props.item.service_name }}</td>
+          <td class="">{{ props.item.service_date }}</td>
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
-          <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
+          <!-- <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td> -->
           <td class="">{{ props.item.trip_name }}</td>
           <td class="">{{ frecuencia(props.item.freq_id) }}</td>
-          <td class="">{{ props.item.cars }}</td>
+          <td class="">{{ props.item.bus }}</td>
           <!-- <td class="">
             <v-select :items="cars" v-model="props.item.car_id"
                           label="Bus"
@@ -195,16 +195,16 @@
           {text: 'Nombre', value: 'name'},
           {text: 'Fecha', value: 'date'},
           {text: 'Salida', value: 'departure'},
-          {text: 'Llegada', value: 'arrival'},
+          // {text: 'Llegada', value: 'arrival'},
           {text: 'Tramo', value: 'trip_name'},
           {text: 'Frecuencia', value: 'freq_id'},
           // {text: 'Bus', value: 'car_id'},
           // {text: 'Conductor', value: 'driver_id'},
           // {text: 'Asientos disponibles/totales', value: 'avail_seats'},
-          {text: 'Buses', value: 'cars'},
+          {text: 'Bus', value: 'bus'},
           {text: 'Asignar', value: '', sortable: false, align: 'center'}
         ],
-        services: [],
+        manifests: [],
         employees: [],
         conductores: [],
         auxiliares: [],
@@ -216,7 +216,7 @@
           Servicio: 'name',
           FechaServicio: 'date',
           Salida: 'departure',
-          Llegada: 'arrival',
+          // Llegada: 'arrival',
           Puesta: 'set',
           Duracion: 'duration',
           Tramo: 'trip_name',
@@ -237,7 +237,7 @@
       ExportOption: ExportOption
     },
     mounted () {
-      this.getServices()
+      this.getManifests()
       this.getTrips()
       this.getFrequencies()
       this.getCars()
@@ -250,13 +250,13 @@
     },
     watch: {
       filtro (val) {
-        this.getServices(val)
+        this.getManifests(val)
       }
     },
     methods: {
       clearFecha () {
         this.dateSearch = ''
-        this.getServices()
+        this.getManifests()
       },
       async getCars () {
         try {
@@ -304,27 +304,27 @@
           console.log('error al cargar frecuencias', e.response)
         }
       },
-      async getServices () {
-        // console.log('get services')
+      async getManifests () {
+        // console.log('get manifests')
         try {
-          let servicios = await API.get('services')
-          if (servicios.status >= 200 && servicios.status < 300) {
-            console.log(servicios)
+          let manifestos = await API.get('manifests')
+          if (manifestos.status >= 200 && manifestos.status < 300) {
+            console.log(manifestos)
             setTimeout(() => {
-              this.services = servicios.data.data
-              // console.log('serv', this.services)
-              // Duplicar filas de servicios segun cantidad de buses
+              this.manifests = manifestos.data.data
+              console.log('manifiestos', this.manifests)
+              // Duplicar filas de manifestos segun cantidad de buses
               // let nuevo = []
-              // this.services.forEach(servicio => {
+              // this.manifests.forEach(servicio => {
               //   for (let i = 1; i <= servicio.cars; i++) {
               //     // console.log('algo')
               //     nuevo.push(servicio)
               //     // return
               //   }
               // })
-              // this.services = nuevo
+              // this.manifests = nuevo
               // esto elimina los null para exportar a pdf
-              // this.items = this.services.map(item => {
+              // this.items = this.manifests.map(item => {
               //   for (const prop in item) {
               //     if (item[prop] == null) item[prop] = ''
               //     if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
@@ -336,16 +336,16 @@
             }, 500)
           }
         } catch (e) {
-          console.log('error al cargar servicios', e.response)
+          console.log('error al cargar manifestos', e.response)
           console.log('catch err', e.response)
           // this.showModal = true
           // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los manifestos, intente más tarde.'
           // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            title: 'Ha ocurrido un error al obtener los servicios, intente más tarde.',
+            title: 'Ha ocurrido un error al obtener los manifestos, intente más tarde.',
             text: e.response.data.error,
             animation: true,
             showCancelButton: true,
@@ -366,101 +366,101 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let ser = {
-          'service':
+        let mani = {
+          'manifest':
           {
-            'arrival': guardar.arrival ? guardar.arrival : '',
-            'date': guardar.date ? guardar.date : '',
-            'departure': guardar.departure ? guardar.departure : '',
-            'name': guardar.name ? guardar.name : '',
-            'set': guardar.set ? guardar.set : '',
-            'cars': guardar.cars ? guardar.cars : '',
-            'trip_id': guardar.trip_id ? guardar.trip_id : ''
+            'driver_id': guardar.driver_id ? guardar.driver_id : '',
+            'driver_name': guardar.driver_name ? guardar.driver_name : '',
+            'associate_id': guardar.associate_id ? guardar.associate_id : '',
+            'associate_name': guardar.associate_name ? guardar.associate_name : '',
+            'car_id': guardar.car_id ? guardar.car_id : '',
+            'car_name': guardar.car_name ? guardar.car_name : ''
           }
         }
-        if (guardar.id) {
-          console.log('ser a put', ser)
-          let id = guardar.id
-          try {
-            let servicios = await API.put('services', id, ser)
-            if (servicios.status >= 200 && servicios.status < 300) {
-              // console.log('ya hizo PUT',servicios)
-              // this.services = servicios.data.data
-              this.getServices()
-              this.dialog = false
-              this.$swal({
-                customClass: 'modal-info',
-                type: 'success',
-                title: 'Servicio',
-                timer: 2000,
-                text: 'Servicio actualizado exitosamente',
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'OK'
-              })
-              this.editedItem = Object.assign({}, '')
-            } else {
-              alert('Ha ocurrido un error al editar el servicio')
-            }
-          } catch (e) {
-            console.log('catch error al editar el servicio', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
+        // if (guardar.id) {
+        console.log('agrega empleados y car a manifest a put', mani)
+        let id = guardar.id
+        try {
+          let servicios = await API.put('manifests', id, mani)
+          if (servicios.status >= 200 && servicios.status < 300) {
+            // console.log('ya hizo PUT',servicios)
+            // this.manifests = servicios.data.data
+            this.getManifests()
+            this.dialog = false
             this.$swal({
               customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al editar el servicio',
-              text: e.response.data.error,
+              type: 'success',
+              title: 'Servicio',
+              timer: 2000,
+              text: 'Servicio actualizado exitosamente',
               animation: true,
               showCancelButton: true,
               showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
+              cancelButtonText: 'OK'
             })
+            this.editedItem = Object.assign({}, '')
+          } else {
+            alert('Ha ocurrido un error al editar el servicio')
           }
-        } else {
-          console.log('ser a post', ser)
-          try {
-            let servicios = await API.post('services', ser)
-            if (servicios.status >= 200 && servicios.status < 300) {
-              console.log(servicios)
-              this.getServices()
-              this.dialog = false
-              this.$swal({
-                customClass: 'modal-info',
-                type: 'success',
-                title: 'Servicio',
-                text: 'Servicio creado exitosamente',
-                animation: true,
-                timer: 2000,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'OK'
-              })
-              this.editedItem = Object.assign({}, '')
-            } else {
-              alert('Ha ocurrido un error al crear el servicio')
-            }
-          } catch (e) {
-            console.log('catch error al crear el servicio', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al crear el servicio, intente más tarde.',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-          }
+        } catch (e) {
+          console.log('catch error al editar el servicio', e.response)
+          // this.showModal = true
+          // this.modalInfoTitle = 'Ha ocurrido un error'
+          // this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
+          // this.modalInfoBtn1 = 'OK'
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Ha ocurrido un error al editar el servicio',
+            text: e.response.data.error,
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
         }
+        // }
+        // else {
+        //   console.log('ser a post', ser)
+        //   try {
+        //     let servicios = await API.post('manifests', ser)
+        //     if (servicios.status >= 200 && servicios.status < 300) {
+        //       console.log(servicios)
+        //       this.getManifests()
+        //       this.dialog = false
+        //       this.$swal({
+        //         customClass: 'modal-info',
+        //         type: 'success',
+        //         title: 'Servicio',
+        //         text: 'Servicio creado exitosamente',
+        //         animation: true,
+        //         timer: 2000,
+        //         showCancelButton: true,
+        //         showConfirmButton: false,
+        //         cancelButtonText: 'OK'
+        //       })
+        //       this.editedItem = Object.assign({}, '')
+        //     } else {
+        //       alert('Ha ocurrido un error al crear el servicio')
+        //     }
+        //   } catch (e) {
+        //     console.log('catch error al crear el servicio', e.response)
+        //     // this.showModal = true
+        //     // this.modalInfoTitle = 'Ha ocurrido un error'
+        //     // this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
+        //     // this.modalInfoBtn1 = 'OK'
+        //     this.$swal({
+        //       customClass: 'modal-info',
+        //       type: 'error',
+        //       title: 'Ha ocurrido un error al crear el servicio, intente más tarde.',
+        //       text: e.response.data.error,
+        //       animation: true,
+        //       showCancelButton: true,
+        //       showConfirmButton: false,
+        //       cancelButtonText: 'Cerrar'
+        //     })
+        //   }
+        // }
       },
       frecuencia (item) {
         let freq = this.frequencies.find(frec => frec.id === item)

@@ -26,9 +26,13 @@
         </div>
       </v-flex>
       
-      <v-flex xs12>
+      <v-flex xs8>
         <!-- Gráfico ocupacion -->
         <ocupacion />
+      </v-flex>
+      <v-flex xs4>
+        <!-- Ranking servicios -->
+        <ranking-servicios />
       </v-flex>
       
       <v-flex xs6>
@@ -52,6 +56,7 @@
   import Ocupacion from './Ocupacion'
   import Conectados from './Conectados'
   import ReservasSolicitadas from './ReservasSolicitadas'
+  import RankingServicios from './RankingServicios'
 
   export default {
     data () {
@@ -72,7 +77,8 @@
       highcharts: Chart,
       Ocupacion: Ocupacion,
       Conectados: Conectados,
-      ReservasSolicitadas: ReservasSolicitadas
+      ReservasSolicitadas: ReservasSolicitadas,
+      RankingServicios: RankingServicios
     },
     mounted () {
       this.getTickets()
@@ -154,6 +160,7 @@
 <style>
   .cantidades {
     border: 1px solid gray;
+    background-color: #fff;
     max-width: 80%;
     margin: 0 auto;
   }

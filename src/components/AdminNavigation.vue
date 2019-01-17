@@ -30,7 +30,7 @@
     </v-list> -->
 
 
-    <v-list dense>
+    <v-list dense class="pb-5">
       <template v-for="(item, i) in items">
 
         <v-subheader v-if="item.subheader && item.show" class="grey--text text--darken-1">
@@ -68,30 +68,28 @@
       show: true,
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
-        {subheader: true, text: 'Reservas', type: 'Call'}, // Call es callcenter y admin
+        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'},
+        {subheader: true, text: 'Reserva', type: 'Call'}, // Call es callcenter y admin
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Mis reservas', path: { path: '/misreservas' }, type: 'Call'},
-        {subheader: true, text: 'Reservas a Terceros', type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Reservar a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Historial a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
-        {subheader: true, text: 'Admin', type: 'Admin'},
+        {icon: '../../static/icons/06.png', text: 'Histórico', path: { path: '/misreservas' }, type: 'Call'},
+        {subheader: true, text: 'Reserva a Terceros', type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Reserva a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Histórico a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
+        {subheader: true, text: 'Gestión', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Dashboard', path: { path: '/dashboard' }, type: 'Admin'}, // Admin es solo admin
-        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/01.png', text: 'Solicitudes', path: { path: '/solicitudes' }, type: 'Admin'},
+        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'Admin'},
+        {subheader: true, text: 'Planificación', type: 'Admin'},
+        {icon: '../../static/icons/08.png', text: 'Programación', path: { path: '/asignacion' }, type: 'Admin'},
+        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'Admin'},
+        {subheader: true, text: 'Configuración', type: 'Admin'},
+        {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'Admin'},
         {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'Admin'},
         {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'Admin'},
-        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'Admin'},
-        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'Admin'},
-        {icon: '../../static/icons/08.png', text: 'Programación', path: { path: '/asignacion' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Formatos Bus', path: { path: '/formatos' }, type: 'Admin'},
-        {icon: '../../static/icons/08.png', text: 'Empleados', path: { path: '/empleados' }, type: 'Admin'},
-        {subheader: true, text: 'Perfil', type: 'Call'},
-        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'}
-        // {icon: 'chat_bubble', text: 'Cambiar contraseña'}
-        // {subheader: true, text: ''},
-        // {icon: 'phonelink', text: 'Cerrar sesión'}
+        {icon: '../../static/icons/08.png', text: 'Tripulación', path: { path: '/empleados' }, type: 'Admin'}
       ]
     }),
     computed: mapGetters({
