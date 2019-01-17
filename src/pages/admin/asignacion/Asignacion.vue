@@ -242,7 +242,8 @@
         if (val === 1) {
           this.manifests = this.manifests.filter(item => item.driver_id && item.associate_id && item.car_id)
         } else if (val === 2) {
-          this.manifests = this.manifests.filter(item => !item.driver_id || !item.associate_id || item.car_id)
+          this.manifests = this.manifests.filter(item => item.driver_id === null || item.associate_id === null || item.car_id === null)
+          console.log('doss', this.manifests)
         } else {
           this.getManifests()
         }

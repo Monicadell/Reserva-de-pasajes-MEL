@@ -36,30 +36,31 @@
                 <v-date-picker
                   v-model="dateSearch"
                   @change="datepicker = false"
+                  @click:clear="clearFecha"
                   locale="es-419"
                 ></v-date-picker>
               </v-menu>
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="estaciones" v-model="origenSearch"
-                          label="Origen" clearable
+                          label="Origen" clearable @click:clear="clearFecha"
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="buses" v-model="busSearch"
-                          label="Buses" clearable
+                          label="Buses" clearable @click:clear="clearFecha"
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="conductores" v-model="conductorSearch"
-                label="Conductores" clearable
+                label="Conductores" clearable @click:clear="clearFecha"
                 single-line item-text="name" item-value="id"
               ></v-select>
               <!-- <v-autocomplete
                 v-model="servicioSearch"
-                :items="services"
+                :items="manifests"
                 :loading="isLoading"
                 :search-input.sync="search"
                 color="primary"
@@ -123,18 +124,20 @@
       </v-card-title>
       <v-data-table v-if="!servicioSelected"
           :headers="headersServ"
-          :items="services"
+          :items="manifests"
           no-data-text="No existen servicios para fecha y origen ingresado"
           hide-actions
           :loading="loadingS"
         >
         <template slot="items" slot-scope="props">
-          <td class="">{{ props.item.name }}</td>
-          <td class="">{{ props.item.date }}</td>
-          <td class="">{{ props.item.source }}</td>
-          <td class="">{{ props.item.dest }}</td>
+          <td class="">{{ props.item.service_name }}</td>
+          <td class="">{{ props.item.service_date }}</td>
+          <!-- <td class="">{{ props.item.source }}</td>
+          <td class="">{{ props.item.dest }}</td> -->
+          <td class="">{{ props.item.trip_name }}</td>
           <td class="">{{ props.item.departure }}</td>
-          <td class="">{{ props.item.employee_name }}</td>
+          <td class="">{{ props.item.driver_name }}</td>
+          <td class="">{{ props.item.associate_name }}</td>
           <td class="">{{ props.item.car_name }}</td>
           <td class="">
             <v-tooltip top>
@@ -189,17 +192,19 @@
           {text: 'Vuelo', value: 'vuelo'}
         ],
         headersServ: [
-          {text: 'Servicio', value: 'service.name'},
-          {text: 'Fecha servicio', value: 'service.date'},
-          {text: 'Origen', value: 'source'},
-          {text: 'Destino', value: 'dest'},
-          {text: 'Hora salida', value: 'service.departure'},
-          {text: 'Conductor', value: 'conductor'},
-          {text: 'Bus', value: 'bus'},
+          {text: 'Servicio', value: 'service_name'},
+          {text: 'Fecha servicio', value: 'service_date'},
+          // {text: 'Origen', value: 'source'},
+          // {text: 'Destino', value: 'dest'},
+          {text: 'Tramo', value: 'trip_name'},
+          {text: 'Hora salida', value: 'departure'},
+          {text: 'Conductor', value: 'driver_name'},
+          {text: 'Auxiliar', value: 'associate_name'},
+          {text: 'Bus', value: 'carn_name'},
           {text: 'Detalles', value: '', sortable: false}
         ],
         manifiestos: [],
-        services: [],
+        manifests: [],
         estaciones: [],
         conductores: [],
         buses: [],
@@ -221,11 +226,15 @@
         },
         items: [],
         excelFieldsServ: {
-          Servicio: 'name',
-          FechaServicio: 'date',
-          Origen: 'source',
-          Destino: 'dest',
-          Salida: 'departure'
+          Servicio: 'service_name',
+          // FechaServicio: 'service_date',
+          // Origen: 'source',
+          // Destino: 'dest',
+          Trip: 'trip_name',
+          'HoraSalida': 'departure',
+          Conductor: 'driver_name',
+          Auxiliar: 'associate_name',
+          Bus: 'car_name'
         },
         itemsServ: []
       }
@@ -240,20 +249,30 @@
     },
     watch: {
       origenSearch () {
-        this.getServices()
+        this.getManifests()
       },
       dateSearch () {
-        this.getServices()
+        this.getManifests()
+      },
+      conductorSearch (id) {
+        // this.manifests = this.manifests.filter(item => item.driver_id === id)
+      },
+      busSearch (id) {
+        console.log('bus qe busca', id)
+        // this.manifests = this.manifests.filter(item => item.car_id === id)
+        // console.log('manifestos luego de buscar bus', this.manifests)
       }
     },
     mounted () {
-      this.getServices()
+      this.getManifests()
       this.getStations()
+      this.getEmployees()
+      this.getCars()
     },
     methods: {
       clearFecha () {
         this.dateSearch = ''
-        this.getServices()
+        this.getManifests()
       },
       volverServicios () {
         this.servicioSelected = false
@@ -289,40 +308,48 @@
         this.getManifiestos(servicio.id)
         this.servicioSelected = true
       },
-      async getServices () {
-        let params = {
-          'source_id': this.origenSearch,
-          'date': this.dateSearch,
-          'active': 1
-        }
-        console.log('get services')
+      async getManifests () {
+        // console.log('get manifests')
         try {
-          let servicios = await API.get('services', params)
-          if (servicios.status >= 200 && servicios.status < 300) {
-            console.log('params', params)
-            console.log(servicios.data)
-            // setTimeout(() => {
-            this.services = servicios.data.data
-            this.itemsServ = this.services.map(item => { // limpia los null para exportar pdf
-              for (const prop in item) {
-                if (item[prop] == null) item[prop] = ''
-              }
-              return item
-            })
-            this.loadingS = false
-            // }, 500)
+          let manifestos = await API.get('manifests')
+          if (manifestos.status >= 200 && manifestos.status < 300) {
+            console.log(manifestos)
+            setTimeout(() => {
+              this.manifests = manifestos.data.data
+              console.log('manifiestos', this.manifests)
+              // Duplicar filas de manifestos segun cantidad de buses
+              // let nuevo = []
+              // this.manifests.forEach(servicio => {
+              //   for (let i = 1; i <= servicio.cars; i++) {
+              //     // console.log('algo')
+              //     nuevo.push(servicio)
+              //     // return
+              //   }
+              // })
+              // this.manifests = nuevo
+              // esto elimina los null para exportar a pdf
+              this.itemsServ = this.manifests.map(item => {
+                for (const prop in item) {
+                  if (item[prop] == null) item[prop] = ''
+                  if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
+                }
+                return item
+              })
+              // console.log('items', this.items)
+              this.loadingS = false
+            }, 500)
           }
         } catch (e) {
-          console.log('error al cargar servicios', e.response)
+          console.log('error al cargar manifestos', e.response)
           console.log('catch err', e.response)
           // this.showModal = true
           // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los servicios, intente más tarde.'
+          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los manifestos, intente más tarde.'
           // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
-            title: 'Ha ocurrido un error al obtener los servicios, intente más tarde.',
+            title: 'Ha ocurrido un error al obtener los manifestos, intente más tarde.',
             text: e.response.data.error,
             animation: true,
             showCancelButton: true,
@@ -378,6 +405,30 @@
             showConfirmButton: false,
             cancelButtonText: 'Cerrar'
           })
+        }
+      },
+      async getCars () {
+        try {
+          let cars = await API.get('cars')
+          if (cars.status >= 200 && cars.status < 300) {
+            console.log('Result load cars', cars)
+            this.buses = cars.data.data
+          }
+        } catch (e) {
+          console.log('error al cargar cars', e.response)
+        }
+      },
+      async getEmployees () {
+        try {
+          let emplo = await API.get('employees')
+          if (emplo.status >= 200 && emplo.status < 300) {
+            this.employees = emplo.data.data
+            console.log('empleados', this.employees)
+            this.conductores = this.employees.filter(item => item.position === 1)
+            // this.auxiliares = this.employees.filter(item => item.position === 2)
+          }
+        } catch (e) {
+          console.log('error al cargar empleados', e.response)
         }
       }
     }
