@@ -385,17 +385,17 @@
             // this.manifests = servicios.data.data
             // this.getManifests()
             this.dialog = false
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'success',
-              title: 'Servicio',
-              timer: 1000,
-              text: 'Servicio actualizado exitosamente',
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'OK'
-            })
+            // this.$swal({
+            //   customClass: 'modal-info',
+            //   type: 'success',
+            //   title: 'Servicio',
+            //   timer: 1000,
+            //   text: 'Servicio actualizado exitosamente',
+            //   animation: true,
+            //   showCancelButton: true,
+            //   showConfirmButton: false,
+            //   cancelButtonText: 'OK'
+            // })
             this.editedItem = Object.assign({}, '')
           } else {
             alert('Ha ocurrido un error al editar el servicio')
