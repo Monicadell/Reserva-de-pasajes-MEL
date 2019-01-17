@@ -1,12 +1,12 @@
 <template>
-  <v-container grid-list-md text-xs-center>
-    <highcharts :options="chartOptions"></highcharts>
+  <v-container align-center text-xs-center>
+    <highcharts :options="chartOptions" class="enter"></highcharts>
   </v-container>
   
 </template>
 
 <script>
-  // import API from '@pi/app'
+  import API from '@pi/app'
   // import moment from 'moment'
   // import {mapGetters} from 'vuex'
   import {Chart} from 'highcharts-vue'
@@ -14,6 +14,7 @@
   export default {
     data () {
       return {
+        services: [],
         chartOptions: {
           chart: {
             type: 'column'
@@ -22,7 +23,7 @@
             text: 'Ocupación Servicios próximos'
           },
           xAxis: {
-            categories: ['Servicio 1', 'Servicio 2', 'Servicio 3', 'Servicio 4', 'Servicio 5', 'Servicio 6', 'Servicio 7', 'Servicio 8', 'Servicio 9', 'Servicio 10']
+            categories: []
           },
           yAxis: {
             min: 0,
@@ -61,20 +62,7 @@
               }
             }
           },
-          series: [{
-          //   {
-          //   name: 'Asientos Totales',
-          //   data: [84, 42, 42, 100, 150, 84, 42, 42, 100, 150],
-          //   color: '#ff9800'
-        // },
-          // {
-            name: 'Ocupados',
-            data: [20, 39, 30, 60, 90, 64, 3, 12, 40, 60],
-            color: '#1976D2'
-          }, {
-            name: 'Libres',
-            data: [64, 3, 12, 40, 60, 20, 39, 30, 60, 90],
-            color: '#646464'}]
+          series: []
         }
       }
     },
@@ -82,8 +70,41 @@
       Highcharts: Chart
     },
     mounted () {
+      this.getServices()
     },
     methods: {
+      async getServices () {
+        console.log('get services')
+        try {
+          let servicios = await API.get('services')
+          if (servicios.status >= 200 && servicios.status < 300) {
+            const servicesname = servicios.data.data.filter(item => item.hrs_left < 3000 && item.hrs_left > 0).map(item => item.name)
+            console.log('servicios', servicios.data.data)
+            this.chartOptions.xAxis.categories = servicesname
+            this.chartOptions.series = [{
+              name: 'Asientos Ocupados',
+              data: [20, 39, 30, 60, 90, 64, 3, 12, 40, 60],
+              color: '#1976D2'
+            }, {
+              name: 'Libres',
+              data: [64, 3, 12, 40, 60, 20, 39, 30, 60, 90],
+              color: '#646464'}]
+          }
+        } catch (e) {
+          console.log('error al cargar servicios', e.response)
+          console.log('catch err', e.response)
+          // this.$swal({
+          //   customClass: 'modal-info',
+          //   type: 'error',
+          //   title: 'Ha ocurrido un error al obtener los servicios, intente más tarde.',
+          //   text: e.response.data.error,
+          //   animation: true,
+          //   showCancelButton: true,
+          //   showConfirmButton: false,
+          //   cancelButtonText: 'Cerrar'
+          // })
+        }
+      }
     }
   }
 </script>

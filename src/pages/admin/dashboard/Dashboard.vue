@@ -16,15 +16,21 @@
       <v-flex xs3>
         <div class="cantidades text-xs-center">
           <p class="font-weight-bold pt-2">Total de usuarios</p>
-          <p class="display-2 secondary--text">{{ticketstotales}}</p>
+          <p class="display-2 secondary--text">{{totalusuarios}}</p>
         </div>
       </v-flex>
       <v-flex xs3>
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Total de usuarios conectados el último día</p>
-          <p class="display-2 secondary--text">{{ticketsconfimados}}</p>
+          <p class="font-weight-bold pt-2">Usuarios conectados el último día</p>
+          <p class="display-2 secondary--text">{{usuariosUltimoDia}}</p>
         </div>
       </v-flex>
+      
+      <v-flex xs12>
+        <!-- Gráfico ocupacion -->
+        <ocupacion />
+      </v-flex>
+      
       <v-flex xs6>
         <!-- Gráfico users conectados por dia el ultimo mes -->
         <conectados />
@@ -32,10 +38,6 @@
       <v-flex xs6>
         <!-- cant Tickets por dia, en el ultimo mes -->
         <reservas-solicitadas />
-      </v-flex>
-      <v-flex xs12>
-        <!-- Gráfico ocupacion -->
-        <ocupacion />
       </v-flex>
     </v-layout>
   </v-container>
@@ -124,7 +126,7 @@
               const ayer = moment().subtract(24, 'h').format()
               this.users = usuarios.data.data
               this.totalusuarios = usuarios.data.total_entries
-              this.usuariosUltimoDia = this.users.filter(item => item.last_connection >= ayer)
+              this.usuariosUltimoDia = this.users.filter(item => item.last_connection >= ayer).length
               // this.pagination.page = usuarios.data.page_number
               // this.pagination.rowsPerPage = usuarios.data.page_size
               // this.pagination.total_pages = usuarios.data.total_pages
@@ -152,7 +154,7 @@
 <style>
   .cantidades {
     border: 1px solid gray;
-    max-width: 70%;
+    max-width: 80%;
     margin: 0 auto;
   }
 </style>
