@@ -14,11 +14,9 @@ import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 import HighchartsVue from 'highcharts-vue'
 var VueScrollTo = require('vue-scrollto')
-var vueRut = require('vue-rut')
 
 Vue.prototype.moment = moment
 Vue.use(VueSweetalert2)
-Vue.use(vueRut)
 Vue.use(VueScrollTo)
 Vue.use(HighchartsVue)
 Vue.use(Vuetify, {
