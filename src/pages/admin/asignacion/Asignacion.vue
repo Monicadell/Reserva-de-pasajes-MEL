@@ -110,7 +110,7 @@
 
       <v-data-table
           :headers="headers"
-          :items="manifests"
+          :items="manifestsTable"
           :search="search"
           :loading="loading"
           :rows-per-page-items="[20, 40, 100]"
@@ -193,6 +193,7 @@
           {text: 'Patente', value: 'driver_id'}
         ],
         manifests: [],
+        manifestsTable: [],
         employees: [],
         conductores: [],
         auxiliares: [],
@@ -239,9 +240,9 @@
     watch: {
       filtro (val) {
         if (val === 1) {
-          this.manifests = this.manifests.filter(item => item.driver_id && item.associate_id && item.car_id)
+          this.manifestsTable = this.manifests.filter(item => (item.driver_id && item.associate_id && item.car_id))
         } else if (val === 2) {
-          this.manifests = this.manifests.filter(item => item.driver_id === null || item.associate_id === null || item.car_id === null)
+          this.manifestsTable = this.manifests.filter(item => (item.driver_id === null || item.associate_id === null || item.car_id === null))
         } else {
           this.getManifests()
         }
@@ -309,6 +310,7 @@
             console.log(manifestos)
             setTimeout(() => {
               this.manifests = manifestos.data.data
+              this.manifestsTable = this.manifests
               // console.log('manifiestos', this.manifests)
               this.loading = false
             }, 500)
@@ -378,10 +380,6 @@
           }
         } catch (e) {
           console.log('catch error al editar el servicio', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al editar el servicio, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -393,48 +391,6 @@
             cancelButtonText: 'Cerrar'
           })
         }
-        // }
-        // else {
-        //   console.log('ser a post', ser)
-        //   try {
-        //     let servicios = await API.post('manifests', ser)
-        //     if (servicios.status >= 200 && servicios.status < 300) {
-        //       console.log(servicios)
-        //       this.getManifests()
-        //       this.dialog = false
-        //       this.$swal({
-        //         customClass: 'modal-info',
-        //         type: 'success',
-        //         title: 'Servicio',
-        //         text: 'Servicio creado exitosamente',
-        //         animation: true,
-        //         timer: 2000,
-        //         showCancelButton: true,
-        //         showConfirmButton: false,
-        //         cancelButtonText: 'OK'
-        //       })
-        //       this.editedItem = Object.assign({}, '')
-        //     } else {
-        //       alert('Ha ocurrido un error al crear el servicio')
-        //     }
-        //   } catch (e) {
-        //     console.log('catch error al crear el servicio', e.response)
-        //     // this.showModal = true
-        //     // this.modalInfoTitle = 'Ha ocurrido un error'
-        //     // this.modalInfoDetail = 'Ha ocurrido un error al crear el servicio, intente más tarde.'
-        //     // this.modalInfoBtn1 = 'OK'
-        //     this.$swal({
-        //       customClass: 'modal-info',
-        //       type: 'error',
-        //       title: 'Ha ocurrido un error al crear el servicio, intente más tarde.',
-        //       text: e.response.data.error,
-        //       animation: true,
-        //       showCancelButton: true,
-        //       showConfirmButton: false,
-        //       cancelButtonText: 'Cerrar'
-        //     })
-        //   }
-        // }
       },
       frecuencia (item) {
         let freq = this.frequencies.find(frec => frec.id === item)
