@@ -70,7 +70,7 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ props.item.plate }}</td>
-          <td class="">{{ props.item.format_id }}</td>
+          <td class="">{{ props.item.format_name }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -120,7 +120,7 @@
         editedItem: {
           name: '',
           plate: '',
-          format_id: ''
+          format_name: ''
         },
         datepicker: false,
         headers: [

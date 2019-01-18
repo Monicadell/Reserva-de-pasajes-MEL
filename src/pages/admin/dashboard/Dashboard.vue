@@ -26,11 +26,11 @@
         </div>
       </v-flex>
       
-      <v-flex xs8>
+      <v-flex xs8 md8 xl8>
         <!-- Gráfico ocupacion -->
         <ocupacion />
       </v-flex>
-      <v-flex xs4>
+      <v-flex xs4 md4 xl4>
         <!-- Ranking servicios -->
         <ranking-servicios />
       </v-flex>

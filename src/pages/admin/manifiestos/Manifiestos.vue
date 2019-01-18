@@ -56,7 +56,7 @@
             <v-flex xs12 md3>
               <v-select :items="conductores" v-model="conductorSearch"
                 label="Conductores" clearable @click:clear="clearFecha"
-                single-line item-text="name" item-value="id"
+                single-line item-text="name" item-value="id" class="body-1"
               ></v-select>
               <!-- <v-autocomplete
                 v-model="servicioSearch"
@@ -124,7 +124,7 @@
       </v-card-title>
       <v-data-table v-if="!servicioSelected"
           :headers="headersServ"
-          :items="manifests"
+          :items="seriviciosmanifiestos"
           no-data-text="No existen servicios para fecha y origen ingresado"
           hide-actions
           :loading="loadingS"
@@ -205,6 +205,7 @@
         ],
         manifiestos: [],
         manifests: [],
+        seriviciosmanifiestos: [],
         estaciones: [],
         conductores: [],
         buses: [],
@@ -255,12 +256,10 @@
         this.getManifests()
       },
       conductorSearch (id) {
-        // this.manifests = this.manifests.filter(item => item.driver_id === id)
+        this.seriviciosmanifiestos = this.manifests.filter(item => Number(item.driver_id) === id)
       },
       busSearch (id) {
-        console.log('bus qe busca', id)
-        // this.manifests = this.manifests.filter(item => item.car_id === id)
-        // console.log('manifestos luego de buscar bus', this.manifests)
+        this.seriviciosmanifiestos = this.manifests.filter(item => Number(item.car_id) === id)
       }
     },
     mounted () {
@@ -272,6 +271,10 @@
     methods: {
       clearFecha () {
         this.dateSearch = ''
+        this.origenSearch = ''
+        this.conductorSearch = ''
+        this.busSearch = ''
+        this.loadingS = true
         this.getManifests()
       },
       volverServicios () {
@@ -316,17 +319,7 @@
             console.log(manifestos)
             setTimeout(() => {
               this.manifests = manifestos.data.data
-              console.log('manifiestos', this.manifests)
-              // Duplicar filas de manifestos segun cantidad de buses
-              // let nuevo = []
-              // this.manifests.forEach(servicio => {
-              //   for (let i = 1; i <= servicio.cars; i++) {
-              //     // console.log('algo')
-              //     nuevo.push(servicio)
-              //     // return
-              //   }
-              // })
-              // this.manifests = nuevo
+              this.seriviciosmanifiestos = this.manifests
               // esto elimina los null para exportar a pdf
               this.itemsServ = this.manifests.map(item => {
                 for (const prop in item) {
@@ -335,17 +328,12 @@
                 }
                 return item
               })
-              // console.log('items', this.items)
               this.loadingS = false
-            }, 500)
+            }, 2000)
           }
         } catch (e) {
           console.log('error al cargar manifestos', e.response)
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los manifestos, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',

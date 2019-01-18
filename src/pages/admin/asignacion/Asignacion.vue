@@ -238,12 +238,10 @@
     },
     watch: {
       filtro (val) {
-        // this.getManifests(val)
         if (val === 1) {
           this.manifests = this.manifests.filter(item => item.driver_id && item.associate_id && item.car_id)
         } else if (val === 2) {
           this.manifests = this.manifests.filter(item => item.driver_id === null || item.associate_id === null || item.car_id === null)
-          console.log('doss', this.manifests)
         } else {
           this.getManifests()
         }
@@ -311,36 +309,13 @@
             console.log(manifestos)
             setTimeout(() => {
               this.manifests = manifestos.data.data
-              console.log('manifiestos', this.manifests)
-              // Duplicar filas de manifestos segun cantidad de buses
-              // let nuevo = []
-              // this.manifests.forEach(servicio => {
-              //   for (let i = 1; i <= servicio.cars; i++) {
-              //     // console.log('algo')
-              //     nuevo.push(servicio)
-              //     // return
-              //   }
-              // })
-              // this.manifests = nuevo
-              // esto elimina los null para exportar a pdf
-              // this.items = this.manifests.map(item => {
-              //   for (const prop in item) {
-              //     if (item[prop] == null) item[prop] = ''
-              //     if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
-              //   }
-              //   return item
-              // })
-              // console.log('items', this.items)
+              // console.log('manifiestos', this.manifests)
               this.loading = false
             }, 500)
           }
         } catch (e) {
           console.log('error al cargar manifestos', e.response)
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al obtener los manifestos, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
