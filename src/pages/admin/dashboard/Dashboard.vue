@@ -1,39 +1,49 @@
 <template>
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
-      <v-flex xs3>
+      <v-flex xs12 equalHMWrap>
         <div class="cantidades text-xs-center">
           <p class="font-weight-bold pt-2">Nº tickets solicitados</p>
-          <p class="display-2 secondary--text">{{ticketstotales}}</p>
+          <p class="display-1 secondary--text">{{ticketstotales}}</p>
         </div>
-      </v-flex>
-      <v-flex xs3>
+      <!-- </v-flex>
+      <v-flex xs3> -->
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Nº tickets impresos</p>
-          <p class="display-2 secondary--text">{{ticketsconfimados}}</p>
+          <p class="font-weight-bold pt-2">Nº tickets impresos hoy</p>
+          <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
         </div>
-      </v-flex>
-      <v-flex xs3>
+      <!-- </v-flex>
+      <v-flex xs3> -->
+        <div class="cantidades text-xs-center">
+          <p class="font-weight-bold pt-2">Nº tickets impresos semanal</p>
+          <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
+        </div>
+
+        <div class="cantidades text-xs-center">
+          <p class="font-weight-bold pt-2">Nº tickets impresos mensual</p>
+          <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
+        </div>
+
         <div class="cantidades text-xs-center">
           <p class="font-weight-bold pt-2">Total de usuarios</p>
-          <p class="display-2 secondary--text">{{totalusuarios}}</p>
+          <p class="display-1 secondary--text">{{totalusuarios}}</p>
         </div>
-      </v-flex>
-      <v-flex xs3>
+      <!-- </v-flex>
+      <v-flex xs3> -->
         <div class="cantidades text-xs-center">
           <p class="font-weight-bold pt-2">Usuarios conectados el último día</p>
-          <p class="display-2 secondary--text">{{usuariosUltimoDia}}</p>
+          <p class="display-1 secondary--text">{{usuariosUltimoDia}}</p>
         </div>
       </v-flex>
       
-      <v-flex xs8 md8 xl8>
+      <v-flex xs12 md12 xl12 justify-center>
         <!-- Gráfico ocupacion -->
         <ocupacion />
       </v-flex>
-      <v-flex xs4 md4 xl4>
+      <!-- <v-flex xs4 md4 xl4> -->
         <!-- Ranking servicios -->
-        <ranking-servicios />
-      </v-flex>
+        <!-- <ranking-servicios />
+      </v-flex> -->
       
       <v-flex xs6>
         <!-- Gráfico users conectados por dia el ultimo mes -->
@@ -161,7 +171,17 @@
   .cantidades {
     border: 1px solid gray;
     background-color: #fff;
-    max-width: 80%;
-    margin: 0 auto;
+    width: 15%;
+    /* margin: 0 auto; */
+    /* display: inline-block; */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .equalHMWrap {
+    justify-content: space-around;
+    display: flex;
+    max-width: 100%;
   }
 </style>

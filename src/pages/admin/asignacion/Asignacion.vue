@@ -101,7 +101,7 @@
             <v-flex xs12 md4>
               <v-select
                   :items="filtros" v-model="filtro"
-                  label="Filtros" clearable
+                  label="Filtros" clearable @click:clear="clearFiltro"
                   single-line item-text="text" item-value="id"
               ></v-select> 
             </v-flex>
@@ -251,6 +251,12 @@
     methods: {
       clearFecha () {
         this.dateSearch = ''
+        this.getManifests()
+      },
+      clearFiltro () {
+        this.filtro = 3
+        this.manifests = []
+        this.loading = true
         this.getManifests()
       },
       changeDriver (val) {

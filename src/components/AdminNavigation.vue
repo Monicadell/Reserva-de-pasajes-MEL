@@ -9,7 +9,7 @@
     :width="220"
   >
 
-    <v-list two-line class="primary py-0" dark>
+    <v-list two-line class="color-user py-0" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
@@ -68,11 +68,10 @@
       show: true,
       avatar: 'https://ui-avatars.com/api/?name=',
       items: [
-        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'},
         {subheader: true, text: 'Reserva', type: 'Call'}, // Call es callcenter y admin
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Histórico', path: { path: '/misreservas' }, type: 'Call'},
-        {subheader: true, text: 'Reserva a Terceros', type: 'Call'},
+        // {subheader: true, text: 'Reserva a Terceros', type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reserva a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Histórico a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Gestión', type: 'Admin'},
@@ -89,7 +88,8 @@
         {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Formatos Bus', path: { path: '/formatos' }, type: 'Admin'},
-        {icon: '../../static/icons/08.png', text: 'Tripulación', path: { path: '/empleados' }, type: 'Admin'}
+        {icon: '../../static/icons/08.png', text: 'Tripulación', path: { path: '/empleados' }, type: 'Admin'},
+        {icon: '../../static/icons/config.png', text: 'Mi información', path: { path: '/myInfo' }, type: 'Call'}
       ]
     }),
     computed: mapGetters({
@@ -108,9 +108,15 @@
       outside: function (e) {
         this.clickOutside = !this.clickOutside
         // console.log('clicked outside!')
-        this.$store.dispatch('Auth/hide', {
-          hide: true
-        })
+        if (this.$route.path === '/service_reserve' || this.$route.path === '/misreservas' || this.$route.path === '/reservaterceros' || this.$route.path === '/misreservasaterceros') {
+          this.$store.dispatch('Auth/hide', {
+            hide: true
+          })
+        } else {
+          this.$store.dispatch('Auth/hide', {
+            hide: false
+          })
+        }
       },
       getItems () {
         if (this.role === 5) { // Rol callcenter
@@ -160,3 +166,9 @@
     }
   }
 </script>
+<style>
+  .color-user {
+    background-color: #d84d14 !important;
+  }
+    
+</style>
