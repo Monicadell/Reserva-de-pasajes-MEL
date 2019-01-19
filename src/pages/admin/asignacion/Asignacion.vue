@@ -66,16 +66,17 @@
                   label="Filtros" clearable
                   single-line item-text="text" item-value="id"
         ></v-select> -->
-          <v-layout wrap>
-            <v-flex xs12 md4>
+          <v-layout align-baseline justify-space-between row fill-height>
+            <!-- <v-flex xs12 md3>
               <v-text-field
                 v-model="search"
                 append-icon="search"
                 label="Buscar"
+                v-on:change="busca"
                 single-line
                 hide-details
               ></v-text-field>
-            </v-flex>
+            </v-flex> -->
             <v-flex xs12 md4>
               <v-menu
                 v-model="datepicker"
@@ -105,6 +106,12 @@
                   single-line item-text="text" item-value="id"
               ></v-select> 
             </v-flex>
+            <v-flex xs12 md4>
+              <v-radio-group v-model="row" row>
+                <v-radio label="Próximos 2 días" value="radioProximos" color="primary"></v-radio>
+                <v-radio label="Todos" value="radioTodos" color="primary"></v-radio>
+              </v-radio-group>
+            </v-flex>
           </v-layout>
       </v-toolbar>
 
@@ -113,13 +120,13 @@
           :items="manifestsTable"
           :search="search"
           :loading="loading"
-          :rows-per-page-items="[20, 40, 100]"
           item-key="id"
+          hide-actions
           no-data-text="No hay servicios registrados"
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.service_name }}</td>
-          <td class="">{{ props.item.service_date }}</td>
+          <td class="">{{ props.item.date }}</td>
           <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="">{{ props.item.trip_name }}</td>
           <td class="">{{ props.item.bus }}</td>
@@ -149,6 +156,30 @@
             <v-btn v-if="props.item.cars > 1" flat small class="primary--text text-capitalize" @click="editItem(props.item)">Asignar</v-btn>
             <v-btn v-else flat small class="primary--text text-capitalize" @click="editItem(props.item)">Modificar</v-btn>
           </td> -->
+        </template>
+        <template slot="footer">
+          <td :colspan="headers.length" class="text-xs-right">
+            <v-container grid-list-xl text-xs-center>
+              <v-layout align-center justify-space-around row fill-height>
+                <v-flex xs12 sm2>
+                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
+                            label="Items por página" v-on:change="changeRowsPage()"
+                          item-text="text" item-value="id"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm10 class="text-xs-center justify-center">
+                  <!-- <div class="text-xs-center"> -->
+                    <v-pagination
+                      v-model="pagination.page"
+                      @input="changePageNumber"
+                      :length="pagination.total_pages"
+                      :total-visible="10"
+                    ></v-pagination>
+                  <!-- </div> -->
+                </v-flex>
+              </v-layout>
+            </v-container>  
+          </td>
         </template>
       </v-data-table>
     </div>
@@ -183,7 +214,7 @@
         modalInfoDetail: '',
         modalInfoBtn1: '',
         headers: [
-          {text: 'Nombre', value: 'name'},
+          {text: 'Nombre', value: 'service_name', sortable: true},
           {text: 'Fecha', value: 'date'},
           {text: 'Salida', value: 'departure'},
           {text: 'Tramo', value: 'trip_name'},
@@ -192,6 +223,15 @@
           {text: 'Auxiliar', value: 'driver_id'},
           {text: 'Patente', value: 'driver_id'}
         ],
+        page: 1,
+        pagination: {
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
+        },
         manifests: [],
         manifestsTable: [],
         employees: [],
@@ -218,7 +258,8 @@
         filtros: [{text: 'Asignados', id: 1}, {text: 'No asignado', id: 2}, {text: 'Todos', id: 3}],
         filtro: 3,
         datepicker: false,
-        dateSearch: ''
+        dateSearch: '',
+        row: 'radioProximos'
       }
     },
     components: {
@@ -231,6 +272,7 @@
       this.getFrequencies()
       this.getCars()
       this.getEmployees()
+      console.log('row', this.row)
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -246,9 +288,22 @@
         } else {
           this.getManifests()
         }
+      },
+      dateSearch () {
+        this.loading = true
+        this.getManifests()
+      },
+      row () {
+        this.loading = true
+        this.getManifests()
       }
     },
     methods: {
+      // busca () {
+      //   console.log('busca', this.search)
+      //   let buscar = {'q': this.search}
+      //   this.getManifests(buscar)
+      // },
       clearFecha () {
         this.dateSearch = ''
         this.getManifests()
@@ -308,16 +363,36 @@
           console.log('error al cargar frecuencias', e.response)
         }
       },
-      async getManifests () {
-        // console.log('get manifests')
+      changePageNumber () {
+        console.log(this.pagination.page)
+        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
+        console.log(newpage)
+        this.getManifests(newpage)
+      },
+      changeRowsPage () {
+        // console.log(this.pagination.rowsPerPage)
+        let pagesize = {'page_size': this.pagination.rowsPerPage}
+        this.getManifests(pagesize)
+      },
+      async getManifests (pagi) {
+        console.log('get manifests')
+        const params = {
+          'date': this.dateSearch,
+          'proximos': this.row === 'radioProximos' ? 1 : 0,
+          'page': this.pagination.page,
+          'page_size': this.pagination.rowsPerPage
+        }
         try {
-          let manifestos = await API.get('manifests')
+          let manifestos = await API.get('manifests', params)
           if (manifestos.status >= 200 && manifestos.status < 300) {
-            console.log(manifestos)
+            console.log('manis', manifestos)
             setTimeout(() => {
               this.manifests = manifestos.data.data
               this.manifestsTable = this.manifests
-              // console.log('manifiestos', this.manifests)
+              this.pagination.totalItems = manifestos.data.total_entries
+              this.pagination.page = manifestos.data.page_number
+              this.pagination.rowsPerPage = manifestos.data.page_size
+              this.pagination.total_pages = manifestos.data.total_pages
               this.loading = false
             }, 500)
           }
@@ -352,11 +427,8 @@
           'manifest':
           {
             'driver_id': guardar.driver_id ? guardar.driver_id : '',
-            'driver_name': guardar.driver_name ? guardar.driver_name : '',
             'associate_id': guardar.associate_id ? guardar.associate_id : '',
-            'associate_name': guardar.associate_name ? guardar.associate_name : '',
-            'car_id': guardar.car_id ? guardar.car_id : '',
-            'car_name': guardar.car_name ? guardar.car_name : ''
+            'car_id': guardar.car_id ? guardar.car_id : ''
           }
         }
         // if (guardar.id) {
@@ -365,7 +437,7 @@
         try {
           let servicios = await API.put('manifests', id, mani)
           if (servicios.status >= 200 && servicios.status < 300) {
-            // console.log('ya hizo PUT',servicios)
+            console.log('ya hizo PUT mani', servicios)
             // this.manifests = servicios.data.data
             // this.getManifests()
             this.dialog = false

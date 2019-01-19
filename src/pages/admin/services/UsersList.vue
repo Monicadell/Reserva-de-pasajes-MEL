@@ -104,30 +104,6 @@
       </v-flex> 
     <!-- </v-layout>  -->
   </v-list>
-    <!-- <template slot="footer">
-      <td :colspan="headers.length" class="text-xs-right">
-        <v-container grid-list-xl text-xs-center>
-          <v-layout align-center justify-space-around row fill-height>
-            <v-flex xs12 sm2>
-              <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                        label="Items por página" v-on:change="changeRowsPage()"
-                      item-text="text" item-value="id"
-              ></v-select>
-            </v-flex>
-            <v-flex xs12 sm10 class="text-xs-center justify-center">
-              
-                <v-pagination
-                  v-model="pagination.page"
-                  @input="changePageNumber"
-                  :length="pagination.total_pages"
-                  :total-visible="10"
-                ></v-pagination>
-              
-            </v-flex>
-          </v-layout>
-        </v-container>  
-      </td>
-    </template>   -->
 </template>
           
 <script>
@@ -146,7 +122,6 @@
         search: '',
         check: false,
         autoUpdate: true,
-        friends: ['Sandra Adams', 'Britta Holt'],
         isUpdating: false
       }
     },
@@ -162,8 +137,6 @@
       }
     },
     mounted () {
-      // this.getUsers()
-      console.log('paath')
       console.log('path', this.$route.path)
     },
     methods: {
@@ -182,11 +155,12 @@
       selectUser (item) {
         console.log('select user->', item)
         let tam = this.selected.some(sel => sel.id === item.id)
-        // console.log('select some->', tam)
         if (!tam) {
-          this.selected.push(item)
+          // this.selected.push(item)
+          this.selected = item
           this.$store.dispatch('Booking/set_usuariosBook', {
-            usuariosBook: this.selected.map(item => item.id)
+            // usuariosBook: this.selected.map(item => item.id)
+            usuariosBook: this.selected
           })
         }
       },

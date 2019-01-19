@@ -2,21 +2,9 @@
   <div>
     <v-layout wrap>
       <v-flex xs12 md6 class="py-3"><h2>Manifiestos</h2> </v-flex>
-      <!-- <v-flex xs12 md6 class="text-xs-right">
-        <export-option :fields="excelFields" :data="items"  :pdf="true"/>
-      </v-flex> -->
     </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white" class="pt-2" v-if="!servicioSelected">
-        <!-- <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer> -->
-        <!-- <div class="text-xs-right"> -->
           <v-layout wrap>
             <v-flex xs12 md3>
               <v-menu
@@ -42,8 +30,8 @@
               </v-menu>
             </v-flex>
             <v-flex xs12 md3>
-              <v-select :items="estaciones" v-model="origenSearch"
-                          label="Origen" clearable @click:clear="clearFecha"
+              <v-select :items="tramos" v-model="tripSearch"
+                          label="Tramo" clearable @click:clear="clearFecha"
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
@@ -58,26 +46,8 @@
                 label="Conductores" clearable @click:clear="clearFecha"
                 single-line item-text="name" item-value="id" class="body-1"
               ></v-select>
-              <!-- <v-autocomplete
-                v-model="servicioSearch"
-                :items="manifests"
-                :loading="isLoading"
-                :search-input.sync="search"
-                color="primary"
-                hide-no-data
-                hide-selected
-                item-text="name"
-                item-value="name"
-                label="Servicio"
-                return-object
-                clearable
-              ></v-autocomplete> -->
             </v-flex>
-            <!-- <v-flex xs12 md2>
-              <v-btn color="primary" outline @click="getManifiestos()">Buscar</v-btn>
-            </v-flex> -->
           </v-layout>
-        <!-- </div> -->
       </v-toolbar>
 
       <v-card-title v-if="servicioSelected">
@@ -131,7 +101,7 @@
         >
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.service_name }}</td>
-          <td class="">{{ props.item.service_date }}</td>
+          <td class="">{{ props.item.date }}</td>
           <!-- <td class="">{{ props.item.source }}</td>
           <td class="">{{ props.item.dest }}</td> -->
           <td class="">{{ props.item.trip_name }}</td>
@@ -153,6 +123,30 @@
             </v-tooltip>
           </td>
         </template>
+        <template slot="footer">
+          <td :colspan="headersServ.length" class="text-xs-right">
+            <v-container grid-list-xl text-xs-center>
+              <v-layout align-center justify-space-around row fill-height>
+                <v-flex xs12 sm2>
+                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
+                            label="Items por página" v-on:change="changeRowsPage()"
+                          item-text="text" item-value="id"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm10 class="text-xs-center justify-center">
+                  <!-- <div class="text-xs-center"> -->
+                    <v-pagination
+                      v-model="pagination.page"
+                      @input="changePageNumber"
+                      :length="pagination.total_pages"
+                      :total-visible="10"
+                    ></v-pagination>
+                  <!-- </div> -->
+                </v-flex>
+              </v-layout>
+            </v-container>  
+          </td>
+        </template>
       </v-data-table>
     </div>
   </div>
@@ -171,7 +165,7 @@
         selectedUser: {},
         datepicker: false,
         dateSearch: '',
-        origenSearch: '',
+        tripSearch: '',
         busSearch: '',
         conductorSearch: '',
         loadingS: true,
@@ -193,7 +187,7 @@
         ],
         headersServ: [
           {text: 'Servicio', value: 'service_name'},
-          {text: 'Fecha servicio', value: 'service_date'},
+          {text: 'Fecha servicio', value: 'date'},
           // {text: 'Origen', value: 'source'},
           // {text: 'Destino', value: 'dest'},
           {text: 'Tramo', value: 'trip_name'},
@@ -203,10 +197,19 @@
           {text: 'Bus', value: 'carn_name'},
           {text: 'Detalles', value: '', sortable: false}
         ],
+        // page: 1,
+        pagination: {
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
+        },
         manifiestos: [],
         manifests: [],
         seriviciosmanifiestos: [],
-        estaciones: [],
+        tramos: [],
         conductores: [],
         buses: [],
         userDocumentType: [
@@ -249,29 +252,33 @@
       }
     },
     watch: {
-      origenSearch () {
+      tripSearch () {
+        this.loadingS = true
         this.getManifests()
       },
       dateSearch () {
+        this.loadingS = true
         this.getManifests()
       },
-      conductorSearch (id) {
-        this.seriviciosmanifiestos = this.manifests.filter(item => Number(item.driver_id) === id)
+      conductorSearch () {
+        this.loadingS = true
+        this.getManifests()
       },
-      busSearch (id) {
-        this.seriviciosmanifiestos = this.manifests.filter(item => Number(item.car_id) === id)
+      busSearch () {
+        this.loadingS = true
+        this.getManifests()
       }
     },
     mounted () {
       this.getManifests()
-      this.getStations()
+      this.getTrips()
       this.getEmployees()
       this.getCars()
     },
     methods: {
       clearFecha () {
         this.dateSearch = ''
-        this.origenSearch = ''
+        this.tripSearch = ''
         this.conductorSearch = ''
         this.busSearch = ''
         this.loadingS = true
@@ -280,26 +287,22 @@
       volverServicios () {
         this.servicioSelected = false
       },
-      async getStations () {
+      async getTrips () {
         try {
-          let stations = await API.get('stations')
-          if (stations.status >= 200 && stations.status < 300) {
-            console.log(stations)
+          let trips = await API.get('trips')
+          if (trips.status >= 200 && trips.status < 300) {
+            console.log(trips)
             setTimeout(() => {
-              this.estaciones = stations.data.data
+              this.tramos = trips.data.data
             }, 500)
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
             title: 'Error',
-            text: 'Ha ocurrido un error al cargar las estaciones, intente más tarde.',
+            text: 'Ha ocurrido un error al cargar los tramos, intente más tarde.',
             animation: true,
             showCancelButton: true,
             showConfirmButton: false,
@@ -307,19 +310,31 @@
           })
         }
       },
-      seleccionarServicio (servicio) {
-        this.getManifiestos(servicio.id)
+      seleccionarServicio (mani) {
+        this.getTickets(mani.id)
         this.servicioSelected = true
       },
       async getManifests () {
         // console.log('get manifests')
+        const params = {
+          'driver_id': this.conductorSearch,
+          'trip_id': this.tripSearch,
+          'car_id': this.busSearch,
+          'date': this.dateSearch,
+          'page': this.pagination.page,
+          'page_size': this.pagination.rowsPerPage
+        }
         try {
-          let manifestos = await API.get('manifests')
+          let manifestos = await API.get('manifests', params)
           if (manifestos.status >= 200 && manifestos.status < 300) {
-            console.log(manifestos)
+            console.log('mani', manifestos)
             setTimeout(() => {
               this.manifests = manifestos.data.data
               this.seriviciosmanifiestos = this.manifests
+              this.pagination.totalItems = manifestos.data.total_entries
+              this.pagination.page = manifestos.data.page_number
+              this.pagination.rowsPerPage = manifestos.data.page_size
+              this.pagination.total_pages = manifestos.data.total_pages
               // esto elimina los null para exportar a pdf
               this.itemsServ = this.manifests.map(item => {
                 for (const prop in item) {
@@ -346,20 +361,15 @@
           })
         }
       },
-      async getManifiestos (ser) {
-        let params = {
-          'source_id': this.origenSearch,
-          'date': this.dateSearch,
-          'service_id': ser || this.servicioSearch.id
-        }
+      async getTickets (mani) {
+        const url = 'manifests' + '/' + mani
         console.log('get tickets')
         try {
-          let tickets = await API.get('tickets', params)
+          let tickets = await API.get(url)
           if (tickets.status >= 200 && tickets.status < 300) {
-            console.log('params', params)
-            console.log(tickets.data.data)
             // setTimeout(() => {
-            this.manifiestos = tickets.data.data.filter(tick => tick.status !== 'anulado')
+            this.manifiestos = tickets.data.data.tickets.data.filter(tick => tick.status !== 'anulado')
+            console.log('result tickets', tickets.data.data)
             this.items = this.manifiestos.map(item => {
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
@@ -381,7 +391,7 @@
             // }, 500)
           }
         } catch (e) {
-          console.log('error al cargar tickets', e.response)
+          console.log('error al cargar tickets', e)
           console.log('catch err', e.response)
           this.$swal({
             customClass: 'modal-info',
@@ -418,6 +428,17 @@
         } catch (e) {
           console.log('error al cargar empleados', e.response)
         }
+      },
+      changePageNumber () {
+        console.log(this.pagination.page)
+        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
+        console.log(newpage)
+        this.getManifests(newpage)
+      },
+      changeRowsPage () {
+        // console.log(this.pagination.rowsPerPage)
+        let pagesize = {'page_size': this.pagination.rowsPerPage}
+        this.getManifests(pagesize)
       }
     }
   }
