@@ -240,7 +240,8 @@
           Auxiliar: 'associate_name',
           Bus: 'car_name'
         },
-        itemsServ: []
+        itemsServ: [],
+        firstTime: true
       }
     },
     components: {
@@ -274,6 +275,7 @@
       this.getTrips()
       this.getEmployees()
       this.getCars()
+      this.firstTime = true
     },
     methods: {
       clearFecha () {
@@ -314,7 +316,7 @@
         this.getTickets(mani.id)
         this.servicioSelected = true
       },
-      async getManifests () {
+      async getManifests (first) {
         // console.log('get manifests')
         const params = {
           'driver_id': this.conductorSearch,
@@ -336,13 +338,7 @@
               this.pagination.rowsPerPage = manifestos.data.page_size
               this.pagination.total_pages = manifestos.data.total_pages
               // esto elimina los null para exportar a pdf
-              this.itemsServ = this.manifests.map(item => {
-                for (const prop in item) {
-                  if (item[prop] == null) item[prop] = ''
-                  if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
-                }
-                return item
-              })
+              if (this.firstTime) this.getManifestosAll()
               this.loadingS = false
             }, 2000)
           }
@@ -439,6 +435,30 @@
         // console.log(this.pagination.rowsPerPage)
         let pagesize = {'page_size': this.pagination.rowsPerPage}
         this.getManifests(pagesize)
+      },
+      async getManifestosAll () {
+        console.log('get manifests TODOS 1 vez') // para obtener sin paginar los manifestos y poder exportarlos tdos
+        const params = {
+          'page_size': this.pagination.totalItems
+        }
+        try {
+          let manifestos = await API.get('manifests', params)
+          if (manifestos.status >= 200 && manifestos.status < 300) {
+            console.log('mani', manifestos)
+            const mani = manifestos.data.data
+              // esto elimina los null para exportar a pdf
+            this.itemsServ = mani.map(item => {
+              for (const prop in item) {
+                if (item[prop] == null) item[prop] = ''
+                if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
+              }
+              return item
+            })
+          }
+        } catch (e) {
+          console.log('error al cargar todos manifestos', e.response)
+          console.log('catch err', e.response)
+        }
       }
     }
   }
