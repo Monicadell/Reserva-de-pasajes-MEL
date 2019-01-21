@@ -78,7 +78,7 @@
             
             <v-btn color="primary" outline @click.native="confirmaAnular = false">Volver</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="deleteItem(eliminaid)">Eliminar</v-btn>
+            <v-btn color="primary" @click="anularReserva(eliminaid)">Eliminar</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -129,7 +129,8 @@
         },
         items: [],
         today: moment().format('YYYY-MM-DD'),
-        confirmaAnular: false
+        confirmaAnular: false,
+        eliminaid: ''
       }
     },
     components: {
@@ -302,10 +303,39 @@
           })
         }
       },
-      irEliminar (datoid) {
-        this.eliminaid = datoid
+      irEliminar (ticketid) {
+        this.eliminaid = ticketid
         this.confirmaAnular = true
       }
+      // async anularReserva () {
+      //   console.log('Anular reserva', this.servicioAnular)
+      //   // const idServicio = this.servicioAnular.id
+      //   try {
+      //     let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
+      //     if (eliminando.status >= 200 && eliminando.status < 300) {
+      //         // eliminado exitoso
+      //       this.$store.dispatch('Booking/set_actualizarReservas', {
+      //         actualizarReservas: true
+      //       })
+      //       this.modal.status = 'done'
+      //     }
+      //       /* this.$store.dispatch('Booking/set_anular', {
+      //             anular: false
+      //         });  */
+      //   } catch (e) {
+      //     console.log('Error al anular reserva', e.response)
+      //     this.$swal({
+      //       customClass: 'modal-info',
+      //       type: 'error',
+      //       title: '¡oops!',
+      //       text: 'Ha ocurrido un error por favor intenta de nuevo',
+      //       animation: true,
+      //       showCancelButton: true,
+      //       showConfirmButton: false,
+      //       cancelButtonText: 'Cerrar'
+      //     })
+      //   }
+      // }
     }
   }
 </script>

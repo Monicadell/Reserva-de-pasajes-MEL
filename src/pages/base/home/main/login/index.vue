@@ -25,7 +25,6 @@
               color="white"
               persistent-hint
               class="login-input"
-              v-rut
               hint="Puede ser su RUT o su numero de pasaporte"
             ></v-text-field>
           </v-flex>

@@ -222,8 +222,9 @@
           'name': this.userEdited.name,
           'email': this.userEdited.email,
           'phone_number': this.userEdited.phone_number,
-          'address': this.userEdited.address
-          // 'password': this.userEdited.password
+          'address': this.userEdited.address,
+          'password': this.userEdited.password,
+          'password_confirmation': this.userEdited.password_confirmation
         }
         try {
           let putuser = await API.patch('profile', us)
@@ -240,11 +241,11 @@
               showConfirmButton: false,
               showCloseButton: false
             })
-            this.editedItem = Object.assign({}, '')
+            this.userEdited = Object.assign({}, '')
           }
         } catch (e) {
           console.log('catch err', e)
-          this.editedItem = Object.assign({}, '')
+          this.userEdited = Object.assign({}, '')
           this.dialog = false
           this.$swal({
             type: 'error',
