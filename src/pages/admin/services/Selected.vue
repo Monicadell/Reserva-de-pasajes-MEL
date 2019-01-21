@@ -221,6 +221,7 @@
           console.log('route', this.$router.currentRoute)
           console.log('asiento ->', (this.seat[2] + 1))
           if (this.$router.currentRoute.name === 'ServiceReserve' && this.role === 2) {
+            console.log('reservar admin a mismo')
             let datos = {
               ac: this.acercamiento,
               vuelo: this.flight,
@@ -229,16 +230,18 @@
               user_id: this.userid
             }
             booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
-          } else if (this.$router.currentRoute.name === 'ServiceReserve') {
-            console.log('es a mi', extras)
+          } else if (this.$router.currentRoute.name === 'ServiceReserve' && this.role !== 2) {
+            console.log('es a mi, no admins', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           } else if (this.$router.currentRoute.name === 'reservaterceros') {
+            console.log('reservamos a terceros', this.usuariosBook)
+            const arrUser = [this.usuariosBook]
             let datos = {
               ac: this.acercamiento,
               vuelo: this.flight,
               seat: this.seat[0],
               bus: this.seat[2] + 1,
-              user_id: this.usuariosBook[0]
+              users: arrUser
             }
             booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
           } else {

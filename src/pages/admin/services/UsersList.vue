@@ -17,16 +17,16 @@
             v-on:change="busca"
             @click:clear="clearSearch">
           </v-text-field>
-            <template v-for="seleccionado in selected">
+          <!-- <h2>{{selected.name}}</h2> -->
+            <template v-if="selected">
               <v-chip
-                :selected="seleccionado"
                 close
                 color="primary"
                 outline
                 class="chip--select-multi"
-                @input="remove(seleccionado)"
+                @input="remove(selected)"
               >
-                {{ seleccionado.name }}
+                {{ selected.name }}
               </v-chip>
             </template>
           <!-- <v-autocomplete
@@ -118,7 +118,7 @@
         right: null,
         progres: false,
         users: [],
-        selected: [],
+        selected: '',
         search: '',
         check: false,
         autoUpdate: true,
@@ -154,21 +154,23 @@
       },
       selectUser (item) {
         console.log('select user->', item)
-        let tam = this.selected.some(sel => sel.id === item.id)
-        if (!tam) {
-          // this.selected.push(item)
-          this.selected = item
-          this.$store.dispatch('Booking/set_usuariosBook', {
-            // usuariosBook: this.selected.map(item => item.id)
-            usuariosBook: this.selected
-          })
-        }
+        // let tam = this.selected.some(sel => sel.id === item.id)
+        // if (!tam) {
+        //   this.selected.push(item)
+        this.selected = item
+        this.$store.dispatch('Booking/set_usuariosBook', {
+          // usuariosBook: this.selected.map(item => item.id)
+          usuariosBook: this.selected.id
+        })
+        // }
       },
       remove (item) {
-        const index = this.selected.indexOf(item)
-        if (index >= 0) this.selected.splice(index, 1)
+        // const index = this.selected.indexOf(item)
+        // if (index >= 0) this.selected.splice(index, 1)
+        this.selected = ''
         this.$store.dispatch('Booking/set_usuariosBook', {
-          usuariosBook: this.selected.map(item => item.id)
+          // usuariosBook: this.selected.map(item => item.id)
+          usuariosBook: ''
         })
       },
       async getUsers (params) {
