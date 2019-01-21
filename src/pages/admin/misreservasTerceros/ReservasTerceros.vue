@@ -35,7 +35,7 @@
 
           <v-flex xs12 sm4>
             <div class="text-xs-right">
-              <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
+              <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
             </div>    
           </v-flex>
             

@@ -162,7 +162,7 @@
             console.log('es a a mi', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           } else {
-            extras.users = this.usuariosBook
+            extras.users = [this.usuariosBook]
             console.log('es a terceros', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           }
