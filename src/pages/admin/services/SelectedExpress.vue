@@ -128,6 +128,7 @@
       SelectAcercamiento
     },
     mounted () {
+      console.log('monto modal servicio')
       this.getTrips()
     },
     methods: {
@@ -188,6 +189,12 @@
             }).then(() => {
               this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
               this.vuelo = true
+              if (this.$route.path === '/reservaterceros') {
+                this.$store.dispatch('Booking/set_usuariosBook', {
+                  usuariosBook: []
+                })
+                this.$store.dispatch('Booking/set_e1', {e1: 1})
+              }
             })
           }
         } catch (e) {

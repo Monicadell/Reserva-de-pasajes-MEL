@@ -460,12 +460,37 @@
         })
       },
       goConfirma () {
-        this.$store.dispatch('Booking/select', {selected: true})
+        if (this.$route.path === '/reservaterceros') {
+          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+        } else {
+          this.$store.dispatch('Booking/select', {selected: true})
+        }
       },
       selectExpress (servicioExpress) {
         // console.log('servicio expres seleccionado', servicioExpress)
-        this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
-        this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
+        if (this.$route.path === '/reservaterceros') {
+          console.log('es a terceros, cambiar container central')
+          this.getGrid(servicioExpress.id)
+          // this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 3
+          })
+          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
+        } else {
+          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
+        }
+      },
+      async getGrid (serv) {
+        let g = '?grid'
+        let grilla = await API.getgrid('services', serv, g)
+        if (grilla.status >= 200 && grilla.status < 300) {
+          this.gridService = grilla.data.data.grid
+          console.log('result grilla', this.gridService)
+          this.$store.dispatch('Booking/set_grid', {
+            grid: this.gridService
+          })
+        }
       }
     }
   }

@@ -108,7 +108,7 @@
           
 <script>
   import API from '@pi/app'
-  // import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -134,7 +134,16 @@
       search () {
         console.log('cambio search')
         this.busca()
+      },
+      usuariosBook (val) {
+        console.log('clear usuarios', val)
+        this.selected = ''
       }
+    },
+    computed: {
+      ...mapGetters({
+        usuariosBook: ['Booking/usuariosBook']
+      })
     },
     mounted () {
       console.log('path', this.$route.path)
