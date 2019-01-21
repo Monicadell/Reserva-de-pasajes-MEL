@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div class="py-3"><h2>Reservas a terceros</h2> </div>
-    <div class="text-xs-right pb-3">
-        <export-option :fields="excelFields" :data="items" :name="'ReservasTerceros'" :pdf="true"/>
-    </div> -->
     <v-layout row wrap>
     <v-flex class="xs12 md6 text-xs-left">
       <h2>Reservas a terceros</h2>
@@ -171,8 +167,6 @@
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas a terceros', tickets)
             // setTimeout(() => {
-            // this.ticketsList = Object.assign([], tickets.data.data)
-            // this.ticketsList = tickets.data.data
             if (this.filtro === 2) {
               console.log('Filtro perdidos terceros')
               this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
@@ -225,47 +219,6 @@
             cancelButtonText: 'OK'
           })
         }
-        // } else {
-        //   console.log('reservas propias')
-        //   try {
-        //     const tickets = await API.get('my_tickets', this.userId)
-        //     if (tickets.status >= 200 && tickets.status < 300) {
-        //       console.log('reservas', tickets)
-        //       // setTimeout(() => {
-        //       // this.ticketsList = Object.assign([], tickets.data.data)
-        //       this.ticketsList = tickets.data.data
-        //       this.ticketsList.forEach(element => { element.servicename = element.service.name })
-        //       this.ticketsList.forEach(element => { element.servicedate = element.service.date })
-        //       // }, 500)
-        //     } else {
-        //       console.log('Error ', tickets.status)
-        //       this.$swal({
-        //         customClass: 'modal-info',
-        //         type: 'error',
-        //         title: 'Reservas',
-        //         timer: 2000,
-        //         text: 'Ha ocurrido un error al obtener las reservas',
-        //         animation: true,
-        //         showCancelButton: true,
-        //         showConfirmButton: false,
-        //         cancelButtonText: 'OK'
-        //       })
-        //     }
-        //   } catch (e) {
-        //     console.log('Error ', e.response)
-        //     this.$swal({
-        //       customClass: 'modal-info',
-        //       type: 'error',
-        //       title: 'Reservas',
-        //       timer: 2000,
-        //       text: 'Ha ocurrido un error al obtener las reservas',
-        //       animation: true,
-        //       showCancelButton: true,
-        //       showConfirmButton: false,
-        //       cancelButtonText: 'OK'
-        //     })
-        //   }
-        // }
       },
       async deleteItem (item) {
         console.log('voy a eliminar user', item)
@@ -306,36 +259,39 @@
       irEliminar (ticketid) {
         this.eliminaid = ticketid
         this.confirmaAnular = true
+      },
+      async anularReserva (ticketid) {
+        console.log('Anular reserva', ticketid)
+        try {
+          let eliminando = await API.deleteNoRest('tickets', ticketid)
+          if (eliminando.status >= 200 && eliminando.status < 300) {
+            console.log('eliminado exitoso', eliminando)
+            this.confirmaAnular = false
+            this.$swal({
+              type: 'success',
+              customClass: 'modal-info',
+              timer: 2000,
+              title: 'Reserva',
+              text: 'Reserva eliminada exitosamente!',
+              animation: true,
+              showConfirmButton: false,
+              showCloseButton: false
+            })
+          }
+        } catch (e) {
+          console.log('Error al anular reserva', e)
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: '¡oops!',
+            text: 'Ha ocurrido un error por favor intenta de nuevo',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'Cerrar'
+          })
+        }
       }
-      // async anularReserva () {
-      //   console.log('Anular reserva', this.servicioAnular)
-      //   // const idServicio = this.servicioAnular.id
-      //   try {
-      //     let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
-      //     if (eliminando.status >= 200 && eliminando.status < 300) {
-      //         // eliminado exitoso
-      //       this.$store.dispatch('Booking/set_actualizarReservas', {
-      //         actualizarReservas: true
-      //       })
-      //       this.modal.status = 'done'
-      //     }
-      //       /* this.$store.dispatch('Booking/set_anular', {
-      //             anular: false
-      //         });  */
-      //   } catch (e) {
-      //     console.log('Error al anular reserva', e.response)
-      //     this.$swal({
-      //       customClass: 'modal-info',
-      //       type: 'error',
-      //       title: '¡oops!',
-      //       text: 'Ha ocurrido un error por favor intenta de nuevo',
-      //       animation: true,
-      //       showCancelButton: true,
-      //       showConfirmButton: false,
-      //       cancelButtonText: 'Cerrar'
-      //     })
-      //   }
-      // }
     }
   }
 </script>

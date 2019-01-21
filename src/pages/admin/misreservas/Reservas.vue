@@ -11,7 +11,7 @@
     <div class="elevation-1">
 
       <v-toolbar flat color="white">
-        <v-layout wrap>
+        <v-layout wrap pt-3>
           <v-flex xs12 sm4>
             <v-text-field
               v-model="search"

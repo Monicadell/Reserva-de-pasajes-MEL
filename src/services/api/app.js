@@ -47,7 +47,12 @@ export default {
     return axios.post(request, {...params})
   },
   deleteNoRest (url, id, url2) {
-    const request = `${base}${url}/${id}/${url2}`
+    let request = ''
+    if (url2) {
+      request = `${base}${url}/${id}/${url2}`
+    } else {
+      request = `${base}${url}/${id}`
+    }
     console.log(request)
     return axios.delete(request)
   },
