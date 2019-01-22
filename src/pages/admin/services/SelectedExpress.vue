@@ -189,7 +189,7 @@
             }).then(() => {
               this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
               this.vuelo = true
-              if (this.$route.path === '/reservaterceros') {
+              if (this.$route.path === '/reservaterceros' && this.role === 2) {
                 this.$store.dispatch('Booking/set_usuariosBook', {
                   usuariosBook: []
                 })
@@ -250,7 +250,8 @@
         current: ['Booking/current'],
         ruta: ['Booking/ruta'],
         servicioExpress: ['Booking/servicioExpress'],
-        usuariosBook: ['Booking/usuariosBook']
+        usuariosBook: ['Booking/usuariosBook'],
+        role: ['Auth/role']
       })
     }
   }

@@ -460,7 +460,7 @@
         })
       },
       goConfirma () {
-        if (this.$route.path === '/reservaterceros') {
+        if (this.$route.path === '/reservaterceros' && this.role === 2) {
           this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
         } else {
           this.$store.dispatch('Booking/select', {selected: true})
@@ -468,7 +468,7 @@
       },
       selectExpress (servicioExpress) {
         // console.log('servicio expres seleccionado', servicioExpress)
-        if (this.$route.path === '/reservaterceros') {
+        if (this.$route.path === '/reservaterceros' && this.role === 2) {
           console.log('es a terceros, cambiar container central')
           this.getGrid(servicioExpress.id)
           // this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})

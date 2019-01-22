@@ -23,7 +23,7 @@
           </v-flex>
 
           <v-flex xs12 sm4>
-            <v-select v-if="role === 2"
+            <v-select
                   :items="filtros" v-model="filtro"
                   label="Filtros" clearable
                   item-text="text" item-value="id"
