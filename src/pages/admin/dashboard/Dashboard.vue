@@ -1,40 +1,46 @@
 <template>
   <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
-      <v-flex xs12 equalHMWrap>
+    <h2>Estado de tickets</h2>
+    <v-layout row wrap class="contiene-estadotickets">
+      <!-- <v-flex qualHMWrap> -->
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Nº tickets solicitados</p>
+          <p class="font-weight-bold pt-2">Reservados</p>
           <p class="display-1 secondary--text">{{ticketstotales}}</p>
         </div>
-      <!-- </v-flex>
-      <v-flex xs3> -->
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Nº tickets impresos hoy</p>
-          <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
-        </div>
-      <!-- </v-flex>
-      <v-flex xs3> -->
-        <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Nº tickets impresos semanal</p>
+          <p class="font-weight-bold pt-2">Confirmados</p>
           <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
         </div>
 
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Nº tickets impresos mensual</p>
+          <p class="font-weight-bold pt-2">Impresos</p>
           <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
         </div>
 
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Total de usuarios</p>
+          <p class="font-weight-bold pt-2">Abordados</p>
+          <p class="display-1 secondary--text">{{ticketsconfimados}}</p>
+        </div>
+
+        <div class="cantidades text-xs-center">
+          <p class="font-weight-bold pt-2">Anulados propios</p>
           <p class="display-1 secondary--text">{{totalusuarios}}</p>
         </div>
-      <!-- </v-flex>
-      <v-flex xs3> -->
+        
         <div class="cantidades text-xs-center">
-          <p class="font-weight-bold pt-2">Usuarios conectados el último día</p>
+          <p class="font-weight-bold pt-2">Anulados terceros</p>
+          <p class="display-1 secondary--text">{{totalusuarios}}</p>
+        </div>
+        <div class="cantidades text-xs-center">
+          <p class="font-weight-bold pt-2">Expirados</p>
           <p class="display-1 secondary--text">{{usuariosUltimoDia}}</p>
         </div>
-      </v-flex>
+
+        <div class="cantidades text-xs-center">
+          <p class="font-weight-bold pt-2">No impreso</p>
+          <p class="display-1 secondary--text">{{usuariosUltimoDia}}</p>
+        </div>
+      <!-- </v-flex> -->
       
       <v-flex xs12 md12 xl12 justify-center>
         <!-- Gráfico ocupacion -->
@@ -169,19 +175,16 @@
 
 <style>
   .cantidades {
-    border: 1px solid gray;
+    border: 1px solid #efefef;
     background-color: #fff;
-    width: 15%;
-    /* margin: 0 auto; */
-    /* display: inline-block; */
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    flex: 1;
+    margin-right: 5px;
   }
-  .equalHMWrap {
-    justify-content: space-around;
-    display: flex;
-    max-width: 100%;
+  .cantidades:last-child {
+    margin-right: 0;
   }
 </style>
