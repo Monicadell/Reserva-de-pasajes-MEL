@@ -51,14 +51,14 @@
         <!-- <ranking-servicios />
       </v-flex> -->
       
-      <v-flex xs6>
-        <!-- Gráfico users conectados por dia el ultimo mes -->
-        <conectados />
+      <v-flex xs12 md12 xl12 justify-center>
+        <!-- Gráfico ocupacion por tramo de servicios del dia actual -->
+        <ocupacion-tramos />
       </v-flex>
-      <v-flex xs6>
+      <!-- <v-flex xs6> -->
         <!-- cant Tickets por dia, en el ultimo mes -->
-        <reservas-solicitadas />
-      </v-flex>
+        <!-- <reservas-solicitadas />
+      </v-flex> -->
     </v-layout>
   </v-container>
   
@@ -70,7 +70,7 @@
   // import {mapGetters} from 'vuex'
   import {Chart} from 'highcharts-vue'
   import Ocupacion from './Ocupacion'
-  import Conectados from './Conectados'
+  import OcupacionTramos from './OcupacionTramos'
   import ReservasSolicitadas from './ReservasSolicitadas'
   import RankingServicios from './RankingServicios'
 
@@ -92,7 +92,7 @@
     components: {
       highcharts: Chart,
       Ocupacion: Ocupacion,
-      Conectados: Conectados,
+      OcupacionTramos: OcupacionTramos,
       ReservasSolicitadas: ReservasSolicitadas,
       RankingServicios: RankingServicios
     },

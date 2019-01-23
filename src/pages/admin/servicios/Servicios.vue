@@ -325,7 +325,7 @@
           {text: 'Fecha', value: 'date'},
           {text: 'Salida', value: 'departure'},
           {text: 'Llegada', value: 'arrival'},
-          {text: 'Set', value: 'set'},
+          {text: 'Postura', value: 'set'},
           {text: 'Duración (hrs)', value: 'duration'},
           {text: 'Tramo', value: 'trip_name'},
           {text: 'Frecuencia', value: 'freq_id'},

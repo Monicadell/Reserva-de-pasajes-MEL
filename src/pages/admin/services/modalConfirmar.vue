@@ -174,6 +174,7 @@
     }
     .btn-cerrar {
         width: 90%;
+        margin: 0 auto;
     }
     .btn-cerrar.centrar {
       margin: 0 auto;
