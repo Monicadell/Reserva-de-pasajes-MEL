@@ -19,7 +19,7 @@
               </v-flex>
 
               <v-flex xs12 md4>
-                <v-text-field label="Documento"
+                <v-text-field label="Documento" v-bind:class="{invalid: !validRut && editedItem.documento && editedItem.tipoDocumento === '1'}"
                               @keyup="keymonitor(editedItem.tipoDocumento)"
                               v-model="editedItem.documento"></v-text-field>
               </v-flex>
@@ -246,6 +246,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import {mapGetters} from 'vuex'
+  const {validate} = require('rut.js')
 
   export default {
     data () {
@@ -319,7 +320,8 @@
             return coinciden || 'Contraseñas no coinciden'
           },
           min: value => value.length >= 8 || 'Min 8 caracteres'
-        }
+        },
+        validRut: false
       }
     },
     mounted () {
@@ -554,13 +556,12 @@
         }
       },
       keymonitor (doctype) {
-        console.log('doc', doctype)
         if (doctype === '1') {
-          console.log('entra a rut')
           let value = event.target.value
           if (!value) this.user = ''
           value = value.match(/[0-9Kk]+/g).join('')
           this.editedItem.documento = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+          this.validRut = validate(this.editedItem.documento)
         }
       }
     }
@@ -600,5 +601,8 @@
     background-color: rgba(21, 101, 192, 0.12);
     color: #1565c0;
     font-size: 1.0625em;
+  }
+  .invalid input{
+    /* background-color: red; */
   }
 </style>

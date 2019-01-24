@@ -17,7 +17,8 @@
         services: [],
         chartOptions: {
           chart: {
-            type: 'column'
+            type: 'column',
+            margin: 0
           },
           title: {
             text: 'Ocupación Servicios próximos'
