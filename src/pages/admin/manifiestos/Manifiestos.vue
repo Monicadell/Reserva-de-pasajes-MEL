@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout wrap>
-      <v-flex xs12 md6 class="py-3"><h2>Manifiestos</h2> </v-flex>
+      <v-flex xs12 md6 class="py-3"><h2>Servicios</h2> </v-flex>
     </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white" class="pt-2" v-if="!servicioSelected">
@@ -86,7 +86,7 @@
       </v-data-table>
 
       <v-card-title v-if="!servicioSelected">
-        <h3>Servicios</h3>
+        <!-- <h3>Servicios</h3> -->
         <v-spacer></v-spacer>
         <v-flex xs12 md6 class="text-xs-right">
           <export-option :fields="excelFieldsServ" :data="itemsServ" :name="'Servicios'" :pdf="true"/>
@@ -195,7 +195,7 @@
           {text: 'Conductor', value: 'driver_name'},
           {text: 'Auxiliar', value: 'associate_name'},
           {text: 'Bus', value: 'carn_name'},
-          {text: 'Detalles', value: '', sortable: false}
+          {text: 'Manifiesto', value: '', sortable: false}
         ],
         // page: 1,
         pagination: {

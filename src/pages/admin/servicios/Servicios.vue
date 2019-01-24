@@ -2,7 +2,7 @@
   <div>
     <v-layout row wrap>
       <v-flex class="xs12 md6 text-xs-left">
-        <h2>Servicios</h2>
+        <h2>Todos los servicios</h2>
       </v-flex>
       <v-flex xs12 md6 class="text-xs-right">
         <export-option :fields="excelFields" :data="items" :name="'Servicios'" :pdf="true"/>

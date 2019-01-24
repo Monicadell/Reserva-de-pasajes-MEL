@@ -6,7 +6,7 @@
     stateless permanent
     app
     v-click-outside="outside"
-    :width="220"
+    :width="260"
   >
 
     <v-list two-line class="color-user py-0" dark>
@@ -76,16 +76,16 @@
         {icon: '../../static/icons/06.png', text: 'Histórico a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Gestión', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Dashboard', path: { path: '/dashboard' }, type: 'Admin'}, // Admin es solo admin
-        {icon: '../../static/icons/01.png', text: 'Solicitudes', path: { path: '/solicitudes' }, type: 'Admin'},
-        {icon: '../../static/icons/05.png', text: 'Manifiestos', path: { path: '/manifiestos' }, type: 'Admin'},
+        {icon: '../../static/icons/01.png', text: 'Solicitudes de Usuarios', path: { path: '/solicitudes' }, type: 'Admin'},
+        {icon: '../../static/icons/05.png', text: 'Servicios', path: { path: '/manifiestos' }, type: 'Admin'},
         {subheader: true, text: 'Planificación', type: 'Admin'},
-        {icon: '../../static/icons/08.png', text: 'Programación', path: { path: '/asignacion' }, type: 'Admin'},
-        {icon: '../../static/icons/06.png', text: 'Servicios', path: { path: '/servicios' }, type: 'Admin'},
+        {icon: '../../static/icons/08.png', text: 'Programación Bus/Tripulación', path: { path: '/asignacion' }, type: 'Admin'},
+        {icon: '../../static/icons/06.png', text: 'Servicios Especiales', path: { path: '/servicios' }, type: 'Admin'},
+        {icon: '../../static/icons/04.png', text: 'Servicios con frecuencia', path: { path: '/frecuencias' }, type: 'Admin'},
         {subheader: true, text: 'Configuración', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'Admin'},
         {icon: '../../static/icons/03.png', text: 'Tramos', path: { path: '/tramos' }, type: 'Admin'},
-        {icon: '../../static/icons/04.png', text: 'Frecuencias', path: { path: '/frecuencias' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Buses', path: { path: '/buses' }, type: 'Admin'},
         {icon: '../../static/icons/07.png', text: 'Formatos Bus', path: { path: '/formatos' }, type: 'Admin'},
         {icon: '../../static/icons/08.png', text: 'Tripulación', path: { path: '/empleados' }, type: 'Admin'},

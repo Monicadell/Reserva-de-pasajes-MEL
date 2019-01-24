@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3"><h2>Frecuencias</h2> </div>
+    <div class="py-3"><h2>Servicios con frecuencias</h2> </div>
     
     <v-dialog v-model="dialog" persistent max-width="900px" class="text-xs-right">
       <v-card>
