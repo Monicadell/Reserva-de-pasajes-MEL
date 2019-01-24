@@ -242,7 +242,7 @@
           <td class="">{{ moment(props.item.arrival, 'HH:mm:ss').format('HH:mm') }}</td>
           <td class="" v-if="props.item.duration">{{ moment(props.item.duration, 'HH:mm:ss').format('HH:mm') }}</td>
           <td v-else></td>
-          <td>{{ props.item.updated_at }}</td>
+          <td>{{ moment(props.item.updated_at).format('DD-mm-YY HH:mm') }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon

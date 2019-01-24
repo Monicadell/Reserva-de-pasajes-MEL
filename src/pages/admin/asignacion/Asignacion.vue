@@ -125,28 +125,28 @@
           no-data-text="No hay servicios registrados"
         >
         <template slot="items" slot-scope="props">
-          <td class="">{{ props.item.service_name }}</td>
-          <td class="">{{ props.item.date }}</td>
-          <td class="">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
-          <td class="">{{ props.item.trip_name }}</td>
-          <td class="">{{ props.item.bus }}</td>
+          <td v-bind:class="getStatusClass(props.item)">{{ props.item.service_name }}</td>
+          <td v-bind:class="getStatusClass(props.item)">{{ props.item.bus }}</td>
+          <td v-bind:class="getStatusClass(props.item)">{{ props.item.date }}</td>
+          <td v-bind:class="getStatusClass(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
+          <td v-bind:class="getStatusClass(props.item)">{{ props.item.trip_name }}</td>
           <!-- <td class="">{{ props.item.driver_name }}</td>
           <td class="">{{ props.item.associate_name }}</td>
           <td class="">{{ props.item.car_name }}</td> -->
           
-          <td class="">
+          <td v-bind:class="getStatusClass(props.item)">
              <v-select :items="conductores" v-model="props.item.driver_id"
                         label="Conductor" @change="save(props.item)" class="body-1"
                         single-line item-text="name" item-value="id"
             ></v-select>    
           </td>
-          <td class="">
+          <td v-bind:class="getStatusClass(props.item)">
             <v-select :items="auxiliares" v-model="props.item.associate_id"
                       label="Auxiliar" @change="save(props.item)" class="body-1"
                       single-line item-text="name" item-value="id"
             ></v-select>   
           </td>
-          <td class="">
+          <td v-bind:class="getStatusClass(props.item)">
             <v-select :items="cars" v-model="props.item.car_id"
                           label="Bus" @change="save(props.item)" class="body-1"
                           single-line item-text="name" item-value="id"
@@ -215,10 +215,10 @@
         modalInfoBtn1: '',
         headers: [
           {text: 'Nombre', value: 'service_name', sortable: true},
+          {text: 'Nº Bus', value: 'bus'},
           {text: 'Fecha', value: 'date'},
           {text: 'Salida', value: 'departure'},
           {text: 'Tramo', value: 'trip_name'},
-          {text: 'Bus', value: 'bus'},
           {text: 'Conductor', value: 'driver_id'},
           {text: 'Auxiliar', value: 'driver_id'},
           {text: 'Patente', value: 'driver_id'}
@@ -227,7 +227,7 @@
         pagination: {
           page: 1,
           rowsPerPage: 40, // -1 for All
-          // sortBy: '',
+          // sortBy: 'date',
           totalItems: 0,
           rowsPerPageItems: [40, 80, 120],
           total_pages: 0
@@ -299,6 +299,9 @@
       }
     },
     methods: {
+      getStatusClass (item) {
+        return item.driver_id && item.car_id ? 'completed' : 'incompleted'
+      },
       // busca () {
       //   console.log('busca', this.search)
       //   let buscar = {'q': this.search}
@@ -512,5 +515,11 @@
     background-color: rgba(21, 101, 192, 0.12);
     color: #1565c0;
     font-size: 1.0625em;
+  }
+  .completed {
+    background-color: #f4fff6;
+  }
+  .incompleted {
+    background-color: transparent;
   }
 </style>

@@ -18,7 +18,7 @@
             @click:clear="clearSearch">
           </v-text-field>
           <!-- <h2>{{selected.name}}</h2> -->
-            <template v-if="selected">
+            <template v-if="selected && role === 2">
               <v-chip
                 close
                 color="primary"
@@ -29,6 +29,19 @@
                 {{ selected.name }}
               </v-chip>
             </template>
+            <template v-if="role === 5" v-for="seleccionado in selected">
+              <v-chip
+                :selected="seleccionado"
+                close
+                color="primary"
+                outline
+                class="chip--select-multi"
+                @input="remove(seleccionado)"
+              >
+                {{ seleccionado.name }}
+              </v-chip>
+            </template>
+
           <!-- <v-autocomplete
             v-model="search"
             :disabled="isUpdating"
@@ -118,7 +131,7 @@
         right: null,
         progres: false,
         users: [],
-        selected: '',
+        selected: [],
         search: '',
         check: false,
         autoUpdate: true,
@@ -137,12 +150,13 @@
       },
       usuariosBook (val) {
         console.log('clear usuarios', val)
-        this.selected = ''
+        // this.selected = ''
       }
     },
     computed: {
       ...mapGetters({
-        usuariosBook: ['Booking/usuariosBook']
+        usuariosBook: ['Booking/usuariosBook'],
+        role: ['Auth/role']
       })
     },
     mounted () {
@@ -162,25 +176,37 @@
         }
       },
       selectUser (item) {
-        console.log('select user->', item)
-        // let tam = this.selected.some(sel => sel.id === item.id)
-        // if (!tam) {
-        //   this.selected.push(item)
-        this.selected = item
-        this.$store.dispatch('Booking/set_usuariosBook', {
-          // usuariosBook: this.selected.map(item => item.id)
-          usuariosBook: this.selected.id
-        })
-        // }
+        console.log('select user->', this.selected)
+        if (this.role === 5) {
+          let tam = this.selected.some(sel => sel.id === item.id)
+          if (!tam) {
+            this.selected.push(item)
+            this.$store.dispatch('Booking/set_usuariosBook', {
+              usuariosBook: this.selected.map(item => item.id)
+            })
+          }
+        } else {
+          this.selected = item
+          this.$store.dispatch('Booking/set_usuariosBook', {
+            // usuariosBook: this.selected.map(item => item.id)
+            usuariosBook: this.selected.id
+          })
+        }
       },
       remove (item) {
-        // const index = this.selected.indexOf(item)
-        // if (index >= 0) this.selected.splice(index, 1)
-        this.selected = ''
-        this.$store.dispatch('Booking/set_usuariosBook', {
-          // usuariosBook: this.selected.map(item => item.id)
-          usuariosBook: ''
-        })
+        if (this.role === 5) {
+          const index = this.selected.indexOf(item)
+          if (index >= 0) this.selected.splice(index, 1)
+          // this.selected = ''
+          this.$store.dispatch('Booking/set_usuariosBook', {
+            usuariosBook: this.selected.map(item => item.id)
+          })
+        } else {
+          this.selected = []
+          this.$store.dispatch('Booking/set_usuariosBook', {
+            usuariosBook: []
+          })
+        }
       },
       async getUsers (params) {
         try {

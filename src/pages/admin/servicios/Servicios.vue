@@ -11,7 +11,7 @@
     <v-dialog v-model="dialog" persistent max-width="900px" class="text-xs-right">
       <v-card>
         <v-card-title primary-title class="primary white--text">
-            <h3 class="headline">Servicio</h3>
+            <h3 class="headline">Servicio Especial</h3>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -147,7 +147,7 @@
 
              <v-flex xs12 md6>
                 <v-select :items="frequencies" v-model="editedItem.freq_id"
-                          label="Frecuencia" disabled
+                          label="Frecuencia" disabled v-if="editedItem.freq_id"
                           single-line item-text="name" item-value="id"
                 ></v-select>
               </v-flex>
@@ -222,7 +222,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar servicio</v-btn>
+          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar servicio especial</v-btn>
         </div>
       </v-toolbar>
 
@@ -249,9 +249,8 @@
           <!-- <td class="">{{ props.item.car_id }}</td>
           <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }} / {{ props.item.total_seats }}</td>
-          <td class="">{{ props.item.cars }}
-            <!-- <a>Asignar</a> -->
-          </td>
+          <td class="">{{ props.item.cars }}</td>
+          <td style="max-width: 30px">{{ moment(props.item.updated_at).format('DD-mm-YY HH:mm') }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -333,6 +332,7 @@
           // {text: 'Conductor', value: 'driver_id'},
           {text: 'Asientos disponibles/totales', value: 'avail_seats'},
           {text: 'Buses', value: 'cars'},
+          {text: 'Última actualización', value: 'updated_at'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],

@@ -126,16 +126,18 @@
                     </v-dialog>
                   </v-flex>
                   <v-flex xs6 py-0>
-                    <v-dialog
-                      v-model="dialogregistro"
-                      width="500"
-                    >
-                      <v-btn
-                        slot="activator"
+                    <v-btn
+                        @click="dialogregistro = true"
                         flat class="white--text"
                       >
                         <v-icon small color="white" class="pr-2">account_circle</v-icon> Registrate aquí
                       </v-btn>
+                    <v-dialog
+                      v-if="dialogregistro"
+                      v-model="dialogregistro"
+                      width="500"
+                    >
+                      
                       <v-card>
                         <v-card-title
                           class="headline primary white--text"
@@ -156,6 +158,7 @@
                                   <v-text-field
                                     label="RUT"
                                     v-model="item.rut"
+                                    :rules="[rules.rut]"
                                     @keyup="keymonitor"
                                   ></v-text-field>
                                 </v-flex>
@@ -328,6 +331,7 @@
   import weather from './currentWeather'
   import API from '@pi/app'
   import Modal from '@c/Modal'
+  const {validate} = require('rut.js')
 
   export default {
     data () {
@@ -379,7 +383,8 @@
             const coinciden = this.item.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres'
+          min: value => value.length >= 8 || 'Min 8 caracteres',
+          rut: v => validate(v) || 'rut invalido'
         }
       }
     },
@@ -397,7 +402,7 @@
         this.$store.dispatch('Home/set_menu', {menu: 0})
       },
       cerrarRegistro () {
-        this.item = Object.assign({}, '')
+        this.item = {}
         this.dialogregistro = false
       },
       async solicitarRegistro (guardar) {

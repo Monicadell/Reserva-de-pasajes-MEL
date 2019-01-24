@@ -17,6 +17,7 @@
     "highcharts-vue": "^1.2.0",
     "jspdf": "^1.4.1",
     "moment": "^2.22.2",
+    "rut.js": "^1.0.1",
     "vue": "^2.5.2",
     "vue-i18n": "^8.2.1",
     "vue-json-excel": "^0.2.96",

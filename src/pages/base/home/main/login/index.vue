@@ -26,6 +26,7 @@
               persistent-hint
               class="login-input"
               hint="Puede ser su RUT o su numero de pasaporte"
+              :rules="rutRules"
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -94,6 +95,7 @@
   // import { mapGetters } from 'vuex'
   import API from '@pi/app'
   import Modal from '@c/Modal'
+  const {validate} = require('rut.js')
 
   export default {
     data () {
@@ -106,12 +108,16 @@
         showModal: false,
         modalInfoTitle: '',
         modalInfoDetail: '',
-        modalInfoBtn1: ''
+        modalInfoBtn1: '',
+        rutRules: [
+          v => validate(v) || 'rut invalido'
+        ]
       }
     },
     components: {
       modal: Modal
     },
+
     methods: {
       goToSingUp () {
         this.$store.dispatch('Home/set_menu', {menu: 1})
@@ -185,12 +191,14 @@
         }
       },
       keymonitor (event) {
-        console.log('doc tyme', this.documentType)
+        // console.log('doc tyme', this.documentType)
         if (this.documentType === '1') {
           let value = event.target.value
           if (!value) this.user = ''
           value = value.match(/[0-9Kk]+/g).join('')
           this.user = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+          // const valid = validate(value)
+          // console.log('rut valid:', valid, value)
         }
       }
     }
@@ -218,6 +226,10 @@
   }
   .login-input {
     width: 60%;
+  }
+  .login-input .error--text {
+    color: #ccc !important;
+    caret-color: #ccc !important;
   }
   .login-input .theme--light.v-input input{
     color: #fff;

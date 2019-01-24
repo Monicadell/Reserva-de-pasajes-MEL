@@ -13,7 +13,7 @@ import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
 import '../static/fonts/custom.css'
 import HighchartsVue from 'highcharts-vue'
-var VueScrollTo = require('vue-scrollto')
+const VueScrollTo = require('vue-scrollto')
 
 Vue.prototype.moment = moment
 Vue.use(VueSweetalert2)

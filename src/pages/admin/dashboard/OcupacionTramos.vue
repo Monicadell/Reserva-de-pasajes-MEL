@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  // import API from '@pi/app'
+  import API from '@pi/app'
   // import moment from 'moment'
   // import {mapGetters} from 'vuex'
   import {Chart} from 'highcharts-vue'
@@ -76,9 +76,22 @@
       highcharts: Chart
     },
     mounted () {
+      this.getTrips()
       this.getInfo()
     },
     methods: {
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          setTimeout(() => {
+            // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
+            // console.log(intersection)
+            console.log('trips', trips.data.data)
+            this.recorridos = trips.data.data
+            this.loading = false
+          }, 500)
+        }
+      },
       getInfo () {
         this.chartOptions.xAxis.categories = [
           '02:00',
@@ -95,73 +108,73 @@
           '24:00'
         ]
         this.chartOptions.series = [{
-          name: 'Tramo 1',
-          data: [50, 20, 17, 58, 101, 70, 23, 43],
+          name: 'Aeropuerto ANF → Complejo',
+          data: [50, 20, 17, 58, 101, 70, 23, 43]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 2',
-          data: [22, 24, 17, 78, 81, 50, 13, 3],
+          name: 'Aeropuerto ANF → MEL',
+          data: [22, 24, 17, 78, 81, 50, 13, 3]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 3',
-          data: [34, 56, 2, 77, 88, 54, 31, 10],
+          name: 'Antofagasta → MEL',
+          data: [34, 56, 2, 77, 88, 54, 31, 10]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 4',
-          data: [45, 74, 47, 85, 24, 15, 2, 4],
+          name: 'Complejo → MEL',
+          data: [45, 74, 47, 85, 24, 15, 2, 4]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 5',
-          data: [24, 20, 56, 33, 56, 46, 30, 34],
+          name: 'MEL 7000 → Complejo',
+          data: [24, 20, 56, 33, 56, 46, 30, 34]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 6',
-          data: [44, 10, 4, 6, 1, 40, 43, 20],
+          name: 'MEL → Aeropuerto ANF',
+          data: [44, 10, 4, 6, 1, 40, 43, 20]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 7',
-          data: [21, 0, 11, 38, 10, 60, 66, 33],
+          name: 'MEL → Antofagasta',
+          data: [21, 0, 11, 38, 10, 60, 66, 33]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 8',
-          data: [2, 10, 15, 38, 11, 33, 22, 28],
+          name: 'MEL → Complejo',
+          data: [2, 10, 15, 38, 11, 33, 22, 28]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 9',
-          data: [5, 2, 7, 29, 19, 44, 21, 22],
+          name: 'MEL → La negra',
+          data: [5, 2, 7, 29, 19, 44, 21, 22]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 10',
-          data: [55, 22, 47, 68, 71, 70, 45, 70],
+          name: 'MEL → Terminal de Buses ANF',
+          data: [55, 22, 47, 68, 71, 70, 45, 70]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 11',
-          data: [33, 53, 23, 43, 22, 44, 66, 77],
+          name: 'Terminal de Buses ANF → VCA',
+          data: [33, 53, 23, 43, 22, 44, 66, 77]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 12',
-          data: [33, 3, 4, 6, 12, 23, 22, 34],
+          name: 'Terminal → MEL',
+          data: [33, 3, 4, 6, 12, 23, 22, 34]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 13',
-          data: [22, 24, 45, 66, 57, 77, 80, 81],
+          name: 'VCA → Antofagasta',
+          data: [22, 24, 45, 66, 57, 77, 80, 81]
           // color: '#1976D2'
         },
         {
-          name: 'Tramo 14',
-          data: [50, 20, 17, 58, 101, 70, 23, 43],
+          name: 'VCA → La Negra',
+          data: [50, 20, 17, 58, 101, 70, 23, 43]
           // color: '#1976D2'
         }]
       }
