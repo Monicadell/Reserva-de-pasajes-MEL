@@ -5,40 +5,40 @@
       <!-- <v-flex qualHMWrap> -->
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Reservados</p>
-          <p class="display-1 grey--darken">{{ticketstotales}}</p>
+          <p class="display-1 grey--darken">80</p>
         </div>
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Confirmados</p>
-          <p class="display-1 grey--darken">{{ticketsconfimados}}</p>
+          <p class="display-1 grey--darken">30</p>
         </div>
 
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Impresos</p>
-          <p class="display-1 grey--darken">{{ticketsconfimados}}</p>
+          <p class="display-1 grey--darken">10</p>
         </div>
 
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Abordados</p>
-          <p class="display-1 grey--darken">{{ticketsconfimados}}</p>
+          <p class="display-1 grey--darken">4</p>
         </div>
 
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Anulados propios</p>
-          <p class="display-1 grey--darken">{{totalusuarios}}</p>
+          <p class="display-1 grey--darken">1</p>
         </div>
         
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Anulados terceros</p>
-          <p class="display-1 grey--darken">{{totalusuarios}}</p>
+          <p class="display-1 grey--darken">3</p>
         </div>
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">Expirados</p>
-          <p class="display-1 grey--darken">{{usuariosUltimoDia}}</p>
+          <p class="display-1 grey--darken">20</p>
         </div>
 
         <div class="cantidades text-xs-center">
           <p class="font-weight-regular pt-2">No impreso</p>
-          <p class="display-1 grey--darken">{{usuariosUltimoDia}}</p>
+          <p class="display-1 grey--darken">1.050</p>
         </div>
       <!-- </v-flex> -->
       

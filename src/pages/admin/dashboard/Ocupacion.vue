@@ -88,7 +88,7 @@
             this.chartOptions.series = [{
               name: 'Asientos Ocupados',
               data: [20, 39, 30, 60, 90, 64, 3, 12, 40, 60],
-              color: '#1976D2'
+              color: '#d84d14'
             }, {
               name: 'Libres',
               data: [64, 3, 12, 40, 60, 20, 39, 30, 60, 90],
