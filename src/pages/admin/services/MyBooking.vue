@@ -19,7 +19,7 @@
         <v-dialog v-model="bookingDetails" persistent max-width="1000">
           <v-btn slot="activator" color="primary" dark @click="verDetalle(props.item)">Ver Detalle</v-btn>
             <v-card>
-                <v-card-title class="titulo-detalle  elevation-22">
+                <v-card-title class="titulo-detalle primary elevation-22">
                     <div>
                         <h3 class="headline ml-3">Detalles reserva</h3>
                     </div>
@@ -145,7 +145,7 @@
           <v-dialog v-model="confirmaAnular" persistent max-width="490">
             <v-btn slot="activator" outline color="error" dark  >Anular</v-btn>
             <v-card>
-              <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">¿Esta seguro de anular la reserva?</v-card-title>
+              <v-card-title class="headline titulo-detalle primary elevation-22 text-lg-center">¿Esta seguro de anular la reserva?</v-card-title>
               <v-layout row wrap ml-4 mt-3> 
               <v-flex xs3 class="mt-3 ml-2"> 
                 <v-icon color="red" size=80>warning</v-icon>
@@ -303,7 +303,6 @@
     }
   
     .v-card__title.titulo-detalle {
-        background: #1565c0;
         color: white;
         font-weight: lighter;
     }

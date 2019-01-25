@@ -3,26 +3,14 @@
     <v-toolbar card prominent>
 
       <v-toolbar-title class="body-3 primary--text ml-4">
-        <!--{{$t(`lang.home.auth.${menuSelection.text}`)}}-->
         Busqueda de servicios
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!--<div class="grey--text">
-        Frecuentes
-      </div>
-      <v-btn small flat class="botonmenu" >MEL - Complejo MEL</v-btn>
-      <v-btn small flat  class="botonmenu">Complejo MEL - MEL</v-btn>
-      <v-btn small  flat  class="botonmenu">Aeropuerto ANF - MEL</v-btn>
-      <v-btn icon class="grey--text">
-        <v-icon>help</v-icon>
-      </v-btn> -->
     </v-toolbar>
 
-    <!-- <v-divider></v-divider> -->
 
     <v-layout class="layout-reservas">
       <v-flex xs3>
-        <!-- Reservas propias -->
         <v-navigation-drawer class="navegacion1" v-if="$route.path !== '/reservaterceros'">
           <v-list dense class="pt-0 user">
             <v-toolbar-title class="title-list-custom white--text primary">
@@ -119,7 +107,6 @@
                   <v-card
                     class="mb-5"
                     height="500px"
-
                     flat
                   >
                     <v-layout align-center justify-space-around column fill-height>
@@ -152,84 +139,10 @@
           </v-flex>
         </v-layout>
 
-      <!--  -->
-
+      <!-- Sidebar express -->
       </v-flex>
       <v-flex xs2>
-        <v-navigation-drawer class="barra-express">
-          <!-- <v-list dense class="pt-0 user "> -->
-            <v-toolbar-title class="primary--text">
-              <span class="hidden-sm-and-down ml-4 font-weight-black">Servicios próximos</span>
-            </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="loadingDerecha"></v-progress-linear>
-            <!-- <v-divider></v-divider> -->
-            <v-card flat class="media-alt">
-              <v-card-title primary-title class="pb-1 pt-3">
-                <span class="mb-0 title-ticket font-weight-black secondary--text darken-3">Hoy {{ moment(currenDate).format('DD-MM-YYYY')}}</span>
-              </v-card-title>
-              <v-divider class="divider-ticket ml-3"></v-divider>
-                <v-data-table
-                  :headers="hoyHeaders"
-                  :items="hoy"
-                  hide-actions
-                  class="tabla-express pt-3"
-                  no-data-text="No hay viajes para hoy"
-                >
-                  <template slot="items" slot-scope="props" >
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
-                    <td class="text-xs-center">
-                      <v-tooltip top>
-                        <v-icon
-                          small
-                          slot="activator"
-                          class="icono-select"
-                          @click="selectExpress(props.item)"
-                        >
-                          chevron_right
-                        </v-icon>
-                        <span>Eliminar</span>
-                      </v-tooltip>
-                    </td>
-                  </template>
-                </v-data-table>
-            </v-card>
-            <!-- <v-divider></v-divider> -->
-            <v-card flat class="media-alt">
-              <v-card-title primary-title class="pb-1 pt-3">
-              <span class="mb-0 title-ticket font-weight-black  secondary--text darken-3">Mañana {{ moment(tomorrowDate).format('DD-MM-YYYY')}}</span>
-              </v-card-title>
-              <v-divider class="divider-ticket ml-3"> </v-divider>
-              <v-data-table
-                    :headers="mananaHeaders"
-                    :items="manana"
-                    hide-actions
-                    class="tabla-express pt-3"
-                    no-data-text="No hay viajes para mañana"
-                  >
-                  <template slot="items" slot-scope="props" >
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.source }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
-                    <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
-                    <td class="text-xs-center">
-                      <v-tooltip top>
-                        <v-icon
-                          small
-                          slot="activator"
-                          class="icono-select"
-                          @click="selectExpress(props.item)"
-                        >
-                          chevron_right
-                        </v-icon>
-                        <span>Eliminar</span>
-                      </v-tooltip>
-                    </td>
-                  </template>
-                </v-data-table>
-            </v-card>
-          <!-- </v-list> -->
-        </v-navigation-drawer>
+        <side-bar-express />
       </v-flex>
     </v-layout>
 
@@ -280,6 +193,7 @@
   import modalConfirmar from './modalConfirmar'
   import modalDetalle from './modalDetalle'
   import datePlaceContainer from './containerDatePlace'
+  import sideBarExpress from './sidebarExpress'
   import Grid from './Grid'
   import tickets from './tickets'
   import {mapGetters} from 'vuex'
@@ -326,7 +240,8 @@
       datePlaceContainer,
       ServiceExpress,
       UsersList,
-      Grid
+      Grid,
+      sideBarExpress
     },
     computed: {
       ...mapGetters({
@@ -380,8 +295,6 @@
       this.currenDate = moment().format('YYYY-MM-DD')
       this.tomorrowDate = moment().add(1, 'days').format('YYYY-MM-DD')
       this.getReservas()
-      this.getExpress()
-      // this.getUsers()
       console.log('path', this.$route.path)
       this.$store.dispatch('Booking/set_ruta', {ruta: {}})
       this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
@@ -432,22 +345,6 @@
           })
         }
       },
-      async getExpress () {
-        console.log('get express')
-        try {
-          let servicios = await API.get('services', {'express': 1})
-          if (servicios.status >= 200 && servicios.status < 300) {
-            console.log('expres', servicios)
-            setTimeout(() => {
-              this.hoy = servicios.data.data.filter(service => service.date === this.currenDate)
-              this.manana = servicios.data.data.filter(service => service.date === this.tomorrowDate)
-              this.loadingDerecha = false
-            }, 500)
-          }
-        } catch (e) {
-          console.log('catch err, get express', e.response)
-        }
-      },
       volverMenu () {
         this.$store.dispatch('Booking/set_e1', {
           e1: 1
@@ -464,21 +361,6 @@
           this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
         } else {
           this.$store.dispatch('Booking/select', {selected: true})
-        }
-      },
-      selectExpress (servicioExpress) {
-        // console.log('servicio expres seleccionado', servicioExpress)
-        if (this.$route.path === '/reservaterceros' && this.role === 2) {
-          console.log('es a terceros, cambiar container central')
-          this.getGrid(servicioExpress.id)
-          // this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
-          this.$store.dispatch('Booking/set_e1', {
-            e1: 3
-          })
-          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
-        } else {
-          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
-          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
         }
       },
       async getGrid (serv) {
@@ -520,13 +402,6 @@
     transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
     z-index: 2;
   }
-  aside.v-navigation-drawer.barra-express {
-    width: 100% !important;
-    height: calc(100vh - 120px) !important;
-    background-color: #f5f5f5;
-    transform: translateX(0px) !important; /* sin esto se arrancan los aside en pantallas pequeñas */
-    z-index: 2;
-  }
   .input-buscar-user{
     border-bottom: 1px solid #ccc;
   }
@@ -553,77 +428,6 @@
     /* color: #1565c0; */
     font-size: 16px;
   }
-  .tabla-express{
-    overflow-y: scroll;
-    height: calc(100% - 40px);
-  }
-  /* .tabla-express.manana {
-    height: calc(100% - 40px);
-    overflow-y: scroll;
-  } */
-  .tabla-express .theme--light.v-table thead tr{
-    height: auto;
-  }
-  .tabla-express .theme--light.v-table thead th{
-    font-size: 10px;
-    padding: 5px;
-    text-transform: uppercase;
-    font-weight: 600;
-    /* color: #9e9e9e; */
-  }
-  .tabla-express .theme--light.v-table thead{
-    font-size: 10px;
-    padding: 10px 5px;
-    text-transform: uppercase;
-    font-weight: 600;
-    /* color: #9e9e9e; */
-    background-color: #f5f5f5;
-  }
-  .tabla-express .theme--light.v-table tbody td{
-    font-size: 10px;
-    padding: 7px 5px;
-    height: auto;
-  }
-  .tabla-express .theme--light.v-table tbody tr:not(:last-child){
-    border: none;
-    background-color: #f5f5f5;
-  }
-  .tabla-express .theme--light.v-table tbody tr {
-    background: #f5f5f5;
-  }
-  .tabla-express .theme--light.v-table tbody tr:hover,
-  .tabla-express .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row){
-    background: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-  }
-  .icono-select{
-    background-color: transparent;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-  }
-  .tabla-express .theme--light.v-table tbody tr:hover .icono-select{
-    background-color: #1565c0;
-    border: 1px solid #1565c0;
-    color: #fff;
-    border-radius: 50%;
-  }
-  .v-list__tile.v-list__tile--link.v-list__tile--avatar.theme--light:hover .icono-select{
-    background-color: #1565c0;
-    border: 1px solid #1565c0;
-    color: #fff;
-    border-radius: 50%;
-  }
-  /* .v-btn.botonmenu {
-      background: transparent ;
-    border: 1px solid #1565c0 ;
-    color: #1565c0;
-  }
-
-  .v-btn.botonmenu:hover {
-    background: #1565c0;
-    color: white;
-  } */
-
   .v-list.user {
     height: calc(100vh - 128px);
     overflow-y: auto;

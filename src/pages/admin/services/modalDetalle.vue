@@ -2,7 +2,7 @@
 
     <v-dialog v-model="detalle" persistent max-width="900">
          <v-card>
-                <v-card-title class="titulo-detalle justify-center elevation-22">
+                <v-card-title class="titulo-detalle primary justify-center elevation-22">
                  <div class="text-xs-center">
                     <h3 class="headline ml-3">Detalles reserva</h3>
                 </div>
@@ -191,7 +191,6 @@
         align-self: center;
     }
     .v-card__title.titulo-detalle {
-      background: #1565c0;
       color: white;
       font-weight: lighter;
     }

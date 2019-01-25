@@ -107,8 +107,6 @@
 
 <style>
     .v-card__title.titulo-detalle {
-    /* background: #1565c0; */
-    /* color: white; */
     font-weight: lighter;
 }
 </style>

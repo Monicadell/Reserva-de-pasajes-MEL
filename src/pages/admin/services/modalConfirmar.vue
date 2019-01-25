@@ -78,7 +78,7 @@
       </v-card>
 
         <v-card max-width="500"  v-if="modal.status == 'done'">
-          <v-card-title class="headline titulo-detalle elevation-22 text-lg-center">CHECK-IN</v-card-title>
+          <v-card-title class="headline titulo-detalle primary elevation-22 text-lg-center">CHECK-IN</v-card-title>
           <v-card-text class="text-xs-center ">  
             <v-icon color="secondary" size=200>check</v-icon>                  
             <h2 class=" font-weight-light">CONFIRMACION REALIZADA CON EXITO</h2>
@@ -162,7 +162,6 @@
 
 <style>
     .v-card__title.titulo-detalle {
-      background: #1565c0;
       color: white;
       font-weight: lighter;
     }
