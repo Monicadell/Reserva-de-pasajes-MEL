@@ -81,7 +81,7 @@
         {subheader: true, text: 'Planificación', type: 'Admin'},
         {icon: '../../static/icons/08.png', text: 'Programación Bus/Tripulación', path: { path: '/asignacion' }, type: 'Admin'},
         {icon: '../../static/icons/06.png', text: 'Servicios Especiales', path: { path: '/servicios' }, type: 'Admin'},
-        {icon: '../../static/icons/04.png', text: 'Servicios con frecuencia', path: { path: '/frecuencias' }, type: 'Admin'},
+        {icon: '../../static/icons/04.png', text: 'Servicios con Frecuencia', path: { path: '/frecuencias' }, type: 'Admin'},
         {subheader: true, text: 'Configuración', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Usuarios', path: { path: '/users' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/02.png', text: 'Estaciones', path: { path: '/estaciones' }, type: 'Admin'},

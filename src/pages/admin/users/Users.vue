@@ -19,9 +19,11 @@
               </v-flex>
 
               <v-flex xs12 md4>
-                <v-text-field label="Documento" v-bind:class="{invalid: !validRut && editedItem.documento && editedItem.tipoDocumento === '1'}"
-                              @keyup="keymonitor(editedItem.tipoDocumento)"
+                <v-text-field v-if="editedItem.tipoDocumento === '1'" label="Rut"
+                              @keyup="keymonitor(editedItem.tipoDocumento)" :rules="[rules.rut]"
                               v-model="editedItem.documento"></v-text-field>
+                <v-text-field v-else label="Pasaporte"
+                v-model="editedItem.documento"></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout wrap>
@@ -319,7 +321,8 @@
             const coinciden = this.editedItem.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres'
+          min: value => value.length >= 8 || 'Min 8 caracteres',
+          rut: v => validate(v) || 'Rut invalido'
         },
         validRut: false
       }
@@ -556,13 +559,11 @@
         }
       },
       keymonitor (doctype) {
-        if (doctype === '1') {
-          let value = event.target.value
-          if (!value) this.user = ''
-          value = value.match(/[0-9Kk]+/g).join('')
-          this.editedItem.documento = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
-          this.validRut = validate(this.editedItem.documento)
-        }
+        let value = event.target.value
+        if (!value) this.user = ''
+        value = value.match(/[0-9Kk]+/g).join('')
+        this.editedItem.documento = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
+        // this.validRut = validate(this.editedItem.documento)
       }
     }
   }
@@ -603,6 +604,7 @@
     font-size: 1.0625em;
   }
   .invalid input{
-    /* background-color: red; */
+    background-color:aliceblue;
+
   }
 </style>
