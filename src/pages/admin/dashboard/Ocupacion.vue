@@ -14,17 +14,15 @@
   export default {
     data () {
       return {
-        services: [],
         chartOptions: {
           chart: {
-            type: 'column',
-            margin: 0
+            type: 'column'
           },
           title: {
             text: 'Ocupación Servicios próximos'
           },
           xAxis: {
-            categories: [],
+            categories: ['Servicio 1', 'Servicio 2', 'Servicio 3', 'Servicio 4', 'Servicio 5', 'Servicio 6', 'Servicio 7', 'Servicio 8', 'Servicio 9', 'Servicio 10'],
             labels: {
               // autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
               rotation: -45
@@ -67,7 +65,20 @@
               }
             }
           },
-          series: []
+          series: [{
+          //   {
+          //   name: 'Asientos Totales',
+          //   data: [84, 42, 42, 100, 150, 84, 42, 42, 100, 150],
+          //   color: '#ff9800'
+        // },
+          // {
+            name: 'Ocupados',
+            data: [20, 39, 30, 60, 90, 64, 3, 12, 40, 60],
+            color: '#d84d14'
+          }, {
+            name: 'Libres',
+            data: [64, 3, 12, 40, 60, 20, 39, 30, 60, 90],
+            color: '#646464'}]
         }
       }
     },
@@ -113,6 +124,8 @@
     }
   }
 </script>
+
+
 
 <style>
 
