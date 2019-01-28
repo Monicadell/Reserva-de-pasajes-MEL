@@ -44,7 +44,8 @@
           :items="ticketsList"
           :search="search"
           :loading="loading"
-          hide-actions
+          :rows-per-page-items="[40, 80, 100]"
+          item-key="id"
           no-data-text="No tiene reservas registradas"
         >
         <template slot="items" slot-scope="props">

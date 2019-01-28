@@ -73,7 +73,7 @@
 <script>
   import ServiceExpress from './SelectedExpress'
   import moment from 'moment'
-  // import {mapGetters} from 'vuex'
+  import {mapGetters} from 'vuex'
   import API from '@pi/app'
 
   export default {
@@ -95,11 +95,23 @@
           {text: 'Destino', value: 'destino', sortable: false},
           {text: 'Salida', value: 'salida', sortable: false},
           {text: 'Ir', value: '', sortable: false, align: 'center'}],
-        manana: []
+        manana: [],
+        gridService: ''
       }
     },
     components: {
       ServiceExpress
+    },
+    computed: {
+      ...mapGetters({
+        fecha: ['Booking/fechaSeleccionada'],
+        ruta: ['Booking/ruta'],
+        actualizarReservas: ['Booking/actualizarReservas'],
+        select: ['Booking/select'],
+        e1: ['Booking/e1'],
+        role: ['Auth/role'],
+        grilla: ['Booking/grid']
+      })
     },
     mounted () {
       this.currenDate = moment().format('YYYY-MM-DD')
@@ -149,6 +161,17 @@
         } else {
           this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
           this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: servicioExpress})
+        }
+      },
+      async getGrid (serv) {
+        let g = '?grid'
+        let grilla = await API.getgrid('services', serv, g)
+        if (grilla.status >= 200 && grilla.status < 300) {
+          this.gridService = grilla.data.data.grid
+          console.log('result grilla', this.gridService)
+          this.$store.dispatch('Booking/set_grid', {
+            grid: this.gridService
+          })
         }
       }
     }

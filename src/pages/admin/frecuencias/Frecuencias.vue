@@ -167,7 +167,7 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <v-text-field label="Vehículos" type="number"
+                <v-text-field label="Vehículos" type="number" min="0"
                               v-model="editedItem.cars"></v-text-field>
               </v-flex>
 
@@ -223,7 +223,8 @@
           :items="frecuencias"
           :search="search"
           :loading="loading"
-          hide-actions
+          :rows-per-page-items="[40, 80, 100]"
+          item-key="id"
           no-data-text="No hay Frecuencias registradas"
         >
         <template slot="items" slot-scope="props">
@@ -402,20 +403,11 @@
       },
       editItem (item) {
         console.log('item edit', item)
-        // delete item.mensaje
-        // this.editedIndex = this.items.indexOf(item)
-        // let edit = Object.assign({}, item)
-        // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-        // this.editedItem = edit
         this.editedItem = item
         this.dialog = true
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        // let obj =  this.editedItem.trips.find(obj => obj.id == guardar.trip_id);
-        // console.log('trip', obj)
-        // let trip = this.trips.find(obj => obj.id === guardar.trip_id);
-        // console.log('trip', trip)
         let freq = {
           'frequency':
           {
@@ -438,6 +430,7 @@
             if (frec.status >= 200 && frec.status < 300) {
               this.getFrec()
               this.dialog = false
+              this.editedItem = Object.assign({})
               this.$swal({
                 customClass: 'modal-info',
                 type: 'success',
@@ -451,14 +444,10 @@
               })
             } else {
               alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
+              this.editedItem = Object.assign({})
             }
           } catch (e) {
             console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al editar la frecuencia, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -469,6 +458,8 @@
               showConfirmButton: false,
               cancelButtonText: 'Cerrar'
             })
+            this.dialog = false
+            this.editedItem = Object.assign({})
           }
         } else {
           console.log('ser a post')
@@ -489,16 +480,14 @@
                 cancelButtonText: 'OK'
               })
               this.dialog = false
+              this.editedItem = Object.assign({})
             } else {
               alert('Ha ocurrido un error, intente nuevamente')
+              this.dialog = false
+              this.editedItem = Object.assign({})
             }
           } catch (e) {
             console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al guardar la frecuencia, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
             this.$swal({
               customClass: 'modal-info',
               type: 'error',
@@ -509,6 +498,8 @@
               showConfirmButton: false,
               cancelButtonText: 'Cerrar'
             })
+            this.dialog = false
+            this.editedItem = Object.assign({})
           }
         }
       },
@@ -541,11 +532,6 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // alert('Ha ocurrido un error, intente más tarde!')
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al eliminar la frecuencia, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK
           this.confirmaAnular = false
           this.$swal({
             customClass: 'modal-info',
@@ -562,10 +548,6 @@
       close () {
         this.dialog = false
         this.editedItem = {}
-        // setTimeout(() => {
-        //   this.editedItem = Object.assign({}, this.defaultItem)
-        //   this.editedIndex = -1
-        // }, 300)
       },
       trip (item) {
         let t = this.trips.find(tramo => tramo.id === item)

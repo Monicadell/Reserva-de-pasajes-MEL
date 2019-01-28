@@ -24,7 +24,7 @@
         tramos: ['Tramo1', 'Tramo2', 'Tramo 3', 'Tramo 4'],
         chartOptions: {
           title: {
-            text: 'Ocupación de servicios por tramo'
+            text: 'Ocupación de servicios acumulados por tramo'
           },
           chart: {
             type: 'spline'
@@ -38,7 +38,7 @@
           },
           yAxis: {
             title: {
-              text: 'Asientos libres/ servicio'
+              text: '% ocupación'
             }
           },
           legend: {

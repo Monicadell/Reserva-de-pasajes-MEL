@@ -64,7 +64,8 @@
           :items="cars"
           :search="search"
           :loading="loading"
-          hide-actions
+          :rows-per-page-items="[20, 40, 100]"
+          item-key="id"
           no-data-text="No hay buses registrados"
         >
         <template slot="items" slot-scope="props">

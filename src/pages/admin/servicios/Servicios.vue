@@ -231,7 +231,7 @@
           :items="services"
           :search="search"
           :loading="loading"
-          :rows-per-page-items="[20, 40, 100]"
+          :rows-per-page-items="[40, 80, 100]"
           item-key="id"
           no-data-text="No hay servicios registrados"
         >

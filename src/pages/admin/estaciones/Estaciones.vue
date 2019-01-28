@@ -85,7 +85,8 @@
           :items="estaciones"
           :search="search"
           :loading="loading"
-          hide-actions
+          :rows-per-page-items="[40, 80, 100]"
+          item-key="id"
           no-data-text="No hay estaciones registradas"
         >
         <template slot="items" slot-scope="props">

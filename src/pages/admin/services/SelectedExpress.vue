@@ -158,13 +158,19 @@
         }
         try {
           let booking = {}
-          // console.log('route', this.$router.currentRoute)
+          console.log('route', this.$router.currentRoute)
           if (this.$router.currentRoute.name === 'ServiceReserve') {
             console.log('es a a mi', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
-          } else {
+          } else if (this.$router.currentRoute.name === 'reservaterceros' && this.role === 2) {
             extras.users = [this.usuariosBook]
-            console.log('es a terceros', extras)
+            extras.seat = this.seat[0]
+            extras.bus = this.seat[2] + 1
+            console.log('es a terceros y admin, con asiento', extras)
+            booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
+          } else {
+            extras.users = this.usuariosBook
+            console.log('es a terceros y no admin', extras)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
           }
         // console.log(booking)
@@ -198,16 +204,7 @@
             })
           }
         } catch (e) {
-          console.log('error al reservar', e.response)
-          this.$store.dispatch('Booking/select', { selected: false })
-          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
-          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
-          this.vuelo = false
-          this.acercamiento = ''
-          this.flight = ''
-          // this.$store.dispatch('Booking/set_e1', {
-          //   e1: 1
-          // })
+          console.log('error al reservar', e)
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -217,6 +214,15 @@
             showCancelButton: true,
             showConfirmButton: false,
             cancelButtonText: 'Cerrar'
+          })
+          this.$store.dispatch('Booking/select', { selected: false })
+          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: false})
+          this.$store.dispatch('Booking/set_servicioExpress', {servicioExpress: {}})
+          this.vuelo = false
+          this.acercamiento = ''
+          this.flight = ''
+          this.$store.dispatch('Booking/set_e1', {
+            e1: 1
           })
         }
       },
@@ -251,7 +257,8 @@
         ruta: ['Booking/ruta'],
         servicioExpress: ['Booking/servicioExpress'],
         usuariosBook: ['Booking/usuariosBook'],
-        role: ['Auth/role']
+        role: ['Auth/role'],
+        seat: ['Booking/seat']
       })
     }
   }

@@ -17,29 +17,31 @@
             v-on:change="busca"
             @click:clear="clearSearch">
           </v-text-field>
-          <!-- <h2>{{selected.name}}</h2> -->
-            <template v-if="selected && role === 2">
+            <template v-if="role === 2">
               <v-chip
                 close
                 color="primary"
                 outline
                 class="chip--select-multi"
                 @input="remove(selected)"
+                v-if="selected.name"
               >
                 {{ selected.name }}
               </v-chip>
             </template>
-            <template v-if="role === 5" v-for="seleccionado in selected">
-              <v-chip
-                :selected="seleccionado"
-                close
-                color="primary"
-                outline
-                class="chip--select-multi"
-                @input="remove(seleccionado)"
-              >
-                {{ seleccionado.name }}
-              </v-chip>
+            <template v-if="selected !== [] && role === 5">
+              <div v-for="seleccionado in selected" :key="seleccionado.id">
+                <v-chip
+                  :selected="seleccionado"
+                  close
+                  color="primary"
+                  outline
+                  class="chip--select-multi"
+                  @input="remove(seleccionado)"
+                >
+                  {{ seleccionado.name }}
+                </v-chip>
+              </div>
             </template>
 
           <!-- <v-autocomplete

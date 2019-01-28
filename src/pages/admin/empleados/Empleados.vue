@@ -105,7 +105,8 @@
           :items="employees"
           :search="search"
           :loading="loading"
-          hide-actions
+          :rows-per-page-items="[40, 80, 100]"
+          item-key="id"
           no-data-text="No hay empleados registrados"
         >
         <template slot="items" slot-scope="props">
