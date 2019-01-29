@@ -1,34 +1,53 @@
 <template>
   <v-card class="transparent_card">
     <v-card-title primary-title>
-      <h5 class="mb-0">Ranking de servicios - Hoy</h5>
+      <h5 class="mb-0">Servicios para el tramo: {{tramo[0].name}}</h5>
     </v-card-title>
     <v-divider light></v-divider>
     <v-card-title class="pa-0">
-      <table class="width100">
-        <tr v-for="(service, index) in services" :class="{grey_row: index % 2 === 0}">
+      <table class="width100" v-if="servicesTrip.length > 0">
+        <tr>
+          <th>Nombre servicio</th>
+          <th>Fecha - hora de salida</th>
+          <th>Cantidad de buses</th>
+        </tr>
+        <tr v-for="(service, index) in servicesTrip" :class="{grey_row: index % 2 === 0}">
           <td class="pl-2 text-xs-left">
             {{service.name}}
+          </td>
+          <td class="pl-2 text-xs-left">
+            {{service.date}} - {{service.departure}}
           </td>
           <td class="text-xs-center">
             <b>{{service.cars}}</b>
           </td>
         </tr>
       </table>
+      <div v-else class="px-2">No hay servicios para el tramo y fecha actual</div>
     </v-card-title>
   </v-card>
 </template>
 
 <script>
   import API from '@pi/app'
-  // import moment from 'moment'
+  import moment from 'moment'
 
   export default {
+    props: ['tramo'],
     data: () => ({
-      services: []
+      services: [],
+      servicesTrip: '',
+      today: moment().format('YYYY-MM-DD')
     }),
     mounted () {
+      console.log('tramo seleccionado:', this.tramo)
       this.getServices()
+    },
+    watch: {
+      tramo (val) {
+        console.log('cambia tramo', val)
+        this.servicesTrip = this.services.filter(item => (item.trip_id === val[0].id && item.hrs_left > 0 && item.date <= this.today)).sort((prev, next) => next.cars - prev.cars)
+      }
     },
     methods: {
       async getServices () {
@@ -36,7 +55,7 @@
           let servicios = await API.get('services')
           if (servicios.status >= 200 && servicios.status < 300) {
             // Falta filtrar qe sean los servicios de hoy, o proximas 24 h
-            this.services = servicios.data.data.filter(item => item.hrs_left > 0).sort((prev, next) => next.cars - prev.cars)
+            this.services = servicios.data.data
             console.log('servicios', this.services)
           }
         } catch (e) {

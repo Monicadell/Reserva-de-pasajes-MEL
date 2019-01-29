@@ -8,6 +8,8 @@
       @change="changeTrip()"
     ></v-select> -->
     <highcharts :options="chartOptions"></highcharts>
+    <div v-if="point.nameTrip !== ''">Data trip: {{point.nameTrip}} - Ocupación: {{point.ocupacion}} - Horario {{point.horario}}</div>
+    <ranking-servicios :tramo="selectedTrip"/>
   </v-container>
   
 </template>
@@ -17,11 +19,20 @@
   // import moment from 'moment'
   // import {mapGetters} from 'vuex'
   import {Chart} from 'highcharts-vue'
+  import RankingServicios from './RankingServicios'
 
   export default {
     data () {
+      const self = this
       return {
         tramos: ['Tramo1', 'Tramo2', 'Tramo 3', 'Tramo 4'],
+        point: {
+          nameTrip: '',
+          ocupacion: '',
+          horario: ''
+        },
+        trips: [],
+        selectedTrip: '',
         chartOptions: {
           title: {
             text: 'Ocupación de servicios acumulados por tramo'
@@ -50,8 +61,13 @@
             series: {
               label: {
                 connectorAllowed: false
-              }
+              },
               // pointStart: 2010
+              events: {
+                click: function (event) {
+                  self.onClickChart(event.point, this)
+                }
+              }
             }
           },
           series: [],
@@ -73,24 +89,46 @@
       }
     },
     components: {
-      highcharts: Chart
+      highcharts: Chart,
+      RankingServicios
     },
     mounted () {
-      this.getTrips()
       this.getInfo()
+      this.getTrips()
     },
     methods: {
+      onClickChart (point, chartData) {
+        console.log('function click chart, point', point)
+        console.log('function click chart, data', chartData)
+        this.point.nameTrip = chartData.name
+        const tramo = this.trips.filter(item => item.name === this.point.nameTrip)
+        console.log('tramo click', tramo)
+        this.selectedTrip = tramo
+        this.point.ocupacion = point.y
+        this.point.horario = point.series.data[point.x].category
+      },
       async getTrips () {
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
-          setTimeout(() => {
-            // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
-            // console.log(intersection)
-            console.log('trips', trips.data.data)
-            this.recorridos = trips.data.data
-            this.loading = false
-          }, 500)
+          // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
+          // console.log(intersection)
+          console.log('trips', trips.data.data)
+          this.trips = trips.data.data
+          // const tripsname = this.trips.map(item => item.name)
+          // console.log('series', this.chartOptions.series)
+          // console.log('trios name', this.chartOptions.series)
+          this.trips.forEach((element, index) => {
+            this.chartOptions.series.push({
+              name: element.name,
+              data: [this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom()]
+            })
+          })
+          console.log(this.chartOptions.series)
+          this.loading = false
         }
+      },
+      getRandom () {
+        return Math.floor((Math.random() * 100) + 1)
       },
       getInfo () {
         this.chartOptions.xAxis.categories = [
@@ -107,163 +145,7 @@
           '22:00',
           '24:00'
         ]
-        this.chartOptions.series = [{
-          name: 'Aeropuerto ANF → Complejo',
-          data: [50, 20, 17, 58, 101, 70, 23, 43]
-          // color: '#1976D2'
-        },
-        {
-          name: 'Aeropuerto ANF → MEL',
-          data: [22, 24, 17, 78, 81, 50, 13, 3]
-          // color: '#1976D2'
-        },
-        {
-          name: 'Antofagasta → MEL',
-          data: [34, 56, 2, 77, 88, 54, 31, 10]
-          // color: '#1976D2'
-        },
-        {
-          name: 'Complejo → MEL',
-          data: [45, 74, 47, 85, 24, 15, 2, 4]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL 7000 → Complejo',
-          data: [24, 20, 56, 33, 56, 46, 30, 34]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL → Aeropuerto ANF',
-          data: [44, 10, 4, 6, 1, 40, 43, 20]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL → Antofagasta',
-          data: [21, 0, 11, 38, 10, 60, 66, 33]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL → Complejo',
-          data: [2, 10, 15, 38, 11, 33, 22, 28]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL → La negra',
-          data: [5, 2, 7, 29, 19, 44, 21, 22]
-          // color: '#1976D2'
-        },
-        {
-          name: 'MEL → Terminal de Buses ANF',
-          data: [55, 22, 47, 68, 71, 70, 45, 70]
-          // color: '#1976D2'
-        },
-        {
-          name: 'Terminal de Buses ANF → VCA',
-          data: [33, 53, 23, 43, 22, 44, 66, 77]
-          // color: '#1976D2'
-        },
-        {
-          name: 'Terminal → MEL',
-          data: [33, 3, 4, 6, 12, 23, 22, 34]
-          // color: '#1976D2'
-        },
-        {
-          name: 'VCA → Antofagasta',
-          data: [22, 24, 45, 66, 57, 77, 80, 81]
-          // color: '#1976D2'
-        },
-        {
-          name: 'VCA → La Negra',
-          data: [50, 20, 17, 58, 101, 70, 23, 43]
-          // color: '#1976D2'
-        }]
       }
-      // changeTrip () {
-      //   this.chartOptions.xAxis.categories = [
-      //     '02:00',
-      //     '04:00',
-      //     '06:00',
-      //     '08:00',
-      //     '10:00',
-      //     '12:00',
-      //     '14:00',
-      //     '16:00',
-      //     '18:00',
-      //     '20:00',
-      //     '22:00',
-      //     '24:00'
-      //   ]
-      //   this.chartOptions.series = [{
-      //     name: 'Tramo 1',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 2',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 3',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 4',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 5',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 6',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 7',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 8',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 9',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 10',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 11',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 12',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 13',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   },
-      //   {
-      //     name: 'Tramo 14',
-      //     data: [50, 20, 17, 58, 101, 70, 23, 43],
-      //     color: '#1976D2'
-      //   }]
-      // }
     }
   }
 </script>

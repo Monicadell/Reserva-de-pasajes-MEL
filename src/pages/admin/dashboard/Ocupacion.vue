@@ -63,6 +63,21 @@
                 enabled: true,
                 color: 'white'
               }
+            },
+            series: {
+              cursor: 'pointer',
+              events: {
+                click: function (event) {
+                  console.log('evento', event)
+                  // alert(
+                  //   this.name + ' clicked\n' +
+                  //   'Alt: ' + event.altKey + '\n' +
+                  //   'Control: ' + event.ctrlKey + '\n' +
+                  //   'Meta: ' + event.metaKey + '\n' +
+                  //   'Shift: ' + event.shiftKey
+                  // )
+                }
+              }
             }
           },
           series: [{
@@ -89,13 +104,23 @@
       this.getServices()
     },
     methods: {
+      evento (e) {
+        console.log('evento e', e)
+        alert(
+          this.name + ' clicked\n' +
+          'Alt: ' + event.altKey + '\n' +
+          'Control: ' + event.ctrlKey + '\n' +
+          'Meta: ' + event.metaKey + '\n' +
+          'Shift: ' + event.shiftKey
+        )
+      },
       async getServices () {
         console.log('get services')
         try {
           let servicios = await API.get('services')
           if (servicios.status >= 200 && servicios.status < 300) {
             const servicesname = servicios.data.data.filter(item => item.hrs_left < 3000 && item.hrs_left > 0).map(item => item.name)
-            console.log('servicios', servicios.data.data)
+            // console.log('servicios', servicios.data.data)
             this.chartOptions.xAxis.categories = servicesname
             this.chartOptions.series = [{
               name: 'Asientos Ocupados',
