@@ -1,14 +1,18 @@
 <template>
    
   <v-container grid-list-md text-xs-center>
-    <!-- <v-select
-      :items="tramos"
-      label="Tramo"
-      solo
-      @change="changeTrip()"
-    ></v-select> -->
+    <v-select
+      :items="origenes"
+      label="Seleccionar tramo"
+      box
+      item-text="source_name" item-value="source_id"
+      @change="selectedTrip()"
+      v-model="origenSeleccionado"
+    ></v-select>
     <highcharts :options="chartOptions"></highcharts>
-    <div v-if="point.nameTrip !== ''">Data trip: {{point.nameTrip}} - Ocupación: {{point.ocupacion}} - Horario {{point.horario}}</div>
+    <div v-if="point.nameTrip !== ''" class="pa-3 text-xs-left white"><b>Data punto seleccionado:</b>
+      <p class="ma-0"><b>Tramo:</b> {{point.nameTrip}} - <b>Horario: </b> {{point.horario}} -<b> Ocupación:</b> {{point.ocupacion}}</p>
+    </div>
     <ranking-servicios :tramo="selectedTrip"/>
   </v-container>
   
@@ -26,13 +30,15 @@
       const self = this
       return {
         tramos: ['Tramo1', 'Tramo2', 'Tramo 3', 'Tramo 4'],
+        trips: [],
+        origenes: [],
+        selectedTrip: '',
+        origenSeleccionado: 1,
         point: {
           nameTrip: '',
           ocupacion: '',
           horario: ''
         },
-        trips: [],
-        selectedTrip: '',
         chartOptions: {
           title: {
             text: 'Ocupación de servicios acumulados por tramo'
@@ -96,6 +102,12 @@
       this.getInfo()
       this.getTrips()
     },
+    watch: {
+      origenSeleccionado (val) {
+        this.chartOptions.series = []
+        this.selectTrip()
+      }
+    },
     methods: {
       onClickChart (point, chartData) {
         console.log('function click chart, point', point)
@@ -114,18 +126,22 @@
           // console.log(intersection)
           console.log('trips', trips.data.data)
           this.trips = trips.data.data
-          // const tripsname = this.trips.map(item => item.name)
-          // console.log('series', this.chartOptions.series)
-          // console.log('trios name', this.chartOptions.series)
-          this.trips.forEach((element, index) => {
-            this.chartOptions.series.push({
-              name: element.name,
-              data: [this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom()]
-            })
-          })
-          console.log(this.chartOptions.series)
-          this.loading = false
+          this.selectTrip()
         }
+      },
+      selectTrip () {
+        const tripsFilter = this.trips.filter(item => item.source_id === this.origenSeleccionado)
+        this.origenes = this.trips.filter(item => item.source_id)
+        // const tripsname = this.trips.map(item => item.name)
+        // console.log('series', this.chartOptions.series)
+        // console.log('trios name', this.chartOptions.series)
+        tripsFilter.forEach((element, index) => {
+          this.chartOptions.series.push({
+            name: element.name,
+            data: [this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom(), this.getRandom()]
+          })
+        })
+        console.log(this.chartOptions.series)
       },
       getRandom () {
         return Math.floor((Math.random() * 100) + 1)

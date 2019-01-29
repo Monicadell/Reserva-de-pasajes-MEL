@@ -1,11 +1,11 @@
 <template>
   <v-card class="transparent_card">
     <v-card-title primary-title>
-      <h5 class="mb-0">Servicios para el tramo: {{tramo[0].name}}</h5>
+      <h3 class="mb-0">Servicios para el tramo: {{tramo[0].name}}</h3>
     </v-card-title>
     <v-divider light></v-divider>
     <v-card-title class="pa-0">
-      <table class="width100" v-if="servicesTrip.length > 0">
+      <table class="width100 elevation-0" v-if="servicesTrip.length > 0">
         <tr>
           <th>Nombre servicio</th>
           <th>Fecha - hora de salida</th>
