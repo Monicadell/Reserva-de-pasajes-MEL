@@ -12,7 +12,7 @@
     <v-list two-line class="color-user py-0" dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <img :src="avatar + 'testing?font-size=0.45&length=2&background=F17B31&color=fff'">
+          <img :src="avatar + `${name}` + '?font-size=0.45&length=2&background=F17B31&color=fff'">
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{name}}</v-list-tile-title>

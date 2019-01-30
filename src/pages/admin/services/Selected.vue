@@ -287,10 +287,6 @@
             showConfirmButton: false,
             cancelButtonText: 'Cerrar'
           })
-        /*  this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = e.response.data.error
-          this.modalInfoBtn1 = 'OK' */
         }
       },
       async getTrips () {
@@ -322,8 +318,6 @@
         console.log('trips', this.tramos)
         console.log('trip selec', trip)
         if (trip.vuelo) {
-          // console.log('es vuelo')
-          // this.vuelo = (this.servicioSeleccionado.dest.toLowerCase().includes('aeropuerto') || this.servicioSeleccionado.source.toLowerCase().includes('aeropuerto'))
           this.vuelo = true
         }
       },

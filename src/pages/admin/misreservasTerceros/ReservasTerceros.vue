@@ -159,12 +159,12 @@
       async getReservas () {
         console.log('user id', this.userId)
         console.log('ruta', this.$route.path)
-        let params = {}
+        // let params = {}
         // if (this.$route.path === '/misreservasaterceros') {
         console.log('es a terceros')
-        params = {'booked_by_id': this.userId}
+        // params = {'booked_by_id': this.userId}
         try {
-          const tickets = await API.get('tickets', params)
+          const tickets = await API.get('tickets')
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas a terceros', tickets)
             // setTimeout(() => {
