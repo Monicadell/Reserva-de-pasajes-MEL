@@ -8,7 +8,6 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-
     <v-layout class="layout-reservas">
       <v-flex xs3>
         <v-navigation-drawer class="navegacion1" v-if="$route.path !== '/reservaterceros'">
@@ -67,8 +66,6 @@
                 <v-stepper-content step="2">
                   <v-card
                     class="mb-5"
-                    height="400px"
-                    max-height="400px"
                     flat
                   >
                     <service-list/>
@@ -138,13 +135,15 @@
             </v-stepper>
           </v-flex>
         </v-layout>
+      </v-flex>
 
       <!-- Sidebar express -->
-      </v-flex>
       <v-flex xs2>
         <side-bar-express />
       </v-flex>
     </v-layout>
+
+    
 
     <v-layout row wrap fill-height class="">
       <v-flex xs12 >

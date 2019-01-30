@@ -145,13 +145,15 @@
                         >Solicita tu registro
                         </v-card-title>
                           <v-card-text>
+                            <v-form v-model="valid">
                             <v-container fluid grid-list-md class="pa-0">
-
                               <v-layout wrap row>
+                                
                                 <v-flex xs12 sm6>
                                   <v-text-field
                                     label="Nombre y apellido *"
                                     v-model="item.name"
+                                    :rules="[rules.required]"
                                   ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6>
@@ -171,9 +173,8 @@
 
                                 <v-flex xs12 sm6>
                                   <v-text-field
-                                    v-model="item.email"
-                                    :rules="[rules.email]"
                                     label="E-mail *"
+                                    :rules="[rules.email]"
                                   ></v-text-field>
                                 </v-flex>
 
@@ -186,8 +187,13 @@
 
                                 <v-flex xs12 sm6>
                                   <v-text-field
+                                    type="number"
                                     label="Telefono contacto *"
                                     v-model="item.phone_number"
+                                    prefix="+569"
+                                    max="99999999"
+                                    :rules="[rules.required]"
+                                    :mask="mask"
                                   ></v-text-field>
                                 </v-flex>
                                 
@@ -232,8 +238,8 @@
 
                                 <small>* Campos obligatorios</small>
                               </v-layout>
-
                             </v-container>
+                          </v-form>
                         </v-card-text>
                         <!-- <v-divider></v-divider> -->
                         <v-card-actions class="py-3">
@@ -346,6 +352,8 @@
         modalInfoTitle: '',
         modalInfoDetail: '',
         modalInfoBtn1: '',
+        valid: false,
+        mask: '########',
         items: [
           {
             src: '../../../../../static/img/1.jpg', text: 'Servicio de transporte privado Minera escondida'
@@ -375,16 +383,20 @@
           {name: 'CONTRATISTA', id: 2}],
         companies: [],
         rules: {
-          email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || 'Email invalido'
-          },
+          email: [
+            value => !!value || 'Campo requerido',
+            value => {
+              const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+              return pattern.test(value) || 'Email invalido'
+            }
+          ],
           password_confirmation: value => {
             const coinciden = this.item.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
           min: value => value.length >= 8 || 'Min 8 caracteres',
-          rut: v => validate(v) || 'rut invalido'
+          rut: v => validate(v) || 'rut invalido',
+          required: v => !!v || 'Campo requerido'
         }
       }
     },
@@ -407,48 +419,50 @@
       },
       async solicitarRegistro (guardar) {
         console.log('user a guardar', guardar)
-        let rut = guardar.rut ? guardar.rut.replace(/\./g, '') : ''
-        let user = {
-          'user': {
-            'name': guardar.name ? guardar.name : '',
-            'rut': rut,
-            'passport': guardar.passport ? guardar.passport : '',
-            'email': guardar.email ? guardar.email : '',
-            'address': guardar.address ? guardar.address : '',
-            'phone_number': guardar.phone_number ? guardar.phone_number : '',
-            'active': false,
-            'password': guardar.password ? guardar.password : '',
-            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
+        if (this.valid) {
+          let rut = guardar.rut ? guardar.rut.replace(/\./g, '') : ''
+          let user = {
+            'user': {
+              'name': guardar.name ? guardar.name : '',
+              'rut': rut,
+              'passport': guardar.passport ? guardar.passport : '',
+              'email': guardar.email ? guardar.email : '',
+              'address': guardar.address ? guardar.address : '',
+              'phone_number': guardar.phone_number ? guardar.phone_number : '',
+              'active': false,
+              'password': guardar.password ? guardar.password : '',
+              'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
+            }
           }
-        }
-        console.log('ser a post', user)
-        try {
-          let usuario = await API.post('sign_up', user)
-          if (usuario.status >= 200 && usuario.status < 300) {
-            console.log(usuario)
+          console.log('ser a post', user)
+          try {
+            let usuario = await API.post('sign_up', user)
+            if (usuario.status >= 200 && usuario.status < 300) {
+              console.log(usuario)
+              this.item = {}
+              this.dialogregistro = false
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'success',
+                title: 'Se ha enviado su solicitud de registro',
+                text: 'Debe esperar hasta que un administrador apruebe su solicitud.',
+                animation: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Cerrar'
+              })
+            } else {
+              console.log('error status', usuario)
+            }
+          } catch (e) {
+            console.log('catch err', e.response)
             this.item = {}
             this.dialogregistro = false
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'success',
-              title: 'Se ha enviado su solicitud de registro',
-              text: 'Debe esperar hasta que un administrador apruebe su solicitud.',
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-          } else {
-            console.log('error status', usuario)
+            this.showModal = true
+            this.modalInfoTitle = 'Ha ocurrido un error'
+            this.modalInfoDetail = 'Ha ocurrido un error, intente más tarde.'
+            this.modalInfoBtn1 = 'OK'
           }
-        } catch (e) {
-          console.log('catch err', e.response)
-          this.item = {}
-          this.dialogregistro = false
-          this.showModal = true
-          this.modalInfoTitle = 'Ha ocurrido un error'
-          this.modalInfoDetail = 'Ha ocurrido un error, intente más tarde.'
-          this.modalInfoBtn1 = 'OK'
         }
       },
       keymonitor (event) {

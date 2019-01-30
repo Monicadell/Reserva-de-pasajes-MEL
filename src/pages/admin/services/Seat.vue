@@ -23,12 +23,7 @@
 
 <script>
   export default {
-    props: ['seatNumber', 'selectedNumber', 'type'],
-    mounted () {
-      // console.log('MOnto seat')
-      // console.log('seatNumber', this.seatNumber)
-      // console.log('selectedNumber', this.selectedNumber)
-    }
+    props: ['seatNumber', 'selectedNumber', 'type']
   }
 </script>
 

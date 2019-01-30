@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div >
+  <!-- <div> -->
+    <!-- <div > -->
     <v-card
    :class="{
     'elevation-1': !cargandoPeticion && listaServicios.length === 0,
@@ -41,7 +41,7 @@
         class="elevation-1 list-th"
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
-        :rows-per-page-items="rowsNumber"
+        :rows-per-page-items="rowsNumber" style="overflow-y: scroll"
       >
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
@@ -69,8 +69,8 @@
         </v-card>
       </v-tab-item> -->
     </v-card>
-    </div>
-  </div>
+    <!-- </div> -->
+  <!-- </div> -->
 </template>
 
 <script>

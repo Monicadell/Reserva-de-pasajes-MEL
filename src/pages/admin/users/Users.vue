@@ -9,117 +9,119 @@
             <h3 class="headline">Usuario</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 md4>
-                <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
-                          label="Tipo documento"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
+          <v-form v-model="validForm">
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 md4>
+                  <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
+                            label="Tipo documento"
+                            single-line item-text="text" item-value="id"
+                  ></v-select>
+                </v-flex>
 
-              <v-flex xs12 md4>
-                <v-text-field v-if="editedItem.tipoDocumento === '1'" label="Rut"
-                              @keyup="keymonitor(editedItem.tipoDocumento)" :rules="[rules.rut]"
-                              v-model="editedItem.documento"></v-text-field>
-                <v-text-field v-else label="Pasaporte"
-                v-model="editedItem.documento"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout wrap>
+                <v-flex xs12 md4>
+                  <v-text-field v-if="editedItem.tipoDocumento === '1'" label="Rut"
+                                @keyup="keymonitor(editedItem.tipoDocumento)" :rules="[rules.rut]"
+                                v-model="editedItem.documento"></v-text-field>
+                  <v-text-field v-else label="Pasaporte"
+                  v-model="editedItem.documento"></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Nombre" v-model="editedItem.name" :rules="[rules.required]"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Direccion"
+                                v-model="editedItem.address"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                            single-line item-text="text" item-value="id"
+                  ></v-select> -->
+                  <v-switch
+                    class="justify-center"
+                    label="Activo"
+                    v-model="editedItem.active"
+                  ></v-switch>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Password" v-model="editedItem.password"
+                                type="password" :rules="[rules.min]"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4 v-if="role === 2">
+                  <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
+                                :rules="[rules.password_confirmation]" type="password"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Email" v-model="editedItem.email" :rules="[rules.required]"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select :items="roles" v-model="editedItem.role_id"
+                            label="Tipo de Usuario"
+                            single-line item-text="name" item-value="id"
+                  ></v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-select :items="contracts" v-model="editedItem.contract_type_id"
+                            label="Tipo de contrato"
+                            single-line item-text="name" item-value="id"
+                  ></v-select>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Numero Contacto"
+                                v-model="editedItem.phone_number" :rules="[rules.required]"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md4>
+                  <!-- <v-select :items="companies" v-model="editedItem.company_id"
+                            label="Empresa asociada"
+                            single-line item-text="name" item-value="id"
+                  ></v-select> -->
+                  <v-autocomplete
+                    v-model="editedItem.company_id"
+                    :items="companies"
+                    :search-input.sync="search"
+                    color="primary"
+                    hide-no-data
+                    hide-selected
+                    item-text="name"
+                    item-value="id"
+                    label="Empresa asociada"
+                  ></v-autocomplete>
+                </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
+                <v-menu
+                  v-model="datepicker"
+                  :close-on-content-click="false"
+                  full-width
+                  max-width="290"
+                >
+                  <v-text-field
+                    slot="activator"
+                    :value="computedDateFormattedMomentjs(editedItem.expiration)"
+                    clearable
+                    label="Fecha de expiración"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker
+                    v-model="editedItem.expiration"
+                    @change="datepicker = false"
+                    locale="es-419"
+                  ></v-date-picker>
+                </v-menu>
               </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Direccion"
-                              v-model="editedItem.address"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                          single-line item-text="text" item-value="id"
-                ></v-select> -->
-                <v-switch
-                  class="justify-center"
-                  label="Activo"
-                  v-model="editedItem.active"
-                ></v-switch>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Password" v-model="editedItem.password"
-                              type="password" :rules="[rules.min]"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4 v-if="role === 2">
-                <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
-                              :rules="[rules.password_confirmation]" type="password"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-select :items="roles" v-model="editedItem.role_id"
-                          label="Tipo de Usuario"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-select :items="contracts" v-model="editedItem.contract_type_id"
-                          label="Tipo de contrato"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Numero Contacto"
-                              v-model="editedItem.phone_number"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4>
-                <!-- <v-select :items="companies" v-model="editedItem.company_id"
-                          label="Empresa asociada"
-                          single-line item-text="name" item-value="id"
-                ></v-select> -->
-                <v-autocomplete
-                  v-model="editedItem.company_id"
-                  :items="companies"
-                  :search-input.sync="search"
-                  color="primary"
-                  hide-no-data
-                  hide-selected
-                  item-text="name"
-                  item-value="id"
-                  label="Empresa asociada"
-                ></v-autocomplete>
-              </v-flex>
-            <v-flex xs12 sm6 md4>
-              <v-menu
-                v-model="datepicker"
-                :close-on-content-click="false"
-                full-width
-                max-width="290"
-              >
-                <v-text-field
-                  slot="activator"
-                  :value="computedDateFormattedMomentjs(editedItem.expiration)"
-                  clearable
-                  label="Fecha de expiración"
-                  readonly
-                ></v-text-field>
-                <v-date-picker
-                  v-model="editedItem.expiration"
-                  @change="datepicker = false"
-                  locale="es-419"
-                ></v-date-picker>
-              </v-menu>
-            </v-flex>
-            </v-layout>
-          </v-container>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -322,9 +324,11 @@
             return coinciden || 'Contraseñas no coinciden'
           },
           min: value => value.length >= 8 || 'Min 8 caracteres',
-          rut: v => validate(v) || 'Rut invalido'
+          rut: v => validate(v) || 'Rut invalido',
+          required: v => !!v || 'Campo requerido'
         },
-        validRut: false
+        validRut: false,
+        validForm: false
       }
     },
     mounted () {
@@ -386,97 +390,99 @@
         this.dialog = true
       },
       async save (guardar) {
-        console.log('a guardar', guardar)
-        if (guardar.tipoDocumento === '1') {
-          console.log('es rut guarda')
-          guardar.documento = guardar.documento.replace(/\./g, '')
-        }
-        let us = {
-          'user':
-          {
-            'active': guardar.active ? guardar.active : '',
-            'address': guardar.address ? guardar.address : '',
-            'company_id': guardar.company_id ? guardar.company_id : '',
-            'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
-            'email': guardar.email ? guardar.email : '',
-            'last_connection': guardar.last_connection ? guardar.last_connection : '',
-            'name': guardar.name ? guardar.name : '',
-            'passport': guardar.tipoDocumento === '2' ? guardar.documento : '',
-            'rut': guardar.tipoDocumento === '1' ? guardar.documento : '',
-            'phone_number': guardar.phone_number ? guardar.phone_number : '',
-            'role_id': guardar.role_id ? guardar.role_id : '',
-            'password': guardar.password ? guardar.password : '',
-            'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
+        if (this.validForm) {
+          console.log('a guardar', guardar)
+          if (guardar.tipoDocumento === '1') {
+            console.log('es rut guarda')
+            guardar.documento = guardar.documento.replace(/\./g, '')
           }
-        }
-        if (guardar.id) {
-          console.log('user a put', us)
-          let id = guardar.id
-          try {
-            let putuser = await API.put('users', id, us)
-            if (putuser.status >= 200 && putuser.status < 300) {
-              this.getUsers()
-              this.dialog = false
-              this.$swal({
-                type: 'success',
-                customClass: 'modal-info',
-                timer: 2000,
-                title: 'Usuario',
-                text: 'Usuario actualizado exitosamente!',
-                animation: true,
-                showConfirmButton: false,
-                showCloseButton: false
-              })
-              this.editedItem = Object.assign({}, '')
+          let us = {
+            'user':
+            {
+              'active': guardar.active ? guardar.active : '',
+              'address': guardar.address ? guardar.address : '',
+              'company_id': guardar.company_id ? guardar.company_id : '',
+              'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
+              'email': guardar.email ? guardar.email : '',
+              'last_connection': guardar.last_connection ? guardar.last_connection : '',
+              'name': guardar.name ? guardar.name : '',
+              'passport': guardar.tipoDocumento === '2' ? guardar.documento : '',
+              'rut': guardar.tipoDocumento === '1' ? guardar.documento : '',
+              'phone_number': guardar.phone_number ? guardar.phone_number : '',
+              'role_id': guardar.role_id ? guardar.role_id : '',
+              'password': guardar.password ? guardar.password : '',
+              'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              timer: 2000,
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el usuario, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
           }
-        } else {
-          console.log('user a post', us)
-          try {
-            let postuser = await API.post('users', us)
-            if (postuser.status >= 200 && postuser.status < 300) {
-              console.log('result post user', postuser)
+          if (guardar.id) {
+            console.log('user a put', us)
+            let id = guardar.id
+            try {
+              let putuser = await API.put('users', id, us)
+              if (putuser.status >= 200 && putuser.status < 300) {
+                this.getUsers()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Usuario',
+                  text: 'Usuario actualizado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+                this.editedItem = Object.assign({}, '')
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.editedItem = Object.assign({}, '')
-              this.getUsers()
               this.dialog = false
               this.$swal({
-                type: 'success',
+                type: 'error',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Usuario',
-                text: 'Usuario creado exitosamente!',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error editando el usuario, intente más tarde.',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
               })
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el usuario, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
+          } else {
+            console.log('user a post', us)
+            try {
+              let postuser = await API.post('users', us)
+              if (postuser.status >= 200 && postuser.status < 300) {
+                console.log('result post user', postuser)
+                this.editedItem = Object.assign({}, '')
+                this.getUsers()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Usuario',
+                  text: 'Usuario creado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error creando el usuario, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
           }
         }
       },
