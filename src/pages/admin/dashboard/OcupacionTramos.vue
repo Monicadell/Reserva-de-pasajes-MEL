@@ -3,7 +3,7 @@
   <v-container grid-list-md text-xs-center>
     <v-select
       :items="origenes"
-      label="Seleccionar tramo"
+      label="Seleccionar origen"
       box
       item-text="source_name" item-value="source_id"
       @change="selectedTrip()"
