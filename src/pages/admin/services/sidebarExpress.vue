@@ -21,17 +21,14 @@
             <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
             <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
             <td class="text-xs-center">
-              <v-tooltip top>
-                <v-icon
-                  small
-                  slot="activator"
-                  class="icono-select"
-                  @click="selectExpress(props.item)"
-                >
-                  chevron_right
-                </v-icon>
-                <span>Eliminar</span>
-              </v-tooltip>
+              <v-icon
+                small
+                slot="activator"
+                class="icono-select"
+                @click="selectExpress(props.item)"
+              >
+                chevron_right
+              </v-icon>
             </td>
           </template>
         </v-data-table>
@@ -53,17 +50,14 @@
             <td class="" @click="selectExpress(props.item)">{{ props.item.dest }}</td>
             <td class="" @click="selectExpress(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
             <td class="text-xs-center">
-              <v-tooltip top>
-                <v-icon
-                  small
-                  slot="activator"
-                  class="icono-select"
-                  @click="selectExpress(props.item)"
-                >
-                  chevron_right
-                </v-icon>
-                <span>Eliminar</span>
-              </v-tooltip>
+              <v-icon
+                small
+                slot="activator"
+                class="icono-select"
+                @click="selectExpress(props.item)"
+              >
+                chevron_right
+              </v-icon>
             </td>
           </template>
         </v-data-table>
