@@ -109,6 +109,7 @@
           <td class="">{{ props.item.driver_name }}</td>
           <td class="">{{ props.item.associate_name }}</td>
           <td class="">{{ props.item.car_name }}</td>
+          <td></td>
           <td class="">
             <v-tooltip top>
               <v-icon
@@ -195,6 +196,7 @@
           {text: 'Conductor', value: 'driver_name'},
           {text: 'Auxiliar', value: 'associate_name'},
           {text: 'Bus', value: 'carn_name'},
+          {text: 'Estado', value: 'status'},
           {text: 'Manifiesto', value: '', sortable: false}
         ],
         // page: 1,

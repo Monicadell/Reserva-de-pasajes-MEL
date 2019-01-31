@@ -1,98 +1,115 @@
 <template>
-  <div class="azul-login">
-    <v-card-text class="px-0 py-0">
-      <v-container class="pb-5 pt-4">
-        <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 pl-5 pt-3>
-            <h2 class="white--text font-weight-bold" style="font-family: Roboto">RESERVA TU PASAJE AQUÍ</h2>
-          </v-flex>
-        </v-layout>
-        <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 pl-5>
-            <v-radio-group v-model="documentType" row class="text-xs-center" color="white">
-              <v-radio label="Rut" value="1" color="white" class="usertype"></v-radio>
-              <v-radio label="Pasaporte" value="2" color="white" class="usertype"></v-radio>
-            </v-radio-group>
-          </v-flex>
-        </v-layout>
-        
-        <v-layout align-center justify-center row fill-height>
-          <v-flex xs12 pl-5>
-            <v-text-field
-              label="Usuario"
-              v-model="user"
-              @keyup="keymonitor"
-              color="white"
-              persistent-hint
-              class="login-input"
-              hint="Puede ser su RUT o su numero de pasaporte"
-              :rules="rutRules"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout align-center justify-center row fill-height class="mt-3">
-          <v-flex xs12 pl-5>
-            <v-text-field
-              color="white"
-              label="Contraseña"
-              v-model="password"
-              class="login-input"
-              type="password"
-            ></v-text-field>
-          </v-flex>
-        </v-layout>
-        <v-layout align-center justify-end row fill-height class="contiene-btn-login mt-3 pr-5">
-          <v-flex xs12 md6>
-            <v-btn block class="btn-login primary" @click="log()">Iniciar sesión</v-btn>
-          </v-flex>
-        </v-layout>
-        <!-- <v-layout align-center justify-center row fill-height class="mt-3">
-          <v-flex xs12 md6>
-             <v-alert
-                :value="true"
-                type="warning"
-                v-if="invalidos"
-              >
-                Datos inválidos
-              </v-alert>
+<div class="div-contain-login">
+   <v-window v-model="menuSelection.menu" class="bottom-login">
+      <v-window-item>
 
-          </v-flex>
-        </v-layout> -->
-        <!-- Modal Error login -->
-        <v-dialog v-model="errorDialog" max-width="290">
-          <v-card>
-            <v-card-title class="headline primary white--text">Ha ocurrido un error!</v-card-title>
-            <v-card-text>Ingrese datos correctos!</v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="green darken-1" flat @click="errorDialog = false">Ok</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-container>
-    </v-card-text>
+        <div class="azul-login">
+          <v-card-text class="px-0 py-0">
+            <v-container class="pb-5 pt-4">
+              <v-layout align-center justify-center row fill-height>
+                <v-flex xs12 pl-5 pt-3>
+                  <h2 class="white--text font-weight-bold" style="font-family: Roboto">RESERVA TU PASAJE AQUÍ</h2>
+                </v-flex>
+              </v-layout>
+              <v-layout align-center justify-center row fill-height>
+                <v-flex xs12 pl-5>
+                  <v-radio-group v-model="documentType" row class="text-xs-center" color="white">
+                    <v-radio label="Rut" value="1" color="white" class="usertype"></v-radio>
+                    <v-radio label="Pasaporte" value="2" color="white" class="usertype"></v-radio>
+                  </v-radio-group>
+                </v-flex>
+              </v-layout>
+              
+              <v-layout align-center justify-center row fill-height>
+                <v-flex xs12 pl-5>
+                  <v-text-field
+                    label="Rut"
+                    v-model="user"
+                    @keyup="keymonitor"
+                    color="white"
+                    persistent-hint
+                    class="login-input"
+                    :rules="rutRules"
+                    v-if="documentType === '1'"
+                  ></v-text-field>
+                  
+                  <v-text-field
+                    label="Pasaporte"
+                    v-model="user"
+                    color="white"
+                    persistent-hint
+                    class="login-input"
+                    v-if="documentType === '2'"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout align-center justify-center row fill-height class="mt-3">
+                <v-flex xs12 pl-5>
+                  <v-text-field
+                    color="white"
+                    label="Contraseña"
+                    v-model="password"
+                    class="login-input"
+                    type="password"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout align-center justify-end row fill-height class="contiene-btn-login mt-3 pr-5">
+                <v-flex xs12 md6>
+                  <v-btn block class="btn-login primary" @click="log()">Iniciar sesión</v-btn>
+                </v-flex>
+              </v-layout>
+              <!-- <v-layout align-center justify-center row fill-height class="mt-3">
+                <v-flex xs12 md6>
+                  <v-alert
+                      :value="true"
+                      type="warning"
+                      v-if="invalidos"
+                    >
+                      Datos inválidos
+                    </v-alert>
 
-    <!-- <v-card-actions class="justify-center pt-1">
-      <v-btn color="primary" flat small @click="goToSingUp">Solicitar registro</v-btn>
-      <v-spacer></v-spacer>
+                </v-flex>
+              </v-layout> -->
+              <!-- Modal Error login -->
+              <v-dialog v-model="errorDialog" max-width="290">
+                <v-card>
+                  <v-card-title class="headline primary white--text">Ha ocurrido un error!</v-card-title>
+                  <v-card-text>Ingrese datos correctos!</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat @click="errorDialog = false">Ok</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-container>
+          </v-card-text>
 
-      <v-btn color="primary" flat small @click="goToForgotPassword">¿Olvido su contraseña?</v-btn>
-    </v-card-actions> -->
+          <!-- <v-card-actions class="justify-center pt-1">
+            <v-btn color="primary" flat small @click="goToSingUp">Solicitar registro</v-btn>
+            <v-spacer></v-spacer>
 
-    <!-- Modal error logueo-->
-    <modal v-if="showModal"
-        @close="showModal = false"
-        v-bind:btn1="modalInfoBtn1">
-        <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
-        <h3 slot="body">{{modalInfoDetail}}</h3>
-    </modal>
+            <v-btn color="primary" flat small @click="goToForgotPassword">¿Olvido su contraseña?</v-btn>
+          </v-card-actions> -->
+
+          <!-- Modal error logueo-->
+          <modal v-if="showModal"
+              @close="showModal = false"
+              v-bind:btn1="modalInfoBtn1">
+              <p slot="title" class="headline mb-0">{{modalInfoTitle}}</p>
+              <h3 slot="body">{{modalInfoDetail}}</h3>
+          </modal>
+        </div>
+
+      </v-window-item>
+    </v-window>
   </div>
 </template>
 
 
 <script>
   // import axios from 'axios'
-  // import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import API from '@pi/app'
   import Modal from '@c/Modal'
   const {validate} = require('rut.js')
@@ -117,7 +134,11 @@
     components: {
       modal: Modal
     },
-
+    computed: {
+      ...mapGetters('Home', {
+        menuSelection: ['menuSelection']
+      })
+    },
     methods: {
       goToSingUp () {
         this.$store.dispatch('Home/set_menu', {menu: 1})
@@ -128,9 +149,9 @@
       async log () {
         let params = {}
         if (this.documentType === '1') {
-          let usuario = this.user.replace(/\./g, '')
+          let usuarioRut = this.user.replace(/\./g, '')
           params = {
-            rut: usuario,
+            rut: usuarioRut,
             password: this.password
           }
         } else {
@@ -191,21 +212,23 @@
         }
       },
       keymonitor (event) {
-        // console.log('doc tyme', this.documentType)
-        if (this.documentType === '1') {
-          let value = event.target.value
-          if (!value) this.user = ''
-          value = value.match(/[0-9Kk]+/g).join('')
-          this.user = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
-          // const valid = validate(value)
-          // console.log('rut valid:', valid, value)
-        }
+        let value = event.target.value
+        if (!value) this.user = ''
+        value = value.match(/[0-9Kk]+/g).join('')
+        this.user = value.slice(0, -1).replace((/[0-9](?=(?:[0-9]{3})+(?![0-9]))/g), '$&.') + '-' + value.slice(-1).toLowerCase()
       }
     }
   }
 </script>
 
 <style>
+  .div-contain-login .bottom-login{
+    /* background-color: rgba(255, 255, 255, 0.9) */
+    background-color: #fff;
+  }
+  .div-contain-login .v-divider{
+    background-color: #fff;
+  }
   /* .usertype .theme--light.v-input input{
     color: rgba(255,255,255,.87) !important;
   } */
@@ -228,8 +251,8 @@
     width: 60%;
   }
   .login-input .error--text {
-    color: #ccc !important;
-    caret-color: #ccc !important;
+    color: #ffb99b !important;
+    caret-color: #ffb99b !important;
   }
   .login-input .theme--light.v-input input{
     color: #fff;

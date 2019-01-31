@@ -19,7 +19,7 @@
           <v-flex xs12 py-0 class="" >
             <v-card class="card--flex-toolbar" flat style="position: absolute; bottom: 0; width: 50%; left: 0;">
               <template v-if="!isAuthorized" style="position: relative">
-                <menu-selection/> 
+                <login/> 
               </template>
               <!-- <v-btn fab flat large icon color="white" >
                 <v-icon style="font-size: 80px">expand_more</v-icon>
@@ -333,10 +333,11 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import MenuSelection from './menuSelection'
+  // import MenuSelection from './menuSelection'
   import weather from './currentWeather'
   import API from '@pi/app'
   import Modal from '@c/Modal'
+  import Login from './login'
   const {validate} = require('rut.js')
 
   export default {
@@ -354,6 +355,7 @@
         modalInfoBtn1: '',
         valid: false,
         mask: '########',
+        search: '',
         items: [
           {
             src: '../../../../../static/img/1.jpg', text: 'Servicio de transporte privado Minera escondida'
@@ -479,9 +481,10 @@
       })
     },
     components: {
-      MenuSelection: MenuSelection,
+      // MenuSelection: MenuSelection,
       weather: weather,
-      modal: Modal
+      modal: Modal,
+      Login: Login
     },
     mounted () {
       if (this.isAuthorized) {
