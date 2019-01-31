@@ -79,7 +79,7 @@
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ props.item.car_number }}</td>
           <td class="">{{ props.item.seat }}</td>
-          <!-- <td class="">{{ props.item.user.rut }}</td> -->
+          <td class="">{{ props.item.status }}</td>
           <td class="">{{ props.item.ac }}</td>
           <td class="justify-center">{{ props.item.vuelo }}</td>
         </template>
@@ -183,6 +183,7 @@
           {text: 'Fecha servicio', value: 'service.date'},
           {text: 'Bus', value: 'car_number'},
           {text: 'Asiento', value: 'seat'},
+          {text: 'Estado', value: 'status'},
           {text: 'Acercamiento', value: 'ac'},
           {text: 'Vuelo', value: 'vuelo'}
         ],

@@ -70,10 +70,10 @@
       items: [
         {subheader: true, text: 'Reserva', type: 'Call'}, // Call es callcenter y admin
         {icon: '../../static/icons/06.png', text: 'Reservar', path: { path: '/service_reserve' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Histórico', path: { path: '/misreservas' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Mi histórico', path: { path: '/misreservas' }, type: 'Call'},
         // {subheader: true, text: 'Reserva a Terceros', type: 'Call'},
         {icon: '../../static/icons/06.png', text: 'Reserva a terceros', path: { path: '/reservaterceros' }, type: 'Call'},
-        {icon: '../../static/icons/06.png', text: 'Histórico a terceros', path: { path: '/misreservasaterceros' }, type: 'Call'},
+        {icon: '../../static/icons/06.png', text: 'Total histórico', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Gestión', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Dashboard', path: { path: '/dashboard' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/01.png', text: 'Solicitudes de Usuarios', path: { path: '/solicitudes' }, type: 'Admin'},
