@@ -19,10 +19,10 @@
             type: 'column'
           },
           title: {
-            text: 'Ocupación Servicios próximos'
+            text: 'Ocupación Servicios Hoy'
           },
           xAxis: {
-            categories: ['Servicio 1', 'Servicio 2', 'Servicio 3', 'Servicio 4', 'Servicio 5', 'Servicio 6', 'Servicio 7', 'Servicio 8', 'Servicio 9', 'Servicio 10'],
+            categories: ['ADICIONAL APOYO CONDOMINIOS', 'ADMINISTRATIVO', 'AEROPUERTO', 'AEROPUERTO BUS', 'COMPLEJO', 'BUS ESCOLTA', 'ESCONDIDA NORTE', 'OP. MINA', 'OXIDO', 'LAGUNA SECA'],
             labels: {
               // autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
               rotation: -45
@@ -121,7 +121,7 @@
           if (servicios.status >= 200 && servicios.status < 300) {
             const servicesname = servicios.data.data.filter(item => item.hrs_left < 3000 && item.hrs_left > 0).map(item => item.name)
             // console.log('servicios', servicios.data.data)
-            this.chartOptions.xAxis.categories = servicesname
+            // this.chartOptions.xAxis.categories = servicesname
             this.chartOptions.series = [{
               name: 'Asientos Ocupados',
               data: [20, 39, 30, 60, 90, 64, 3, 12, 40, 60],

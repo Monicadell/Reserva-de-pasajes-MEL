@@ -10,10 +10,13 @@
       v-model="origenSeleccionado"
     ></v-select>
     <highcharts :options="chartOptions"></highcharts>
-    <div v-if="point.nameTrip !== ''" class="pa-3 text-xs-left white"><b>Data punto seleccionado:</b>
-      <p class="ma-0"><b>Tramo:</b> {{point.nameTrip}} - <b>Horario: </b> {{point.horario}} -<b> Ocupación:</b> {{point.ocupacion}}</p>
+    <div v-if="point.nameTrip !== ''" class="pa-3 text-xs-left white"><b>Ruta:</b> {{point.nameTrip}} - <b>Horario:</b> {{point.horario}}
+      <p class="pt-2 mb-0"><b>Asientos disponibles:</b> X</p>
+      <p class="mb-0"> <b>Asientos ocupados: </b> Y </p>
+      <p><b>Cantidad de buses:</b> Z </p>
+      <b class="recomendacion"> Se recomienda agregar/quitar un bus a este servicio</b>
     </div>
-    <ranking-servicios :tramo="selectedTrip"/>
+    <!-- <ranking-servicios :tramo="selectedTrip"/> -->
   </v-container>
   
 </template>
@@ -167,5 +170,10 @@
 </script>
 
 <style>
-
+  .recomendacion {
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    color: #d84d14;
+  }
 </style>

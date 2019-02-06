@@ -1,42 +1,42 @@
 <template>
   <v-container grid-list-md text-xs-center>
-    <h2 class="font-weight-medium">Estado de tickets</h2>
+    <h2 class="font-weight-medium">Estado de tickets hoy</h2>
     <v-layout row wrap class="contiene-estadotickets">
       <!-- <v-flex qualHMWrap> -->
-        <div class="cantidades text-xs-center">
+        <div class="cantidades positivas text-xs-center">
           <p class="font-weight-regular pt-2">Reservados</p>
           <p class="display-1 grey--darken">80</p>
         </div>
-        <div class="cantidades text-xs-center">
+        <div class="cantidades positivas text-xs-center">
           <p class="font-weight-regular pt-2">Confirmados</p>
           <p class="display-1 grey--darken">30</p>
         </div>
 
-        <div class="cantidades text-xs-center">
+        <div class="cantidades positivas text-xs-center">
           <p class="font-weight-regular pt-2">Impresos</p>
           <p class="display-1 grey--darken">10</p>
         </div>
 
-        <div class="cantidades text-xs-center">
+        <div class="cantidades positivas text-xs-center">
           <p class="font-weight-regular pt-2">Abordados</p>
           <p class="display-1 grey--darken">4</p>
         </div>
 
-        <div class="cantidades text-xs-center">
+        <div class="cantidades negativas text-xs-center">
           <p class="font-weight-regular pt-2">Anulados propios</p>
           <p class="display-1 grey--darken">1</p>
         </div>
         
-        <div class="cantidades text-xs-center">
+        <div class="cantidades negativas text-xs-center">
           <p class="font-weight-regular pt-2">Anulados terceros</p>
           <p class="display-1 grey--darken">3</p>
         </div>
-        <div class="cantidades text-xs-center">
+        <div class="cantidades negativas text-xs-center">
           <p class="font-weight-regular pt-2">Expirados</p>
           <p class="display-1 grey--darken">20</p>
         </div>
 
-        <div class="cantidades text-xs-center">
+        <div class="cantidades negativas text-xs-center">
           <p class="font-weight-regular pt-2">No impreso</p>
           <p class="display-1 grey--darken">1.050</p>
         </div>
@@ -175,14 +175,20 @@
 
 <style>
   .cantidades {
-    border: 1px solid #efefef;
-    background-color: #fff;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
     margin-right: 5px;
+  }
+  .cantidades.negativas {
+    /* border: 1px solid #646464; */
+    background-color: rgba(125, 125, 125, 0.1);
+  }
+  .cantidades.positivas {
+    /* border: 1px solid #d84d14; */
+    background-color: rgba(241, 102, 45, 0.1);
   }
   .cantidades:last-child {
     margin-right: 0;
