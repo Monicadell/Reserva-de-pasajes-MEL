@@ -14,7 +14,7 @@
       <p class="pt-2 mb-0"><b>Asientos disponibles:</b> X</p>
       <p class="mb-0"> <b>Asientos ocupados: </b> Y </p>
       <p><b>Cantidad de buses:</b> Z </p>
-      <b class="recomendacion"> Se recomienda agregar/quitar N bus a este servicio</b>
+      <b class="recomendacion"> Se recomienda agregar/quitar un bus a este servicio</b>
     </div>
     <!-- <ranking-servicios :tramo="selectedTrip"/> -->
   </v-container>

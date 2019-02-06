@@ -24,6 +24,7 @@ import MyInfo from '@pages/admin/myInfo'
 import Reservas from '@pages/admin/misreservas'
 import ReservasTerceros from '@pages/admin/misreservasTerceros'
 import Dashboard from '@pages/admin/dashboard'
+import Dashboard2 from '@pages/admin/dashboard2'
 
 Vue.use(Router)
 const pageWhiteList = ['/login']
@@ -207,6 +208,16 @@ const router = new Router({
           path: '/dashboard',
           name: 'dashboard',
           component: Dashboard,
+          meta: {
+            requiresAuth: true,
+            adminAuth: true,
+            callcenterAuth: true
+          }
+        },
+        {
+          path: '/dashboard2',
+          name: 'dashboard2',
+          component: Dashboard2,
           meta: {
             requiresAuth: true,
             adminAuth: true,

@@ -76,6 +76,7 @@
         {icon: '../../static/icons/06.png', text: 'Total histórico', path: { path: '/misreservasaterceros' }, type: 'Call'},
         {subheader: true, text: 'Gestión', type: 'Admin'},
         {icon: '../../static/icons/01.png', text: 'Dashboard', path: { path: '/dashboard' }, type: 'Admin'}, // Admin es solo admin
+        {icon: '../../static/icons/01.png', text: 'Dashboard 2', path: { path: '/dashboard2' }, type: 'Admin'}, // Admin es solo admin
         {icon: '../../static/icons/01.png', text: 'Solicitudes de Usuarios', path: { path: '/solicitudes' }, type: 'Admin'},
         {icon: '../../static/icons/05.png', text: 'Servicios', path: { path: '/manifiestos' }, type: 'Admin'},
         {subheader: true, text: 'Planificación', type: 'Admin'},
