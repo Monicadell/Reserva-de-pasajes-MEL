@@ -114,37 +114,38 @@
 
     <v-layout row wrap class="contiene-tramos pt-5">
       <v-flex xs6 offset-xs3 class="text-xs-center">
-        <h2 pt-3>Detalles del tramo</h2>
+        <h2 class="pt-3 pb-2 grey--darken font-weight-black">Detalles del tramo</h2>
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Total pasajeros ida:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Total pasajeros ida:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="30"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Total pasajeros vuelta:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Total pasajeros vuelta:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="46"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Cantidad de buses en ruta:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Cantidad de buses en ruta:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
+              class="pt-0"
               value="2 buses en la ruta"
             ></v-text-field>
           </v-flex>
@@ -155,83 +156,86 @@
 
     <v-layout row wrap class="contiene-tramos pt-5">
       <v-flex xs6 offset-xs3 class="text-xs-center">
-        <h2 pt-3>Detalles del bus seleccionado</h2>
+        <h2 class="pt-3 pb-2 grey--darken font-weight-black">Detalles del bus seleccionado</h2>
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Patente bus:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Patente bus:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="CFDR43"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Conductor:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Conductor:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="Ernesto de la Cuadra"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Auxiliar:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Auxiliar:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
+              class="pt-0"
               value="Raul Fernandez"
             ></v-text-field>
           </v-flex>
         </v-layout>
         
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Nº pasajeros:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Nº pasajeros:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="30 pasajeros"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Manifiesto:</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Manifiesto:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
+              class="pt-0"
               value="Info Manifiesto"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
-                <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Destino del Bus:</v-subheader>
+        <v-layout row>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Destino del Bus:</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
-              
+              class="pt-0"
               value="Aeropuerto ANF"
             ></v-text-field>
           </v-flex>
         </v-layout>
 
         <v-layout row>
-          <v-flex xs4>
-            <v-subheader>Tramo (ida/vuelta):</v-subheader>
+          <v-flex xs5>
+            <v-subheader class="font-weight-bold grey--darken">Tramo (ida/vuelta):</v-subheader>
           </v-flex>
-          <v-flex xs8>
+          <v-flex xs7>
             <v-text-field
+              class="pt-0"
               value="vuelta"
             ></v-text-field>
           </v-flex>
@@ -337,6 +341,6 @@
     margin-right: 0;
   }
   .grey--darken {
-    color: #757575;
+    color: #616161;
   }
 </style>
