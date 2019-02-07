@@ -12,7 +12,7 @@
               <p class="white--text pb-2 mb-0">Vuelta</p>
             </div>
             <div class="text-xs-left pl-1 up-down">
-              <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px soltramo. #ccc">{{tramo.ida}}</p>
+              <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc;">{{tramo.ida}}</p>
               <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.vuelta}}</p>
             </div>
           </div>
