@@ -2,100 +2,19 @@
   <v-container fluid grid-list-md text-xs-center>
     <v-layout row wrap class="contiene-tramos">
       <div class="content-scroll">
-        <div class="tramos-dash2" @click="activar(1)"  v-bind:class="{ 'active': active1 }">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
-          </div>
-        </div>
-
-        <div class="tramos-dash2" @click="activar(2)"  v-bind:class="{ 'active': active2 }">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Antofagasta</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">MEL</p>
-          </div>
-        </div>
-
-        <div class="tramos-dash2" @click="activar(3)"  v-bind:class="{ 'active': active3 }">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">MEL 7000</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
-          </div>
-        </div>
-
-        <div class="tramos-dash2" @click="activar(4)"  v-bind:class="{ 'active': active4 }">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Complejo</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">La Negra</p>
-          </div>
-        </div>
-
-        <div class="tramos-dash2" @click="activar(5)"  v-bind:class="{ 'active': active5 }">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
-          </div>
-        </div>
-        <div class="tramos-dash2">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
-          </div>
-        </div>
-
-        <div class="tramos-dash2">
-          <v-avatar size="20px">
-            <v-icon color="white">swap_vert</v-icon>
-          </v-avatar>
-          <div class="text-xs-left up-down">
-            <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text pb-2 mb-0">Vuelta</p>
-          </div>
-          <div class="text-xs-left pl-1 up-down">
-            <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
+        <div v-for="tramo in items" :key="tramo.id">
+          <div class="tramos-dash2" @click="activar(tramo.id)"  v-bind:class="{ 'active': active === tramo.id, 'normal': active !== tramo.id}">
+            <v-avatar size="20px">
+              <v-icon color="white">swap_vert</v-icon>
+            </v-avatar>
+            <div class="text-xs-left up-down">
+              <p class="font-weight-regular pt-2 mb-0">Ida</p>
+              <p class="white--text pb-2 mb-0">Vuelta</p>
+            </div>
+            <div class="text-xs-left pl-1 up-down">
+              <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px soltramo. #ccc">{{tramo.ida}}</p>
+              <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.vuelta}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -252,12 +171,18 @@
   export default {
     data () {
       return {
-        active1: true,
-        active2: false,
-        active3: false,
-        active4: false,
-        active5: false,
-        img: '../../../static/img/Imagen_1.png'
+        active: 1,
+        img: '../../../static/img/Imagen_1.png',
+        items: [
+          {id: 1,ida: 'Aeropuerto ANF', vuelta: 'Complejo'},
+          {id: 2,ida: 'Antofagasta', vuelta: 'MEL'},
+          {id: 3,ida: 'Aeropuerto ANF', vuelta: 'MEL'},
+          {id: 4,ida: 'MEL', vuelta: 'Complejo'},
+          {id: 5,ida: 'La Negra', vuelta: 'MEL'},
+          {id: 6,ida: 'Terminal buses ANF', vuelta: 'VCA'},
+          {id: 7,ida: 'MEL 7000', vuelta: 'Antofagasta'},
+          {id: 8,ida: 'MEL', vuelta: 'Terminal buses ANF'},
+          {id: 9,ida: 'VSL', vuelta: 'Terminal buses'}]
       }
     },
     components: {
@@ -265,42 +190,12 @@
     },
     methods: {
       activar (val) {
+        this.active = val
         if (val === 1) {
           this.img= '../../../static/img/Imagen_1.png'
-          this.active1 = true
-          this.active2 = false
-          this.active3 = false
-          this.active4 = false
-          this.active5 = false
         }
         if (val === 2) {
           this.img= '../../../static/img/Imagen_2.png'
-          this.active1 = false
-          this.active2 = true
-          this.active3 = false
-          this.active4 = false
-          this.active5 = false
-        }
-        if (val === 3) {
-          this.active1 = false
-          this.active2 = false
-          this.active3 = true
-          this.active4 = false
-          this.active5 = false
-        }
-        if (val === 4) {
-          this.active1 = false
-          this.active2 = false
-          this.active3 = false
-          this.active4 = true
-          this.active5 = false
-        }
-        if (val === 5) {
-          this.active1 = false
-          this.active2 = false
-          this.active3 = false
-          this.active4 = false
-          this.active5 = true
         }
       }
     },
@@ -332,6 +227,9 @@
   }
   .tramos-dash2.active {
     background-color: #E66732;
+  }
+  .tramos-dash2.normal {
+    background-color: #d84d14;
   }
   .up-down {
     display: flex;
