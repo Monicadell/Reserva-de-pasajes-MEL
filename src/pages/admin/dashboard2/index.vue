@@ -8,94 +8,94 @@
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text">Complejo</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
           </div>
         </div>
 
         <div class="tramos-dash2" @click="activar(2)"  v-bind:class="{ 'active': active2 }">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Antofagasta</p>
-            <p class="font-weight-bold white--text mb-0">MEL</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">MEL</p>
           </div>
         </div>
 
         <div class="tramos-dash2" @click="activar(3)"  v-bind:class="{ 'active': active3 }">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">MEL 7000</p>
-            <p class="font-weight-bold white--text mb-0">Complejo</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
           </div>
         </div>
 
         <div class="tramos-dash2" @click="activar(4)"  v-bind:class="{ 'active': active4 }">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Complejo</p>
-            <p class="font-weight-bold white--text mb-0">La Negra</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">La Negra</p>
           </div>
         </div>
 
         <div class="tramos-dash2" @click="activar(5)"  v-bind:class="{ 'active': active5 }">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text mb-0">Complejo</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
           </div>
         </div>
         <div class="tramos-dash2">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text mb-0">Complejo</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
           </div>
         </div>
 
         <div class="tramos-dash2">
-          <v-avatar>
+          <v-avatar size="20px">
             <v-icon color="white">swap_vert</v-icon>
           </v-avatar>
           <div class="text-xs-left up-down">
             <p class="font-weight-regular pt-2 mb-0">Ida</p>
-            <p class="white--text mb-1">Vuelta</p>
+            <p class="white--text pb-2 mb-0">Vuelta</p>
           </div>
           <div class="text-xs-left pl-1 up-down">
             <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc">Aeropuerto ANF</p>
-            <p class="font-weight-bold white--text mb-0">Complejo</p>
+            <p class="font-weight-bold white--text pb-2 mb-0">Complejo</p>
           </div>
         </div>
       </div>
@@ -320,7 +320,7 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex: auto;
     min-width: 240px;
     border-left: 1px solid #BF360C;
@@ -341,6 +341,6 @@
     margin-right: 0;
   }
   .grey--darken {
-    color: #616161;
+    color: #4C4C4C;
   }
 </style>
