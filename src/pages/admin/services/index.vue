@@ -19,7 +19,7 @@
             <v-divider></v-divider>
             <v-layout v-for="item in items" :key="item.id">
               <v-flex >
-                <v-list-tile-content  >
+                <v-list-tile-content>
                   <tickets v-bind:item="item" />
                 </v-list-tile-content>
               </v-flex>
@@ -43,16 +43,14 @@
               <v-stepper-header >
                 <v-stepper-step  :complete="e1 > 1" step="1">Selección de pasajes</v-stepper-step>
                 <v-divider></v-divider>
-
-                <v-stepper-step   :complete="e1 > 2" step="2">Selección de itinenario</v-stepper-step>
+                <v-stepper-step :complete="e1 > 2" step="2">Selección de itinenario</v-stepper-step>
                 <v-divider></v-divider>
                 <span v-if="role === 2">
-                  <v-stepper-step  :complete="e1 > 3" step="3">Selección de asiento</v-stepper-step>
+                  <v-stepper-step :complete="e1 > 3" step="3">Selección de asiento</v-stepper-step>
                   <v-divider></v-divider>
                 </span>
                 <v-stepper-step  step="Ok">Confirmación</v-stepper-step>
               </v-stepper-header>
-
 
               <v-stepper-items>
                 <v-stepper-content step="1">
@@ -75,7 +73,6 @@
                 <v-stepper-content step="3" v-if="role === 2 && e1 === 3">
                   <v-card
                     class="mb-5"
-
                     flat
                   >
                     <!-- Grilla asientos -->
@@ -144,7 +141,7 @@
     </v-layout>
 
     
-
+    <!-- modales -->
     <v-layout row wrap fill-height class="">
       <v-flex xs12 >
         <service-selected/>
@@ -163,13 +160,11 @@
       </v-flex>
     </v-layout>
 
-
       <v-layout row wrap fill-height class="">
       <v-flex xs12 >
         <modal-confirmar/>
       </v-flex>
     </v-layout>
-
 
       <v-layout row wrap fill-height >
       <v-flex xs12 >

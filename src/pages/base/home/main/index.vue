@@ -92,6 +92,7 @@
                   </v-flex>
                   <v-flex xs6 py-0>
                     <v-dialog
+                      persistent
                       v-model="dialogreserva"
                       width="100%"
                     >
@@ -117,7 +118,7 @@
                           <v-spacer></v-spacer>
                           <v-btn
                             color="primary"
-                            flat
+                            flat outline
                             @click="closeVideo('videoReservar')"
                           >Cerrar
                           </v-btn>
@@ -272,6 +273,7 @@
 
                 <v-flex xs6 py-0 class="">
                   <v-dialog
+                    persistent
                     v-model="dialogimprime"
                     width="100%"
                   >
@@ -297,7 +299,7 @@
                         <v-spacer></v-spacer>
                         <v-btn
                           color="primary"
-                          flat
+                          flat outline
                           @click="closeVideo('videoTotem')"
                         >Cerrar
                         </v-btn>

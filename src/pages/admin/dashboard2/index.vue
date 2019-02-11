@@ -1,5 +1,8 @@
 <template>
   <v-container fluid grid-list-md text-xs-center>
+    <v-layout row wrap justify-end>
+        <v-flex xs12></v-flex>
+    </v-layout>
     <v-layout row wrap class="contiene-tramos">
       <div class="content-scroll">
         <div v-for="tramo in items" :key="tramo.id">
@@ -20,7 +23,6 @@
       </div>
         
     </v-layout>
-
 
     <v-layout row wrap class="contiene-tramos">
        <v-img
@@ -166,39 +168,34 @@
 </template>
 
 <script>
-  import Dashboard from './Dashboard'
-
   export default {
     data () {
       return {
         active: 1,
         img: '../../../static/img/Imagen_1.png',
         items: [
-          {id: 1,ida: 'Aeropuerto ANF', vuelta: 'Complejo'},
-          {id: 2,ida: 'Antofagasta', vuelta: 'MEL'},
-          {id: 3,ida: 'Aeropuerto ANF', vuelta: 'MEL'},
-          {id: 4,ida: 'MEL', vuelta: 'Complejo'},
-          {id: 5,ida: 'La Negra', vuelta: 'MEL'},
-          {id: 6,ida: 'Terminal buses ANF', vuelta: 'VCA'},
-          {id: 7,ida: 'MEL 7000', vuelta: 'Antofagasta'},
-          {id: 8,ida: 'MEL', vuelta: 'Terminal buses ANF'},
-          {id: 9,ida: 'VSL', vuelta: 'Terminal buses'}]
+          {id: 1, ida: 'Aeropuerto ANF', vuelta: 'Complejo'},
+          {id: 2, ida: 'Antofagasta', vuelta: 'MEL'},
+          {id: 3, ida: 'Aeropuerto ANF', vuelta: 'MEL'},
+          {id: 4, ida: 'MEL', vuelta: 'Complejo'},
+          {id: 5, ida: 'La Negra', vuelta: 'MEL'},
+          {id: 6, ida: 'Terminal buses ANF', vuelta: 'VCA'},
+          {id: 7, ida: 'MEL 7000', vuelta: 'Antofagasta'},
+          {id: 8, ida: 'MEL', vuelta: 'Terminal buses ANF'},
+          {id: 9, ida: 'VSL', vuelta: 'Terminal buses'}]
       }
-    },
-    components: {
-      Dashboard: Dashboard
     },
     methods: {
       activar (val) {
         this.active = val
         if (val === 1) {
-          this.img= '../../../static/img/Imagen_1.png'
+          this.img = '../../../static/img/Imagen_1.png'
         }
         if (val === 2) {
-          this.img= '../../../static/img/Imagen_2.png'
+          this.img = '../../../static/img/Imagen_2.png'
         }
       }
-    },
+    }
   }
 </script>
 

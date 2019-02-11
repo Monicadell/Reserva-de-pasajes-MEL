@@ -119,7 +119,7 @@
         try {
           let servicios = await API.get('services')
           if (servicios.status >= 200 && servicios.status < 300) {
-            const servicesname = servicios.data.data.filter(item => item.hrs_left < 3000 && item.hrs_left > 0).map(item => item.name)
+            // const servicesname = servicios.data.data.filter(item => item.hrs_left < 3000 && item.hrs_left > 0).map(item => item.name)
             // console.log('servicios', servicios.data.data)
             // this.chartOptions.xAxis.categories = servicesname
             this.chartOptions.series = [{
