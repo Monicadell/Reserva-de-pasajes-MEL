@@ -1,25 +1,31 @@
 <template>
   <v-container fluid grid-list-md text-xs-center>
     <v-layout row wrap justify-end>
-        <v-flex xs12></v-flex>
+        <v-flex xs12>
+
+        </v-flex>
     </v-layout>
     <v-layout row wrap class="contiene-tramos">
       <div class="content-scroll">
-        <div v-for="tramo in items" :key="tramo.id">
-          <div class="tramos-dash2" @click="activar(tramo.id)"  v-bind:class="{ 'active': active === tramo.id, 'normal': active !== tramo.id}">
-            <v-avatar size="20px">
-              <v-icon color="white">swap_vert</v-icon>
-            </v-avatar>
-            <div class="text-xs-left up-down">
-              <p class="font-weight-regular pt-2 mb-0">Ida</p>
-              <p class="white--text pb-2 mb-0">Vuelta</p>
+        <local-swiper ref="awesomeSwiperB" :options="swiperOptionB">
+          <local-slide v-for="tramo in items" :key="tramo.id">
+            <div class="tramos-dash2" @click="activar(tramo.id)"  v-bind:class="{ 'active': active === tramo.id, 'normal': active !== tramo.id}">
+              <v-avatar size="20px">
+                <v-icon color="white">swap_vert</v-icon>
+              </v-avatar>
+              <div class="text-xs-left up-down">
+                <p class="font-weight-regular pt-2 mb-0">Ida</p>
+                <p class="white--text pb-2 mb-0">Vuelta</p>
+              </div>
+              <div class="text-xs-left pl-1 up-down">
+                <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc;">{{tramo.ida}}</p>
+                <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.vuelta}}</p>
+              </div>
             </div>
-            <div class="text-xs-left pl-1 up-down">
-              <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc;">{{tramo.ida}}</p>
-              <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.vuelta}}</p>
-            </div>
-          </div>
-        </div>
+          </local-slide>
+          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+        </local-swiper>
       </div>
         
     </v-layout>
@@ -168,11 +174,21 @@
 </template>
 
 <script>
+  import { swiper, swiperSlide } from 'vue-awesome-swiper'
   export default {
     data () {
       return {
         active: 1,
         img: '../../../static/img/Imagen_1.png',
+        swiperOptionB: {
+          slidesPerView: 6,
+          spaceBetween: 0,
+          slidesPerGroup: 1,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        },
         items: [
           {id: 1, ida: 'Aeropuerto ANF', vuelta: 'Complejo'},
           {id: 2, ida: 'Antofagasta', vuelta: 'MEL'},
@@ -184,6 +200,10 @@
           {id: 8, ida: 'MEL', vuelta: 'Terminal buses ANF'},
           {id: 9, ida: 'VSL', vuelta: 'Terminal buses'}]
       }
+    },
+    components: {
+      LocalSwiper: swiper,
+      LocalSlide: swiperSlide
     },
     methods: {
       activar (val) {
@@ -220,7 +240,6 @@
     background-color: #d84d14;
     color: #fff;
     min-height: min-content; /* needs vendor prefixes */
-    display: flex; align-items: center
   }
   .tramos-dash2.active {
     background-color: #E66732;

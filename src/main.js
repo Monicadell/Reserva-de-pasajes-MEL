@@ -8,6 +8,8 @@ import Vuetify from 'vuetify'
 import i18n from './locales'
 import moment from 'moment'
 import VueSweetalert2 from 'vue-sweetalert2'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 import 'vuetify/dist/vuetify.min.css'
 import './assets/scss/fontAwesome/css/fontawesome.css'
 import './assets/scss/fontAwesome/css/all.css'
@@ -33,6 +35,7 @@ Vue.use(Vuetify, {
     gris: '#646464'
   }
 })
+Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false
 const EventBus = new Vue()

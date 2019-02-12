@@ -216,27 +216,6 @@
                                   ></v-text-field>
                                 </v-flex>
 
-                                <v-flex xs12 sm6>
-                                  <v-select :items="contracts" v-model="item.contract_type_id"
-                                            label="Tipo de contrato"
-                                            single-line item-text="name" item-value="id"
-                                  ></v-select>
-                                </v-flex>
-
-                                <v-flex xs12 sm6>
-                                  <v-autocomplete
-                                    v-model="item.company_id"
-                                    :items="companies"
-                                    :search-input.sync="search"
-                                    color="primary"
-                                    hide-no-data
-                                    hide-selected
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Empresa asociada"
-                                  ></v-autocomplete>
-                                </v-flex>
-
                                 <small>* Campos obligatorios</small>
                               </v-layout>
                             </v-container>

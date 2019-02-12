@@ -58,7 +58,7 @@
         console.log('Anular reserva', this.servicioAnular)
         const idServicio = this.servicioAnular.id
         try {
-          let eliminando = await API.deleteNoRest('tickets', idServicio, 'cancel')
+          let eliminando = await API.deleteNoRest('tickets', idServicio)
           if (eliminando.status >= 200 && eliminando.status < 300) {
               // eliminado exitoso
             this.$store.dispatch('Booking/set_actualizarReservas', {
