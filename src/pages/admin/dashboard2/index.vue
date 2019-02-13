@@ -187,6 +187,26 @@
           navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
+          },
+          breakpoints: {
+            320: {
+              slidesPerView: 1
+            },
+            480: {
+              slidesPerView: 2
+            },
+            740: {
+              slidesPerView: 3
+            },
+            940: {
+              slidesPerView: 4
+            },
+            1200: {
+              slidesPerView: 4
+            },
+            1500: {
+              slidesPerView: 5
+            }
           }
         },
         items: [
