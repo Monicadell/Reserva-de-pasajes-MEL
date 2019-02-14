@@ -21,7 +21,7 @@
 
 <script>
   export default {
-    props: ['pagination', 'back'],
+    props: ['pagination'],
     methods: {
       changePageNumber () {
         let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}

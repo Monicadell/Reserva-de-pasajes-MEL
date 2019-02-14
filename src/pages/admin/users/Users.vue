@@ -233,8 +233,8 @@
   import API from '@pi/app'
   import moment from 'moment'
   import {mapGetters} from 'vuex'
-  const {validate} = require('rut.js')
   import Pagination from '@c/Pagination'
+  const {validate} = require('rut.js')
 
   export default {
     data () {

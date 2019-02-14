@@ -174,29 +174,17 @@
           <td class="">{{ props.item.company_name }}</td>
 
           <td class="justify-center">
-            <!-- <v-tooltip top> -->
-                 <v-btn
-                    small outline
-                    color="green darken-2"
-                    class="white--text text-capitalize"
-                    @click="editItem(props.item)"
-                  >
-                    Aceptar
-                    <v-icon right dark>thumb_up</v-icon>
-                  </v-btn>
-              <!-- <v-icon
-                small
-                slot="activator"
-                color="green"
-                @click="editItem(props.item)"
-              >
-                thumb_up
-              </v-icon> -->
-              <!-- <span>Aceptar</span>
-            </v-tooltip> -->
+            <v-btn
+              small outline
+              color="green darken-2"
+              class="white--text text-capitalize"
+              @click="editItem(props.item)"
+            >
+              Aceptar
+              <v-icon right dark>thumb_up</v-icon>
+            </v-btn>
           </td>
-          <td class="">
-            
+          <td>
             <v-btn
               small outline
               color="red darken-2"
@@ -206,28 +194,12 @@
               Rechazar
               <v-icon right dark>thumb_down</v-icon>
             </v-btn>
-           
           </td>
         </template>
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
             <v-container grid-list-xl text-xs-center>
-              <v-layout align-center justify-space-around row fill-height>
-                <v-flex xs12 sm2>
-                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                            label="Items por página" v-on:change="changeRowsPage()"
-                          item-text="text" item-value="id"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm10 class="text-xs-center justify-center">
-                    <v-pagination
-                      v-model="pagination.page"
-                      @input="changePageNumber"
-                      :length="pagination.total_pages"
-                      :total-visible="10"
-                    ></v-pagination>
-                </v-flex>
-              </v-layout>
+              <pagination :pagination="pagination" @change="getUsers"/>
             </v-container>  
           </td>
         </template>
@@ -239,6 +211,7 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -315,6 +288,9 @@
         }
       }
     },
+    components: {
+      Pagination
+    },
     mounted () {
       this.getUsers()
       this.getRoles()
@@ -326,11 +302,16 @@
         return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
       },
       async getUsers (params) {
+        console.log('get solicitudes params', params)
+        let data = {}
         if (!params) {
-          params = {'active': 0}
+          data = {'active': 0}
+        } else {
+          data = {'active': 0, ...params}
         }
+        console.log(' solicitudes after, data', data)
         try {
-          let usuarios = await API.get('users', params)
+          let usuarios = await API.get('users', data)
           if (usuarios.status >= 200 && usuarios.status < 300) {
             console.log('usuarios', usuarios.data)
             setTimeout(() => {
@@ -366,11 +347,6 @@
       },
       editItem (item) {
         console.log('item edit', item)
-        // delete item.mensaje
-        // this.editedIndex = this.items.indexOf(item)
-        // let edit = Object.assign({}, item)
-        // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
-
         this.editedItem = Object.assign({}, item)
         this.editedItem.tipoDocumento = item.rut ? '1' : '2'
         // this.userDocumentType.id = item.rut ? 1 : 2
@@ -512,21 +488,6 @@
       close () {
         this.dialog = false
         this.editedItem = Object.assign({})
-        // setTimeout(() => {
-        //   this.editedItem = Object.assign({}, this.defaultItem)
-        //   this.editedIndex = -1
-        // }, 300)
-      },
-      changePageNumber () {
-        console.log(this.pagination.page)
-        let newpage = {'active': 0, 'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
-        console.log(newpage)
-        this.getUsers(newpage)
-      },
-      changeRowsPage () {
-        // console.log(this.pagination.rowsPerPage)
-        let pagesize = {'active': 0, 'page_size': this.pagination.rowsPerPage}
-        this.getUsers(pagesize)
       },
       async getRoles () {
         let roles = await API.get('roles')

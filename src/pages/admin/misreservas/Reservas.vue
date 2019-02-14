@@ -63,6 +63,13 @@
           <td class="text-capitalize">{{ props.item.status }}</td>
 
         </template>
+        <!-- <template slot="footer">
+          <td :colspan="headers.length" class="text-xs-right">
+            <v-container grid-list-xl text-xs-center>
+              <pagination :pagination="pagination" @change="getReservas"/>
+            </v-container>  
+          </td>
+        </template> -->
       </v-data-table>
     </div>
   </div>
@@ -73,6 +80,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   import ExportOption from '@c/ExportOption'
+  // import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -91,6 +99,14 @@
           // {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}
         ],
+        pagination: {
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
+        },
         ticketsList: [],
         excelFields: {
           Servicio: 'servicename',
@@ -131,6 +147,7 @@
     },
     components: {
       ExportOption: ExportOption
+      // Pagination
     },
     computed: {
       ...mapGetters({
@@ -196,10 +213,6 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -212,20 +225,27 @@
           })
         }
       },
-      async getReservas () {
+      async getReservas (pagina) {
         console.log('user id', this.userId)
         console.log('ruta', this.$route.path)
         let params = {}
         if (this.$route.path === '/misreservasaterceros') {
           console.log('es a terceros')
           params = {'booked_by_id': this.userId}
+          const data = {
+            ...params,
+            ...pagina
+          }
           try {
-            const tickets = await API.get('tickets', params)
+            const tickets = await API.get('tickets', data)
             if (tickets.status >= 200 && tickets.status < 300) {
               console.log('mis reservas a terceros', tickets)
               setTimeout(() => {
-                // this.ticketsList = Object.assign([], tickets.data.data)
                 this.ticketsList = tickets.data.data
+                // this.pagination.totalItems = tickets.data.total_entries
+                // this.pagination.page = tickets.data.page_number
+                // this.pagination.rowsPerPage = tickets.data.page_size
+                // this.pagination.total_pages = tickets.data.total_pages
                 this.ticketsList.forEach(element => { element.servicename = element.service.name })
                 this.ticketsList.forEach(element => { element.servicedate = element.service.date })
                 this.loading = false
@@ -261,13 +281,21 @@
         } else {
           console.log('reservas propias')
           params = {'user_id': this.userId}
+          const data = {
+            ...params,
+            ...pagina
+          }
           try {
-            const tickets = await API.get('tickets', params)
+            const tickets = await API.get('tickets', data)
             if (tickets.status >= 200 && tickets.status < 300) {
               console.log('reservas', tickets)
               setTimeout(() => {
                 // this.ticketsList = Object.assign([], tickets.data.data)
                 this.ticketsList = tickets.data.data
+                // this.pagination.totalItems = tickets.data.total_entries
+                // this.pagination.page = tickets.data.page_number
+                // this.pagination.rowsPerPage = tickets.data.page_size
+                // this.pagination.total_pages = tickets.data.total_pages
                 if (this.filtro === 2) {
                   console.log('Filtro perdidos')
                   this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
