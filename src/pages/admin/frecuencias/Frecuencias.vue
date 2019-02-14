@@ -130,35 +130,6 @@
                 </v-menu>
               </v-flex>
 
-<!--              <v-flex xs12 sm6 md4>
-                <v-menu
-                  ref="time2"
-                  :close-on-content-click="false"
-                  v-model="timepickerLlegada"
-                  :nudge-right="40"
-                  :return-value.sync="editedItem.arrival"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    v-model="editedItem.arrival"
-                    label="Llegada -arr"
-                    readonly
-                  ></v-text-field>
-                  <v-time-picker
-                    v-if="timepickerLlegada"
-                    v-model="editedItem.arrival"
-                    full-width
-                    @change="$refs.time2.save(editedItem.arrival)"
-                  ></v-time-picker>
-                </v-menu>
-              </v-flex> -->
-
               <v-flex xs12 sm6>
                 <v-select :items="freqtypes" v-model="editedItem.freq_type"
                         label="Tipo"
@@ -167,8 +138,24 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                <v-text-field label="Vehículos" type="number" min="0"
-                              v-model="editedItem.cars"></v-text-field>
+                <!-- <v-text-field label="Vehículos" type="number" min="0"
+                              v-model="editedItem.cars"></v-text-field> -->
+                <v-layout wrap justify-center>
+                  <v-flex xs12 sm3 text-xs-center>
+                    <v-btn fab dark small color="primary" @click="menos()">
+                      <v-icon dark>remove</v-icon>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex xs12 sm2 align-center>
+                    <v-text-field type="number" style="" readonly label="Buses"
+                                  v-model="editedItem.cars"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm3 text-xs-center>
+                    <v-btn fab dark small color="primary"  @click="mas()">
+                      <v-icon dark>add</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
               </v-flex>
 
               <v-flex xs12 sm6>
@@ -318,7 +305,7 @@
           duration: '',
           active: false,
           trip_id: '',
-          cars: ''
+          cars: 0
         },
         headers: [
           {text: 'Nombre', value: 'name'},
@@ -361,21 +348,15 @@
           let frec = await API.get('frequencies')
           if (frec.status >= 200 && frec.status < 300) {
             setTimeout(() => {
-              console.log('frecuencias', frec.data.data)
+              // console.log('frecuencias', frec.data.data)
               this.frecuencias = frec.data.data
               this.loading = false
             }, 500)
-            // console.log(frec)
           } else {
             alert('Ha ocurrido un error, intente nuevamente')
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // alert('Ha ocurrido un error, intente más tarde!')
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las frecuencias, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -552,6 +533,14 @@
       trip (item) {
         let t = this.trips.find(tramo => tramo.id === item)
         return t ? t.name : ''
+      },
+      menos () {
+        if (this.editedItem.cars > 0) {
+          this.editedItem.cars--
+        }
+      },
+      mas () {
+        this.editedItem.cars++
       }
     }
   }

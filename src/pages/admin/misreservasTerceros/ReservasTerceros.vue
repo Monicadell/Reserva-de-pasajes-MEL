@@ -10,8 +10,8 @@
   </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white">
-        <v-layout wrap>
-          <v-flex xs12 sm4>
+        <v-layout wrap align-space-around>
+          <v-flex xs12 sm3>
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -21,15 +21,20 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex xs12 sm4>
+          <v-flex xs12 sm3>
             <v-select v-if="role === 2"
                   :items="filtros" v-model="filtro"
                   label="Filtros" clearable
                   single-line item-text="text" item-value="id"
             ></v-select>
+           
           </v-flex>
-
-          <v-flex xs12 sm4>
+          <v-flex xs12 sm3 class="align-self-center">
+             <div class="fill-height" v-if="filtro === 2">
+                <p class="mb-0 fill-height">Hay {{ticketsList.length}} reservas perdidas</p>
+            </div>
+          </v-flex>
+          <v-flex xs12 sm3>
             <div class="text-xs-right">
               <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
             </div>    
@@ -47,23 +52,16 @@
           no-data-text="No tiene reservas registradas"
         >
         <template slot="items" slot-scope="props">
-          <!-- <td class="" v-if="$route.path === '/misreservasaterceros'">{{ props.item.service.name }}</td> -->
           <td class="">{{ props.item.user.name }}</td>
           <td class="">{{ props.item.service.name }}</td>
           <td class="">{{ props.item.service.date }}</td>
           <td class="">{{ props.item.booked_at }}</td>
-          <!-- <td class="" v-if="props.item.booked_at">{{ moment(props.item.booked_at).format('DD-MM-YYYY HH:mm') }}</td>
-          <td v-else>hola</td> -->
-          <!-- <td class="">{{ props.item.checkin_at }}</td> -->
           <td class="">{{ props.item.confirmed_at }}</td>
           <td class="">{{ props.item.seat }}</td>
           <td class="">{{ props.item.status }}</td>
           <td class="">
             <v-btn color="red" v-if="props.item.status != 'anulado' && props.item.service.date >= today" outline class="white--text btn-ticket"  @click="irEliminar(props.item.id)">Anular</v-btn> 
           </td>
-          <!--<td class="">
-            <v-btn outline color="red" class="white--text btn-ticket" v-if="props.item.service.date >= today" @click="mostrarAnular(item)">Anular</v-btn>
-          </td> -->
         </template>
       </v-data-table>
       <!-- dialogo confirmar eliminar -->
@@ -97,12 +95,10 @@
         loading: true,
         moment: moment,
         headers: [
-          // {text: 'Origen', value: 'source_id'},
           {text: 'Usuario', value: 'user.name'},
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha del servicio', value: 'service.date'},
           {text: 'Fecha reserva', value: 'booked_at'},
-          // {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
           {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'},
@@ -159,15 +155,11 @@
       async getReservas () {
         console.log('user id', this.userId)
         console.log('ruta', this.$route.path)
-        // let params = {}
-        // if (this.$route.path === '/misreservasaterceros') {
         console.log('es a terceros')
-        // params = {'booked_by_id': this.userId}
         try {
           const tickets = await API.get('tickets')
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas a terceros', tickets)
-            // setTimeout(() => {
             if (this.filtro === 2) {
               console.log('Filtro perdidos terceros')
               this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
@@ -191,7 +183,6 @@
               element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
               element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
             })
-            // }, 500)
           } else {
             console.log('Error ', tickets.status)
             this.$swal({
@@ -296,3 +287,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .align-self-center {
+    align-self: center;
+  }
+</style>

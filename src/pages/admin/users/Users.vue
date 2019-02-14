@@ -220,24 +220,7 @@
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
             <v-container grid-list-xl text-xs-center>
-              <v-layout align-center justify-space-around row fill-height>
-                <v-flex xs12 sm2>
-                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                            label="Items por página" v-on:change="changeRowsPage()"
-                          item-text="text" item-value="id"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm10 class="text-xs-center justify-center">
-                  <!-- <div class="text-xs-center"> -->
-                    <v-pagination
-                      v-model="pagination.page"
-                      @input="changePageNumber"
-                      :length="pagination.total_pages"
-                      :total-visible="10"
-                    ></v-pagination>
-                  <!-- </div> -->
-                </v-flex>
-              </v-layout>
+              <pagination :pagination="pagination" @change="getUsers"/>
             </v-container>  
           </td>
         </template>
@@ -251,6 +234,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   const {validate} = require('rut.js')
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -331,6 +315,9 @@
         validForm: false
       }
     },
+    components: {
+      Pagination
+    },
     mounted () {
       this.getUsers()
       this.getRoles()
@@ -345,6 +332,7 @@
         return data ? moment(data).lang('es').format('dddd DD/MM/YYYY') : ''
       },
       async getUsers (params) {
+        console.log('getusers, params', params)
         try {
           let usuarios = await API.get('users', params)
           if (usuarios.status >= 200 && usuarios.status < 300) {
@@ -529,10 +517,6 @@
       close () {
         this.dialog = false
         this.editedItem = Object.assign({})
-        // setTimeout(() => {
-        //   this.editedItem = Object.assign({}, this.defaultItem)
-        //   this.editedIndex = -1
-        // }, 300)
       },
       changePageNumber () {
         console.log(this.pagination.page)

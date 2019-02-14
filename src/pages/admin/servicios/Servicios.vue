@@ -337,8 +337,6 @@
           {text: '', value: 'delete', sortable: false}
         ],
         services: [],
-        // drivers: [],
-        // cars: [],
         frequencies: [
         ],
         trips: [],
@@ -386,10 +384,6 @@
         }
       },
       mas () {
-        // if (!this.editedItem.cars) {
-        //   console.log('no existe cars')
-        //   this.editedItem.cars = 0
-        // }
         this.editedItem.cars++
       },
       async getTrips () {

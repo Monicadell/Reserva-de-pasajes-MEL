@@ -12,7 +12,7 @@
 
       <v-toolbar flat color="white">
         <v-layout wrap pt-3>
-          <v-flex xs12 sm4>
+          <v-flex xs12 sm3>
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -22,15 +22,19 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex xs12 sm4>
+          <v-flex xs12 sm3>
             <v-select
                   :items="filtros" v-model="filtro"
                   label="Filtros" clearable
                   item-text="text" item-value="id"
             ></v-select>
           </v-flex>
-
-          <v-flex xs12 sm4>
+          <v-flex xs12 sm3 class="align-self-center">
+             <div class="fill-height" v-if="filtro === 2">
+                <p class="mb-0 fill-height">Tienes {{ticketsList.length}} reservas perdidas</p>
+            </div>
+          </v-flex>
+          <v-flex xs12 sm3>
             <div class="text-xs-right">
               <v-btn color="primary" :to="'/service_reserve'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
             </div>        
@@ -317,3 +321,8 @@
     }
   }
 </script>
+<style scoped>
+  .align-self-center {
+    align-self: center;
+  }
+</style>
