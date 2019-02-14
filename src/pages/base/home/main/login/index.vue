@@ -59,18 +59,7 @@
                   <v-btn block class="btn-login primary" @click="log()">Iniciar sesión</v-btn>
                 </v-flex>
               </v-layout>
-              <!-- <v-layout align-center justify-center row fill-height class="mt-3">
-                <v-flex xs12 md6>
-                  <v-alert
-                      :value="true"
-                      type="warning"
-                      v-if="invalidos"
-                    >
-                      Datos inválidos
-                    </v-alert>
 
-                </v-flex>
-              </v-layout> -->
               <!-- Modal Error login -->
               <v-dialog v-model="errorDialog" max-width="290">
                 <v-card>
@@ -84,13 +73,6 @@
               </v-dialog>
             </v-container>
           </v-card-text>
-
-          <!-- <v-card-actions class="justify-center pt-1">
-            <v-btn color="primary" flat small @click="goToSingUp">Solicitar registro</v-btn>
-            <v-spacer></v-spacer>
-
-            <v-btn color="primary" flat small @click="goToForgotPassword">¿Olvido su contraseña?</v-btn>
-          </v-card-actions> -->
 
           <!-- Modal error logueo-->
           <modal v-if="showModal"
