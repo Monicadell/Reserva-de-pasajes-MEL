@@ -127,24 +127,7 @@
         <template slot="footer">
           <td :colspan="headersServ.length" class="text-xs-right">
             <v-container grid-list-xl text-xs-center>
-              <v-layout align-center justify-space-around row fill-height>
-                <v-flex xs12 sm2>
-                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                            label="Items por página" v-on:change="changeRowsPage()"
-                          item-text="text" item-value="id"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm10 class="text-xs-center justify-center">
-                  <!-- <div class="text-xs-center"> -->
-                    <v-pagination
-                      v-model="pagination.page"
-                      @input="changePageNumber"
-                      :length="pagination.total_pages"
-                      :total-visible="10"
-                    ></v-pagination>
-                  <!-- </div> -->
-                </v-flex>
-              </v-layout>
+              <pagination :pagination="pagination" @change="getManifests"/>
             </v-container>  
           </td>
         </template>
@@ -157,6 +140,7 @@
   import API from '@pi/app'
   import moment from 'moment'
   import ExportOption from '@c/ExportOption'
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -234,9 +218,6 @@
         items: [],
         excelFieldsServ: {
           Servicio: 'service_name',
-          // FechaServicio: 'service_date',
-          // Origen: 'source',
-          // Destino: 'dest',
           Trip: 'trip_name',
           'HoraSalida': 'departure',
           Conductor: 'driver_name',
@@ -248,7 +229,8 @@
       }
     },
     components: {
-      ExportOption: ExportOption
+      ExportOption: ExportOption,
+      Pagination
     },
     computed: {
       computedDateFormattedMomentjs () {
@@ -320,7 +302,7 @@
         this.servicioSelected = true
       },
       async getManifests (first) {
-        // console.log('get manifests')
+        console.log('get manifests', this.pagination)
         const params = {
           'driver_id': this.conductorSearch,
           'trip_id': this.tripSearch,

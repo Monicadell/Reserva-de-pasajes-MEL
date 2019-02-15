@@ -53,30 +53,7 @@
 
     <div class="elevation-1">
       <v-toolbar flat color="white" class="pt-2">
-        <!-- <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-         <v-select
-                  :items="filtros" v-model="filtro"
-                  label="Filtros" clearable
-                  single-line item-text="text" item-value="id"
-        ></v-select> -->
           <v-layout align-baseline justify-space-between row fill-height>
-            <!-- <v-flex xs12 md3>
-              <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Buscar"
-                v-on:change="busca"
-                single-line
-                hide-details
-              ></v-text-field>
-            </v-flex> -->
             <v-flex xs12 md4>
               <v-menu
                 v-model="datepicker"
@@ -130,9 +107,6 @@
           <td v-bind:class="getStatusClass(props.item)">{{ props.item.date }}</td>
           <td v-bind:class="getStatusClass(props.item)">{{ moment(props.item.departure, 'HH:mm:ss').format('HH:mm') }}</td>
           <td v-bind:class="getStatusClass(props.item)">{{ props.item.trip_name }}</td>
-          <!-- <td class="">{{ props.item.driver_name }}</td>
-          <td class="">{{ props.item.associate_name }}</td>
-          <td class="">{{ props.item.car_name }}</td> -->
           
           <td v-bind:class="getStatusClass(props.item)">
              <v-select :items="conductores" v-model="props.item.driver_id"
@@ -152,32 +126,12 @@
                           single-line item-text="name" item-value="id"
             ></v-select>  
           </td>
-          <!-- <td class="text-xs-center">
-            <v-btn v-if="props.item.cars > 1" flat small class="primary--text text-capitalize" @click="editItem(props.item)">Asignar</v-btn>
-            <v-btn v-else flat small class="primary--text text-capitalize" @click="editItem(props.item)">Modificar</v-btn>
-          </td> -->
+
         </template>
         <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
             <v-container grid-list-xl text-xs-center>
-              <v-layout align-center justify-space-around row fill-height>
-                <v-flex xs12 sm2>
-                  <v-select :items="pagination.rowsPerPageItems" v-model="pagination.rowsPerPage"
-                            label="Items por página" v-on:change="changeRowsPage()"
-                          item-text="text" item-value="id"
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 sm10 class="text-xs-center justify-center">
-                  <!-- <div class="text-xs-center"> -->
-                    <v-pagination
-                      v-model="pagination.page"
-                      @input="changePageNumber"
-                      :length="pagination.total_pages"
-                      :total-visible="10"
-                    ></v-pagination>
-                  <!-- </div> -->
-                </v-flex>
-              </v-layout>
+              <pagination :pagination="pagination" @change="getManifests"/>
             </v-container>  
           </td>
         </template>
@@ -198,6 +152,7 @@
   import moment from 'moment'
   import Modal from '@c/Modal'
   import ExportOption from '@c/ExportOption'
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -251,7 +206,6 @@
           Tramo: 'trip_name',
           AsientosDisponibles: 'avail_seats',
           AsientosTotales: 'total_seats',
-          // AsientosReservados: 'avail_reserved',
           Buses: 'cars'
         },
         items: [],
@@ -264,7 +218,8 @@
     },
     components: {
       Modal: Modal,
-      ExportOption: ExportOption
+      ExportOption: ExportOption,
+      Pagination
     },
     mounted () {
       this.getManifests()
@@ -302,11 +257,6 @@
       getStatusClass (item) {
         return item.driver_id && item.car_id ? 'completed' : 'incompleted'
       },
-      // busca () {
-      //   console.log('busca', this.search)
-      //   let buscar = {'q': this.search}
-      //   this.getManifests(buscar)
-      // },
       clearFecha () {
         this.dateSearch = ''
         this.getManifests()
@@ -365,17 +315,6 @@
         } catch (e) {
           console.log('error al cargar frecuencias', e.response)
         }
-      },
-      changePageNumber () {
-        console.log(this.pagination.page)
-        let newpage = {'page': this.pagination.page, 'page_size': this.pagination.rowsPerPage}
-        console.log(newpage)
-        this.getManifests(newpage)
-      },
-      changeRowsPage () {
-        // console.log(this.pagination.rowsPerPage)
-        let pagesize = {'page_size': this.pagination.rowsPerPage}
-        this.getManifests(pagesize)
       },
       async getManifests (pagi) {
         console.log('get manifests')
