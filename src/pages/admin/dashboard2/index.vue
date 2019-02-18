@@ -50,6 +50,7 @@
             <v-text-field
               class="pt-0"
               value="30"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -62,6 +63,7 @@
             <v-text-field
               class="pt-0"
               value="46"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -74,6 +76,7 @@
             <v-text-field
               class="pt-0"
               value="2 buses en la ruta"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -92,6 +95,7 @@
             <v-text-field
               class="pt-0"
               value="CFDR43"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -104,6 +108,7 @@
             <v-text-field
               class="pt-0"
               value="Ernesto de la Cuadra"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -116,6 +121,7 @@
             <v-text-field
               class="pt-0"
               value="Raul Fernandez"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -128,6 +134,7 @@
             <v-text-field
               class="pt-0"
               value="30 pasajeros"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -140,6 +147,7 @@
             <v-text-field
               class="pt-0"
               value="Info Manifiesto"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -152,6 +160,7 @@
             <v-text-field
               class="pt-0"
               value="Aeropuerto ANF"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
@@ -164,6 +173,7 @@
             <v-text-field
               class="pt-0"
               value="vuelta"
+              readonly
             ></v-text-field>
           </v-flex>
         </v-layout>
