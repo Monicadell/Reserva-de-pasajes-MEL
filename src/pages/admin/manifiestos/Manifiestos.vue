@@ -31,19 +31,19 @@
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="tramos" v-model="tripSearch"
-                          label="Tramo" clearable @click:clear="clearFecha"
+                          label="Tramo" clearable @click:clear="clearTramo"
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="buses" v-model="busSearch"
-                          label="Buses" clearable @click:clear="clearFecha"
+                          label="Buses" clearable @click:clear="clearBus"
                           single-line item-text="name" item-value="id"
               ></v-select>
             </v-flex>
             <v-flex xs12 md3>
               <v-select :items="conductores" v-model="conductorSearch"
-                label="Conductores" clearable @click:clear="clearFecha"
+                label="Conductores" clearable @click:clear="clearConductor"
                 single-line item-text="name" item-value="id" class="body-1"
               ></v-select>
             </v-flex>
@@ -95,7 +95,7 @@
       <v-data-table v-if="!servicioSelected"
           :headers="headersServ"
           :items="seriviciosmanifiestos"
-          no-data-text="No existen servicios para fecha y origen ingresado"
+          no-data-text="No existen servicios para los filtros ingresados"
           hide-actions
           :loading="loadingS"
         >
@@ -264,10 +264,23 @@
     },
     methods: {
       clearFecha () {
+        // console.log('filtros', this.dateSearch, this.tripSearch, this.busSearch, this.conductorSearch)
         this.dateSearch = ''
+        this.loadingS = true
+        this.getManifests()
+      },
+      clearTramo () {
         this.tripSearch = ''
-        this.conductorSearch = ''
+        this.loadingS = true
+        this.getManifests()
+      },
+      clearBus () {
         this.busSearch = ''
+        this.loadingS = true
+        this.getManifests()
+      },
+      clearConductor () {
+        this.conductorSearch = ''
         this.loadingS = true
         this.getManifests()
       },
