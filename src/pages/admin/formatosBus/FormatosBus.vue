@@ -13,28 +13,24 @@
                 <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
-                <v-text-field label="Niveles" type="number" 
+                <v-text-field label="Niveles" type="number" :mask="maskNum"
                           v-model="editedItem.levels"></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Nº de asientos"
-                          type="number"
+                          type="number" :mask="maskNum"
                          v-model="editedItem.seats"></v-text-field>
               </v-flex>
-              <!-- <v-flex xs12 sm6 md4>
-                <v-text-field label="Alto" type="number"
-                          v-model="editedItem.height"></v-text-field>
-              </v-flex> -->
               <v-flex xs12 md4>
-                <v-text-field label="Ancho" type="number"
+                <v-text-field label="Ancho" type="number" :mask="maskNum"
                           v-model="editedItem.width"></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
-                <v-text-field label="Largo" type="number"
+                <v-text-field label="Largo" type="number" :mask="maskNum"
                           v-model="editedItem.length"></v-text-field>
               </v-flex>
               <v-flex xs12 md4>
-                <v-text-field label="Tara" type="number"
+                <v-text-field label="Tara" type="number" :mask="maskNum"
                           v-model="editedItem.weight"></v-text-field>
               </v-flex>
             </v-layout>
@@ -163,7 +159,8 @@
         positions: [
           {text: 'Conductor', id: 1},
           {text: 'Auxiliar', id: 2}
-        ]
+        ],
+        maskNum: '################'
       }
     },
     mounted () {
