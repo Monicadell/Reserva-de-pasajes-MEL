@@ -108,33 +108,19 @@
         try {
           const services = await API.get('services', configService)
           if (services.status >= 200 && services.status < 300) {
-            // console.log(services.data.data)
             this.servicios = services.data.data.map(ser => ser.date).filter(date => date >= moment().toISOString())
-            // if (services.data.data.length === 0) {
-            //   console.log('no hay pasajes')
-            //   this.$store.dispatch('Booking/set_fechaSeleccionada', {fechaSeleccionada: ''})
-            //   this.componentKeySelect++
-            //   this.componentKeyDate++
-            //   this.disabledBtn = true
-            //   this.$swal({
-            //     customClass: 'modal-info',
-            //     type: 'error',
-            //     title: 'Oops...',
-            //     text: '¡No hay servicios para la fecha seleccionada!',
-            //     animation: true,
-            //     showConfirmButton: false,
-            //     showCloseButton: false
-            //   })
-            // } else {
-            //   setTimeout(() => {
-            //     this.$store.dispatch('Booking/set_listaServicios', {
-            //       listaServicios: services.data.data
-            //     })
-            //     this.$store.dispatch('Booking/set_e1', {
-            //       e1: 2
-            //     })
-            //   }, 1000)
-            // }
+            if (this.servicios.length === 0) {
+              this.$swal({
+                customClass: 'modal-info',
+                type: 'error',
+                timer: 1500,
+                title: 'Oops...',
+                text: '¡No hay servicios para el tramo seleccionado!',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
           }
         } catch (e) {
           console.log('catch error al obtener serivicios', e.response)
@@ -148,7 +134,6 @@
     watch: {
       ruta (val) {
         console.log('la ruta cambio', val)
-       // console.log(this.ruta)
         if (this.ruta.id) {
           this.disableCalendar = false
           this.colorCalendario = 'primary'
