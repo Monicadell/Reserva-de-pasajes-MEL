@@ -2,25 +2,21 @@
   <!-- <div> -->
     <!-- <div > -->
     <v-card
-   :class="{
-    'elevation-1': !cargandoPeticion && listaServicios.length === 0,
-    'elevation-10': listaServicios.length > 0,
-    //disableList: disableList && servicesList.length === 0
-    }"
-    class="fadeinfwdfast"
+    :class="{
+      'elevation-1': !cargandoPeticion && listaServicios.length === 0,
+      'elevation-2': listaServicios.length > 0,
+      }"
+      class="fadeinfwdfast"
     >
-    <v-card-title class="barra-titulo-servicios">
-
-    <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
-      <v-icon >keyboard_arrow_left</v-icon>
-
-    </v-btn>
-     <v-spacer> </v-spacer>
+      <v-card-title class="barra-titulo-servicios">
+        <v-btn fab dark small color="primary"  @click="$store.dispatch('Booking/set_e1', {e1: 1});   " >
+          <v-icon >keyboard_arrow_left</v-icon>
+        </v-btn>
+        <v-spacer> </v-spacer>
         <span class="font-weight-medium"> Servicios disponibles </span>
-         <v-spacer> </v-spacer>
-    </v-card-title>
+        <v-spacer> </v-spacer>
+      </v-card-title>
       <v-card-title class="barra-servicios primary">
-
         <v-spacer></v-spacer>
         <v-text-field
           append-icon="search"
@@ -52,30 +48,15 @@
               <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }}
             </td>
-            <!-- <button type="button" class="v-btn elevation-0 primary" @click="resume(props.item)">Seleccionar</button> -->
-              <v-btn outline color="primary" class="elevation-0 text-capitalize"  @click="resume(props.item)">Seleccionar</v-btn>
-          <!--  <v-btn block small class="btn-list elevation-0"  @click="resume(props.item)">Seleccionar</v-btn> -->
-            <!-- <td> </td>
-            <td> </td> -->
-
+            <v-btn outline color="primary" class="elevation-0 text-capitalize"  @click="resume(props.item)">Seleccionar</v-btn>
           </tr>
         </template>
       </v-data-table>
-      <!-- <v-tab-item v-for="(floor, i) in busGrid" :key="i">
-        <v-card flat>
-          <template v-if="floor">
-            <grid :floor="floor"></grid>
-          </template>
-        </v-card>
-      </v-tab-item> -->
     </v-card>
-    <!-- </div> -->
-  <!-- </div> -->
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
-  // import axios from 'axios'
   import moment from 'moment'
   import API from '@pi/app'
 
@@ -121,11 +102,6 @@
       }
     },
     mounted () {
-   //  this.searchNewServices()
-    /*   this.$store.dispatch('Booking/set_listaServicios', {
-            listaServicios: [],
-
-          }) */
       console.log('servicios')
       console.log(this.listaServicios)
     },
@@ -183,18 +159,6 @@
 </style>
 
 <style>
-
-  /* .v-btn.btn-list{
-  text-transform: none;
-  background-color:transparent;
-  border: #1565c0 1px solid;
-  }
-
-  .v-btn.btn-list:hover{
-    text-transform: none;
-    color:white;
-    background-color:#1565c0;
-  } */
   .barra-servicios .theme--light.v-text-field .v-input__slot:before {
     border-color: #fff;
   }
@@ -218,12 +182,9 @@
   }
   .v-card__title.barra-titulo-servicios{
     font-size: 22px;
-    /* color: #1565c0; */
-    height: 65px;
+    padding-top: 0;
   }
-
   .v-card__title.barra-servicios {
-    /* background: #1565c0; */
     color: white;
     font-size: 18px
   }

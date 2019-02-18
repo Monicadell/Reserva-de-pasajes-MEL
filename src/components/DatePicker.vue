@@ -90,21 +90,15 @@
         this.mes = value.split('-')[1]
         this.mesformateado = moment(this.mes, 'MM').format('MMMM')
         this.year = value.split('-')[0]
-     //   console.log(`selecciono fecha ${value}`)
-      //  const  idRuta = this.ruta.id
-        // const fechaViaje = value
-      //  console.log(idRuta, fechaViaje)
         this.$store.dispatch('Booking/set_fechaSeleccionada', {
           fechaSeleccionada: value
         })
       },
       async findServices () { // obtener los servicios disponibles para una ruta y dia en especifico
-        // const fecha = this.fecha
         const ruta = this.ruta
         const configService = {
           'trip': ruta.id
         }
-       // console.log(configService)
         try {
           const services = await API.get('services', configService)
           if (services.status >= 200 && services.status < 300) {
@@ -127,7 +121,6 @@
         }
       },
       allowedDates (val) {
-        // console.log(val, this.servicios)
         return this.servicios.indexOf(val) !== -1
       }
     },

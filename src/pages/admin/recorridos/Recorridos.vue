@@ -32,12 +32,12 @@
               <v-flex xs12 md6>
                 <v-select :items="stations" v-model="editedItem.dest_id"
                           label="Estación de destino"
-                          single-line item-text="name" item-value="id"
+                          single-line item-text="name" item-value="id" 
                 ></v-select>
               </v-flex>
               
               <v-flex xs12 md6>
-                <v-text-field type="number" v-model="editedItem.duration" label="Duración (minutos)"></v-text-field>
+                <v-text-field type="number" v-model="editedItem.duration" :mask="mask" label="Duración (minutos)" ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
                 <v-switch
@@ -183,7 +183,8 @@
           {text: '', value: 'delete', sortable: false}
         ],
         recorridos: [],
-        stations: []
+        stations: [],
+        mask: '################'
       }
     },
     mounted () {
