@@ -67,10 +67,8 @@
       <v-avatar class ="ma-0 pa-0">
          <img class="size-avatar"
             :src="`https://ui-avatars.com/api/?name=${data.item.dest_name}?font-size=0.45&length=2&background=fff&color=E66732`"/>
-        </v-avatar>
-
+      </v-avatar>
         {{ data.item.dest_name }}
-
       </template>
       <template
         slot="item"
@@ -122,12 +120,6 @@
         console.log('terc', this.ispathTerceros)
       }
     },
-    // beforeDestroy () {
-    //   console.log('DESTROYYYY!!! jusers a terceros')
-    //   this.$store.dispatch('Booking/set_usuariosBook', {
-    //     usuariosBook: []
-    //   })
-    // },
     computed: {
       ...mapGetters({
         e1_prev: ['Booking/e1_prev'],

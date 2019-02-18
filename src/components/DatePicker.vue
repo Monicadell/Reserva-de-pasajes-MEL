@@ -28,6 +28,7 @@
       :readonly="disableCalendar"
       @input="actFecha"
       class="dateCalendar"
+      :allowed-dates="allowedDates"
     ></v-date-picker>
     </v-card>
   </div>
@@ -39,7 +40,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   // import axios from 'axios'
-  // import API from '@pi/app'
+  import API from '@pi/app'
 
   export default {
     props: ['direction'],
@@ -59,7 +60,8 @@
       disableCalendar: true,
       headerActiveClass: 'custom-header-active',
       headerClass: 'custom-header',
-      colorCalendario: 'lighten5'
+      colorCalendario: 'lighten5',
+      servicios: []
     }),
     mounted () {
       moment.locale('es-es')
@@ -95,16 +97,62 @@
         this.$store.dispatch('Booking/set_fechaSeleccionada', {
           fechaSeleccionada: value
         })
+      },
+      async findServices () { // obtener los servicios disponibles para una ruta y dia en especifico
+        // const fecha = this.fecha
+        const ruta = this.ruta
+        const configService = {
+          'trip': ruta.id
+        }
+       // console.log(configService)
+        try {
+          const services = await API.get('services', configService)
+          if (services.status >= 200 && services.status < 300) {
+            // console.log(services.data.data)
+            this.servicios = services.data.data.map(ser => ser.date).filter(date => date >= moment().toISOString())
+            // if (services.data.data.length === 0) {
+            //   console.log('no hay pasajes')
+            //   this.$store.dispatch('Booking/set_fechaSeleccionada', {fechaSeleccionada: ''})
+            //   this.componentKeySelect++
+            //   this.componentKeyDate++
+            //   this.disabledBtn = true
+            //   this.$swal({
+            //     customClass: 'modal-info',
+            //     type: 'error',
+            //     title: 'Oops...',
+            //     text: '¡No hay servicios para la fecha seleccionada!',
+            //     animation: true,
+            //     showConfirmButton: false,
+            //     showCloseButton: false
+            //   })
+            // } else {
+            //   setTimeout(() => {
+            //     this.$store.dispatch('Booking/set_listaServicios', {
+            //       listaServicios: services.data.data
+            //     })
+            //     this.$store.dispatch('Booking/set_e1', {
+            //       e1: 2
+            //     })
+            //   }, 1000)
+            // }
+          }
+        } catch (e) {
+          console.log('catch error al obtener serivicios', e.response)
+        }
+      },
+      allowedDates (val) {
+        // console.log(val, this.servicios)
+        return this.servicios.indexOf(val) !== -1
       }
     },
     watch: {
-      ruta () {
-       // console.log('la ruta cambio')
+      ruta (val) {
+        console.log('la ruta cambio', val)
        // console.log(this.ruta)
         if (this.ruta.id) {
           this.disableCalendar = false
           this.colorCalendario = 'primary'
-        // console.log(this.disableCalendar)
+          this.findServices()
         }
       }
     }
@@ -138,6 +186,9 @@
     /* height: 30px */
     padding: 10px;
     min-height: 40px;
+  }
+  .dateCalendar .v-btn__content {
+    font-weight: bold;
   }
 
 </style>

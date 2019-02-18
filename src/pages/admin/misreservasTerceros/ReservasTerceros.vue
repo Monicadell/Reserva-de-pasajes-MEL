@@ -144,11 +144,7 @@
         this.getReservas()
       },
       filtro (val) {
-        // if (val === 1) {
-        //   this.getReservasActivas()
-        // } else {
         this.getReservas()
-        // }
       }
     },
     methods: {
@@ -173,6 +169,7 @@
             this.items = this.ticketsList.map(item => {
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
+                if (Number.isInteger(item[prop])) item[prop] = item[prop].toString()
               }
               return item
             })
