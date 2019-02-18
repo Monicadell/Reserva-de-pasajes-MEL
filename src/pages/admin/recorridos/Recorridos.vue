@@ -37,7 +37,7 @@
               </v-flex>
               
               <v-flex xs12 md6>
-                <v-text-field type="number" v-model="editedItem.duration" :mask="maskNum" label="Duración (minutos)" ></v-text-field>
+                <v-text-field v-model="editedItem.duration" :mask="maskNum" label="Duración (minutos)" ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
                 <v-switch

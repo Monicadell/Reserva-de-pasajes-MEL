@@ -27,7 +27,7 @@ export default {
     return axios.get(base + urlget + '/' + id + param)
   },
   post (urlpost, params) {
-    console.log(base + urlpost, {...params})
+    // console.log(base + urlpost, {...params})
     return axios.post(base + urlpost, {...params})
   },
   put (urlput, id, params) {
