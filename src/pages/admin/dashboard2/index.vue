@@ -34,17 +34,29 @@
         <h2>{{tramo.source_name}} - {{tramo.dest_name}}</h2>
       </v-flex>
       <v-flex xs12 class="pt-5 pb-3">
-        <span>{{10}}</span>
-        <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
-        <img src="/../../../static/img/bus_ida.png" width="10%"/>
+        <!-- <div style="max-width: 10%; display: inline-block">
+          <div class="box-pasajeros">
+            <span class="pasajeros">{{10}}</span>
+            <img src="/../../../static/img/pasajero-gris.png" width="20%"/>
+          </div>
+          <img src="/../../../static/img/bus_ida.png" width="100%"/>
+        </div> -->
+        
+        <div style="max-width: 10%; display: inline-block">
+          <div class="box-pasajeros">
+            <span class="pasajeros">{{12}}</span>
+            <img src="/../../../static/img/pasajero-gris.png" width="20%"/>
+          </div>
+          <img src="/../../../static/img/bus_ida.png" width="100%"/>
+        </div>
       </v-flex>
-      <v-flex xs1 align-center>
+      <v-flex xs1 align-center class="origen-destino">
         {{tramo.source_name}}
       </v-flex>
       <v-flex xs10 align-center>
         <div class="steps">
-          <div class="step">
-            <div class="step-line"></div>
+          <div class="step first">
+            <div class="first-vertical"></div>
             <div class="step-title">punto 1</div>
           </div>
           <div class="step">
@@ -65,13 +77,17 @@
           </div>
         </div>
       </v-flex>
-      <v-flex xs1 align-center>
+      <v-flex xs1 align-center class="origen-destino">
         {{tramo.dest_name}}
       </v-flex>
       <v-flex xs12 class="pt-3">
-        <span>{{10}}</span>
-        <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
-        <img src="/../../../static/img/bus_vuelta.png" width="10%"/>
+        <div style="max-width: 10%; display: inline-block">
+          <img src="/../../../static/img/bus_vuelta.png" width="100%"/>
+          <div class="box-pasajeros">
+            <span class="pasajeros">{{10}}</span>
+            <img src="/../../../static/img/pasajero-gris.png" width="20%"/>
+          </div>
+        </div> 
       </v-flex>
     </v-layout>
 
@@ -356,12 +372,12 @@
   }
   .steps .step:before {
     content: '';
-    height: 2px;
-    width: 100%;
+    height: 4px;
+    width: calc(100% - 9px);
     background: #4d4d4d;
     position: absolute;
     top: 7px;
-    left: 0;
+    left: 10px;
     z-index: 0;
   }
   .steps .step-circle {
@@ -373,34 +389,60 @@
     z-index: 1;
     /* box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12); */
   }
-  .steps .step-line {
-    width: 2px;
-    height: 1rem;
+  .steps .first-vertical {
+    width: 3px;
+    height: 18px;
     background-color: #4d4d4d;
     /* border: 5px solid #f18264; */
     z-index: 1;
     box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12);
   }
-  .steps .step.final:before {
+  .steps .step.first:before {
     content: '';
-    height: 2px;
-    width: calc(100% - 2px);
+    height: 4px;
+    width: 100%;
     background: #4d4d4d;
     position: absolute;
     top: 7px;
-    left: 0;
+    left: 3px;
+    z-index: 0;
+  }
+  .steps .step.final:before {
+    content: '';
+    height: 4px;
+    width: calc(100% - 10px);
+    background: #4d4d4d;
+    position: absolute;
+    top: 7px;
+    left: 10px;
     z-index: 0;
   }
   .steps .step.final::after {
     content: '';
-    width: 2px;
-    height: 1rem;
+    width: 3px;
+    height: 18px;
     background-color: #4d4d4d;
     position: absolute;
-    top: 0px;
+    top: 0;
     right: 0;
     z-index: 0;
     z-index: 1;
     box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12);
+  }
+  .box-pasajeros {
+    display: flex;
+    align-items: flex-end;
+    max-height: 30px;
+    justify-content: center;
+  }
+  .pasajeros {
+    font-weight: bold;
+    color: #4d4d4d;
+    font-size: 20px;
+    padding-right: 5px;
+  }
+  .origen-destino {
+    font-weight: bold;
+    color: #4d4d4d;
   }
 </style>
