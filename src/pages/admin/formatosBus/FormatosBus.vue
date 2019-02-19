@@ -113,7 +113,6 @@
               </v-icon>
               <span>Eliminar</span>
             </v-tooltip>
-           
           </td>
         </template>
       </v-data-table>
@@ -124,7 +123,6 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  // import {mapGetters} from 'vuex'
 
   export default {
     data () {

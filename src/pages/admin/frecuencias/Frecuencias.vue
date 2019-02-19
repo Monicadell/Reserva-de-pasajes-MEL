@@ -217,8 +217,6 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.name }}</td>
           <td class="">{{ trip(props.item.trip_id) }}</td>
-          <!-- <td class="">{{ props.item.source_id }}</td>
-          <td class="">{{ props.item.dest_id }}</td> -->
           <td class="">
             <span v-if="props.item.active">Activo</span>
             <span v-else>Inactivo</span>
@@ -309,8 +307,6 @@
         },
         headers: [
           {text: 'Nombre', value: 'name'},
-          // {text: 'Origen', value: 'source_id'},
-          // {text: 'Destino', value: 'dest_id'},
           {text: 'Tramo', value: 'trip_id'},
           {text: 'Estado', value: 'active'},
           {text: 'Inicio', value: 'start'},

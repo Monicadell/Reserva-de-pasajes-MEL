@@ -9,7 +9,7 @@
       <div class="content-scroll">
         <local-swiper ref="awesomeSwiperB" :options="swiperOptionB">
           <local-slide v-for="tramo in items" :key="tramo.id">
-            <div class="tramos-dash2" @click="activar(tramo.id)"  v-bind:class="{ 'active': active === tramo.id, 'normal': active !== tramo.id}">
+            <div class="tramos-dash2" @click="activar(tramo)"  v-bind:class="{ 'active': active === tramo.id, 'normal': active !== tramo.id}">
               <v-avatar size="20px">
                 <v-icon color="white">swap_vert</v-icon>
               </v-avatar>
@@ -18,8 +18,8 @@
                 <p class="white--text pb-2 mb-0">Vuelta</p>
               </div>
               <div class="text-xs-left pl-1 up-down">
-                <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc;">{{tramo.ida}}</p>
-                <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.vuelta}}</p>
+                <p class="font-weight-bold white--text pt-2 mb-0" style="padding-bottom: 5px; border-bottom: 1px solid #ccc;">{{tramo.source_name}}</p>
+                <p class="font-weight-bold white--text pb-2 mb-0">{{tramo.dest_name}}</p>
               </div>
             </div>
           </local-slide>
@@ -30,12 +30,50 @@
         
     </v-layout>
 
-    <v-layout row wrap class="contiene-tramos">
-       <v-img
-          :src="img"
-          aspect-ratio="2"
-          class="grey lighten-2"
-        ></v-img>
+    <v-layout row wrap class="contiene-tramos pt-5">
+      <v-flex xs12>
+        <h2>{{tramo.source_name}} - {{tramo.dest_name}}</h2>
+      </v-flex>
+      <v-flex xs12 class="pt-5">
+        <span>{{10}}</span>
+        <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
+        <img src="/../../../static/img/bus_ida.png" width="10%"/>
+      </v-flex>
+      <v-flex xs1 align-center>
+        {{tramo.source_name}}
+      </v-flex>
+      <v-flex xs10 align-center>
+        <div class="steps">
+          <div class="step">
+            <div class="step-line"></div>
+            <div class="step-title">punto 1</div>
+          </div>
+          <div class="step">
+            <div class="step-circle"></div>
+            <div class="step-title">punto 2</div>
+          </div>
+          <div class="step">
+            <div class="step-circle"></div>
+            <div class="step-title">punto 3</div>
+          </div>
+          <div class="step">
+            <div class="step-circle"></div>
+            <div class="step-title">punto 4</div>
+          </div>
+          <div class="step final">
+            <div class="step-circle"></div>
+            <div class="step-title">punto 5</div>
+          </div>
+        </div>
+      </v-flex>
+      <v-flex xs1 align-center>
+        {{tramo.dest_name}}
+      </v-flex>
+      <v-flex xs12 class="pt-5">
+        <span>{{10}}</span>
+        <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
+        <img src="/../../../static/img/bus_vuelta.png" width="10%"/>
+      </v-flex>
     </v-layout>
 
 
@@ -185,11 +223,15 @@
 
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import API from '@pi/app'
+
   export default {
     data () {
       return {
         active: 1,
+        tramo: {},
         img: '../../../static/img/Imagen_1.png',
+        busida: '../../../static/img/bus_ida.png',
         swiperOptionB: {
           slidesPerView: 6,
           spaceBetween: 0,
@@ -235,14 +277,28 @@
       LocalSwiper: swiper,
       LocalSlide: swiperSlide
     },
+    mounted () {
+      this.getTrips()
+    },
     methods: {
       activar (val) {
-        this.active = val
-        if (val === 1) {
+        console.log('val active', val)
+        this.active = val.id
+        this.tramo = val
+        if (val.id === 1) {
           this.img = '../../../static/img/Imagen_1.png'
         }
-        if (val === 2) {
+        if (val.id === 2) {
           this.img = '../../../static/img/Imagen_2.png'
+        }
+      },
+      async getTrips () {
+        let trips = await API.get('trips')
+        if (trips.status >= 200 && trips.status < 300) {
+          console.log('trips', trips.data.data)
+          this.items = trips.data.data
+          this.active = this.items[0].id
+          this.tramo = this.items[0]
         }
       }
     }
@@ -286,5 +342,65 @@
   }
   .grey--darken {
     color: #4C4C4C;
+  }
+
+  /* Timeline */
+  .steps {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .steps .step {
+    flex-basis: 100%;
+    position: relative;
+  }
+  .steps .step:before {
+    content: '';
+    height: 2px;
+    width: 100%;
+    background: #4d4d4d;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    z-index: 0;
+  }
+  .steps .step-circle {
+    width: 1rem;
+    height: 1rem;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 5px solid #4d4d4d;
+    z-index: 1;
+    /* box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12); */
+  }
+  .steps .step-line {
+    width: 2px;
+    height: 1rem;
+    background-color: #4d4d4d;
+    /* border: 5px solid #f18264; */
+    z-index: 1;
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12);
+  }
+  .steps .step.final:before {
+    content: '';
+    height: 2px;
+    width: calc(100% - 2px);
+    background: #4d4d4d;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    z-index: 0;
+  }
+  .steps .step.final::after {
+    content: '';
+    width: 2px;
+    height: 1rem;
+    background-color: #4d4d4d;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    z-index: 0;
+    z-index: 1;
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.12);
   }
 </style>

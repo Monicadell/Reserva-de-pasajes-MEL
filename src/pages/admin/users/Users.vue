@@ -196,7 +196,7 @@
                 color="primary"
                 @click="editItem(props.item)"
               >
-                edit
+                Edit
               </v-icon>
               <span>Editar</span>
             </v-tooltip>
@@ -267,8 +267,6 @@
           last_connection: ''
         },
         headers: [
-          // {text: 'Documento Pasajero', value: 'documentoPasajero', sortable: false},
-          // {text: 'Pasajero', value: 'pasajero', sortable: false},
           {text: 'Nombre', value: 'name', sortable: false},
           {text: 'Documento', value: 'rut', sortable: false},
           {text: 'Tipo usuario', value: 'role_id', sortable: false},

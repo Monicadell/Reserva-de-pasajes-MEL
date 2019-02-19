@@ -102,8 +102,6 @@
         <template slot="items" slot-scope="props">
           <td class="">{{ props.item.service_name }}</td>
           <td class="">{{ props.item.date }}</td>
-          <!-- <td class="">{{ props.item.source }}</td>
-          <td class="">{{ props.item.dest }}</td> -->
           <td class="">{{ props.item.trip_name }}</td>
           <td class="">{{ props.item.departure }}</td>
           <td class="">{{ props.item.driver_name }}</td>
@@ -184,7 +182,6 @@
           {text: 'Estado', value: 'status'},
           {text: 'Manifiesto', value: '', sortable: false}
         ],
-        // page: 1,
         pagination: {
           page: 1,
           rowsPerPage: 40, // -1 for All

@@ -328,8 +328,6 @@
           {text: 'Duración (hrs)', value: 'duration'},
           {text: 'Tramo', value: 'trip_name'},
           {text: 'Frecuencia', value: 'freq_id'},
-          // {text: 'Bus', value: 'car_id'},
-          // {text: 'Conductor', value: 'driver_id'},
           {text: 'Asientos disponibles/totales', value: 'avail_seats'},
           {text: 'Buses', value: 'cars'},
           {text: 'Última actualización', value: 'updated_at'},
@@ -337,8 +335,7 @@
           {text: '', value: 'delete', sortable: false}
         ],
         services: [],
-        frequencies: [
-        ],
+        frequencies: [],
         trips: [],
         excelFields: {
           Servicio: 'name',
@@ -350,7 +347,6 @@
           Tramo: 'trip_name',
           AsientosDisponibles: 'avail_seats',
           AsientosTotales: 'total_seats',
-          // AsientosReservados: 'avail_reserved',
           Buses: 'cars'
         },
         items: []

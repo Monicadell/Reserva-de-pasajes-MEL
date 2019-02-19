@@ -24,7 +24,6 @@
           xAxis: {
             categories: ['ADICIONAL APOYO CONDOMINIOS', 'ADMINISTRATIVO', 'AEROPUERTO', 'AEROPUERTO BUS', 'COMPLEJO', 'BUS ESCOLTA', 'ESCONDIDA NORTE', 'OP. MINA', 'OXIDO', 'LAGUNA SECA'],
             labels: {
-              // autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
               rotation: -45
             }
           },
@@ -35,10 +34,6 @@
             },
             stackLabels: {
               enabled: true
-              // style: {
-              //   fontWeight: 'bold',
-              //   color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-              // }
             }
           },
           legend: {
@@ -69,13 +64,6 @@
               events: {
                 click: function (event) {
                   console.log('evento', event)
-                  // alert(
-                  //   this.name + ' clicked\n' +
-                  //   'Alt: ' + event.altKey + '\n' +
-                  //   'Control: ' + event.ctrlKey + '\n' +
-                  //   'Meta: ' + event.metaKey + '\n' +
-                  //   'Shift: ' + event.shiftKey
-                  // )
                 }
               }
             }

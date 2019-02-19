@@ -158,7 +158,6 @@
 <script>
   import API from '@pi/app'
   import moment from 'moment'
-  // import {mapGetters} from 'vuex'
 
   export default {
     data () {
@@ -211,10 +210,6 @@
           }
         } catch (e) {
           console.log('catch err', e)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -230,7 +225,6 @@
       editItem (item) {
         console.log('item edit', item)
         this.editedItem = Object.assign({}, item)
-        // this.editedItem.position = item.position ? '1' : '2'
         this.dialog = true
       },
       async save (guardar) {

@@ -94,8 +94,6 @@
           <td class="">{{ props.item.address }}</td>
           <td class="">{{ props.item.lat }}</td>
           <td class="">{{ props.item.lon }}</td>
-          <!-- <td class="">{{ props.item.city_id }}</td> -->
-          <!-- <td class="">{{ props.item.desc }}</td> -->
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -163,8 +161,6 @@
           {text: 'Dirección', value: 'address'},
           {text: 'Latitud', value: 'lat'},
           {text: 'Longitud', value: 'lon'},
-          // {text: 'Ciudad', value: 'city_id'},
-          // {text: 'Descripción', value: 'desc'},
           {text: '', value: 'edit', sortable: false},
           {text: '', value: 'delete', sortable: false}
         ],
@@ -192,10 +188,6 @@
           }
         } catch (e) {
           console.log('catch err', e.response)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',

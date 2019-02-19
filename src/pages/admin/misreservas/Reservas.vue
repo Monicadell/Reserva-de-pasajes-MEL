@@ -89,14 +89,11 @@
         loading: true,
         moment: moment,
         headers: [
-          // {text: 'Origen', value: 'source_id'},
           {text: 'user', value: 'user.name'},
           {text: 'Servicio', value: 'service.name'},
           {text: 'Fecha del servicio', value: 'service.date'},
           {text: 'Fecha reserva', value: 'booked_at'},
-          // {text: 'Fecha checkin', value: 'checkin_at'},
           {text: 'Fecha confirmación', value: 'confirmed_at'},
-          // {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'}
         ],
         pagination: {

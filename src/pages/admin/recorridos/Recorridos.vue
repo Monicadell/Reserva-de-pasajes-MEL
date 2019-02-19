@@ -206,8 +206,6 @@
         let trips = await API.get('trips')
         if (trips.status >= 200 && trips.status < 300) {
           setTimeout(() => {
-            // const intersection = trips.data.data.filter(source_id => this.stations.includes(source_id));
-            // console.log(intersection)
             console.log('trips', trips.data.data)
             this.recorridos = trips.data.data
             this.loading = false
