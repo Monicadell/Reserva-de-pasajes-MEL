@@ -34,9 +34,6 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4 class="text-xs-center">
-                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                          single-line item-text="text" item-value="id"
-                ></v-select> -->
                 <label class="font-weight-bold" for="active" v-if="editedItem.active">Activo</label>
                 <label class="font-weight-bold" for="active" v-else>Inactivo</label>
                 <v-switch
@@ -46,7 +43,7 @@
                 ></v-switch>
               </v-flex>
 
-              <v-flex xs12 sm6 md4>
+              <!-- <v-flex xs12 sm6 md4>
                 <v-text-field label="Password" v-model="editedItem.password"
                               type="password" :rules="[rules.min]"></v-text-field>
               </v-flex>
@@ -54,7 +51,7 @@
               <v-flex xs12 sm6 md4 v-if="!editedItem.id">
                 <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
                               :rules="[rules.password_confirmation]" type="password"></v-text-field>
-              </v-flex>
+              </v-flex> -->
 
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Email" v-model="editedItem.email"></v-text-field>

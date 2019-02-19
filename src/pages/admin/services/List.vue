@@ -37,7 +37,7 @@
         class="elevation-1 list-th"
         item-key="id"
         no-data-text="No hay resultados para la ruta seleccionada"
-        :rows-per-page-items="rowsNumber" style="overflow-y: scroll"
+        :rows-per-page-items="rowsNumber"
       >
         <template slot="items" slot-scope="props">
           <tr :class="{'primary white--text': booking && booking.id === props.item.id}">
@@ -188,19 +188,10 @@
     color: white;
     font-size: 18px
   }
-
-  .borde-list {
-    border: solid rgb(228, 225, 225) 2px;
+  .list-th {
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
   }
-
-  .borde-list-out {
-    border: none;
-  }
-
-  .list {
-    opacity: 0;
-  }
-
   .list-th .v-table.theme--light thead th{
     color: #353535;
     font-weight: bold;

@@ -40,8 +40,6 @@
         <v-list-tile v-if="!item.subheader && item.show" :to="item.path" @click="outside()">
           <v-list-tile-action>
             <img :src="item.icon">
-            
-          <!--  <v-icon>{{ item.icon }}</v-icon> -->
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
