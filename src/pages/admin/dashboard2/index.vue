@@ -27,14 +27,13 @@
           <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
         </local-swiper>
       </div>
-        
     </v-layout>
 
-    <v-layout row wrap class="contiene-tramos pt-5">
+    <v-layout row wrap class="contiene-tramos py-5">
       <v-flex xs12>
         <h2>{{tramo.source_name}} - {{tramo.dest_name}}</h2>
       </v-flex>
-      <v-flex xs12 class="pt-5">
+      <v-flex xs12 class="pt-5 pb-3">
         <span>{{10}}</span>
         <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
         <img src="/../../../static/img/bus_ida.png" width="10%"/>
@@ -69,7 +68,7 @@
       <v-flex xs1 align-center>
         {{tramo.dest_name}}
       </v-flex>
-      <v-flex xs12 class="pt-5">
+      <v-flex xs12 class="pt-3">
         <span>{{10}}</span>
         <img src="/../../../static/img/pasajero-gris.png" width="2%"/>
         <img src="/../../../static/img/bus_vuelta.png" width="10%"/>
@@ -77,7 +76,7 @@
     </v-layout>
 
 
-    <v-layout row wrap class="contiene-tramos pt-5">
+    <v-layout row wrap class="mt-5">
       <v-flex xs6 offset-xs3 class="text-xs-center">
         <h2 class="pt-3 pb-2 grey--darken font-weight-black">Detalles del tramo</h2>
         <v-layout row>
@@ -122,7 +121,7 @@
       </v-flex>
     </v-layout>
 
-    <v-layout row wrap class="contiene-tramos pt-5">
+    <v-layout row wrap class="pt-5">
       <v-flex xs6 offset-xs3 class="text-xs-center">
         <h2 class="pt-3 pb-2 grey--darken font-weight-black">Detalles del bus seleccionado</h2>
         <v-layout row>
@@ -313,6 +312,7 @@
   }
   .contiene-tramos {
     overflow-x: scroll;
+    background-color: #f2f2f2;
   }
   .tramos-dash2 {
     align-items: center;
