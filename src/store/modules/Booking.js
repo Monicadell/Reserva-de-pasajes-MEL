@@ -24,7 +24,7 @@ const state = {
   reservaRealizada: false,
   servicioSeleccionado: {}, // almaceno el servicio seleccionado en la tabla List -> solo para mostrar el detalle.
   fechaSeleccionada: '',
-  anular: false,    // maneja esta visible del modal anular
+  anular: false, // maneja esta visible del modal anular
   servicioAnular: {}, // almaceno el servicio seleccionado para ser anulado
   actualizarReservas: false, // variable para refrescar la vista de las reservas del usuario cada vez que se haga una reserva nueva o se cancele alguna
   confirmar: false, //  maneja estado visible del modal confirmar ticket
@@ -106,6 +106,10 @@ const actions = {
    // console.log(`seleccionaron el servicio ${payload}`)
     commit('SET_SERVICIOSELECCIONADO', {servicioSeleccionado: payload.servicioSeleccionado})
   },
+  set_clearservicioSeleccionado ({commit}) {
+    console.log('clear el servicio')
+    commit('CLEAR_SERVICIOSELECCIONADO')
+  },
   set_fechaSeleccionada ({commit}, payload) {
     commit('SET_FECHASELECCIONADA', {fechaSeleccionada: payload.fechaSeleccionada})
   },
@@ -154,6 +158,7 @@ const actions = {
     commit('SET_SELECTEDEXPRESS', {selectedExpress: payload.selectedExpress})
   },
   set_servicioExpress ({commit}, payload) {
+    // commit('CLEAR_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
     commit('SET_SERVICIOEXPRESS', {servicioExpress: payload.servicioExpress})
   },
   set_usuariosBook ({commit}, payload) {
@@ -200,6 +205,12 @@ const mutations = {
   },
   SET_SERVICIOSELECCIONADO: (state, {servicioSeleccionado}) => {
     state.servicioSeleccionado = servicioSeleccionado
+  },
+  CLEAR_SERVICIOSELECCIONADO: (state) => {
+    console.log('clear servicio seleccionado')
+    Object.keys(state.servicioSeleccionado).forEach(function (key) {
+      state.servicioSeleccionado[key] = ''
+    })
   },
   SET_FECHASELECCIONADA: (state, {fechaSeleccionada}) => {
     state.fechaSeleccionada = fechaSeleccionada

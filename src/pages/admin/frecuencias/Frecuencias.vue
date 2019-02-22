@@ -8,165 +8,177 @@
             <h3 class="headline">Frecuencia</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6>
-                <v-text-field label="Nombre"
-                              v-model="editedItem.name"></v-text-field>
-              </v-flex>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6>
+                  <v-text-field label="Nombre"
+                                v-model="editedItem.name"></v-text-field>
+                </v-flex>
 
-              <v-flex xs12 sm6>
-                <v-select :items="trips" v-model="editedItem.trip_id"
-                        label="Tramo"
-                        single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-            
-            </v-layout>
-            <v-layout wrap>
-             
+                <v-flex xs12 sm6>
+                  <v-select :items="trips" v-model="editedItem.trip_id"
+                          label="Tramo"
+                          single-line item-text="name" item-value="id"
+                          :rules="[v => !!v || 'Campo requerido']" required
+                  ></v-select>
+                </v-flex>
+              
+              </v-layout>
+              <v-layout wrap>
+              
 
-              <v-flex xs12 sm6>
+                <v-flex xs12 sm6>
+                    <v-menu
+                      v-model="datepickerStart"
+                      :close-on-content-click="false"
+                      full-width
+                      max-width="290"
+                      :rules="[v => !!v || 'Campo requerido']" required
+                    >
+                      <v-text-field
+                        slot="activator"
+                        :value="computedDateFormattedMomentjs(editedItem.start)"
+                        clearable
+                        label="Fecha de inicio"
+                        readonly
+                      ></v-text-field>
+                      <v-date-picker
+                        v-model="editedItem.start"
+                        @change="datepickerStart = false"
+                        locale="es-419"
+                      ></v-date-picker>
+                    </v-menu>
+                </v-flex>
+
+                <v-flex xs12 sm6>
+                    <v-menu
+                      v-model="datepickerEnd"
+                      :close-on-content-click="false"
+                      full-width
+                      max-width="290"
+                      :rules="[v => !!v || 'Campo requerido']" required
+                    >
+                      <v-text-field
+                        slot="activator"
+                        :value="computedDateFormattedMomentjs(editedItem.end)"
+                        clearable
+                        label="Fecha de Término"
+                        readonly
+                      ></v-text-field>
+                      <v-date-picker
+                        v-model="editedItem.end"
+                        @change="datepickerEnd = false"
+                        locale="es-419"
+                      ></v-date-picker>
+                    </v-menu>
+                </v-flex>
+
+                <v-flex xs12 sm6>
                   <v-menu
-                    v-model="datepickerStart"
+                    ref="time3"
                     :close-on-content-click="false"
+                    v-model="timepickerSet"
+                    :nudge-right="40"
+                    :return-value.sync="editedItem.set"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
                     full-width
-                    max-width="290"
+                    max-width="290px"
+                    min-width="290px"
+                    :rules="[v => !!v || 'Campo requerido']" required
                   >
                     <v-text-field
                       slot="activator"
-                      :value="computedDateFormattedMomentjs(editedItem.start)"
-                      clearable
-                      label="Fecha de inicio"
+                      v-model="editedItem.set"
+                      label="Hora Postura"
                       readonly
                     ></v-text-field>
-                    <v-date-picker
-                      v-model="editedItem.start"
-                      @change="datepickerStart = false"
-                      locale="es-419"
-                    ></v-date-picker>
+                    <v-time-picker
+                      v-if="timepickerSet"
+                      v-model="editedItem.set"
+                      format="24hr"
+                      full-width
+                      @change="$refs.time3.save(editedItem.set)"
+                    ></v-time-picker>
                   </v-menu>
-              </v-flex>
+                </v-flex>
 
-              <v-flex xs12 sm6>
+                <v-flex xs12 sm6>
                   <v-menu
-                    v-model="datepickerEnd"
+                    ref="time1"
                     :close-on-content-click="false"
+                    v-model="timepickerSalida"
+                    :nudge-right="40"
+                    :return-value.sync="editedItem.departure"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
                     full-width
-                    max-width="290"
+                    max-width="290px"
+                    min-width="290px"
+                    :rules="[v => !!v || 'Campo requerido']" required
                   >
                     <v-text-field
                       slot="activator"
-                      :value="computedDateFormattedMomentjs(editedItem.end)"
-                      clearable
-                      label="Fecha de Término"
+                      v-model="editedItem.departure"
+                      label="Hora Salida"
                       readonly
                     ></v-text-field>
-                    <v-date-picker
-                      v-model="editedItem.end"
-                      @change="datepickerEnd = false"
-                      locale="es-419"
-                    ></v-date-picker>
+                    <v-time-picker
+                      v-if="timepickerSalida"
+                      v-model="editedItem.departure"
+                      format="24hr"
+                      full-width
+                      @change="$refs.time1.save(editedItem.departure)"
+                    ></v-time-picker>
                   </v-menu>
-              </v-flex>
+                </v-flex>
 
-              <v-flex xs12 sm6>
-                <v-menu
-                  ref="time3"
-                  :close-on-content-click="false"
-                  v-model="timepickerSet"
-                  :nudge-right="40"
-                  :return-value.sync="editedItem.set"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    v-model="editedItem.set"
-                    label="Hora Postura"
-                    readonly
-                  ></v-text-field>
-                  <v-time-picker
-                    v-if="timepickerSet"
-                    v-model="editedItem.set"
-                    format="24hr"
-                    full-width
-                    @change="$refs.time3.save(editedItem.set)"
-                  ></v-time-picker>
-                </v-menu>
-              </v-flex>
+                <v-flex xs12 sm6>
+                  <v-select :items="freqtypes" v-model="editedItem.freq_type"
+                          label="Tipo"
+                          single-line item-text="name" item-value="id"
+                          :rules="[v => !!v || 'Campo requerido']" required
+                  ></v-select>
+                </v-flex>
 
-              <v-flex xs12 sm6>
-                <v-menu
-                  ref="time1"
-                  :close-on-content-click="false"
-                  v-model="timepickerSalida"
-                  :nudge-right="40"
-                  :return-value.sync="editedItem.departure"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    v-model="editedItem.departure"
-                    label="Hora Salida"
-                    readonly
-                  ></v-text-field>
-                  <v-time-picker
-                    v-if="timepickerSalida"
-                    v-model="editedItem.departure"
-                    format="24hr"
-                    full-width
-                    @change="$refs.time1.save(editedItem.departure)"
-                  ></v-time-picker>
-                </v-menu>
-              </v-flex>
+                <v-flex xs12 sm6>
+                  <!-- <v-text-field label="Vehículos" type="number" min="0"
+                                v-model="editedItem.cars"></v-text-field> -->
+                  <v-layout wrap justify-center>
+                    <v-flex xs12 sm3 text-xs-center>
+                      <v-btn fab dark small color="primary" @click="menos()">
+                        <v-icon dark>remove</v-icon>
+                      </v-btn>
+                    </v-flex>
+                    <v-flex xs12 sm2 align-center>
+                      <v-text-field type="number" style="" readonly label="Buses"
+                                    v-model="editedItem.cars"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm3 text-xs-center>
+                      <v-btn fab dark small color="primary"  @click="mas()">
+                        <v-icon dark>add</v-icon>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
 
-              <v-flex xs12 sm6>
-                <v-select :items="freqtypes" v-model="editedItem.freq_type"
-                        label="Tipo"
-                        single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-
-              <v-flex xs12 sm6>
-                <!-- <v-text-field label="Vehículos" type="number" min="0"
-                              v-model="editedItem.cars"></v-text-field> -->
-                <v-layout wrap justify-center>
-                  <v-flex xs12 sm3 text-xs-center>
-                    <v-btn fab dark small color="primary" @click="menos()">
-                      <v-icon dark>remove</v-icon>
-                    </v-btn>
-                  </v-flex>
-                  <v-flex xs12 sm2 align-center>
-                    <v-text-field type="number" style="" readonly label="Buses"
-                                  v-model="editedItem.cars"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm3 text-xs-center>
-                    <v-btn fab dark small color="primary"  @click="mas()">
-                      <v-icon dark>add</v-icon>
-                    </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-
-              <v-flex xs12 sm6>
-                  <v-switch
-                  class="justify-center"
-                  label="Activo"
-                  v-model="editedItem.active"
-                ></v-switch>
-              </v-flex>
-            </v-layout>
-          </v-container>
+                <v-flex xs12 sm6>
+                    <v-switch
+                    class="justify-center"
+                    label="Activo"
+                    v-model="editedItem.active"
+                  ></v-switch>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -287,6 +299,7 @@
         timepickerLlegada: false,
         timepickerSet: false,
         eliminaid: '',
+        valid: true,
         moment: moment,
         showModal: false,
         modalInfoTitle: '',

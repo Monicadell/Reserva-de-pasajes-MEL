@@ -13,7 +13,7 @@
           <v-icon >keyboard_arrow_left</v-icon>
         </v-btn>
         <v-spacer> </v-spacer>
-        <span class="font-weight-medium"> Servicios disponibles </span>
+        <span class="font-weight-medium"> Servicios disponibles</span>
         <v-spacer> </v-spacer>
       </v-card-title>
       <v-card-title class="barra-servicios primary">
@@ -48,7 +48,7 @@
               <v-icon color="primary" size=large class="ml-4">airline_seat_recline_extra</v-icon>
               {{ props.item.avail_seats }}
             </td>
-            <v-btn outline color="primary" class="elevation-0 text-capitalize"  @click="resume(props.item)">Seleccionar</v-btn>
+            <v-btn outline color="primary" class="elevation-0 text-capitalize"  @click="buscar(props.item)">Seleccionar</v-btn>
           </tr>
         </template>
       </v-data-table>
@@ -106,7 +106,7 @@
       console.log(this.listaServicios)
     },
     methods: {
-      resume (servicioSeleccionado) {
+      buscar (servicioSeleccionado) {
         console.log('servicio selecci9onado en list', servicioSeleccionado)
         if (this.role === 2) {
           this.getGrid(servicioSeleccionado.id)
@@ -120,6 +120,7 @@
           //   e1: 4
           // })
         }
+        console.log('va a seleccionar un servicio')
         this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: servicioSeleccionado})
       },
       selectService (service) {

@@ -3,26 +3,13 @@
     <v-dialog v-model="selected" width="500" persistent>
       <v-card max-width="500" v-if="ticket.status=='none' && ruta.name">
 
-            <v-card dark flat>
-
+          <v-card dark flat>
             <v-card-title class="primary">
               <h3 class="title font-weight-light text-xs-center grow">
                 Detalles de reserva
               </h3>
             </v-card-title>
-            </v-card>
-
-        <!--<v-img src="http://www.mch.cl/wp-content/uploads/sites/4/2017/02/escondida.jpg" height="100"
-                 gradient="to right, rgba(0,0,0,.44), rgba(0,0,0,.0)">
-            <v-container fill-height>
-              <v-layout>
-                <v-layout column>
-                  <div class="white--text headline font-weight-light"> {{servicioSeleccionado.name}}</div>
-                  <div class="white--text font-weight-light">{{servicioSeleccionado.date}}</div>
-                </v-layout>
-              </v-layout>
-            </v-container>
-          </v-img> -->
+          </v-card>
 
           <v-card-text class="pl-4 pr-3">
             <v-timeline align-top dense>
@@ -40,10 +27,7 @@
                   </v-flex>
                 </v-layout>
                 <v-divider class=" divider-custom mt-3"></v-divider>
-
               </v-timeline-item>
-
-
 
               <v-timeline-item color="#2A86BA" large icon="airline_seat_recline_extra" class="mb-3">
                 <v-layout pt-3>
@@ -53,9 +37,7 @@
                   </v-flex>
                 </v-layout>
                 <v-divider class="divider-custom mt-3"></v-divider>
-
               </v-timeline-item>
-
 
               <v-timeline-item color="#2269BA" large icon="fal fa-map-marker-check">
                 <v-layout pt-3>
@@ -63,7 +45,6 @@
                     <div class="grey--text"> <b>Destino: </b></div>
                    <!-- <b class="gris--text"> {{ruta.name.split('→')[1]}} </b> -->
                     <b class="gris--text"> {{servicioSeleccionado.dest}} </b>
-
                   </v-flex>
                   <v-flex>
                     <div class="grey--text"> <b>Horario llegada Aprox: </b></div>
@@ -112,28 +93,6 @@
 
       </v-card>
 
-     <!--<v-card max-width="500" v-if="ticket.status=='progress'">
-
-            <v-card-text class="text-xs-center ">
-            <v-progress-circular :size="150" color="primary" indeterminate></v-progress-circular>
-            <h2 class="mt-5 font-weight-light">Reservando...</h2>
-          </v-card-text>
-
-      </v-card>
-
-       <v-card max-width="500" v-if="ticket.status=='done'">
-        <v-card-title class="space">
-           <h3 class="title font-weight-light text-xs-center grow">
-           Reserva realizada con exito
-           </h3>
-        </v-card-title>
-        <v-btn
-              color="primary"
-              @click="cancel"
-            >
-              Cerrar
-            </v-btn>
-      </v-card> -->
     </v-dialog>
      <!-- Modal error-->
     <modal v-if="showModal"
@@ -191,7 +150,11 @@
           this.ticket.status = 'none'
         }, 2000)
         this.$store.dispatch('Booking/select', {selected: false})
-        this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: {}})
+        // this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: {}})
+        // this.$store.commit('CLEAR_SERVICIOSELECCIONADO')
+        console.log('antes de ir a clear')
+        // esto no deberia hacerlo aca
+        this.$store.dispatch('Booking/set_clearservicioSeleccionado')
         this.acercamiento = ''
         this.flight = ''
         this.vuelo = false
@@ -208,11 +171,7 @@
           booked_at: hora,
           service_id: this.servicioSeleccionado.id
         }
-        // let aterceros = {
-        //   'users': this.usuariosBook,
-        //   'ac': this.acercamiento,
-        //   'vuelo': this.flight
-        // }
+
         let extras = {
           'ac': this.acercamiento,
           'vuelo': this.flight
@@ -222,21 +181,23 @@
           console.log('route', this.$router.currentRoute)
           console.log('asiento ->', (this.seat[2] + 1))
           // admin reserva a si mismo
+
+            // cualquier usuario reserva a terceros
           if (this.role === 2) {
-            console.log('reservar admin a mismo')
+            console.log('reservamos a terceros', this.usuariosBook)
+            // const arrUser = [this.usuariosBook]
             let datos = {
               ac: this.acercamiento,
               vuelo: this.flight,
               seat: this.seat[0],
               bus: this.seat[2] + 1,
-              user_id: this.userid
+              users: this.usuariosBook
             }
             booking = await API.postNoRest('services', ticket.service_id, 'book', datos)
-            // cualquier usuario distinto de admin se reserva a si mismo
-          } else {
-            console.log('es a mi, no admins', extras)
+          } else { // para cualquier usuario distinto de admin que pueda reservar a terceros
+            extras.users = this.usuariosBook
+            console.log('es a terceros', this.usuariosBook)
             booking = await API.postNoRest('services', ticket.service_id, 'book', extras)
-            // cualquier usuario reserva a terceros
           }
         // console.log(booking)
           if (booking.status >= 200 && booking.status < 300) {
@@ -247,6 +208,8 @@
             this.$store.dispatch('Booking/select', {selected: false})
             this.$store.dispatch('Booking/set_ruta', {ruta: {}})
             this.$store.dispatch('Booking/set_listaServicios', {listaServicios: []})
+            this.$store.dispatch('Booking/set_servicioSeleccionado', {servicioSeleccionado: {}})
+            this.$store.dispatch('Booking/set_usuariosBook', {usuariosBook: []})
             this.$store.dispatch('Booking/set_e1', {
               e1: 4
             })
@@ -257,6 +220,7 @@
         } catch (e) {
           console.log('error al reservar', e.response)
           this.$store.dispatch('Booking/select', { selected: false })
+          this.$store.dispatch('Booking/set_usuariosBook', {usuariosBook: []})
           this.$store.dispatch('Booking/set_e1', {
             e1: 1
           })

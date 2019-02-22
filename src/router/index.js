@@ -9,6 +9,7 @@ import Home from '@pages/base/home'
 // admin
 import Admin from '@pages/admin/'
 import ServiceReserve from '@pages/admin/services'
+import ReservarTerceros from '@pages/admin/reservarTerceros'
 import Users from '@pages/admin/users'
 import Solicitudes from '@pages/admin/solicitudes'
 import Frecuencias from '@pages/admin/frecuencias'
@@ -177,7 +178,7 @@ const router = new Router({
         {
           path: '/reservaterceros',
           name: 'reservaterceros',
-          component: ServiceReserve,
+          component: ReservarTerceros,
           meta: {
             requiresAuth: true,
             adminAuth: true,

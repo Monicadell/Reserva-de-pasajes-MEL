@@ -17,7 +17,7 @@
             v-on:change="busca"
             @click:clear="clearSearch">
           </v-text-field>
-            <template v-if="role === 2">
+            <!-- <template v-if="role === 2">
               <v-chip
                 close
                 color="primary"
@@ -28,8 +28,8 @@
               >
                 {{ selected.name }}
               </v-chip>
-            </template>
-            <template v-if="selected !== [] && role === 5">
+            </template> -->
+            <!-- <template v-if="role === 2">
               <div v-for="seleccionado in selected" :key="seleccionado.id">
                 <v-chip
                   :selected="seleccionado"
@@ -42,51 +42,23 @@
                   {{ seleccionado.name }}
                 </v-chip>
               </div>
+            </template> -->
+            <template v-if="selected !== []">
+              <div v-for="seleccionado in selected" :key="seleccionado.id">
+                <v-chip
+                  close
+                  color="primary"
+                  outline
+                  class="chip--select-multi"
+                  @input="remove(seleccionado)"
+                >
+                  {{ seleccionado.name }}
+                </v-chip>
+              </div>
             </template>
-
-          <!-- <v-autocomplete
-            v-model="search"
-            :disabled="isUpdating"
-            :items="users"
-            box
-            chips
-            color="blue-grey lighten-2"
-            label="Select"
-            item-text="name"
-            item-value="name"
-            multiple
-          >
-            <template
-              slot="selection"
-              slot-scope="data"
-            >
-              <v-chip
-                :selected="data.selected"
-                close
-                class="chip--select-multi"
-                @input="remove(data.item)"
-              >
-                {{ data.item.name }}
-              </v-chip>
-            </template>
-            <template
-              slot="item"
-              slot-scope="users"
-            >
-              <template v-if="typeof users.item !== 'object'">
-                <v-list-tile-content v-text="users.item"></v-list-tile-content>
-              </template>
-              <template v-else>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{users.item.name}}</v-list-tile-title>
-                  <v-list-tile-sub-title>{{users.item.rut}}</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </template>
-            </template>
-          </v-autocomplete> -->
 
           <v-list two-line class="lista-users pt-0" v-if="users.length > 0">
-            <template v-for="(item, index) in users">
+            <template v-for="(item) in users">
               <v-list-tile
                 :key="item.id"
                 avatar
@@ -152,7 +124,9 @@
       },
       usuariosBook (val) {
         console.log('clear usuarios', val)
-        // this.selected = ''
+        if (val.length === 0) {
+          this.selected = []
+        }
       }
     },
     computed: {
@@ -188,10 +162,14 @@
             })
           }
         } else {
-          this.selected = item
+          console.log('item a select', item, this.selected)
+          this.selected.splice(0, 1)
+          this.selected.push(item)
+          console.log('selected afeter', this.selected)
+          // this.selected[0] = item
           this.$store.dispatch('Booking/set_usuariosBook', {
-            // usuariosBook: this.selected.map(item => item.id)
-            usuariosBook: this.selected.id
+            usuariosBook: this.selected.map(item => item.id)
+            // usuariosBook: this.selected[0].id
           })
         }
       },
@@ -238,6 +216,12 @@
           })
         }
       }
+    },
+    beforeDestroy () {
+      console.log('before destroy de userslist')
+      this.$store.dispatch('Booking/set_usuariosBook', {
+        usuariosBook: []
+      })
     }
   }
 </script>

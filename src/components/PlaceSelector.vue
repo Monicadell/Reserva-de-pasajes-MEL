@@ -111,7 +111,7 @@
     watch: {
       users (us) {
         console.log('cambio users', us)
-        this.hasusers = us.lenght > 0
+        this.hasusers = us.length > 0
         console.log('ussss', this.hasusers)
       },
       $route (to, from) {

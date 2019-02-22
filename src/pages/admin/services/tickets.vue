@@ -292,8 +292,7 @@
     border-color: #1565c0;
     border-top: 1px dashed #1565c0;
     width:90%;
-}
-
+  }
   .title-ticket {
     color: #003e86;
     font-size: 16px;
@@ -319,7 +318,10 @@
     opacity: 0.8;
     transition: all .4s ease-in-out;
   }
-
+  #card-container .theme--light.v-card {
+    /* background-color: #f5f5f5;
+    box-shadow: none; */
+  }
   #card-container:hover {
      opacity: 1;
     -webkit-transform: scale(0.999);

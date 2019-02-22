@@ -10,24 +10,9 @@
 
     <v-layout class="layout-reservas">
       <v-flex xs3>
+        <!-- reserva terceros -->
         <v-navigation-drawer class="navegacion1">
-          <v-list dense class="pt-0 user">
-            <v-toolbar-title class="title-list-custom white--text primary">
-              <span class="hidden-sm-and-down ml-4">Mis reservas</span>
-            </v-toolbar-title>
-            <v-progress-linear :indeterminate="true" v-if="progres"></v-progress-linear>
-            <v-divider></v-divider>
-            <v-layout v-for="item in items" :key="item.id">
-              <v-flex >
-                <v-list-tile-content>
-                  <tickets v-bind:item="item" />
-                </v-list-tile-content>
-              </v-flex>
-            </v-layout>
-            <div v-if="items.length === 0 && !progres" class=" text-xs-center pt-5">
-              <span class="font-weight-bold gris054">No tienes Reservas</span>
-            </div>
-          </v-list>
+          <users-list />
         </v-navigation-drawer>
       </v-flex>
 
@@ -149,24 +134,6 @@
       </v-flex>
     </v-layout>
 
-      <v-layout row wrap fill-height class="">
-      <v-flex xs12 >
-        <modal-anular/>
-      </v-flex>
-    </v-layout>
-
-      <v-layout row wrap fill-height class="">
-      <v-flex xs12 >
-        <modal-confirmar/>
-      </v-flex>
-    </v-layout>
-
-      <v-layout row wrap fill-height >
-      <v-flex xs12 >
-        <modal-detalle/>
-      </v-flex>
-    </v-layout>
-
   </div>
 </template>
 
@@ -177,16 +144,12 @@
   import ServiceSelected from './Selected'
   import ServiceExpress from './SelectedExpress'
   import moment from 'moment'
-  import MyBooking from './MyBooking'
-  import modalAnular from './modalAnular'
-  import modalConfirmar from './modalConfirmar'
-  import modalDetalle from './modalDetalle'
   import datePlaceContainer from './containerDatePlace'
   import sideBarExpress from './sidebarExpress'
   import Grid from '@c/Grid'
-  import tickets from './tickets'
   import {mapGetters} from 'vuex'
   import API from '@pi/app'
+  import UsersList from './UsersList'
 
   export default {
     data () {
@@ -220,13 +183,9 @@
       ServiceDate: ServiceDate,
       ServiceList: ServiceList,
       ServiceSelected: ServiceSelected,
-      MyBooking: MyBooking,
-      tickets,
-      modalAnular,
-      modalConfirmar,
-      modalDetalle,
       datePlaceContainer,
       ServiceExpress,
+      UsersList,
       Grid,
       sideBarExpress
     },
@@ -235,10 +194,12 @@
         fecha: ['Booking/fechaSeleccionada'],
         ruta: ['Booking/ruta'],
         actualizarReservas: ['Booking/actualizarReservas'],
-        select: ['Booking/select'],
+        selected: ['Booking/selected'],
+        selectedExpress: ['Booking/selectedExpress'],
         e1: ['Booking/e1'],
         role: ['Auth/role'],
-        grilla: ['Booking/grid']
+        grilla: ['Booking/grid'],
+        servicioSeleccionado: ['Booking/servicioSeleccionado']
       })
     },
     watch: {
@@ -256,7 +217,7 @@
       e1 (val) {
         console.log('cambio el step', val)
       },
-      $route (to, from) { // limpiar datos de store
+      $route (to, from) {
         console.log('cambia ruta')
         this.$store.dispatch('Booking/set_actualizarReservas', {
           actualizarReservas: true
@@ -345,10 +306,18 @@
       },
       goConfirma () {
         // if (this.$route.path === '/reservaterceros' && this.role === 2) {
-        //   this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+        // this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
         // } else {
-        this.$store.dispatch('Booking/select', {selected: true})
+        //   this.$store.dispatch('Booking/select', {selected: true})
         // }
+        console.log('selccionado', this.servicioSeleccionado)
+        if (this.servicioSeleccionado.id) {
+          console.log('if de selecciondo')
+          this.$store.dispatch('Booking/select', {selected: true})
+        } else {
+          console.log('else de selecciondo')
+          this.$store.dispatch('Booking/set_selectedExpress', {selectedExpress: true})
+        }
       },
       async getGrid (serv) {
         let g = '?grid'
@@ -360,6 +329,9 @@
             grid: this.gridService
           })
         }
+      },
+      beforeDestroy () {
+        console.log('before destroy de reservar a terceros')
       }
     }
   }
