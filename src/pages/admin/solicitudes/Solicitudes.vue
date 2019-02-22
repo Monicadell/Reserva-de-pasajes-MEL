@@ -43,16 +43,6 @@
                 ></v-switch>
               </v-flex>
 
-              <!-- <v-flex xs12 sm6 md4>
-                <v-text-field label="Password" v-model="editedItem.password"
-                              type="password" :rules="[rules.min]"></v-text-field>
-              </v-flex>
-
-              <v-flex xs12 sm6 md4 v-if="!editedItem.id">
-                <v-text-field label="Confirme Password" v-model="editedItem.password_confirmation"
-                              :rules="[rules.password_confirmation]" type="password"></v-text-field>
-              </v-flex> -->
-
               <v-flex xs12 sm6 md4>
                 <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
               </v-flex>
@@ -77,10 +67,6 @@
               </v-flex>
 
               <v-flex xs12 sm6 md4>
-                <!-- <v-select :items="companies" v-model="editedItem.company_id"
-                          label="Empresa asociada"
-                          single-line item-text="name" item-value="id"
-                ></v-select> -->
                 <v-autocomplete
                   v-model="editedItem.company_id"
                   :items="companies"
@@ -150,9 +136,6 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
-        <!-- <div class="text-xs-right">
-          <v-btn color="primary" @click="dialog = true"> <v-icon light>add</v-icon> Agregar Usuario</v-btn>
-        </div> -->
       </v-toolbar>
 
       <v-data-table

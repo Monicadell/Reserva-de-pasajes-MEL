@@ -46,9 +46,6 @@
             <v-layout wrap>
 
               <v-flex xs12 md6>
-                <!-- <v-text-field label="Salida"
-                              v-model="editedItem.departure"></v-text-field> -->
-
                 <v-menu
                   ref="time2"
                   :close-on-content-click="false"
@@ -107,8 +104,6 @@
                 </v-menu>
               </v-flex>
               <v-flex xs12 md6>
-                <!-- <v-text-field label="Set"
-                              v-model="editedItem.set"></v-text-field> -->
                 <v-menu
                   ref="time3"
                   :close-on-content-click="false"
@@ -153,9 +148,6 @@
               </v-flex>
 
               <v-flex xs12 sm6>
-                  <!-- <v-text-field label="Vehículos" type="number"
-                              v-model="editedItem.cars"></v-text-field> -->
-
                 <v-layout wrap justify-center>
                   <v-flex xs12 sm3 text-xs-center>
                     <v-btn fab dark small color="primary" @click="menos()">
@@ -173,19 +165,6 @@
                   </v-flex>
                 </v-layout>
               </v-flex>
-
-             <!-- <v-flex xs12 sm6>
-                <v-select :items="drivers" v-model="editedItem.driver_id"
-                          label="Conductor"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex> -->
-              <!-- <v-flex xs12 md6>
-                <v-select :items="cars" v-model="editedItem.car_id"
-                          label="Bus"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex> -->
             </v-layout>
           </v-container>
         </v-card-text>
@@ -246,11 +225,9 @@
           <td class="" v-else></td>
           <td class="">{{ props.item.trip_name }}</td>
           <td class="">{{ frecuencia(props.item.freq_id) }}</td>
-          <!-- <td class="">{{ props.item.car_id }}</td>
-          <td class="">{{ props.item.driver_id }}</td> -->
           <td class="">{{ props.item.avail_seats }} / {{ props.item.total_seats }}</td>
           <td class="">{{ props.item.cars }}</td>
-          <td style="max-width: 30px">{{ moment(props.item.updated_at).format('DD-mm-YY HH:mm') }}</td>
+          <td style="max-width: 30px">{{ moment(props.item.updated_at).format('DD-MM-YY HH:mm') }}</td>
           <td class="justify-center">
             <v-tooltip top>
               <v-icon
@@ -443,8 +420,6 @@
         this.editedItem = Object.assign(item, '')
         this.editedItem.trip_id = Number(this.editedItem.trip_id)
         this.editedItem.freq_id = Number(this.editedItem.freq_id)
-        // console.log('edited', this.editedItem)
-        // this.editedItem = item
         this.dialog = true
       },
       async deleteItem (item) {

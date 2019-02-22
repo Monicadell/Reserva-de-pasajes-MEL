@@ -2,17 +2,6 @@
   <div>
     <v-container fluid>
 
-      <!-- <v-layout row wrap>
-        <v-breadcrumbs divider="/">
-          <v-breadcrumbs-item :to="{ path: '/Management/Management' }">
-            <span v-lang.profile></span>
-          </v-breadcrumbs-item>
-          <v-breadcrumbs-item>
-            <span v-lang.myInformation></span>
-          </v-breadcrumbs-item>
-        </v-breadcrumbs>
-      </v-layout> -->
-
       <v-layout wrap align-center v-if="user.name !== ''">
         <v-flex xs12>
           <v-card class="elevation-5">
@@ -59,10 +48,6 @@
                       v-model="user.email"></v-text-field>
                   </v-flex>
                   <v-flex xs6>
-                    <!-- <v-text-field
-                      color="primary"
-                      class="input-group--focused" readonly label="RUT:"
-                      v-model="user.documento"></v-text-field> -->
                     <v-text-field v-if="user.rut"
                       color="primary"
                       class="input-group--focused" readonly label="RUT:"
@@ -140,11 +125,6 @@
                               v-model="userEdited.password">
                 </v-text-field>
               </v-flex>
-              
-              <!-- <v-flex xs12 sm6>
-                <v-text-field label="Password" v-model="userEdited.password"
-                              type="password" :rules="[rules.min]"></v-text-field>
-              </v-flex> -->
 
               <v-flex xs12>
                 <v-text-field label="Confirme Password" v-model="userEdited.password_confirmation"

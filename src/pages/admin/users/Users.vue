@@ -38,9 +38,6 @@
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
-                  <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                            single-line item-text="text" item-value="id"
-                  ></v-select> -->
                   <v-switch
                     class="justify-center"
                     label="Activo"
@@ -82,10 +79,6 @@
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
-                  <!-- <v-select :items="companies" v-model="editedItem.company_id"
-                            label="Empresa asociada"
-                            single-line item-text="name" item-value="id"
-                  ></v-select> -->
                   <v-autocomplete
                     v-model="editedItem.company_id"
                     :items="companies"

@@ -24,22 +24,10 @@
                 <v-text-field label="Latitud" v-model="editedItem.lat"></v-text-field>
               </v-flex>
 
-
               <v-flex xs12 sm6>
                 <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
               </v-flex>
 
-              <!-- <v-flex xs12 sm6>
-                <v-select :items="cities" v-model="editedItem.city_id"
-                        label="Ciudad"
-                        single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex> -->
-
-              <!-- <v-flex xs12 sm6>
-                <v-text-field label="Descripción"
-                              v-model="editedItem.desc"></v-text-field>
-              </v-flex> -->
             </v-layout>
           </v-container>
         </v-card-text>
