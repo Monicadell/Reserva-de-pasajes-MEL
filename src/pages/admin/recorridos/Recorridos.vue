@@ -8,46 +8,55 @@
             <h3 class="headline">Tramo</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 md6>
-                <v-text-field label="Nombre"
-                              v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-switch
-                  class="justify-center"
-                  label="Público"
-                  v-model="editedItem.public"
-                ></v-switch>
-              </v-flex>
-            </v-layout>
-            <v-layout wrap>
-              <v-flex xs12 md6>
-                <v-select :items="stations" v-model="editedItem.source_id"
-                          label="Estación de inicio"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 md6>
-                <v-select :items="stations" v-model="editedItem.dest_id"
-                          label="Estación de destino"
-                          single-line item-text="name" item-value="id" 
-                ></v-select>
-              </v-flex>
-              
-              <v-flex xs12 md6>
-                <v-text-field v-model="editedItem.duration" :mask="maskNum" label="Duración (minutos)" ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-switch
-                  class="justify-center"
-                  label="Incluye vuelo"
-                  v-model="editedItem.vuelo"
-                ></v-switch>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 md6>
+                  <v-text-field label="Nombre"
+                                v-model="editedItem.name"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-switch
+                    class="justify-center"
+                    label="Público"
+                    v-model="editedItem.public"
+                  ></v-switch>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs12 md6>
+                  <v-select :items="stations" v-model="editedItem.source_id"
+                            label="Estación de inicio"
+                            single-line item-text="name" item-value="id"
+                            :rules="[rules.required]" required
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 md6>
+                  <v-select :items="stations" v-model="editedItem.dest_id"
+                            label="Estación de destino"
+                            single-line item-text="name" item-value="id"
+                            :rules="[rules.required]" required
+                  ></v-select>
+                </v-flex>
+                
+                <v-flex xs12 md6>
+                  <v-text-field v-model="editedItem.duration" :mask="maskNum" label="Duración (minutos)" ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-switch
+                    class="justify-center"
+                    label="Incluye vuelo"
+                    v-model="editedItem.vuelo"
+                  ></v-switch>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -169,8 +178,6 @@
         modalInfoBtn1: '',
         editedItem: {
           name: '',
-          source_id: '',
-          dest_id: '',
           public: ''
         },
         headers: [
@@ -184,7 +191,11 @@
         ],
         recorridos: [],
         stations: [],
-        maskNum: '################'
+        maskNum: '################',
+        valid: true,
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     mounted () {
@@ -275,98 +286,100 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let tramo = {
-          'trip':
-          {
-            'dest_id': guardar.dest_id ? guardar.dest_id : '',
-            'source_id': guardar.source_id ? guardar.source_id : '',
-            'name': guardar.name ? guardar.name : '',
-            'public': guardar.public,
-            'duration': guardar.duration ? guardar.duration : '',
-            'vuelo': guardar.vuelo ? guardar.vuelo : false
+        if (this.$refs.form.validate()) {
+          let tramo = {
+            'trip':
+            {
+              'dest_id': guardar.dest_id ? guardar.dest_id : '',
+              'source_id': guardar.source_id ? guardar.source_id : '',
+              'name': guardar.name ? guardar.name : '',
+              'public': guardar.public,
+              'duration': guardar.duration ? guardar.duration : '',
+              'vuelo': guardar.vuelo ? guardar.vuelo : false
+            }
           }
-        }
-        if (guardar.id) {
-          console.log('tramo a put', tramo)
-          let id = guardar.id
-          try {
-            let tramos = await API.put('trips', id, tramo)
-            if (tramos.status >= 200 && tramos.status < 300) {
-              console.log('ya hizo PUT', tramos)
+          if (guardar.id) {
+            console.log('tramo a put', tramo)
+            let id = guardar.id
+            try {
+              let tramos = await API.put('trips', id, tramo)
+              if (tramos.status >= 200 && tramos.status < 300) {
+                console.log('ya hizo PUT', tramos)
+                this.editedItem = Object.assign({}, '')
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Tramo',
+                  timer: 2000,
+                  text: 'Tramo actualizado exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+                this.getTrips()
+                this.dialog = false
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              // alert('Ha ocurrido un error, intente más tarde!')
               this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              // this.showModal = true
+              // this.modalInfoTitle = 'Ha ocurrido un error'
+              // this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
+              // this.modalInfoBtn1 = 'OK'
               this.$swal({
                 customClass: 'modal-info',
-                type: 'success',
-                title: 'Tramo',
-                timer: 2000,
-                text: 'Tramo actualizado exitosamente',
+                type: 'error',
+                title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
+                text: e.response.data.error,
                 animation: true,
                 showCancelButton: true,
                 showConfirmButton: false,
-                cancelButtonText: 'OK'
+                cancelButtonText: 'Cerrar'
               })
-              this.getTrips()
-              this.dialog = false
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error editando el usuario, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-          }
-        } else {
-          console.log('tramo a post', tramo)
-          try {
-            let tramos = await API.post('trips', tramo)
-            if (tramos.status >= 200 && tramos.status < 300) {
-              console.log('post ok', tramos)
+          } else {
+            console.log('tramo a post', tramo)
+            try {
+              let tramos = await API.post('trips', tramo)
+              if (tramos.status >= 200 && tramos.status < 300) {
+                console.log('post ok', tramos)
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Tramo',
+                  timer: 2000,
+                  text: 'Tramo creado exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+                this.getTrips()
+                this.dialog = false
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              // alert('Ha ocurrido un error, intente más tarde!')
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
               this.$swal({
                 customClass: 'modal-info',
-                type: 'success',
-                title: 'Tramo',
-                timer: 2000,
-                text: 'Tramo creado exitosamente',
+                type: 'error',
+                title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
+                text: e.response.data.error,
                 animation: true,
                 showCancelButton: true,
                 showConfirmButton: false,
-                cancelButtonText: 'OK'
+                cancelButtonText: 'Cerrar'
               })
-              this.getTrips()
-              this.dialog = false
+              // this.showModal = true
+              // this.modalInfoTitle = 'Ha ocurrido un error'
+              // this.modalInfoDetail = 'Ha ocurrido un error creando el tramo, intente nuevamente.'
+              // this.modalInfoBtn1 = 'OK'
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            // alert('Ha ocurrido un error, intente más tarde!')
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al crear el tramo, intente más tarde.',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error creando el tramo, intente nuevamente.'
-            // this.modalInfoBtn1 = 'OK'
           }
         }
       }

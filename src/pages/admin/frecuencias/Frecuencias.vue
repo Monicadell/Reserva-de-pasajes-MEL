@@ -16,7 +16,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6>
-                  <v-text-field label="Nombre"
+                  <v-text-field label="Nombre" :rules="[rules.required]" required
                                 v-model="editedItem.name"></v-text-field>
                 </v-flex>
 
@@ -24,27 +24,25 @@
                   <v-select :items="trips" v-model="editedItem.trip_id"
                           label="Tramo"
                           single-line item-text="name" item-value="id"
-                          :rules="[v => !!v || 'Campo requerido']" required
+                          :rules="[rules.required]" required
                   ></v-select>
                 </v-flex>
               
               </v-layout>
               <v-layout wrap>
-              
-
                 <v-flex xs12 sm6>
                     <v-menu
                       v-model="datepickerStart"
                       :close-on-content-click="false"
                       full-width
                       max-width="290"
-                      :rules="[v => !!v || 'Campo requerido']" required
                     >
                       <v-text-field
                         slot="activator"
                         :value="computedDateFormattedMomentjs(editedItem.start)"
                         clearable
                         label="Fecha de inicio"
+                        :rules="[rules.required]" required
                         readonly
                       ></v-text-field>
                       <v-date-picker
@@ -61,7 +59,6 @@
                       :close-on-content-click="false"
                       full-width
                       max-width="290"
-                      :rules="[v => !!v || 'Campo requerido']" required
                     >
                       <v-text-field
                         slot="activator"
@@ -91,12 +88,12 @@
                     full-width
                     max-width="290px"
                     min-width="290px"
-                    :rules="[v => !!v || 'Campo requerido']" required
                   >
                     <v-text-field
                       slot="activator"
                       v-model="editedItem.set"
                       label="Hora Postura"
+                      :rules="[rules.required]" required
                       readonly
                     ></v-text-field>
                     <v-time-picker
@@ -122,12 +119,12 @@
                     full-width
                     max-width="290px"
                     min-width="290px"
-                    :rules="[v => !!v || 'Campo requerido']" required
                   >
                     <v-text-field
                       slot="activator"
                       v-model="editedItem.departure"
                       label="Hora Salida"
+                      :rules="[rules.required]" required
                       readonly
                     ></v-text-field>
                     <v-time-picker
@@ -144,13 +141,11 @@
                   <v-select :items="freqtypes" v-model="editedItem.freq_type"
                           label="Tipo"
                           single-line item-text="name" item-value="id"
-                          :rules="[v => !!v || 'Campo requerido']" required
+                          :rules="[rules.required]" required
                   ></v-select>
                 </v-flex>
 
                 <v-flex xs12 sm6>
-                  <!-- <v-text-field label="Vehículos" type="number" min="0"
-                                v-model="editedItem.cars"></v-text-field> -->
                   <v-layout wrap justify-center>
                     <v-flex xs12 sm3 text-xs-center>
                       <v-btn fab dark small color="primary" @click="menos()">
@@ -159,7 +154,7 @@
                     </v-flex>
                     <v-flex xs12 sm2 align-center>
                       <v-text-field type="number" style="" readonly label="Buses"
-                                    v-model="editedItem.cars"></v-text-field>
+                                    v-model="editedItem.cars" :rules="[rules.required]" required></v-text-field>
                     </v-flex>
                     <v-flex xs12 sm3 text-xs-center>
                       <v-btn fab dark small color="primary"  @click="mas()">
@@ -338,7 +333,10 @@
           {id: 'weekly', name: 'Semanal'},
           {id: 'monthly', name: 'Mensual', disabled: true}
         ],
-        trips: []
+        trips: [],
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     components: {
@@ -357,7 +355,6 @@
           let frec = await API.get('frequencies')
           if (frec.status >= 200 && frec.status < 300) {
             setTimeout(() => {
-              // console.log('frecuencias', frec.data.data)
               this.frecuencias = frec.data.data
               this.loading = false
             }, 500)
@@ -398,98 +395,100 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let freq = {
-          'frequency':
-          {
-            'trip_id': guardar.trip_id ? guardar.trip_id : '',
-            'start': guardar.start ? guardar.start : '',
-            'end': guardar.end ? guardar.end : '',
-            'set': guardar.set ? guardar.set : '',
-            'departure': guardar.departure ? guardar.departure : '',
-            'active': guardar.active ? guardar.active : false,
-            'freq_type': guardar.freq_type ? guardar.freq_type : '',
-            'name': guardar.name ? guardar.name : '',
-            'cars': guardar.cars ? guardar.cars : ''
+        if (this.$refs.form.validate()) {
+          let freq = {
+            'frequency':
+            {
+              'trip_id': guardar.trip_id ? guardar.trip_id : '',
+              'start': guardar.start ? guardar.start : '',
+              'end': guardar.end ? guardar.end : '',
+              'set': guardar.set ? guardar.set : '',
+              'departure': guardar.departure ? guardar.departure : '',
+              'active': guardar.active ? guardar.active : false,
+              'freq_type': guardar.freq_type ? guardar.freq_type : '',
+              'name': guardar.name ? guardar.name : '',
+              'cars': guardar.cars ? guardar.cars : ''
+            }
           }
-        }
-        console.log('frec guardar', freq)
-        if (guardar.id) {
-          let id = guardar.id
-          try {
-            let frec = await API.put('frequencies', id, freq)
-            if (frec.status >= 200 && frec.status < 300) {
-              this.getFrec()
-              this.dialog = false
-              this.editedItem = Object.assign({})
+          console.log('frec guardar', freq)
+          if (guardar.id) {
+            let id = guardar.id
+            try {
+              let frec = await API.put('frequencies', id, freq)
+              if (frec.status >= 200 && frec.status < 300) {
+                this.getFrec()
+                this.dialog = false
+                this.editedItem = Object.assign({})
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Frecuencia',
+                  timer: 2000,
+                  text: 'Frecuencia actualizada exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+              } else {
+                alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
+                this.editedItem = Object.assign({})
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.$swal({
                 customClass: 'modal-info',
-                type: 'success',
-                title: 'Frecuencia',
-                timer: 2000,
-                text: 'Frecuencia actualizada exitosamente',
+                type: 'error',
+                title: 'Ha ocurrido un error al editar la frecuencia, intente más tarde.',
+                text: e.response.data.error,
                 animation: true,
                 showCancelButton: true,
                 showConfirmButton: false,
-                cancelButtonText: 'OK'
+                cancelButtonText: 'Cerrar'
               })
-            } else {
-              alert('Ha ocurrido un error al editar la frecuencia, intente nuevamente')
+              this.dialog = false
               this.editedItem = Object.assign({})
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al editar la frecuencia, intente más tarde.',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-            this.dialog = false
-            this.editedItem = Object.assign({})
-          }
-        } else {
-          console.log('ser a post')
-          try {
-            let frec = await API.post('frequencies', freq)
-            if (frec.status >= 200 && frec.status < 300) {
-              console.log('frecuencias despues post', frec)
-              this.getFrec()
+          } else {
+            console.log('ser a post')
+            try {
+              let frec = await API.post('frequencies', freq)
+              if (frec.status >= 200 && frec.status < 300) {
+                console.log('frecuencias despues post', frec)
+                this.getFrec()
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Frecuencia',
+                  timer: 2000,
+                  text: 'Frecuencia creada exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+                this.dialog = false
+                this.editedItem = Object.assign({})
+              } else {
+                alert('Ha ocurrido un error, intente nuevamente')
+                this.dialog = false
+                this.editedItem = Object.assign({})
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.$swal({
                 customClass: 'modal-info',
-                type: 'success',
-                title: 'Frecuencia',
-                timer: 2000,
-                text: 'Frecuencia creada exitosamente',
+                type: 'error',
+                title: 'Ha ocurrido un error al crear la frecuencia',
+                text: e.response.data.error,
                 animation: true,
                 showCancelButton: true,
                 showConfirmButton: false,
-                cancelButtonText: 'OK'
+                cancelButtonText: 'Cerrar'
               })
               this.dialog = false
               this.editedItem = Object.assign({})
-            } else {
-              alert('Ha ocurrido un error, intente nuevamente')
-              this.dialog = false
-              this.editedItem = Object.assign({})
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al crear la frecuencia',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-            this.dialog = false
-            this.editedItem = Object.assign({})
           }
         }
       },
@@ -537,7 +536,18 @@
       },
       close () {
         this.dialog = false
-        this.editedItem = {}
+        this.editedItem = {
+          name: '',
+          source_id: '',
+          dest_id: '',
+          start: '',
+          end: '',
+          set: '',
+          departure: '',
+          duration: '',
+          active: false,
+          trip_id: '',
+          cars: 0}
       },
       trip (item) {
         let t = this.trips.find(tramo => tramo.id === item)

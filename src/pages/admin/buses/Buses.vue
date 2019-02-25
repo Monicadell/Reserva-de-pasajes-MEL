@@ -7,22 +7,30 @@
           <h3 class="headline">Buses</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Patente" v-model="editedItem.plate"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-select :items="formats" v-model="editedItem.format_id"
-                          label="Formato"
-                          single-line item-text="name" item-value="id"
-                ></v-select>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Nombre" v-model="editedItem.name"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Patente" v-model="editedItem.plate"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-select :items="formats" v-model="editedItem.format_id"
+                            label="Formato"
+                            single-line item-text="name" item-value="id"
+                  ></v-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -132,7 +140,11 @@
           {text: '', value: 'delete', sortable: false}
         ],
         cars: [],
-        formats: []
+        formats: [],
+        valid: true,
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     mounted () {
@@ -204,82 +216,84 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let em = {
-          'car':
-          {
-            'name': guardar.name ? guardar.name : '',
-            'plate': guardar.plate ? guardar.plate : false,
-            'format_id': guardar.format_id ? guardar.format_id : ''
-          }
-        }
-        let id = guardar.id
-        if (id) {
-          console.log('emplado a put', em)
-          try {
-            let putbus = await API.put('cars', id, em)
-            if (putbus.status >= 200 && putbus.status < 300) {
-              this.getCars()
-              this.dialog = false
-              this.$swal({
-                type: 'success',
-                customClass: 'modal-info',
-                timer: 2000,
-                title: 'Bus',
-                text: 'Bus actualizado exitosamente!',
-                animation: true,
-                showConfirmButton: false,
-                showCloseButton: false
-              })
-              this.editedItem = Object.assign({}, '')
+        if (this.$refs.form.validate()) {
+          let em = {
+            'car':
+            {
+              'name': guardar.name ? guardar.name : '',
+              'plate': guardar.plate ? guardar.plate : false,
+              'format_id': guardar.format_id ? guardar.format_id : ''
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              timer: 2000,
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el bus, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
           }
-        } else {
-          console.log('bus a post', em)
-          try {
-            let postbus = await API.post('cars', em)
-            if (postbus.status >= 200 && postbus.status < 300) {
-              console.log('result post bus', postbus)
+          let id = guardar.id
+          if (id) {
+            console.log('emplado a put', em)
+            try {
+              let putbus = await API.put('cars', id, em)
+              if (putbus.status >= 200 && putbus.status < 300) {
+                this.getCars()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Bus',
+                  text: 'Bus actualizado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+                this.editedItem = Object.assign({}, '')
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.editedItem = Object.assign({}, '')
-              this.getCars()
               this.dialog = false
               this.$swal({
-                type: 'success',
+                type: 'error',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Bus',
-                text: 'Bus creado exitosamente!',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error editando el bus, intente más tarde.',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
               })
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el bus, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
+          } else {
+            console.log('bus a post', em)
+            try {
+              let postbus = await API.post('cars', em)
+              if (postbus.status >= 200 && postbus.status < 300) {
+                console.log('result post bus', postbus)
+                this.editedItem = Object.assign({}, '')
+                this.getCars()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Bus',
+                  text: 'Bus creado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error creando el bus, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
           }
         }
       },

@@ -7,63 +7,72 @@
           <h3 class="headline">Empleados</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 md4>
-                <v-text-field label="Rut"
-                          @keyup="keymonitor()"
-                          v-model="editedItem.rut"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-select :items="positions" v-model="editedItem.position"
-                          label="Tipo de empleado"
-                          single-line item-text="text" item-value="id"
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-menu
-                  v-model="datepicker"
-                  :close-on-content-click="false"
-                  full-width
-                  max-width="290"
-                >
-                  <v-text-field
-                    slot="activator"
-                    :value="computedDateFormattedMomentjs(editedItem.dob)"
-                    clearable
-                    label="Fecha de nacimiento"
-                    readonly
-                  ></v-text-field>
-                  <v-date-picker
-                    v-model="editedItem.dob"
-                    @change="datepicker = false"
-                    locale="es-419"
-                    min="1910-12-12"
-                  ></v-date-picker>
-                </v-menu>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-switch
-                  class="justify-center"
-                  label="Activo"
-                  v-model="editedItem.active"
-                ></v-switch>
-                <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
-                          single-line item-text="text" item-value="id"
-                ></v-select> -->
-              </v-flex>
-              <v-flex xs12 md4>
-                <v-text-field label="Teléfono"
-                          v-model="editedItem.mobile_no"></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Nombre" v-model="editedItem.name"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="Rut"
+                            @keyup="keymonitor()"
+                            v-model="editedItem.rut"
+                            :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-select :items="positions" v-model="editedItem.position"
+                            label="Tipo de empleado"
+                            single-line item-text="text" item-value="id"
+                            :rules="[rules.required]" required
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-menu
+                    v-model="datepicker"
+                    :close-on-content-click="false"
+                    full-width
+                    max-width="290"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      :value="computedDateFormattedMomentjs(editedItem.dob)"
+                      clearable
+                      label="Fecha de nacimiento"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker
+                      v-model="editedItem.dob"
+                      @change="datepicker = false"
+                      locale="es-419"
+                      min="1910-12-12"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-switch
+                    class="justify-center"
+                    label="Activo"
+                    v-model="editedItem.active"
+                  ></v-switch>
+                  <!-- <v-select :items="userState" v-model="editedItem.active" label="Estado"
+                            single-line item-text="text" item-value="id"
+                  ></v-select> -->
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="Teléfono"
+                            v-model="editedItem.mobile_no"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -191,7 +200,11 @@
         positions: [
           {text: 'Conductor', id: 1},
           {text: 'Auxiliar', id: 2}
-        ]
+        ],
+        valid: true,
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     mounted () {
@@ -230,86 +243,88 @@
       async save (guardar) {
         console.log('a guardar', guardar)
         guardar.rut = guardar.rut.replace(/\./g, '')
-        let em = {
-          'employee':
-          {
-            'name': guardar.name ? guardar.name : '',
-            'active': guardar.active ? guardar.active : false,
-            'rut': guardar.rut ? guardar.rut : '',
-            'dob': guardar.dob ? guardar.dob : '',
-            'email': guardar.email ? guardar.email : '',
-            'mobile_no': guardar.mobile_no ? guardar.mobile_no : '',
-            'position': guardar.position ? guardar.position : ''
-          }
-        }
-        let id = guardar.id
-        if (id) {
-          console.log('emplado a put', em)
-          try {
-            let putempleado = await API.put('employees', id, em)
-            if (putempleado.status >= 200 && putempleado.status < 300) {
-              this.getEmployees()
-              this.dialog = false
-              this.$swal({
-                type: 'success',
-                customClass: 'modal-info',
-                timer: 2000,
-                title: 'Empleado',
-                text: 'Empleado actualizado exitosamente!',
-                animation: true,
-                showConfirmButton: false,
-                showCloseButton: false
-              })
-              this.editedItem = Object.assign({}, '')
+        if (this.$refs.form.validate()) {
+          let em = {
+            'employee':
+            {
+              'name': guardar.name ? guardar.name : '',
+              'active': guardar.active ? guardar.active : false,
+              'rut': guardar.rut ? guardar.rut : '',
+              'dob': guardar.dob ? guardar.dob : '',
+              'email': guardar.email ? guardar.email : '',
+              'mobile_no': guardar.mobile_no ? guardar.mobile_no : '',
+              'position': guardar.position ? guardar.position : ''
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              timer: 2000,
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el empleado, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
           }
-        } else {
-          console.log('empleado a post', em)
-          try {
-            let postempleado = await API.post('employees', em)
-            if (postempleado.status >= 200 && postempleado.status < 300) {
-              console.log('result post empleado', postempleado)
+          let id = guardar.id
+          if (id) {
+            console.log('emplado a put', em)
+            try {
+              let putempleado = await API.put('employees', id, em)
+              if (putempleado.status >= 200 && putempleado.status < 300) {
+                this.getEmployees()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Empleado',
+                  text: 'Empleado actualizado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+                this.editedItem = Object.assign({}, '')
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.editedItem = Object.assign({}, '')
-              this.getEmployees()
               this.dialog = false
               this.$swal({
-                type: 'success',
+                type: 'error',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Empleado',
-                text: 'Empleado creado exitosamente!',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error editando el empleado, intente más tarde.',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
               })
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el empleado, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
+          } else {
+            console.log('empleado a post', em)
+            try {
+              let postempleado = await API.post('employees', em)
+              if (postempleado.status >= 200 && postempleado.status < 300) {
+                console.log('result post empleado', postempleado)
+                this.editedItem = Object.assign({}, '')
+                this.getEmployees()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Empleado',
+                  text: 'Empleado creado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error creando el empleado, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
           }
         }
       },

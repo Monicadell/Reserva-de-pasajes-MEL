@@ -8,28 +8,35 @@
             <h3 class="headline">Estación</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6>
-                <v-text-field label="Nombre"
-                              v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field label="Dirección"
-                              v-model="editedItem.address"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout wrap>
-              <v-flex xs12 sm6>
-                <v-text-field label="Latitud" v-model="editedItem.lat"></v-text-field>
-              </v-flex>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6>
+                  <v-text-field label="Nombre"
+                                v-model="editedItem.name"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-text-field label="Dirección"
+                                v-model="editedItem.address"></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs12 sm6>
+                  <v-text-field label="Latitud" v-model="editedItem.lat"></v-text-field>
+                </v-flex>
 
-              <v-flex xs12 sm6>
-                <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
-              </v-flex>
+                <v-flex xs12 sm6>
+                  <v-text-field label="Longitud" v-model="editedItem.lon"></v-text-field>
+                </v-flex>
 
-            </v-layout>
-          </v-container>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -153,7 +160,11 @@
           {text: '', value: 'delete', sortable: false}
         ],
         estaciones: [],
-        cities: []
+        cities: [],
+        valid: true,
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     components: {
@@ -251,40 +262,58 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let esta = {
-          'station':
-          {
-            'name': guardar.name ? guardar.name : '',
-            'address': guardar.address ? guardar.address : '',
-            'lat': guardar.lat ? guardar.lat : '',
-            'lon': guardar.lon ? guardar.lon : ''
-            // 'description': guardar.desc ? guardar.desc : '',
-            // 'city_id': guardar.city_id ? guardar.city_id : ''
+        if (this.$refs.form.validate()) {
+          let esta = {
+            'station':
+            {
+              'name': guardar.name ? guardar.name : '',
+              'address': guardar.address ? guardar.address : '',
+              'lat': guardar.lat ? guardar.lat : '',
+              'lon': guardar.lon ? guardar.lon : ''
+              // 'description': guardar.desc ? guardar.desc : '',
+              // 'city_id': guardar.city_id ? guardar.city_id : ''
+            }
           }
-        }
-        if (guardar.id) {
-          console.log('ser a put', esta)
-          let id = guardar.id
-          try {
-            let station = await API.put('stations', id, esta)
-            if (station.status >= 200 && station.status < 300) {
-              // console.log('ya hizo PUT', station)
-              this.getStations()
-              this.dialog = false
-              this.$swal({
-                customClass: 'modal-info',
-                type: 'success',
-                title: 'Estación',
-                // timer: 2000,
-                text: 'Estación actualizada exitosamente',
-                animation: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonText: 'OK'
-              })
-              this.editedItem = Object.assign({}, '')
-            } else {
-              // alert('Ha ocurrido un error al editar la estación')
+          if (guardar.id) {
+            console.log('ser a put', esta)
+            let id = guardar.id
+            try {
+              let station = await API.put('stations', id, esta)
+              if (station.status >= 200 && station.status < 300) {
+                // console.log('ya hizo PUT', station)
+                this.getStations()
+                this.dialog = false
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Estación',
+                  // timer: 2000,
+                  text: 'Estación actualizada exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+                this.editedItem = Object.assign({}, '')
+              } else {
+                // alert('Ha ocurrido un error al editar la estación')
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'error',
+                  title: 'Error',
+                  text: 'Ha ocurrido un error al editar la estación.',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'Cerrar'
+                })
+              }
+            } catch (e) {
+              console.log('catch error al editar la estación', e.response)
+              // this.showModal = true
+              // this.modalInfoTitle = 'Ha ocurrido un error'
+              // this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
+              // this.modalInfoBtn1 = 'OK'
               this.$swal({
                 customClass: 'modal-info',
                 type: 'error',
@@ -296,62 +325,46 @@
                 cancelButtonText: 'Cerrar'
               })
             }
-          } catch (e) {
-            console.log('catch error al editar la estación', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al editar la estación, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Error',
-              text: 'Ha ocurrido un error al editar la estación.',
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
-          }
-        } else {
-          console.log('ser a post', esta)
-          try {
-            let station = await API.post('stations', esta)
-            if (station.status >= 200 && station.status < 300) {
-              console.log(station)
-              this.getStations()
-              this.dialog = false
+          } else {
+            console.log('ser a post', esta)
+            try {
+              let station = await API.post('stations', esta)
+              if (station.status >= 200 && station.status < 300) {
+                console.log(station)
+                this.getStations()
+                this.dialog = false
+                this.$swal({
+                  customClass: 'modal-info',
+                  type: 'success',
+                  title: 'Estación',
+                  timer: 2000,
+                  text: 'Estación creada exitosamente',
+                  animation: true,
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  cancelButtonText: 'OK'
+                })
+                this.editedItem = Object.assign({}, '')
+              } else {
+                alert('Ha ocurrido un error al crear la estación')
+              }
+            } catch (e) {
+              console.log('catch error al crear estación', e.response)
+              // this.showModal = true
+              // this.modalInfoTitle = 'Ha ocurrido un error'
+              // this.modalInfoDetail = 'Ha ocurrido un error al crear la estación, intente más tarde.'
+              // this.modalInfoBtn1 = 'OK'
               this.$swal({
                 customClass: 'modal-info',
-                type: 'success',
-                title: 'Estación',
-                timer: 2000,
-                text: 'Estación creada exitosamente',
+                type: 'error',
+                title: 'Ha ocurrido un error al crear la estación.',
+                text: e.response.data.error,
                 animation: true,
                 showCancelButton: true,
                 showConfirmButton: false,
-                cancelButtonText: 'OK'
+                cancelButtonText: 'Cerrar'
               })
-              this.editedItem = Object.assign({}, '')
-            } else {
-              alert('Ha ocurrido un error al crear la estación')
             }
-          } catch (e) {
-            console.log('catch error al crear estación', e.response)
-            // this.showModal = true
-            // this.modalInfoTitle = 'Ha ocurrido un error'
-            // this.modalInfoDetail = 'Ha ocurrido un error al crear la estación, intente más tarde.'
-            // this.modalInfoBtn1 = 'OK'
-            this.$swal({
-              customClass: 'modal-info',
-              type: 'error',
-              title: 'Ha ocurrido un error al crear la estación.',
-              text: e.response.data.error,
-              animation: true,
-              showCancelButton: true,
-              showConfirmButton: false,
-              cancelButtonText: 'Cerrar'
-            })
           }
         }
       }

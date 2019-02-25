@@ -7,34 +7,46 @@
           <h3 class="headline">Formatos</h3>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Nombre" v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Niveles" :mask="maskNum"
-                          v-model="editedItem.levels"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Nº de asientos"
-                         :mask="maskNum"
-                         v-model="editedItem.seats"></v-text-field>
-              </v-flex>
-              <v-flex xs12 md4>
-                <v-text-field label="Ancho" :mask="maskNum"
-                          v-model="editedItem.width"></v-text-field>
-              </v-flex>
-              <v-flex xs12 md4>
-                <v-text-field label="Largo" :mask="maskNum"
-                          v-model="editedItem.length"></v-text-field>
-              </v-flex>
-              <v-flex xs12 md4>
-                <v-text-field label="Tara" :mask="maskNum"
-                          v-model="editedItem.weight"></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+          >
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Nombre" v-model="editedItem.name"
+                                :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Niveles" :mask="maskNum"
+                            v-model="editedItem.levels"
+                            :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field label="Nº de asientos"
+                          :mask="maskNum"
+                          v-model="editedItem.seats"
+                          :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="Ancho" :mask="maskNum"
+                            v-model="editedItem.width"
+                            :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="Largo" :mask="maskNum"
+                            v-model="editedItem.length"
+                            :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="Tara" :mask="maskNum"
+                            v-model="editedItem.weight"
+                            :rules="[rules.required]" required></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -158,7 +170,11 @@
           {text: 'Conductor', id: 1},
           {text: 'Auxiliar', id: 2}
         ],
-        maskNum: '################'
+        maskNum: '################',
+        valid: true,
+        rules: {
+          required: v => !!v || 'Campo requerido'
+        }
       }
     },
     mounted () {
@@ -177,10 +193,6 @@
           }
         } catch (e) {
           console.log('catch err', e)
-          // this.showModal = true
-          // this.modalInfoTitle = 'Ha ocurrido un error'
-          // this.modalInfoDetail = 'Ha ocurrido un error al cargar las estaciones, intente más tarde.'
-          // this.modalInfoBtn1 = 'OK'
           this.$swal({
             customClass: 'modal-info',
             type: 'error',
@@ -201,87 +213,89 @@
       },
       async save (guardar) {
         console.log('a guardar', guardar)
-        let em = {
-          'format':
-          {
-            'name': guardar.name ? guardar.name : '',
-            'seats': guardar.seats ? guardar.seats : '',
-            'levels': guardar.levels ? guardar.levels : '',
-            'width': guardar.width ? guardar.width : '',
-            'height': guardar.height ? guardar.height : '',
-            'length': guardar.length ? guardar.length : '',
-            'grid': {'a': 1},
-            'weight': guardar.weight ? guardar.weight : ''
-          }
-        }
-        let id = guardar.id
-        if (id) {
-          console.log('format a put', em)
-          try {
-            let putformato = await API.put('formats', id, em)
-            if (putformato.status >= 200 && putformato.status < 300) {
-              this.getEmployees()
-              this.dialog = false
-              this.$swal({
-                type: 'success',
-                customClass: 'modal-info',
-                timer: 2000,
-                title: 'Formato',
-                text: 'Formato actualizado exitosamente!',
-                animation: true,
-                showConfirmButton: false,
-                showCloseButton: false
-              })
-              this.editedItem = Object.assign({}, '')
+        if (this.$refs.form.validate()) {
+          let em = {
+            'format':
+            {
+              'name': guardar.name ? guardar.name : '',
+              'seats': guardar.seats ? guardar.seats : '',
+              'levels': guardar.levels ? guardar.levels : '',
+              'width': guardar.width ? guardar.width : '',
+              'height': guardar.height ? guardar.height : '',
+              'length': guardar.length ? guardar.length : '',
+              'grid': {'a': 1},
+              'weight': guardar.weight ? guardar.weight : ''
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              timer: 2000,
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error editando el formato, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
           }
-        } else {
-          console.log('formato a post', em)
-          try {
-            let postformato = await API.post('formats', em)
-            if (postformato.status >= 200 && postformato.status < 300) {
-              console.log('result post formato', postformato)
+          let id = guardar.id
+          if (id) {
+            console.log('format a put', em)
+            try {
+              let putformato = await API.put('formats', id, em)
+              if (putformato.status >= 200 && putformato.status < 300) {
+                this.getEmployees()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Formato',
+                  text: 'Formato actualizado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+                this.editedItem = Object.assign({}, '')
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
               this.editedItem = Object.assign({}, '')
-              this.getEmployees()
               this.dialog = false
               this.$swal({
-                type: 'success',
+                type: 'error',
                 customClass: 'modal-info',
                 timer: 2000,
-                title: 'Formato',
-                text: 'Formato creado exitosamente!',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error editando el formato, intente más tarde.',
                 animation: true,
                 showConfirmButton: false,
                 showCloseButton: false
               })
             }
-          } catch (e) {
-            console.log('catch err', e.response)
-            this.editedItem = Object.assign({}, '')
-            this.dialog = false
-            this.$swal({
-              type: 'error',
-              customClass: 'modal-info',
-              title: 'Ha ocurrido un error',
-              text: 'Ha ocurrido un error creando el formato, intente más tarde.',
-              animation: true,
-              showConfirmButton: false,
-              showCloseButton: false
-            })
+          } else {
+            console.log('formato a post', em)
+            try {
+              let postformato = await API.post('formats', em)
+              if (postformato.status >= 200 && postformato.status < 300) {
+                console.log('result post formato', postformato)
+                this.editedItem = Object.assign({}, '')
+                this.getEmployees()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Formato',
+                  text: 'Formato creado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error creando el formato, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
           }
         }
       },

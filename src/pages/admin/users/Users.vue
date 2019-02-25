@@ -9,13 +9,17 @@
             <h3 class="headline">Usuario</h3>
         </v-card-title>
         <v-card-text>
-          <v-form v-model="validForm">
+          <v-form ref="form"
+            v-model="valid"
+            lazy-validation
+          >
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 md4>
                   <v-select :items="userDocumentType" v-model="editedItem.tipoDocumento"
                             label="Tipo documento"
                             single-line item-text="text" item-value="id"
+                            :rules="[rules.required]" required
                   ></v-select>
                 </v-flex>
 
@@ -29,7 +33,7 @@
               </v-layout>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field label="Nombre" v-model="editedItem.name" :rules="[rules.required]"></v-text-field>
+                  <v-text-field label="Nombre" v-model="editedItem.name" :rules="[rules.required]" required></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
@@ -47,7 +51,7 @@
 
                 <v-flex xs12 sm6 md4>
                   <v-text-field label="Password" v-model="editedItem.password"
-                                type="password" :rules="[rules.min]"></v-text-field>
+                                type="password" :rules="[rules.min]" required></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 sm6 md4 v-if="role === 2">
@@ -56,13 +60,14 @@
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
-                  <v-text-field label="Email" v-model="editedItem.email" :rules="[rules.required]"></v-text-field>
+                  <v-text-field label="Email" v-model="editedItem.email" :rules="[rules.required]" required></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
                   <v-select :items="roles" v-model="editedItem.role_id"
                             label="Tipo de Usuario"
                             single-line item-text="name" item-value="id"
+                            :rules="[rules.required]" required
                   ></v-select>
                 </v-flex>
 
@@ -75,7 +80,7 @@
 
                 <v-flex xs12 sm6 md4>
                   <v-text-field label="Numero Contacto"
-                                v-model="editedItem.phone_number" :rules="[rules.required]"></v-text-field>
+                                v-model="editedItem.phone_number" :rules="[rules.required]" required></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 sm6 md4>
@@ -298,12 +303,18 @@
             const coinciden = this.editedItem.password === value
             return coinciden || 'Contraseñas no coinciden'
           },
-          min: value => value.length >= 8 || 'Min 8 caracteres',
+          min: v => {
+            if (v) {
+              return v.length >= 8 || 'Min 8 caracteres'
+            } else {
+              return !!v || 'Campo requerido'
+            }
+          },
           rut: v => validate(v) || 'Rut invalido',
           required: v => !!v || 'Campo requerido'
         },
         validRut: false,
-        validForm: false
+        valid: true
       }
     },
     components: {
@@ -358,18 +369,13 @@
       },
       editItem (item) {
         console.log('item edit', item)
-        // delete item.mensaje
-        // this.editedIndex = this.items.indexOf(item)
-        // let edit = Object.assign({}, item)
-        // edit.TipoDocumento = edit.tipoDocumento === '' ? 'RUT' : edit.tipoDocumento
         this.editedItem = Object.assign({}, item)
         this.editedItem.tipoDocumento = item.rut ? '1' : '2'
-        // this.userDocumentType.id = item.rut ? 1 : 2
         this.editedItem.documento = item.rut ? item.rut : item.passport
         this.dialog = true
       },
       async save (guardar) {
-        if (this.validForm) {
+        if (this.$refs.form.validate()) {
           console.log('a guardar', guardar)
           if (guardar.tipoDocumento === '1') {
             console.log('es rut guarda')
