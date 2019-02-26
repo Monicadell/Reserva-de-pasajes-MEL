@@ -11,7 +11,7 @@
     <div class="elevation-1">
       <v-toolbar flat color="white">
         <v-layout row wrap align-space-around>
-          <v-flex xs12 sm3>
+          <!-- <v-flex xs12 sm3>
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -33,7 +33,8 @@
              <div class="fill-height" v-if="filtro === 2">
                 <p class="mb-0 fill-height">Hay {{ticketsList.length}} reservas perdidas</p>
             </div>
-          </v-flex>
+          </v-flex> -->
+          <v-spacer></v-spacer>
           <v-flex xs12 sm3>
             <div class="text-xs-right">
               <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
@@ -145,12 +146,12 @@
           {text: 'Estado', value: 'status'},
           {text: '', value: ''}
         ],
-        filtro: 3,
-        filtros: [
-          {text: 'Reservas actuales', id: 1},
-          {text: 'Reservas perdidas', id: 2},
-          {text: 'Todas mis reservas a terceros', id: 3}
-        ],
+        // filtro: 3,
+        // filtros: [
+        //   {text: 'Reservas actuales', id: 1},
+        //   {text: 'Reservas perdidas', id: 2},
+        //   {text: 'Todas mis reservas a terceros', id: 3}
+        // ],
         ticketsList: [],
         excelFields: {
           User: 'username',
@@ -204,9 +205,9 @@
       $route (to, from) {
         this.getReservas()
       },
-      filtro (val) {
-        this.getReservas()
-      },
+      // filtro (val) {
+      //   this.getReservas()
+      // },
       user () {
         this.loading = true
         this.getReservas()
@@ -233,16 +234,17 @@
           const tickets = await API.get('tickets')
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas a terceros', tickets)
-            if (this.filtro === 2) {
-              console.log('Filtro perdidos terceros')
-              this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
-            } else if (this.filtro === 1) {
-              console.log('Filtro activas a terceros')
-              this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left > 0))
-            } else {
-              console.log('Filtro todas a terceros')
-              this.ticketsList = tickets.data.data
-            }
+            // if (this.filtro === 2) {
+            //   console.log('Filtro perdidos terceros')
+            //   this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
+            // } else if (this.filtro === 1) {
+            //   console.log('Filtro activas a terceros')
+            //   this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left > 0))
+            // } else {
+            //   console.log('Filtro todas a terceros')
+            //   this.ticketsList = tickets.data.data
+            // }
+            this.ticketsList = tickets.data.data
             this.items = this.ticketsList.map(item => {
               for (const prop in item) {
                 if (item[prop] == null) item[prop] = ''
