@@ -48,7 +48,7 @@
           :items="ticketsList"
           :search="search"
           :loading="loading"
-          :rows-per-page-items="[40, 80, 100]"
+          hide-actions
           item-key="id"
           no-data-text="No tiene reservas registradas"
         >
@@ -63,13 +63,13 @@
           <td class="text-capitalize">{{ props.item.status }}</td>
 
         </template>
-        <!-- <template slot="footer">
+        <template slot="footer">
           <td :colspan="headers.length" class="text-xs-right">
             <v-container grid-list-xl text-xs-center>
               <pagination :pagination="pagination" @change="getReservas"/>
             </v-container>  
           </td>
-        </template> -->
+        </template>
       </v-data-table>
     </div>
   </div>
@@ -80,7 +80,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   import ExportOption from '@c/ExportOption'
-  // import Pagination from '@c/Pagination'
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -143,8 +143,8 @@
       }
     },
     components: {
-      ExportOption: ExportOption
-      // Pagination
+      ExportOption: ExportOption,
+      Pagination
     },
     computed: {
       ...mapGetters({
@@ -239,10 +239,10 @@
               console.log('mis reservas a terceros', tickets)
               setTimeout(() => {
                 this.ticketsList = tickets.data.data
-                // this.pagination.totalItems = tickets.data.total_entries
-                // this.pagination.page = tickets.data.page_number
-                // this.pagination.rowsPerPage = tickets.data.page_size
-                // this.pagination.total_pages = tickets.data.total_pages
+                this.pagination.totalItems = tickets.data.total_entries
+                this.pagination.page = tickets.data.page_number
+                this.pagination.rowsPerPage = tickets.data.page_size
+                this.pagination.total_pages = tickets.data.total_pages
                 this.ticketsList.forEach(element => { element.servicename = element.service.name })
                 this.ticketsList.forEach(element => { element.servicedate = element.service.date })
                 this.loading = false

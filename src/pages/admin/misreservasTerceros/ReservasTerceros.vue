@@ -10,7 +10,7 @@
   </v-layout>
     <div class="elevation-1">
       <v-toolbar flat color="white">
-        <v-layout wrap align-space-around>
+        <v-layout row wrap align-space-around>
           <v-flex xs12 sm3>
             <v-text-field
               v-model="search"
@@ -39,7 +39,40 @@
               <v-btn color="primary" :to="'/reservaterceros'"> <v-icon light>add</v-icon> Hacer reserva</v-btn>
             </div>    
           </v-flex>
-            
+        </v-layout>    
+      </v-toolbar>
+      <v-toolbar flat color="white">
+        <v-layout row wrap align-space-around>
+          <v-flex xs12 sm3>
+            <v-select
+                  :items="origenes" v-model="origen"
+                  label="Origen" clearable
+                  single-line item-text="text" item-value="id"
+            ></v-select>
+          </v-flex>
+
+          <v-flex xs12 sm3>
+            <v-select
+                  :items="estados" v-model="status"
+                  label="Estado" clearable
+                  single-line item-text="text" item-value="id"
+            ></v-select>
+           
+          </v-flex>
+          <v-flex xs12 sm3 class="align-self-center">
+            <v-select
+                  :items="servicios" v-model="servicio"
+                  label="Servicio" clearable
+                  single-line item-text="text" item-value="id"
+            ></v-select>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-select
+                  :items="users" v-model="user"
+                  label="Usuario" clearable
+                  single-line item-text="text" item-value="id"
+            ></v-select>
+          </v-flex>
         </v-layout>
       </v-toolbar>
 
@@ -47,7 +80,7 @@
           :headers="headers"
           :items="ticketsList"
           :search="search"
-          :rows-per-page-items="[40, 80, 100]"
+          hide-actions
           item-key="id"
           no-data-text="No tiene reservas registradas"
         >
@@ -61,6 +94,13 @@
           <td class="">{{ props.item.status }}</td>
           <td class="">
             <v-btn color="red" v-if="props.item.status != 'anulado' && props.item.service.date >= today" outline class="white--text btn-ticket"  @click="irEliminar(props.item.id)">Anular</v-btn> 
+          </td>
+        </template>
+         <template slot="footer">
+          <td :colspan="headers.length" class="text-xs-right">
+            <v-container grid-list-xl text-xs-center>
+              <pagination :pagination="pagination" @change="getReservas"/>
+            </v-container>  
           </td>
         </template>
       </v-data-table>
@@ -87,6 +127,7 @@
   import moment from 'moment'
   import {mapGetters} from 'vuex'
   import ExportOption from '@c/ExportOption'
+  import Pagination from '@c/Pagination'
 
   export default {
     data () {
@@ -120,14 +161,31 @@
           Asiento: 'seat',
           Estado: 'status'
         },
+        pagination: {
+          page: 1,
+          rowsPerPage: 40, // -1 for All
+          // sortBy: '',
+          totalItems: 0,
+          rowsPerPageItems: [40, 80, 120],
+          total_pages: 0
+        },
         items: [],
         today: moment().format('YYYY-MM-DD'),
         confirmaAnular: false,
-        eliminaid: ''
+        eliminaid: '',
+        users: [],
+        servicios: [],
+        estados: [],
+        origenes: [],
+        origen: '',
+        status: '',
+        servicio: '',
+        user: ''
       }
     },
     components: {
-      ExportOption: ExportOption
+      ExportOption: ExportOption,
+      Pagination
     },
     computed: {
       ...mapGetters({
@@ -138,12 +196,31 @@
     mounted () {
       console.log('reservas a terceros')
       this.getReservas()
+      this.getUsers()
+      this.getStations()
+      this.getServices()
     },
     watch: {
       $route (to, from) {
         this.getReservas()
       },
       filtro (val) {
+        this.getReservas()
+      },
+      user () {
+        this.loading = true
+        this.getReservas()
+      },
+      servicio () {
+        this.loading = true
+        this.getReservas()
+      },
+      origen () {
+        this.loading = true
+        this.getReservas()
+      },
+      status () {
+        this.loading = true
         this.getReservas()
       }
     },
@@ -279,6 +356,103 @@
             showConfirmButton: false,
             cancelButtonText: 'Cerrar'
           })
+        }
+      },
+      async save (guardar) {
+        if (this.$refs.form.validate()) {
+          console.log('a guardar', guardar)
+          if (guardar.tipoDocumento === '1') {
+            console.log('es rut guarda')
+            guardar.documento = guardar.documento.replace(/\./g, '')
+          }
+          let us = {
+            'user':
+            {
+              'active': guardar.active ? guardar.active : '',
+              'address': guardar.address ? guardar.address : '',
+              'company_id': guardar.company_id ? guardar.company_id : '',
+              'contract_type_id': guardar.contract_type_id ? guardar.contract_type_id : '',
+              'email': guardar.email ? guardar.email : '',
+              'last_connection': guardar.last_connection ? guardar.last_connection : '',
+              'name': guardar.name ? guardar.name : '',
+              'passport': guardar.tipoDocumento === '2' ? guardar.documento : '',
+              'rut': guardar.tipoDocumento === '1' ? guardar.documento : '',
+              'phone_number': guardar.phone_number ? guardar.phone_number : '',
+              'role_id': guardar.role_id ? guardar.role_id : '',
+              'password': guardar.password ? guardar.password : '',
+              'password_confirmation': guardar.password_confirmation ? guardar.password_confirmation : ''
+            }
+          }
+          if (guardar.id) {
+            console.log('user a put', us)
+            let id = guardar.id
+            try {
+              let putuser = await API.put('users', id, us)
+              if (putuser.status >= 200 && putuser.status < 300) {
+                this.getUsers()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Usuario',
+                  text: 'Usuario actualizado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+                this.editedItem = Object.assign({}, '')
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                timer: 2000,
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error editando el usuario, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
+          } else {
+            console.log('user a post', us)
+            try {
+              let postuser = await API.post('users', us)
+              if (postuser.status >= 200 && postuser.status < 300) {
+                console.log('result post user', postuser)
+                this.editedItem = Object.assign({}, '')
+                this.getUsers()
+                this.dialog = false
+                this.$swal({
+                  type: 'success',
+                  customClass: 'modal-info',
+                  timer: 2000,
+                  title: 'Usuario',
+                  text: 'Usuario creado exitosamente!',
+                  animation: true,
+                  showConfirmButton: false,
+                  showCloseButton: false
+                })
+              }
+            } catch (e) {
+              console.log('catch err', e.response)
+              this.editedItem = Object.assign({}, '')
+              this.dialog = false
+              this.$swal({
+                type: 'error',
+                customClass: 'modal-info',
+                title: 'Ha ocurrido un error',
+                text: 'Ha ocurrido un error creando el usuario, intente más tarde.',
+                animation: true,
+                showConfirmButton: false,
+                showCloseButton: false
+              })
+            }
+          }
         }
       }
     }
