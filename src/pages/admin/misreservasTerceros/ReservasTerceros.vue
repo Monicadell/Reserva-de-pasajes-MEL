@@ -48,7 +48,7 @@
             <v-select
                   :items="origenes" v-model="origen"
                   label="Origen" clearable
-                  single-line item-text="text" item-value="id"
+                  single-line item-text="name" item-value="id"
             ></v-select>
           </v-flex>
 
@@ -62,21 +62,45 @@
           </v-flex>
           <v-flex xs12 sm3 class="align-self-center">
             <v-select
-                  :items="servicios" v-model="servicio"
+                  :items="services" v-model="service"
                   label="Servicio" clearable
-                  single-line item-text="text" item-value="id"
+                  single-line item-text="name" item-value="id"
             ></v-select>
           </v-flex>
-          <v-flex xs12 sm3>
-            <v-select
+          <!--v-flex xs12 sm3>
+              <v-select
                   :items="users" v-model="user"
                   label="Usuario" clearable
                   single-line item-text="text" item-value="id"
             ></v-select>
-          </v-flex>
+          </v-flex>-->
+          <v-flex xs12 sm3>
+            <!--CAMBIO PARA LA FECHA>-->
+          <v-menu
+                v-model="datepicker"
+                :close-on-content-click="false"
+                full-width
+                max-width="290"
+              >
+                <v-text-field
+                  slot="activator"
+                  :value="computedDateFormattedMomentjs"
+                  clearable
+                  @click:clear="clearFecha"
+                  label="Fecha"
+                  readonly
+                ></v-text-field>
+                <v-date-picker
+                  v-model="dateSearch"
+                  @change="datepicker = false"
+                  @click:clear="clearFecha"
+                  locale="es-419"
+                ></v-date-picker>
+              </v-menu>
+              <!--FIN DE CAMBIO PARA LA FECHA>-->
+           </v-flex>
         </v-layout>
       </v-toolbar>
-
       <v-data-table
           :headers="headers"
           :items="ticketsList"
@@ -134,6 +158,8 @@
     data () {
       return {
         search: '',
+        datepicker: false,
+        dateSearch: '',
         loading: true,
         moment: moment,
         headers: [
@@ -145,6 +171,10 @@
           {text: 'Asiento', value: 'seat'},
           {text: 'Estado', value: 'status'},
           {text: '', value: ''}
+        ],
+        headersServ: [
+          {text: 'Servicio', value: 'service_name'},
+          {text: 'Fecha servicio', value: 'date'}
         ],
         // filtro: 3,
         // filtros: [
@@ -175,12 +205,12 @@
         confirmaAnular: false,
         eliminaid: '',
         users: [],
-        servicios: [],
+        services: [],
         estados: [],
         origenes: [],
         origen: '',
         status: '',
-        servicio: '',
+        service: '',
         user: ''
       }
     },
@@ -189,6 +219,9 @@
       Pagination
     },
     computed: {
+      computedDateFormattedMomentjs () {
+        return this.dateSearch ? moment(this.dateSearch).format('DD/MM/YYYY') : ''
+      },
       ...mapGetters({
         userId: ['Auth/userid'],
         role: ['Auth/role']
@@ -196,13 +229,18 @@
     },
     mounted () {
       console.log('reservas a terceros')
+      this.getOrigen()
       this.getReservas()
-      this.getUsers()
-      this.getStations()
       this.getServices()
+      // this.getUsers()
+      // this.getStations()
     },
     watch: {
       $route (to, from) {
+        this.getReservas()
+      },
+      dateSearch () {
+        this.loading = true
         this.getReservas()
       },
       // filtro (val) {
@@ -212,7 +250,7 @@
         this.loading = true
         this.getReservas()
       },
-      servicio () {
+      service () {
         this.loading = true
         this.getReservas()
       },
@@ -226,14 +264,82 @@
       }
     },
     methods: {
+      clearOrigen () {
+        this.loading = true
+        this.getReservas()
+      },
+      clearService () {
+        this.loading = true
+        this.getReservas()
+      },
+      clearFecha () {
+        // console.log('filtros', this.dateSearch, this.tripSearch, this.busSearch, this.conductorSearch)
+        this.dateSearch = ''
+        this.loading = true
+        this.getReservas()
+      },
+      async getOrigen () {
+        try {
+          let trips = await API.get('stations')
+          if (trips.status >= 200 && trips.status < 300) {
+            // console.log('tramos a', trips.status)
+            setTimeout(() => {
+              this.origenes = trips.data.data
+              console.log('tramos', this.origenes)
+            }, 500)
+          }
+        } catch (e) {
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar los origenes, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
+        }
+      },
+      async getServices () {
+        try {
+          let service = await API.get('services')
+          if (service.status >= 200 && service.status < 300) {
+            console.log('tramos a', service)
+            setTimeout(() => {
+              this.services = service.data.data
+              console.log('servicio', this.tickets)
+            }, 500)
+          }
+        } catch (e) {
+          console.log('catch err', e.response)
+          this.$swal({
+            customClass: 'modal-info',
+            type: 'error',
+            title: 'Error',
+            text: 'Ha ocurrido un error al cargar los servicios, intente más tarde.',
+            animation: true,
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonText: 'OK'
+          })
+        }
+      },
       async getReservas () {
-        console.log('user id', this.userId)
+        const params = {
+          'source_id': this.origen,
+          'service_id': this.service,
+          'date': this.dateSearch
+        }
         console.log('ruta', this.$route.path)
         console.log('es a terceros')
         try {
-          const tickets = await API.get('tickets')
+          const tickets = await API.get('tickets', params)
           if (tickets.status >= 200 && tickets.status < 300) {
             console.log('reservas a terceros', tickets)
+            this.tickets = tickets.data.data
+            this.ticketsList = this.origen
+            console.log('origen', this.origen)
             // if (this.filtro === 2) {
             //   console.log('Filtro perdidos terceros')
             //   this.ticketsList = tickets.data.data.filter(tick => (tick.service.hrs_left <= 0 && tick.status === 'confirmado'))
@@ -253,9 +359,9 @@
               return item
             })
             this.items.forEach(element => {
-              element.servicename = element.service.name
-              element.servicedate = element.service.date
-              element.username = element.user.name
+              element.servicename = element.service.name || ''
+              element.servicedate = element.service.date || ''
+              element.username = element.user.name || ''
               element.booked_at = element.booked_at ? moment(element.booked_at).format('DD-MM-YYYY HH:mm') : ''
               element.confirmed_at = element.confirmed_at ? moment(element.confirmed_at).format('DD-MM-YYYY HH:mm') : ''
             })
@@ -360,6 +466,27 @@
           })
         }
       },
+      // async getStations () {
+      //  try {
+      //    const tickets = await API.get('tickets')
+      //    if (tickets.status >= 200 && tickets.status < 300) {
+      //      console.log('Estados', tickets)
+      //     console.log('despues de estados', this.ticketsList)
+      //    }
+      //  } catch (e) {
+      //    console.log('catch err', e.response)
+      //    this.$swal({
+      //     customClass: 'modal-info',
+      //      type: 'error',
+      //      title: 'Error',
+      //      text: 'Ha ocurrido un error al cargar los estados, intente más tarde.',
+      //      animation: true,
+      //      showCancelButton: true,
+      //      showConfirmButton: false,
+      //      cancelButtonText: 'OK'
+      //    })
+      //  }
+      // },
       async save (guardar) {
         if (this.$refs.form.validate()) {
           console.log('a guardar', guardar)
